@@ -9,7 +9,7 @@ withDefaults(
          * 枠の配置
          */
         layout?:
-            | 'pf-default'
+            | 'pf-normal'
             | 'pf-width'
             | 'pf-height'
             | 'pf-top'
@@ -19,7 +19,7 @@ withDefaults(
         /**
          * 形状
          */
-        shape?: 'default' | 'circle';
+        shape?: 'normal' | 'no-radius' | 'circle';
         /**
          * パディング
          */
@@ -31,8 +31,8 @@ withDefaults(
     }>(),
     {
         tag: 'div',
-        layout: 'pf-default',
-        shape: 'default',
+        layout: 'pf-normal',
+        shape: 'normal',
         isPading: false,
         noShadow: false
     }
@@ -51,6 +51,7 @@ withDefaults(
 .frame {
     --c-frame-padding: 8px;
     position: relative;
+    border-radius: var(--c-frame-border-radius);
     &::before,
     &::after {
         position: absolute;
@@ -60,6 +61,7 @@ withDefaults(
         width: 100%;
         height: 100%;
         pointer-events: none;
+        border-radius: var(--c-frame-border-radius);
         content: '';
     }
     &::before {
@@ -90,6 +92,7 @@ withDefaults(
     padding: 0;
     width: 100%;
     height: 100%;
+    border-radius: var(--c-frame-border-radius);
 }
 
 /* ▼ layout ▼ */
@@ -142,13 +145,14 @@ withDefaults(
 /* ▲ layout ▲ */
 
 /* ▼ shape ▼ */
+.normal {
+    --c-frame-border-radius: 4px;
+}
+.no-radius {
+    --c-frame-border-radius: 0;
+}
 .circle {
-    border-radius: 50%;
-    &::before,
-    &::after,
-    .frame-inner {
-        border-radius: 50%;
-    }
+    --c-frame-border-radius: 50%;
 }
 /* ▲ shape ▲ */
 </style>

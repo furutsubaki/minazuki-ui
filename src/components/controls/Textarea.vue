@@ -196,7 +196,6 @@ onMounted(() => {
         min-height: v-bind(cssMinLine);
         max-height: v-bind(cssMaxLine);
         background-color: transparent;
-        color: var(--color-theme-text-primary);
         border: 0;
         padding: 4px 0;
     }

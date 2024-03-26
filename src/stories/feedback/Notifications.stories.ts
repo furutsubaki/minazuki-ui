@@ -130,10 +130,10 @@ export const ParamsShape: Story = {
                         shape: 'normal'
                     },
                     {
-                        shape: 'rounded'
+                        shape: 'no-radius'
                     },
                     {
-                        shape: 'no-radius'
+                        shape: 'picture-frame'
                     }
                 ]
             };
@@ -184,6 +184,28 @@ export const ParamsPosition: Story = {
     })
 };
 
+export const ParamsNoShadow: Story = {
+    render: (args) => ({
+        components: { Notifications, Button },
+        setup: () => {
+            const { addNotification } = useNotification();
+            return {
+                args,
+                onSetNotification: () => {
+                    addNotification({
+                        title: '通知',
+                        message: 'テスト通知',
+                        noShadow: true
+                    });
+                }
+            };
+        },
+        template: `
+<Button @click="onSetNotification">Open Notifications</Button>
+<Notifications />`
+    })
+};
+
 export const ParamsCloseable: Story = {
     render: (args) => ({
         components: { Notifications, Button },
@@ -218,6 +240,48 @@ export const ParamsAutoRemove: Story = {
                         title: '通知',
                         message: 'テスト通知',
                         autoRemove: false
+                    });
+                }
+            };
+        },
+        template: `
+<Button @click="onSetNotification">Open Notifications</Button>
+<Notifications />`
+    })
+};
+
+export const TitleOnly: Story = {
+    render: (args) => ({
+        components: { Notifications, Button },
+        setup: () => {
+            const { addNotification } = useNotification();
+            return {
+                args,
+                onSetNotification: () => {
+                    addNotification({
+                        variant: 'success',
+                        title: '通知'
+                    });
+                }
+            };
+        },
+        template: `
+<Button @click="onSetNotification">Open Notifications</Button>
+<Notifications />`
+    })
+};
+
+export const MessageOnly: Story = {
+    render: (args) => ({
+        components: { Notifications, Button },
+        setup: () => {
+            const { addNotification } = useNotification();
+            return {
+                args,
+                onSetNotification: () => {
+                    addNotification({
+                        variant: 'success',
+                        message: 'メッセージ'
                     });
                 }
             };

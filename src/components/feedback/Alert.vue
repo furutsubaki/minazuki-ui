@@ -22,7 +22,7 @@ withDefaults(
         /**
          * 形状
          */
-        shape?: 'normal' | 'rounded' | 'no-radius';
+        shape?: 'normal' | 'no-radius';
         /**
          * アイコン（コンポーネント）
          */
@@ -112,7 +112,7 @@ const onClosed = async () => {
     color: var(--c-alert-color);
     background-color: var(--c-alert-background-color);
     border: 1px solid;
-    border-radius: 4px;
+    border-radius: var(--c-alert-border-radius);
     border-color: var(--c-alert-border-color);
     word-break: keep-all;
     transition:
@@ -182,11 +182,11 @@ const onClosed = async () => {
 }
 
 /* ▼ shape ▼ */
-.rounded {
-    border-radius: 2em;
+.normal {
+    --c-alert-border-radius: 4px;
 }
 .no-radius {
-    border-radius: 0;
+    --c-alert-border-radius: 0;
 }
 /* ▲ shape ▲ */
 </style>

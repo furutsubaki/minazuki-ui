@@ -166,7 +166,9 @@ defineExpose({ frameRef });
         background-color: var(--color-theme-bg-primary);
         border-color: var(--c-field-frame-border-color);
         border-radius: 4px;
-        transition: height 0.2s;
+        transition:
+            height 0.2s,
+            background-color 0.2s;
 
         .frame-start,
         .frame-end {
@@ -175,7 +177,6 @@ defineExpose({ frameRef });
             border-style: solid;
             border-color: inherit;
             border-width: var(--c-field-frame-border-width);
-            transition: border-color 0.2s;
             flex-shrink: 0;
             &::before {
                 content: '';
@@ -184,7 +185,6 @@ defineExpose({ frameRef });
                 height: calc(100% + 4px);
                 width: calc(100% + 2px);
                 border: solid 2px transparent;
-                transition: border-color 0.2s;
             }
         }
         .frame-start {
@@ -215,7 +215,8 @@ defineExpose({ frameRef });
             border-width: var(--c-field-frame-border-width);
             border-right: 0;
             border-left: 0;
-            transition: border-width 0.2s;
+            transition:
+                border-width 0.2s;
             flex-shrink: 0;
             &::before {
                 content: '';
@@ -227,7 +228,6 @@ defineExpose({ frameRef });
                 border: solid 2px transparent;
                 border-right: 0;
                 border-left: 0;
-                transition: border-color 0.2s;
             }
         }
 
@@ -235,14 +235,6 @@ defineExpose({ frameRef });
             position: relative;
             display: flex;
             align-items: center;
-            transition:
-                border-color 0.2s,
-                border-top-color 0.2s;
-            &::before {
-                transition:
-                    border-color 0.2s,
-                    border-top-color 0.2s;
-            }
             .label-box {
                 display: flex;
                 align-items: center;
@@ -251,8 +243,7 @@ defineExpose({ frameRef });
                 transform: translateY(calc(-50% + (var(--c-field-frame-height) / 2) - 1px));
                 transition:
                     transform 0.2s,
-                    font-size 0.2s,
-                    color 0.2s;
+                    font-size 0.2s;
                 .label {
                     transition: color 0.2s;
                     color: var(--color-theme-text-secondary);

@@ -11,7 +11,7 @@ import {
     XOctagon as IconXOctagon
 } from 'lucide-vue-next';
 
-const flg = defineModel<boolean>({ default: true });
+const flg = defineModel<boolean>({ default: false });
 const props = withDefaults(
     defineProps<{
         /**
@@ -25,7 +25,7 @@ const props = withDefaults(
         /**
          * 形状
          */
-        shape?: 'normal' | 'rounded' | 'no-radius';
+        shape?: 'normal' | 'no-radius';
         /**
          * 位置
          */
@@ -297,9 +297,6 @@ const hasSlot = (name: string) => {
 /* ▼ shape ▼ */
 .normal {
     --c-dialog-border-radius: 4px;
-}
-.rounded {
-    --c-dialog-border-radius: 2em;
 }
 .no-radius {
     --c-dialog-border-radius: 0;

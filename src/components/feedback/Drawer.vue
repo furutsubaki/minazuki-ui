@@ -6,7 +6,7 @@ import Button from '@/components/basic/Button.vue';
 import { sleep } from '@/assets/ts';
 import { X as IconX } from 'lucide-vue-next';
 
-const flg = defineModel<boolean>({ default: true });
+const flg = defineModel<boolean>({ default: false });
 const props = withDefaults(
     defineProps<{
         /**

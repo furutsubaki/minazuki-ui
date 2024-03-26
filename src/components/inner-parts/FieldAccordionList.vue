@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onBeforeUnmount } from 'vue';
+import { computed } from 'vue';
 
 export interface MiFieldAccordionListItem {
     label: string;
@@ -7,7 +7,7 @@ export interface MiFieldAccordionListItem {
     disabled?: boolean;
 }
 
-const flg = defineModel<boolean>();
+const flg = defineModel<boolean>({ default: false });
 
 const props = withDefaults(
     defineProps<{
@@ -56,31 +56,24 @@ const selectedItem = computed(
 );
 const onSelectItem = (item: MiFieldAccordionListItem) => {
     emit('change', item.value);
-    flg.value = false;
+    onClose();
 };
 
 // Accordion枠外制御
-const onCloseAccordion = (event: Event) => {
-    if (!flg.value || props.parentRef.contains(event.target as Node)) {
-        return;
-    }
-
+const onClose = () => {
     flg.value = false;
 };
-
-onMounted(() => {
-    window.addEventListener('click', onCloseAccordion);
-});
-
-onBeforeUnmount(() => {
-    window.removeEventListener('click', onCloseAccordion);
-});
+const onOutside = computed(() => ({
+    handler: onClose,
+    isActive: flg.value
+}));
 </script>
 
 <template>
     <div
         class="component-input-accordion-list"
         :class="[variant, size, shape, position, { 'is-open': flg && items.length }]"
+        v-click-outside="onOutside"
     >
         <div class="list-body">
             <div
@@ -109,13 +102,10 @@ onBeforeUnmount(() => {
     line-height: 1.5em;
     border: 1px solid var(--c-field-accordion-border-color);
     border-radius: 4px;
-    color: var(--color-theme-text-primary);
     display: grid;
     grid-template-rows: 0fr;
     transition:
-        color 0.2s,
         background-color 0.2s,
-        border-color 0.2s,
         opacity 0.2s,
         grid-template-rows 0.2s ease,
         opacity 0s 0.2s;
@@ -130,7 +120,6 @@ onBeforeUnmount(() => {
         transition:
             color 0.2s,
             background-color 0.2s,
-            border-color 0.2s,
             opacity 0.2s,
             grid-template-rows 0.2s ease;
     }

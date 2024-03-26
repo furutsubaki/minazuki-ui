@@ -118,11 +118,9 @@ if (value.value == null && model.value != null) {
     height: 1em;
     line-height: 1em;
     pointer-events: none;
-    transition: 0.2s;
     display: flex;
     align-items: baseline;
     font-size: var(--font-size-small);
-    color: var(--color-theme-text-primary);
     &.required {
         &::after {
             left: -0.5em;

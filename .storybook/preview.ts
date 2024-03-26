@@ -12,8 +12,9 @@ import { z } from 'zod';
 import { zodI18nMap } from 'zod-i18n-map';
 import translation from 'zod-i18n-map/locales/ja/zod.json';
 import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
-import vClickOutside from "click-outside-vue3"
+import '@vuepic/vue-datepicker/dist/main.css';
+import vClickOutside from "click-outside-vue3";
+import useTheme from '../src/composables/useTheme';
 
 const customErrorMap: z.ZodErrorMap = (issue, ctx) => {
     switch (issue.code) {
@@ -41,6 +42,11 @@ z.setErrorMap(customErrorMap);
 setup((app) => {
     app.use(vClickOutside);
     app.component('VueDatePicker', VueDatePicker);
+
+    app.use(useTheme);
+    const { currentTheme, setTheme } = useTheme();
+    // 初期style設定
+    setTheme(currentTheme.value);
 })
 
 const preview: Preview = {

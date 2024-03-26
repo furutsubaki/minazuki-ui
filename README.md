@@ -29,7 +29,7 @@ pnpm i -D minazuki-ui zod
 `plugins/minazuki-ui.ts`
 
 ```ts
-import MinazukiUi, { useFormData, useNotification } from 'minazuki-ui';
+import MinazukiUi, { useFormData, useNotification, useTheme } from 'minazuki-ui';
 import 'minazuki-ui/dist/style.css';
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -37,7 +37,8 @@ export default defineNuxtPlugin((nuxtApp) => {
     return {
         provide: {
             useFormData,
-            useNotification
+            useNotification,
+            useTheme
         }
     };
 });
@@ -123,6 +124,63 @@ export default defineNuxtPlugin(() => {
         }
     });
     z.setErrorMap(customErrorMap);
+});
+```
+
+## テーマ設定
+
+
+`plugins/minazuki-ui.ts`
+
+テーマカラーを上書きするにはpulginsでuseする際に、第2引数にテーマを設定します。
+
+```ts
+import MinazukiUi, { useFormData, useNotification, useTheme } from 'minazuki-ui';
+import 'minazuki-ui/dist/style.css';
+
+export default defineNuxtPlugin((nuxtApp) => {
+    nuxtApp.vueApp.use(MinazukiUi, {
+        themes: {
+            light: {
+                // 既存のライトテーマを一部上書き
+                status: {
+                    brand: '--color-base-red'
+                },
+                theme: {
+                    link: '--color-base-red-alpha',
+                    linkHover: '--color-base-red'
+                }
+            },
+            dark: {
+                // 既存のダークテーマを一部上書き
+                status: {
+                    brand: '--color-base-red'
+                },
+                theme: {
+                    link: '--color-base-red-alpha',
+                    linkHover: '--color-base-red'
+                }
+            },
+            original: {
+                // 新規テーマを追加した場合は、設定されていない項目はライトテーマが適用されます
+                status: {
+                    brand: '--color-base-red'
+                },
+                theme: {
+                    link: '--color-base-red-alpha',
+                    linkHover: '--color-base-red'
+                }
+            }
+        }
+    });
+
+    return {
+        provide: {
+            useFormData,
+            useNotification,
+            useTheme
+        }
+    };
 });
 ```
 

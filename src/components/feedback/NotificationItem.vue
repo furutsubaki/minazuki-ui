@@ -2,6 +2,8 @@
 import { ref, onMounted } from 'vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
+import Frame from '@/components/frame/Frame.vue';
+import PictureFrame from '@/components/frame/PictureFrame.vue';
 import Button from '@/components/basic/Button.vue';
 import { computed } from 'vue';
 import { sleep } from '@/assets/ts';
@@ -23,6 +25,15 @@ const emit = defineEmits<{
      */
     closed: [];
 }>();
+
+type FrameShape = 'normal' | 'no-radius' | 'circle';
+const component = computed(() => {
+    if (props.notification.shape === 'picture-frame') {
+        return PictureFrame;
+    } else {
+        return Frame;
+    }
+});
 
 const flg = ref(false);
 const { notifications, removeNotification } = useNotification();
@@ -116,40 +127,47 @@ onMounted(async () => {
                 @transition-start="transitioning = true"
                 @transition-end="transitioning = false"
             >
-                <div
+                <component
+                    :is="component"
                     :data-notification-x="positionX"
                     :data-notification-y="positionY"
                     :data-notification-key="notification.key"
                     v-show="flg"
                     class="notification"
-                    :class="[
-                        notification.variant,
-                        notification.size,
-                        notification.shape,
-                        notification.position
-                    ]"
+                    :class="[notification.variant, notification.size]"
                     :style="positionStyle"
+                    :noShadow="notification.noShadow"
+                    :shape="notification.shape as FrameShape"
                 >
-                    <IconInfo v-if="notification.variant === 'info'" class="icon" />
-                    <IconCheckCircle2 v-else-if="notification.variant === 'success'" class="icon" />
-                    <IconAlertTriangle
-                        v-else-if="notification.variant === 'warning'"
-                        class="icon"
-                    />
-                    <IconXOctagon v-else-if="notification.variant === 'danger'" class="icon" />
-                    <div class="box">
-                        <div v-if="notification.title" class="title">{{ notification.title }}</div>
-                        <div class="message">{{ notification.message }}</div>
+                    <div class="notification-inner">
+                        <IconInfo v-if="notification.variant === 'info'" class="icon" />
+                        <IconCheckCircle2
+                            v-else-if="notification.variant === 'success'"
+                            class="icon"
+                        />
+                        <IconAlertTriangle
+                            v-else-if="notification.variant === 'warning'"
+                            class="icon"
+                        />
+                        <IconXOctagon v-else-if="notification.variant === 'danger'" class="icon" />
+                        <div class="box">
+                            <div v-if="notification.title" class="title">
+                                {{ notification.title }}
+                            </div>
+                            <div v-if="notification.message" class="message">
+                                {{ notification.message }}
+                            </div>
+                        </div>
+                        <Button
+                            v-if="notification.closeable"
+                            shape="skeleton"
+                            class="closeable-box"
+                            @click="onClose"
+                        >
+                            <IconX />
+                        </Button>
                     </div>
-                    <Button
-                        v-if="notification.closeable"
-                        shape="skeleton"
-                        class="closeable-box"
-                        @click="onClose"
-                    >
-                        <IconX />
-                    </Button>
-                </div>
+                </component>
             </TranslateTransition>
         </div>
     </OpacityTransition>
@@ -160,48 +178,53 @@ onMounted(async () => {
     pointer-events: initial;
     position: fixed;
     margin: auto;
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-    justify-content: center;
     width: var(--c-notification-item-width);
-    padding: 8px;
-    border: 1px solid;
-    border-radius: var(--c-notification-item-border-radius);
-    border-color: var(--c-notification-item-border-color);
-    background-color: var(--color-theme-bg-primary);
     transition:
         top 0.2s,
         bottom 0.2s,
         border-color 0.2s,
         opacity 0.2s;
 
-    .icon {
-        flex-shrink: 0;
-        width: calc(var(--font-size-medium) * 1.8);
-        height: calc(var(--font-size-medium) * 1.8);
-        fill: var(--c-notification-item-icon-color);
-        color: var(--color-theme-bg-primary);
-    }
-
-    .box {
-        position: relative;
-        flex-grow: 1;
+    .notification-inner {
         display: flex;
-        flex-direction: column;
         gap: 8px;
-        .title {
-            font-weight: bold;
-            font-size: var(--font-size-large);
-        }
-        .message {
-            white-space: pre-wrap;
-            font-size: var(--font-size-medium);
-        }
-    }
+        align-items: flex-start;
+        justify-content: center;
+        padding: 8px;
+        background-color: var(--color-theme-bg-primary);
 
-    .closeable-box {
-        flex-shrink: 0;
+        .icon {
+            flex-shrink: 0;
+            width: calc(var(--font-size-medium) * 1.8);
+            height: calc(var(--font-size-medium) * 1.8);
+            fill: var(--c-notification-item-icon-color);
+            color: var(--color-theme-bg-primary);
+        }
+
+        .box {
+            position: relative;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            > div:first-child {
+                display: flex;
+                align-items: center;
+                height: calc(var(--font-size-medium) * 1.8);
+            }
+            .title {
+                font-weight: bold;
+                font-size: var(--font-size-large);
+            }
+            .message {
+                white-space: pre-wrap;
+                font-size: var(--font-size-medium);
+            }
+        }
+
+        .closeable-box {
+            flex-shrink: 0;
+        }
     }
 }
 
@@ -252,71 +275,4 @@ onMounted(async () => {
     --c-notification-item-height: 24vh;
 }
 /* ▲ size ▲ */
-
-/* ▼ shape ▼ */
-.normal {
-    --c-notification-item-border-radius: 4px;
-}
-.rounded {
-    --c-notification-item-border-radius: 2em;
-}
-.no-radius {
-    --c-notification-item-border-radius: 0;
-}
-/* ▲ shape ▲ */
-
-/* ▼ position ▼ */
-.top {
-    inset: 0;
-    bottom: auto;
-    border-top: 0;
-    border-right: 0;
-    border-left: 0;
-    border-radius: 0 0 var(--c-notification-item-border-radius)
-        var(--c-notification-item-border-radius);
-    width: 100vw;
-    min-height: min(var(--c-notification-item-min-height), 80vh);
-    height: var(--c-notification-item-height);
-    max-height: 80vh;
-}
-.right {
-    inset: 0;
-    left: auto;
-    border-top: 0;
-    border-right: 0;
-    border-bottom: 0;
-    border-radius: var(--c-notification-item-border-radius) 0 0
-        var(--c-notification-item-border-radius);
-    min-width: min(var(--c-notification-item-min-width), 80vw);
-    width: var(--c-notification-item-width);
-    max-width: 80vw;
-    height: 100vh;
-}
-.bottom {
-    inset: 0;
-    top: auto;
-    border-right: 0;
-    border-bottom: 0;
-    border-left: 0;
-    border-radius: var(--c-notification-item-border-radius) var(--c-notification-item-border-radius)
-        0 0;
-    width: 100vw;
-    min-height: min(var(--c-notification-item-min-height), 80vh);
-    height: var(--c-notification-item-height);
-    max-height: 80vh;
-}
-.left {
-    inset: 0;
-    right: auto;
-    border-top: 0;
-    border-bottom: 0;
-    border-left: 0;
-    border-radius: 0 var(--c-notification-item-border-radius)
-        var(--c-notification-item-border-radius) 0;
-    min-width: min(var(--c-notification-item-min-width), 80vw);
-    width: var(--c-notification-item-width);
-    max-width: 80vw;
-    height: 100vh;
-}
-/* ▲ position ▲ */
 </style>

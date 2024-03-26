@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { computed, watch, ref } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodString } from 'zod';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
@@ -97,10 +97,17 @@ const setDayClass = (date: string) => {
     }
     return '';
 };
+
+const elementRef = ref<HTMLElement | null>(null);
+defineExpose({ elementRef });
 </script>
 
 <template>
-    <div class="component-datepicker" :class="[variant, shape, { 'is-disabled': disabled }]">
+    <div
+        ref="elementRef"
+        class="component-datepicker"
+        :class="[variant, shape, { 'is-disabled': disabled }]"
+    >
         <FieldFrame
             :label="label"
             :required="isRequired"

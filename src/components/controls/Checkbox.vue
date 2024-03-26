@@ -212,11 +212,6 @@ if (fieldVal.value == null && model.value != null) {
         justify-content: flex-start;
         line-height: 1.5em;
         min-height: var(--c-checkbox-height);
-        transition:
-            color 0.2s,
-            background-color 0.2s,
-            border-color 0.2s,
-            opacity 0.2s;
     }
 }
 

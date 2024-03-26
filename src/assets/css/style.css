@@ -24,7 +24,9 @@ body {
     word-break: break-word;
     text-size-adjust: 100%;
     background-color: var(--color-theme-bg-primary);
-    transition: color 1s;
+    transition:
+        color 0.2s,
+        background-color 0.2s;
     .container {
         min-height: var(--height-vh);
     }

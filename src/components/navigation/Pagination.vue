@@ -37,7 +37,7 @@ const props = withDefaults(
         /**
          * 形状
          */
-        shape?: 'default' | 'picture-frame' | 'skeleton';
+        shape?: 'normal' | 'picture-frame' | 'skeleton';
         /**
          * 影なしか
          */
@@ -55,7 +55,7 @@ const props = withDefaults(
         pagenationLimit: PAGENATION_LIMIT,
         pagenationLimitMobile: PAGENATION_LIMIT_MOBILE,
         size: 'medium',
-        shape: 'default',
+        shape: 'normal',
         noShadow: false,
         hidePrevNextButton: false,
         hideFirstLastButton: false
@@ -65,7 +65,7 @@ const props = withDefaults(
 const component = computed(() => {
     if (props.shape === 'picture-frame') {
         return PictureFrame;
-    } else if (props.shape === 'default') {
+    } else if (props.shape === 'normal') {
         return Frame;
     } else {
         return 'div';

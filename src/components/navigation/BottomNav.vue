@@ -24,7 +24,7 @@ withDefaults(
         /**
          * 形状
          */
-        shape?: 'default' | 'picture-frame';
+        shape?: 'normal' | 'picture-frame';
         /**
          * 影なしか
          */
@@ -36,7 +36,7 @@ withDefaults(
     }>(),
     {
         size: 'medium',
-        shape: 'default',
+        shape: 'normal',
         noShadow: false,
         center: false
     }

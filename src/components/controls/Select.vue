@@ -175,7 +175,6 @@ const onDelete = () => {
         width: 100%;
         line-height: 1.5em;
         height: var(--c-select-height);
-        color: var(--color-theme-text-primary);
         background-color: transparent;
         border: 0;
         padding: 0;
@@ -185,7 +184,6 @@ const onDelete = () => {
             line-height: 2em;
         }
         .select-icon {
-            color: var(--color-theme-text-secondary);
             font-size: var(--font-size-small);
             transition: transform 0.2s;
         }

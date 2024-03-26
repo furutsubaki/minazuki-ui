@@ -19,19 +19,23 @@ export interface MiNotificationOption {
     /**
      * 形状
      */
-    shape?: 'normal' | 'rounded' | 'no-radius';
+    shape?: 'normal' | 'no-radius' | 'picture-frame';
     /**
      * 位置
      */
     position?: 'top-right' | 'bottom-right' | 'bottom-left' | 'top-left';
     /**
+     * 影なしか
+     */
+    noShadow?: boolean;
+    /**
      * タイトル
      */
-    title: string;
+    title?: string;
     /**
      * メッセージ
      */
-    message: string;
+    message?: string;
     /**
      * 閉じるボタン（NOTE: 本項目とautoRemoveを両方ともfalseにすると通知を消せなくなります）
      */
@@ -56,6 +60,7 @@ export default function () {
         size: 'medium',
         shape: 'normal',
         position: 'top-right',
+        noShadow: false,
         title: '',
         message: '',
         closeable: false,

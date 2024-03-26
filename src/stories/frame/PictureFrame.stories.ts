@@ -28,7 +28,7 @@ export const PropsLayout: Story = {
             args,
             params: ref([
                 {
-                    layout: 'pf-default'
+                    layout: 'pf-normal'
                 },
                 {
                     layout: 'pf-width'

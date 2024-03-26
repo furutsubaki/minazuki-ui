@@ -144,6 +144,7 @@ if (fieldVal.value == null && model.value != null) {
         height: var(--c-switch-font-size);
         border-radius: 1em;
         background-color: var(--color-theme-border);
+        transition: background-color 0.2s;
         .switch-icon {
             position: absolute;
             left: 0;
@@ -152,7 +153,7 @@ if (fieldVal.value == null && model.value != null) {
             border-radius: 1em;
             background-color: var(--color-theme-text-secondary);
             transform: scale(1.5);
-            transition: 0.2s;
+            transition: background-color 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -161,6 +162,7 @@ if (fieldVal.value == null && model.value != null) {
             .switch-icon-false {
                 transform: scale(0.75);
                 filter: invert(100%) grayscale(100%) contrast(100);
+                transition: color 0.2s;
             }
             .switch-icon-true {
                 color: var(--c-switch-switch-icon-true-color);

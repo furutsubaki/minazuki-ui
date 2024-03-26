@@ -132,10 +132,6 @@ export const PropsShape: Story = {
                     modelValue: false
                 },
                 {
-                    shape: 'rounded',
-                    modelValue: false
-                },
-                {
                     shape: 'no-radius',
                     modelValue: false
                 }

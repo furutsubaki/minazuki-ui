@@ -9,8 +9,21 @@ import Select from '@/components/controls/Select.vue';
 import Autocomplete from '@/components/controls/Autocomplete.vue';
 import Notifications from '@/components/feedback/Notifications.vue';
 import useFormData from '@/composables/useFormData';
+import useTheme from '@/composables/useTheme';
 import useNotification from '@/composables/useNotification';
 import z from 'zod';
+
+const { currentTheme } = useTheme();
+const themeItems = [
+    {
+        label: 'light',
+        value: 'light'
+    },
+    {
+        label: 'dark',
+        value: 'dark'
+    }
+];
 
 const initData = {
     input: 'w',
@@ -101,6 +114,7 @@ const onSetNotification = (position: 'top-right' | 'bottom-right' | 'bottom-left
         </div>
         <div class="flex">
             <h1>テスト v-model</h1>
+            <RadioGroup v-model="currentTheme" :items="themeItems" name="theme" label="テーマ" />
             <Radio :value="true" v-model="model.radio">規約に同意</Radio>
             <RadioGroup v-model="model.radioGroup" :items="items" label="らべる" />
             <Select v-model="model.select" :items="items" label="らべる" />
