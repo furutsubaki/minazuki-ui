@@ -62,7 +62,7 @@
     "click-outside-vue3": "^4.0.1",
     "dayjs": "^1.11.10",
     "i18next": "^23.10.1",
-    "lucide-vue-next": "^0.356.0",
+    "lucide-vue-next": "^0.363.0",
     "pinia": "^2.1.7",
     "unhead": "^1.8.20",
     "vee-validate": "^4.12.6",
