@@ -64,7 +64,7 @@
     "i18next": "^23.10.1",
     "lucide-vue-next": "^0.356.0",
     "pinia": "^2.1.7",
-    "unhead": "^1.8.20",
+    "unhead": "^1.9.2",
     "vee-validate": "^4.12.6",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
