@@ -80,7 +80,7 @@
     "@storybook/addon-outline": "^8.0.10",
     "@storybook/addon-viewport": "^8.0.9",
     "@storybook/preview-api": "^8.1.5",
-    "@storybook/vue3": "^8.0.4",
+    "@storybook/vue3": "^8.1.11",
     "@storybook/vue3-vite": "^8.0.4",
     "@tsconfig/node18": "^18.2.4",
     "@types/lodash.merge": "^4.6.9",
