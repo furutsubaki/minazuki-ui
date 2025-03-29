@@ -138,6 +138,9 @@ importers:
       storybook:
         specifier: ^8.1.11
         version: 8.1.11(@babel/preset-env@7.25.4(@babel/core@7.25.2))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      type-fest:
+        specifier: ^4.38.0
+        version: 4.38.0
       typescript:
         specifier: ~5.4.5
         version: 5.4.5
@@ -4154,8 +4157,8 @@ packages:
     resolution: {integrity: sha512-tLq3bSNx+xSpwvAJnzrK0Ep5CLNWjvFTOp71URMaAEWBfRb9nnJiBoUe0tF8bI4ZFO3omgBR6NvnbzVUT3Ly4g==}
     engines: {node: '>=14.16'}
 
-  type-fest@4.9.0:
-    resolution: {integrity: sha512-KS/6lh/ynPGiHD/LnAobrEFq3Ad4pBzOlJ1wAnJx9N4EYoqFhMfLIBjUT2UEx4wg5ZE+cC1ob6DCSpppVo+rtg==}
+  type-fest@4.38.0:
+    resolution: {integrity: sha512-2dBz5D5ycHIoliLYLi0Q2V7KRaDlH0uWIvmk7TYlAg5slqwiPv1ezJdZm1QEM0xgk29oYWMCbIG7E6gHpvChlg==}
     engines: {node: '>=16'}
 
   type-is@1.6.18:
@@ -6733,7 +6736,7 @@ snapshots:
 
   '@vee-validate/zod@4.13.2(vue@3.4.27(typescript@5.4.5))':
     dependencies:
-      type-fest: 4.9.0
+      type-fest: 4.38.0
       vee-validate: 4.13.2(vue@3.4.27(typescript@5.4.5))
       zod: 3.23.8
     transitivePeerDependencies:
@@ -9189,7 +9192,7 @@ snapshots:
 
   type-fest@3.13.1: {}
 
-  type-fest@4.9.0: {}
+  type-fest@4.38.0: {}
 
   type-is@1.6.18:
     dependencies:
@@ -9312,7 +9315,7 @@ snapshots:
   vee-validate@4.13.2(vue@3.4.27(typescript@5.4.5)):
     dependencies:
       '@vue/devtools-api': 6.6.3
-      type-fest: 4.9.0
+      type-fest: 4.38.0
       vue: 3.4.27(typescript@5.4.5)
 
   vite-plugin-dts@3.9.1(@types/node@20.14.1)(rollup@4.18.0)(typescript@5.4.5)(vite@5.2.12(@types/node@20.14.1)):

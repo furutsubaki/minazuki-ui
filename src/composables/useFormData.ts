@@ -6,20 +6,24 @@
  */
 
 import { computed } from 'vue';
-import { useForm } from 'vee-validate';
+import { useForm, type GenericObject } from 'vee-validate';
 import type { ZodEffects, ZodObject, ZodRawShape } from 'zod';
 import { toTypedSchema } from '@vee-validate/zod';
+import type { PartialDeep } from 'type-fest';
 
-export default function (
+export default function <T extends GenericObject>(
     schema: ZodEffects<ZodObject<ZodRawShape>> | ZodObject<ZodRawShape>,
-    initialValues: { [key: string]: any } = {}
+    initialValues: PartialDeep<T>
 ) {
+    const params: { [key: string]: unknown } = {
+        validationSchema: toTypedSchema(schema)
+    };
+    if (initialValues) {
+        params.initialValues = initialValues;
+    }
     const { handleSubmit, meta, isSubmitting, resetForm, values, setFieldValue, setValues } =
-        useForm({
-            validationSchema: toTypedSchema(schema),
-            initialValues
-        });
+        useForm<T>(params);
 
     const canSubmit = computed(() => !!meta.value.valid && !isSubmitting.value);
-    return { handleSubmit, canSubmit, resetForm, values, setFieldValue, setValues };
+    return { handleSubmit, canSubmit, resetForm, values: values as T, setFieldValue, setValues };
 }
