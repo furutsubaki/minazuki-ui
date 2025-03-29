@@ -32,6 +32,14 @@ pnpm i -D minazuki-ui zod
 import MinazukiUi, { useFormData, useNotification, useTheme } from 'minazuki-ui';
 import 'minazuki-ui/dist/style.css';
 
+declare module '#app' {
+    interface NuxtApp {
+        $useFormData: typeof useFormData;
+        $useNotification: typeof useNotification;
+        $useTheme: typeof useTheme;
+    }
+}
+
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.use(MinazukiUi);
     return {
