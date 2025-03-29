@@ -1,6 +1,6 @@
 {
   "name": "minazuki-ui",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "private": false,
   "license": "MIT",
   "type": "module",
@@ -26,7 +26,7 @@
     "./dist/style.css": "./dist/style.css"
   },
   "engines": {
-    "node": "^20.5.*"
+    "node": ">=20.5.*"
   },
   "scripts": {
     "dev": "vite",
@@ -60,7 +60,7 @@
     "@unhead/vue": "^1.11.19",
     "@vee-validate/rules": "^4.13.2",
     "@vee-validate/zod": "^4.13.2",
-    "@vuepic/vue-datepicker": "^8.5.1",
+    "@vuepic/vue-datepicker": "^11.0.2",
     "dayjs": "^1.11.11",
     "i18next": "^23.12.2",
     "lucide-vue-next": "^0.356.0",
@@ -91,8 +91,8 @@
     "@vue/eslint-config-typescript": "^13.0.0",
     "@vue/tsconfig": "^0.5.0",
     "eslint": "^8.57.0",
-    "eslint-plugin-vue": "^9.26.0",
-    "husky": "^9.0.11",
+    "eslint-plugin-vue": "^9.33.0",
+    "husky": "^9.1.7",
     "lint-staged": "^15.2.2",
     "lodash.merge": "^4.6.2",
     "npm-run-all2": "^6.2.2",
@@ -101,6 +101,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "storybook": "^8.1.11",
+    "type-fest": "^4.38.0",
     "typescript": "~5.4.5",
     "vite": "^5.2.12",
     "vite-plugin-dts": "^3.9.1",
