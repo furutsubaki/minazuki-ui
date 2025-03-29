@@ -60,7 +60,7 @@
     "@unhead/vue": "^1.11.19",
     "@vee-validate/rules": "^4.13.2",
     "@vee-validate/zod": "^4.13.2",
-    "@vuepic/vue-datepicker": "^8.5.1",
+    "@vuepic/vue-datepicker": "^11.0.2",
     "dayjs": "^1.11.11",
     "i18next": "^23.12.2",
     "lucide-vue-next": "^0.356.0",
