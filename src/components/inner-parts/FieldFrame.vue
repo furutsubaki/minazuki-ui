@@ -447,9 +447,13 @@ defineExpose({ frameRef });
 .no-radius {
     .frame-box {
         border-radius: 0;
-        &::before,
-        &::after {
+        .frame-start,
+        .frame-end {
             border-radius: 0;
+            &::before,
+            &::after {
+                border-radius: 0;
+            }
         }
     }
 }
