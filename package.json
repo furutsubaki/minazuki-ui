@@ -63,7 +63,7 @@
     "@vuepic/vue-datepicker": "^11.0.2",
     "dayjs": "^1.11.11",
     "i18next": "^23.12.2",
-    "lucide-vue-next": "^0.356.0",
+    "lucide-vue-next": "^0.487.0",
     "pinia": "^2.2.2",
     "vee-validate": "^4.13.2",
     "vue": "^3.4.27",
