@@ -67,7 +67,7 @@ const props = withDefaults(
         center: false,
         persistent: false,
         seamless: false,
-        outsideClickIgnore: () => ['button']
+        outsideClickIgnore: () => ['button', 'dialog']
     }
 );
 const emit = defineEmits<{
@@ -204,6 +204,7 @@ const hasSlot = (name: string) => {
     border-radius: var(--c-dialog-border-radius);
     border-color: var(--c-dialog-border-color);
     background-color: var(--color-theme-bg-primary);
+    color: var(--color-theme-text-primary);
     transition:
         border-color 0.2s,
         opacity 0.2s;
