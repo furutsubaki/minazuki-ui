@@ -115,12 +115,12 @@ if (value.value == null && model.value != null) {
     position: absolute;
     top: -0.5em;
     left: 8px;
-    height: 1em;
-    line-height: 1em;
-    pointer-events: none;
     display: flex;
     align-items: baseline;
+    height: 1em;
     font-size: var(--font-size-small);
+    line-height: 1em;
+    pointer-events: none;
     &.required {
         &::after {
             left: -0.5em;

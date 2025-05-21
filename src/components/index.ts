@@ -14,6 +14,7 @@ import MiAlert from '@/components/feedback/Alert.vue';
 import MiBadge from '@/components/feedback/Badge.vue';
 import MiDialog from '@/components/feedback/Dialog.vue';
 import MiDrawer from '@/components/feedback/Drawer.vue';
+import MiModal from '@/components/feedback/Modal.vue';
 import MiNotificationItem from '@/components/feedback/NotificationItem.vue';
 import MiNotifications from '@/components/feedback/Notifications.vue';
 import MiProgress from '@/components/feedback/Progress.vue';
@@ -50,6 +51,7 @@ export {
     MiBadge,
     MiDialog,
     MiDrawer,
+    MiModal,
     MiNotificationItem,
     MiNotifications,
     MiProgress,
@@ -88,6 +90,7 @@ declare module 'vue' {
         MiBadge: typeof MiBadge;
         MiDialog: typeof MiDialog;
         MiDrawer: typeof MiDrawer;
+        MiModal: typeof MiModal;
         MiNotificationItem: typeof MiNotificationItem;
         MiNotifications: typeof MiNotifications;
         MiProgress: typeof MiProgress;

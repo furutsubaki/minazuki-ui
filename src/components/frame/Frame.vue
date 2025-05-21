@@ -50,26 +50,27 @@ withDefaults(
 <style scoped>
 .frame {
     --c-frame-padding: 8px;
+
     position: relative;
     border-radius: var(--c-frame-border-radius);
     &::before,
     &::after {
         position: absolute;
         inset: 0;
-        margin: auto;
         display: block;
         width: 100%;
         height: 100%;
+        margin: auto;
         pointer-events: none;
-        border-radius: var(--c-frame-border-radius);
         content: '';
+        border-radius: var(--c-frame-border-radius);
     }
     &::before {
         background: rgb(0 0 0 / 2%);
         box-shadow: 0 0 var(--c-frame-padding) var(--color-theme-shadow);
     }
     &::after {
-        padding: 0px;
+        padding: 0;
         border: solid var(--color-theme-border);
         border-width: 1px;
     }
@@ -84,18 +85,20 @@ withDefaults(
         }
     }
 }
+
 .frame-inner {
-    overflow: hidden;
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 0;
     width: 100%;
     height: 100%;
+    padding: 0;
+    overflow: hidden;
     border-radius: var(--c-frame-border-radius);
 }
 
 /* ▼ layout ▼ */
+
 .pf-width {
     overflow-y: clip;
     &::after {
@@ -103,6 +106,7 @@ withDefaults(
         border-bottom-width: 0;
     }
 }
+
 .pf-height {
     overflow-x: clip;
     &::after {
@@ -110,6 +114,7 @@ withDefaults(
         border-left-width: 0;
     }
 }
+
 .pf-top {
     overflow-x: clip;
     &::after {
@@ -118,6 +123,7 @@ withDefaults(
         border-left-width: 0;
     }
 }
+
 .pf-right {
     overflow-y: clip;
     &::after {
@@ -126,6 +132,7 @@ withDefaults(
         border-left-width: 0;
     }
 }
+
 .pf-bottom {
     overflow-x: clip;
     &::after {
@@ -134,6 +141,7 @@ withDefaults(
         border-left-width: 0;
     }
 }
+
 .pf-left {
     overflow-y: clip;
     &::after {
@@ -142,17 +150,22 @@ withDefaults(
         border-bottom-width: 0;
     }
 }
+
 /* ▲ layout ▲ */
 
 /* ▼ shape ▼ */
+
 .normal {
     --c-frame-border-radius: 4px;
 }
+
 .no-radius {
     --c-frame-border-radius: 0;
 }
+
 .circle {
     --c-frame-border-radius: 50%;
 }
+
 /* ▲ shape ▲ */
 </style>

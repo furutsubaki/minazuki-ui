@@ -291,20 +291,19 @@ const onBlur = (event: Event) => {
 
 <style scoped>
 .component-input {
+    position: relative;
     width: 100%;
     min-height: var(--c-autocomplete-height);
     font-size: var(--c-autocomplete-font-size);
-    position: relative;
-
     :where(.input) {
-        min-width: 100px;
         width: 100%;
+        min-width: 100px;
         height: var(--c-autocomplete-height);
-        line-height: 1.5em;
-        background-color: transparent;
-        color: var(--color-theme-text-primary);
-        border: 0;
         padding: 0;
+        line-height: 1.5em;
+        color: var(--color-theme-text-primary);
+        background-color: transparent;
+        border: 0;
     }
 
     @media (hover: hover) {
@@ -330,10 +329,9 @@ const onBlur = (event: Event) => {
             }
         }
     }
-
     .prefix-suffix {
-        color: transparent;
         flex-shrink: 0;
+        color: transparent;
     }
     &.is-focus,
     &.is-value {
@@ -341,10 +339,8 @@ const onBlur = (event: Event) => {
             color: var(--color-theme-text-primary);
         }
     }
-
     .clearable-box {
         width: var(--c-autocomplete-font-size);
-
         .lucide {
             opacity: 0;
             transition: opacity 0.2s;
@@ -353,23 +349,29 @@ const onBlur = (event: Event) => {
 }
 
 /* ▼ size ▼ */
+
 .large {
     --c-autocomplete-height: 40px;
     --c-autocomplete-font-size: var(--font-size-medium);
 }
+
 .medium {
     --c-autocomplete-height: 32px;
     --c-autocomplete-font-size: var(--font-size-medium);
 }
+
 .small {
     --c-autocomplete-height: 24px;
     --c-autocomplete-font-size: var(--font-size-small);
 }
+
 /* ▲ size ▲ */
 
 /* ▼ shape ▼ */
+
 .rounded {
     border-radius: 2em;
 }
+
 /* ▲ shape ▲ */
 </style>

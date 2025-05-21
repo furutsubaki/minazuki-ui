@@ -131,10 +131,10 @@ if (fieldVal.value == null && model.value != null) {
 <style scoped>
 .component-switch {
     position: relative;
-    text-align: left;
     display: block;
     min-height: var(--c-switch-height);
     font-size: var(--c-switch-font-size);
+    text-align: left;
     :where(.checkbox) {
         display: none;
     }
@@ -142,26 +142,25 @@ if (fieldVal.value == null && model.value != null) {
         position: relative;
         width: calc(var(--c-switch-font-size) * 2);
         height: var(--c-switch-font-size);
-        border-radius: 1em;
         background-color: var(--color-theme-border);
+        border-radius: 1em;
         transition: background-color 0.2s;
         .switch-icon {
             position: absolute;
             left: 0;
-            width: var(--c-switch-font-size);
-            height: var(--c-switch-font-size);
-            border-radius: 1em;
-            background-color: var(--color-theme-text-secondary);
-            transform: scale(1.5);
-            transition: background-color 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-
+            width: var(--c-switch-font-size);
+            height: var(--c-switch-font-size);
+            background-color: var(--color-theme-text-secondary);
+            border-radius: 1em;
+            transform: scale(1.5);
+            transition: background-color 0.2s;
             .switch-icon-true,
             .switch-icon-false {
-                transform: scale(0.75);
                 filter: invert(100%) grayscale(100%) contrast(100);
+                transform: scale(0.75);
                 transition: color 0.2s;
             }
             .switch-icon-true {
@@ -199,6 +198,7 @@ if (fieldVal.value == null && model.value != null) {
             color: var(--c-switch-hover-color);
         }
     }
+
     @media (hover: none) {
         &:active {
             color: var(--c-switch-hover-color);
@@ -210,14 +210,14 @@ if (fieldVal.value == null && model.value != null) {
     position: absolute;
     top: -0.5em;
     left: 8px;
-    height: 1em;
-    line-height: 1em;
-    pointer-events: none;
-    transition: 0.2s;
     display: flex;
     align-items: baseline;
+    height: 1em;
     font-size: var(--font-size-small);
+    line-height: 1em;
     color: var(--color-theme-text-primary);
+    pointer-events: none;
+    transition: 0.2s;
     &.required {
         &::after {
             left: -0.5em;
@@ -229,19 +229,18 @@ if (fieldVal.value == null && model.value != null) {
 
 .item-label {
     position: relative;
-    text-align: left;
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    text-align: left;
     white-space: nowrap;
-
     :where(.input) {
         display: flex;
         gap: 8px;
         align-items: center;
         justify-content: flex-start;
-        line-height: 1.5em;
         min-height: var(--c-switch-height);
+        line-height: 1.5em;
         transition:
             color 0.2s,
             background-color 0.2s,
@@ -256,56 +255,67 @@ if (fieldVal.value == null && model.value != null) {
 }
 
 /* ▼ variant ▼ */
+
 .primary {
     --c-switch-hover-color: var(--color-status-brand);
     --c-switch-switch-icon-true-color: var(--color-status-brand);
     --c-switch-switch-background-color: var(--color-status-brand-alpha);
     --c-switch-switch-icon-background-color: var(--color-status-brand);
 }
+
 .secondary {
     --c-switch-hover-color: var(--color-theme-text-primary);
     --c-switch-switch-icon-true-color: var(--color-theme-text-primary);
     --c-switch-switch-background-color: var(--color-theme-border);
     --c-switch-switch-icon-background-color: var(--color-theme-text-primary);
 }
+
 .info {
     --c-switch-hover-color: var(--color-status-info);
     --c-switch-switch-icon-true-color: var(--color-status-info);
     --c-switch-switch-background-color: var(--color-status-info-alpha);
     --c-switch-switch-icon-background-color: var(--color-status-info);
 }
+
 .success {
     --c-switch-hover-color: var(--color-status-success);
     --c-switch-switch-icon-true-color: var(--color-status-success);
     --c-switch-switch-background-color: var(--color-status-success-alpha);
     --c-switch-switch-icon-background-color: var(--color-status-success);
 }
+
 .warning {
     --c-switch-hover-color: var(--color-status-warning);
     --c-switch-switch-icon-true-color: var(--color-status-warning);
     --c-switch-switch-background-color: var(--color-status-warning-alpha);
     --c-switch-switch-icon-background-color: var(--color-status-warning);
 }
+
 .danger {
     --c-switch-hover-color: var(--color-status-danger);
     --c-switch-switch-icon-true-color: var(--color-status-danger);
     --c-switch-switch-background-color: var(--color-status-danger-alpha);
     --c-switch-switch-icon-background-color: var(--color-status-danger);
 }
+
 /* ▲ variant ▲ */
 
 /* ▼ size ▼ */
+
 .large {
     --c-switch-height: 40px;
     --c-switch-font-size: var(--font-size-medium);
 }
+
 .medium {
     --c-switch-height: 32px;
     --c-switch-font-size: var(--font-size-medium);
 }
+
 .small {
     --c-switch-height: 24px;
     --c-switch-font-size: var(--font-size-small);
 }
+
 /* ▲ size ▲ */
 </style>

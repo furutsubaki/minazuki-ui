@@ -105,41 +105,38 @@ const onClosed = async () => {
     gap: 8px;
     align-items: flex-start;
     justify-content: center;
+    width: 100%;
     min-width: 100px;
     min-height: 32px;
-    width: 100%;
     padding: 8px;
     color: var(--c-alert-color);
+    word-break: keep-all;
     background-color: var(--c-alert-background-color);
     border: 1px solid;
-    border-radius: var(--c-alert-border-radius);
     border-color: var(--c-alert-border-color);
-    word-break: keep-all;
+    border-radius: var(--c-alert-border-radius);
     transition:
         color 0.2s,
         background-color 0.2s,
         border-color 0.2s,
         opacity 0.2s;
-
     .icon {
         flex-shrink: 0;
         width: calc(var(--font-size-medium) * 1.8);
         height: calc(var(--font-size-medium) * 1.8);
-        color: var(--c-alert-color);
         padding: 2px;
+        color: var(--c-alert-color);
     }
-
     .box {
-        flex-grow: 1;
         display: flex;
+        flex-grow: 1;
         flex-direction: column;
         gap: 8px;
         .title {
-            font-weight: bold;
             font-size: calc(var(--font-size-medium) * 1.2);
+            font-weight: bold;
         }
     }
-
     .closeable-box {
         flex-shrink: 0;
     }
@@ -182,11 +179,14 @@ const onClosed = async () => {
 }
 
 /* ▼ shape ▼ */
+
 .normal {
     --c-alert-border-radius: 4px;
 }
+
 .no-radius {
     --c-alert-border-radius: 0;
 }
+
 /* ▲ shape ▲ */
 </style>

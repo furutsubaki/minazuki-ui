@@ -121,11 +121,11 @@ const onSetNotification = (position: 'top-right' | 'bottom-right' | 'bottom-left
             <Autocomplete v-model="model.select" :items="items" label="らべる" />
             <Field label="Search" type="search" v-model="model.input" @search="onSearch" />
             {{ model }}
-            <div style="display: flex">
+            <div style="display: flex;">
                 <Button @click="onSetNotification('top-left')">通知↖</Button>
                 <Button @click="onSetNotification('top-right')">通知↗</Button>
             </div>
-            <div style="display: flex">
+            <div style="display: flex;">
                 <Button @click="onSetNotification('bottom-left')">通知↙</Button>
                 <Button @click="onSetNotification('bottom-right')">通知↘</Button>
             </div>
@@ -136,15 +136,16 @@ const onSetNotification = (position: 'top-right' | 'bottom-right' | 'bottom-left
 
 <style scoped>
 main {
-    padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    padding: 16px;
 }
+
 .flex {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     gap: 16px;
+    align-items: flex-start;
 }
 </style>

@@ -61,6 +61,7 @@ const onTransitionEnd = () => {
 
 <style scoped>
 /* 共通 */
+
 .top-rebound-enter-active,
 .top-rebound-leave-active,
 .right-rebound-enter-active,
@@ -78,92 +79,112 @@ const onTransitionEnd = () => {
 .left-enter-active,
 .left-leave-active {
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
-    transform: translate(0px, 0px);
+    transform: translate(0, 0);
     transition:
         transform v-bind(duration) v-bind(easeFunction) v-bind(delay),
         opacity v-bind(duration) v-bind(easeFunction) v-bind(delay) !important;
 }
 
 /* from top-rebound */
+
 .top-rebound-enter-from,
 .top-rebound-leave-to {
+    opacity: 0 !important;
+
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
     transform: translateY(-100%);
-    opacity: 0 !important;
 }
 
 /* from right-rebound */
+
 .right-rebound-enter-from,
 .right-rebound-leave-to {
+    opacity: 0 !important;
+
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
     transform: translateX(100%);
-    opacity: 0 !important;
 }
 
 /* from bottom-rebound */
+
 .bottom-rebound-enter-from,
 .bottom-rebound-leave-to {
+    opacity: 0 !important;
+
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
     transform: translateY(100%);
-    opacity: 0 !important;
 }
 
 /* from left-rebound */
+
 .left-rebound-enter-from,
 .left-rebound-leave-to {
+    opacity: 0 !important;
+
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
     transform: translateX(-100vw);
-    opacity: 0 !important;
 }
 
 /* from top */
+
 .top-enter-from,
 .top-leave-to {
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
     opacity: 0 !important;
 }
+
 .top-enter-from {
     transform: translateY(-100%);
 }
+
 .top-leave-to {
     transform: translateY(100%);
 }
 
 /* from right */
+
 .right-enter-from,
 .right-leave-to {
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
     opacity: 0 !important;
 }
+
 .right-enter-from {
     transform: translateX(100%);
 }
+
 .right-leave-to {
     transform: translateX(-100%);
 }
 
 /* from bottom */
+
 .bottom-enter-from,
 .bottom-leave-to {
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
     opacity: 0 !important;
 }
+
 .bottom-enter-from {
     transform: translateY(100%);
 }
+
 .bottom-leave-to {
     transform: translateY(-100%);
 }
 
 /* from left */
+
 .left-enter-from,
 .left-leave-to {
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
     opacity: 0 !important;
 }
+
 .left-enter-from {
     transform: translateX(-100vw);
 }
+
 .left-leave-to {
     transform: translateX(100vw);
 }

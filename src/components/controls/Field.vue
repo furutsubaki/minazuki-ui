@@ -362,38 +362,40 @@ const onOutsideClick = computed(() => ({
     width: 100%;
     min-height: var(--c-field-height);
     font-size: var(--c-field-font-size);
-
     :where(.input) {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        min-width: 100px;
+        justify-content: space-between;
         width: 100%;
+        min-width: 100px;
         height: var(--c-field-height);
+        padding: 0;
         line-height: 1.5em;
         background-color: transparent;
         border: 0;
-        padding: 0;
     }
-
     [type='time'] {
         color: transparent;
-
         &::-webkit-calendar-picker-indicator {
             display: none;
         }
     }
-
+    .prefix-suffix {
+        flex-shrink: 0;
+        color: transparent;
+    }
     &.is-focus,
     &.is-value {
         [type='time'] {
             color: var(--color-theme-text-primary);
         }
+        .prefix-suffix {
+            color: var(--color-theme-text-primary);
+        }
     }
-
     [type='search'] {
         &::-webkit-search-cancel-button {
-            -webkit-appearance: none;
+            appearance: none;
         }
     }
 
@@ -420,34 +422,18 @@ const onOutsideClick = computed(() => ({
             }
         }
     }
-
-    .prefix-suffix {
-        color: transparent;
-        flex-shrink: 0;
-    }
-
-    &.is-focus,
-    &.is-value {
-        .prefix-suffix {
-            color: var(--color-theme-text-primary);
-        }
-    }
-
     .icon-box {
         width: var(--c-field-font-size);
-
         &.always-visible {
             .lucide {
                 opacity: 1;
             }
         }
-
         .lucide {
             opacity: 0;
             transition: opacity 0.2s;
         }
     }
-
     .datepicker {
         position: absolute;
         z-index: 1;
@@ -455,6 +441,7 @@ const onOutsideClick = computed(() => ({
 }
 
 /* ▼ size ▼ */
+
 .large {
     --c-field-height: 40px;
     --c-field-font-size: var(--font-size-medium);
@@ -473,6 +460,7 @@ const onOutsideClick = computed(() => ({
 /* ▲ size ▲ */
 
 /* ▼ shape ▼ */
+
 .rounded {
     border-radius: 2em;
 }

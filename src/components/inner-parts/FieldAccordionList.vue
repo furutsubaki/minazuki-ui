@@ -99,26 +99,25 @@ const onOutsideClick = computed(() => ({
 
 <style scoped>
 .component-input-accordion-list {
-    cursor: pointer;
     position: absolute;
-    width: 100%;
-    min-width: 100px;
-    line-height: 1.5em;
-    border: 1px solid var(--c-field-accordion-border-color);
-    border-radius: 4px;
+    z-index: 1;
     display: grid;
     grid-template-rows: 0fr;
+    width: 100%;
+    min-width: 100px;
+    max-height: 50vh;
+    font-size: var(--c-field-accordion-font-size);
+    line-height: 1.5em;
+    cursor: pointer;
+    background-color: var(--color-theme-bg-primary);
+    border: 1px solid var(--c-field-accordion-border-color);
+    border-radius: 4px;
+    opacity: 0;
     transition:
         background-color 0.2s,
         opacity 0.2s,
         grid-template-rows 0.2s ease,
         opacity 0s 0.2s;
-    max-height: 50vh;
-    background-color: var(--color-theme-bg-primary);
-    z-index: 1;
-    opacity: 0;
-    font-size: var(--c-field-accordion-font-size);
-
     &.is-open {
         grid-template-rows: 1fr;
         opacity: 1;
@@ -128,16 +127,13 @@ const onOutsideClick = computed(() => ({
             opacity 0.2s,
             grid-template-rows 0.2s ease;
     }
-
     .list-body {
-        overflow-x: hidden;
-        overflow-y: auto;
-
+        overflow: hidden auto;
         .list-item {
             display: flex;
             align-items: center;
-            padding: 0 8px;
             min-height: var(--c-field-accordion-height);
+            padding: 0 8px;
             transition: background-color 0.2s;
 
             @media (hover: hover) {
@@ -151,11 +147,9 @@ const onOutsideClick = computed(() => ({
                     background-color: var(--color-theme-bg-secondary);
                 }
             }
-
             &.is-selected {
                 background-color: var(--color-theme-bg-secondary);
             }
-
             &.is-disabled {
                 pointer-events: none;
                 opacity: 0.5;
@@ -177,6 +171,7 @@ const onOutsideClick = computed(() => ({
 }
 
 /* ▼ variant ▼ */
+
 .primary {
     --c-field-accordion-hover-border-color: var(--color-status-brand);
     --c-field-accordion-border-color: var(--color-status-brand);
@@ -210,6 +205,7 @@ const onOutsideClick = computed(() => ({
 /* ▲ variant ▲ */
 
 /* ▼ size ▼ */
+
 .large {
     --c-field-accordion-height: 40px;
     --c-field-accordion-font-size: var(--font-size-medium);
@@ -228,6 +224,7 @@ const onOutsideClick = computed(() => ({
 /* ▲ size ▲ */
 
 /* ▼ position ▼ */
+
 .bottom {
     top: var(--c-field-accordion-height);
 }

@@ -58,47 +58,55 @@ const hasSlot = (name: string) => {
     justify-content: center;
     width: var(--c-avatar-size);
     height: var(--c-avatar-size);
-    font-size: var(--c-avatar-font-size);
-    background-color: v-bind(color);
-    outline: 2px solid transparent;
-    word-break: keep-all;
     overflow: hidden;
+    font-size: var(--c-avatar-font-size);
+    word-break: keep-all;
+    outline: 2px solid transparent;
     object-fit: cover;
-
+    background-color: v-bind(color);
     > .icon {
-        margin: 8px;
         width: 100%;
         height: 100%;
+        margin: 8px;
     }
 }
 
 /* ▼ size ▼ */
+
 .large {
     --c-avatar-size: 64px;
     --c-avatar-font-size: var(--font-size-medium);
 }
+
 .medium {
     --c-avatar-size: 48px;
     --c-avatar-font-size: var(--font-size-medium);
 }
+
 .small {
     --c-avatar-size: 32px;
     --c-avatar-font-size: var(--font-size-small);
 }
+
 /* ▲ size ▲ */
 
 /* ▼ shape ▼ */
+
 .circle {
     border-radius: 50%;
 }
+
 .square {
     border-radius: 4px;
 }
+
 .no-radius {
     border-radius: 0;
 }
+
 .skeleton {
     background-color: transparent;
 }
+
 /* ▲ shape ▲ */
 </style>

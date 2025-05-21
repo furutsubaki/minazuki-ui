@@ -177,17 +177,17 @@ onMounted(async () => {
 .component-notification {
     z-index: 10000;
 }
+
 .notification {
-    pointer-events: initial;
     position: fixed;
-    margin: auto;
     width: var(--c-notification-item-width);
+    margin: auto;
+    pointer-events: initial;
     transition:
         top 0.2s,
         bottom 0.2s,
         border-color 0.2s,
         opacity 0.2s;
-
     .notification-inner {
         display: flex;
         gap: 8px;
@@ -195,19 +195,17 @@ onMounted(async () => {
         justify-content: center;
         padding: 8px;
         background-color: var(--color-theme-bg-primary);
-
         .icon {
             flex-shrink: 0;
             width: calc(var(--font-size-medium) * 1.8);
             height: calc(var(--font-size-medium) * 1.8);
-            fill: var(--c-notification-item-icon-color);
             color: var(--color-theme-bg-primary);
+            fill: var(--c-notification-item-icon-color);
         }
-
         .box {
             position: relative;
-            flex-grow: 1;
             display: flex;
+            flex-grow: 1;
             flex-direction: column;
             gap: 8px;
             > div:first-child {
@@ -216,15 +214,14 @@ onMounted(async () => {
                 height: calc(var(--font-size-medium) * 1.8);
             }
             .title {
-                font-weight: bold;
                 font-size: var(--font-size-large);
+                font-weight: bold;
             }
             .message {
-                white-space: pre-wrap;
                 font-size: var(--font-size-medium);
+                white-space: pre-wrap;
             }
         }
-
         .closeable-box {
             flex-shrink: 0;
         }
@@ -232,41 +229,52 @@ onMounted(async () => {
 }
 
 /* ▼ variant ▼ */
+
 .primary {
     --c-notification-item-border-color: var(--color-status-brand);
     --c-notification-item-icon-color: var(--color-status-brand);
 }
+
 .secondary {
     --c-notification-item-border-color: var(--color-theme-border);
     --c-notification-item-icon-color: var(--color-theme-border);
 }
+
 .info {
     --c-notification-item-border-color: var(--color-status-info);
     --c-notification-item-icon-color: var(--color-status-info);
 }
+
 .success {
     --c-notification-item-border-color: var(--color-status-success);
     --c-notification-item-icon-color: var(--color-status-success);
 }
+
 .warning {
     --c-notification-item-border-color: var(--color-status-warning);
     --c-notification-item-icon-color: var(--color-status-warning);
 }
+
 .danger {
     --c-notification-item-border-color: var(--color-status-danger);
     --c-notification-item-icon-color: var(--color-status-danger);
 }
+
 /* ▲ variant ▲ */
 
 /* ▼ size ▼ */
+
 .large {
     --c-notification-item-width: clamp(320px, 40vw, 480px);
 }
+
 .medium {
     --c-notification-item-width: clamp(240px, 32vw, 360px);
 }
+
 .small {
     --c-notification-item-width: clamp(200px, 24vw, 300px);
 }
+
 /* ▲ size ▲ */
 </style>
