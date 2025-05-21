@@ -10,6 +10,9 @@ export default {
         'stylelint-config-recommended-vue',
         '@stylistic/stylelint-config'
     ],
+    ignoreFiles: [
+        'dist/*'
+    ],
     overrides: [
         {
             files: ['**/*.scss'],
