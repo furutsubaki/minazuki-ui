@@ -1,6 +1,7 @@
 @charset "utf-8";
 
 /* lucideのオーバーライド */
+
 .lucide {
     width: var(--font-size-medium);
     height: var(--font-size-medium);

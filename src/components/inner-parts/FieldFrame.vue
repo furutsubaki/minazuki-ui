@@ -145,45 +145,45 @@ defineExpose({ frameRef });
 .component-input-frame {
     --c-field-frame-start-end-padding: 16px;
     --c-field-frame-border-width: 1px;
+
     position: relative;
+    width: 100%;
     min-width: 100px;
     min-height: var(--c-field-frame-height);
-    width: 100%;
     font-size: var(--c-field-frame-font-size);
     .frame {
         position: relative;
     }
     :where(.frame-box) {
         position: absolute;
-        text-align: left;
         display: flex;
         justify-content: space-between;
-        min-width: 100px;
         width: 100%;
+        min-width: 100px;
         height: 100%;
         min-height: var(--c-field-frame-height);
         line-height: 1.5em;
+        text-align: left;
         background-color: var(--color-theme-bg-primary);
         border-color: var(--c-field-frame-border-color);
         border-radius: 4px;
         transition:
             height 0.2s,
             background-color 0.2s;
-
         .frame-start,
         .frame-end {
             position: relative;
-            width: var(--c-field-frame-start-end-padding);
-            border-style: solid;
-            border-color: inherit;
-            border-width: var(--c-field-frame-border-width);
             flex-shrink: 0;
+            width: var(--c-field-frame-start-end-padding);
+            border-color: inherit;
+            border-style: solid;
+            border-width: var(--c-field-frame-border-width);
             &::before {
-                content: '';
                 position: absolute;
                 top: -2px;
-                height: calc(100% + 4px);
                 width: calc(100% + 2px);
+                height: calc(100% + 4px);
+                content: '';
                 border: solid 2px transparent;
             }
         }
@@ -192,8 +192,8 @@ defineExpose({ frameRef });
             border-radius: 4px 0 0 4px;
             &::before {
                 left: -2px;
-                border-radius: 4px 0 0 4px;
                 border-right: 0;
+                border-radius: 4px 0 0 4px;
             }
         }
         .frame-end {
@@ -201,35 +201,33 @@ defineExpose({ frameRef });
             border-radius: 0 4px 4px 0;
             &::before {
                 right: -2px;
-                border-radius: 0 4px 4px 0;
                 border-left: 0;
+                border-radius: 0 4px 4px 0;
             }
         }
-
         .frame-label,
         .frame-grow,
         .frame-counter {
             position: relative;
-            border-style: solid;
+            flex-shrink: 0;
             border-color: inherit;
+            border-style: solid;
             border-width: var(--c-field-frame-border-width);
             border-right: 0;
             border-left: 0;
             transition: border-width 0.2s;
-            flex-shrink: 0;
             &::before {
-                content: '';
                 position: absolute;
                 top: -2px;
                 left: 0;
-                height: calc(100% + 4px);
                 width: 100%;
+                height: calc(100% + 4px);
+                content: '';
                 border: solid 2px transparent;
                 border-right: 0;
                 border-left: 0;
             }
         }
-
         .frame-label {
             position: relative;
             display: flex;
@@ -244,49 +242,46 @@ defineExpose({ frameRef });
                     transform 0.2s,
                     font-size 0.2s;
                 .label {
+                    height: 1em;
+                    line-height: 1em;
+                    vertical-align: baseline;
+                    color: var(--color-theme-text-secondary);
                     transition: color 0.2s;
-                    color: var(--color-theme-text-secondary);
-                    height: 1em;
-                    line-height: 1em;
-                    vertical-align: baseline;
                 }
-
                 .placeholder {
-                    font-size: var(--font-size-small);
-                    color: var(--color-theme-text-secondary);
                     height: 1em;
+                    font-size: var(--font-size-small);
                     line-height: 1em;
                     vertical-align: baseline;
+                    color: var(--color-theme-text-secondary);
                 }
             }
         }
-
         .frame-grow {
             flex-grow: 1;
         }
-
         .frame-counter {
             border-top-color: transparent !important;
             &::before {
                 border-top-color: transparent !important;
             }
             .counter {
-                pointer-events: none;
-                transform: translateY(-50%);
                 display: flex;
                 align-items: center;
+                pointer-events: none;
+                transform: translateY(-50%);
             }
         }
     }
     .frame-body {
         position: relative;
-        padding-left: calc(var(--c-field-frame-start-end-padding) / 2);
-        padding-right: calc(var(--c-field-frame-start-end-padding) / 2);
         display: flex;
-        align-items: center;
         gap: 8px;
+        align-items: center;
         width: 100%;
         height: 100%;
+        padding-right: calc(var(--c-field-frame-start-end-padding) / 2);
+        padding-left: calc(var(--c-field-frame-start-end-padding) / 2);
     }
 
     /* required */
@@ -323,10 +318,9 @@ defineExpose({ frameRef });
         &::before {
             border-top-color: transparent;
         }
-
         > .label-box {
-            transform: translateY(-50%);
             font-size: var(--font-size-small);
+            transform: translateY(-50%);
             .label {
                 color: var(--color-theme-text-primary);
             }
@@ -358,6 +352,7 @@ defineExpose({ frameRef });
             }
         }
     }
+
     @media (hover: none) {
         &:active {
             .frame-box {
@@ -392,58 +387,73 @@ defineExpose({ frameRef });
 }
 
 /* ▼ variant ▼ */
+
 .primary {
     --c-field-frame-border-color: var(--color-status-brand);
 }
+
 .secondary {
     --c-field-frame-border-color: var(--color-theme-border);
 }
+
 .info {
     --c-field-frame-border-color: var(--color-status-info);
 }
+
 .success {
     --c-field-frame-border-color: var(--color-status-success);
 }
+
 .warning {
     --c-field-frame-border-color: var(--color-status-warning);
 }
+
 .danger {
     --c-field-frame-border-color: var(--color-status-danger);
 }
+
 /* ▲ variant ▲ */
 
 /* ▼ size ▼ */
+
 .large {
     --c-field-frame-height: 40px;
     --c-field-frame-font-size: var(--font-size-medium);
 }
+
 .medium {
     --c-field-frame-height: 32px;
     --c-field-frame-font-size: var(--font-size-medium);
 }
+
 .small {
     --c-field-frame-height: 24px;
     --c-field-frame-font-size: var(--font-size-small);
 }
+
 /* ▲ size ▲ */
 
 /* ▼ shape ▼ */
+
 .rounded {
     .frame-box {
         border-radius: var(--c-field-frame-start-end-padding);
         .frame-start,
         .frame-start::before {
-            border-radius: calc(var(--c-field-frame-start-end-padding) * 4) 0 0
+            border-radius:
+                calc(var(--c-field-frame-start-end-padding) * 4) 0 0
                 calc(var(--c-field-frame-start-end-padding) * 4);
         }
         .frame-end,
         .frame-end::before {
             width: var(--c-field-frame-start-end-padding);
-            border-radius: 0 calc(var(--c-field-frame-start-end-padding) * 4)
+            border-radius:
+                0 calc(var(--c-field-frame-start-end-padding) * 4)
                 calc(var(--c-field-frame-start-end-padding) * 4) 0;
         }
     }
 }
+
 .no-radius {
     .frame-box {
         border-radius: 0;
@@ -457,5 +467,6 @@ defineExpose({ frameRef });
         }
     }
 }
+
 /* ▲ shape ▲ */
 </style>

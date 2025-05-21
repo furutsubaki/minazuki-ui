@@ -159,41 +159,39 @@ const hasSlot = (name: string) => {
 .component-drawer {
     position: fixed;
     inset: 0;
-
     pointer-events: none;
     &:not(.is-seamless) {
         &::before {
-            content: '';
             position: fixed;
             inset: 0;
-            background-color: var(--color-theme-shadow);
             z-index: -1;
             pointer-events: initial;
+            content: '';
+            background-color: var(--color-theme-shadow);
         }
     }
 }
 
 .drawer {
-    pointer-events: initial;
     position: fixed;
-    margin: auto;
     display: flex;
     flex-direction: column;
     gap: 8px;
     width: var(--c-drawer-width);
     padding: 8px;
-    border: 1px solid;
-    border-radius: 0;
-    border-color: var(--color-theme-border);
+    margin: auto;
+    pointer-events: initial;
     background-color: var(--color-theme-bg-primary);
+    border: 1px solid;
+    border-color: var(--color-theme-border);
+    border-radius: 0;
     transition:
         border-color 0.2s,
         opacity 0.2s;
-
     .closeable-box {
         position: absolute;
-        top: 0px;
-        right: 0px;
+        top: 0;
+        right: 0;
         z-index: 1;
         padding: 8px;
         .closeable-icon {
@@ -201,7 +199,6 @@ const hasSlot = (name: string) => {
             height: var(--font-size-large);
         }
     }
-
     .header {
         display: flex;
         gap: 8px;
@@ -210,7 +207,6 @@ const hasSlot = (name: string) => {
             margin-right: 32px;
         }
     }
-
     .box {
         position: relative;
         flex-grow: 1;
@@ -218,13 +214,11 @@ const hasSlot = (name: string) => {
             overflow-y: auto;
         }
     }
-
     .footer {
         display: flex;
         gap: 8px;
         justify-content: flex-end;
     }
-
     &.is-center {
         .header,
         .footer {
@@ -235,70 +229,79 @@ const hasSlot = (name: string) => {
 }
 
 /* ▼ size ▼ */
+
 .large {
     --c-drawer-min-width: 320px;
     --c-drawer-min-height: 320px;
     --c-drawer-width: 40vw;
     --c-drawer-height: 40vh;
 }
+
 .medium {
     --c-drawer-min-width: 240px;
     --c-drawer-min-height: 240px;
     --c-drawer-width: 32vw;
     --c-drawer-height: 32vh;
 }
+
 .small {
     --c-drawer-min-width: 200px;
     --c-drawer-min-height: 200px;
     --c-drawer-width: 24vw;
     --c-drawer-height: 24vh;
 }
+
 /* ▲ size ▲ */
 
 /* ▼ position ▼ */
+
 .top {
     inset: 0;
     bottom: auto;
+    width: 100vw;
+    height: var(--c-drawer-height);
+    min-height: min(var(--c-drawer-min-height), 80vh);
+    max-height: 80vh;
     border-top: 0;
     border-right: 0;
     border-left: 0;
-    width: 100vw;
-    min-height: min(var(--c-drawer-min-height), 80vh);
-    height: var(--c-drawer-height);
-    max-height: 80vh;
 }
+
 .right {
     inset: 0;
     left: auto;
+    width: var(--c-drawer-width);
+    min-width: min(var(--c-drawer-min-width), 80vw);
+    max-width: 80vw;
+    height: 100vh;
     border-top: 0;
     border-right: 0;
     border-bottom: 0;
-    min-width: min(var(--c-drawer-min-width), 80vw);
-    width: var(--c-drawer-width);
-    max-width: 80vw;
-    height: 100vh;
 }
+
 .bottom {
     inset: 0;
     top: auto;
+    width: 100vw;
+    height: var(--c-drawer-height);
+    min-height: min(var(--c-drawer-min-height), 80vh);
+    max-height: 80vh;
     border-right: 0;
     border-bottom: 0;
     border-left: 0;
-    width: 100vw;
-    min-height: min(var(--c-drawer-min-height), 80vh);
-    height: var(--c-drawer-height);
-    max-height: 80vh;
 }
+
 .left {
     inset: 0;
     right: auto;
+    width: var(--c-drawer-width);
+    min-width: min(var(--c-drawer-min-width), 80vw);
+    max-width: 80vw;
+    height: 100vh;
     border-top: 0;
     border-bottom: 0;
     border-left: 0;
-    min-width: min(var(--c-drawer-min-width), 80vw);
-    width: var(--c-drawer-width);
-    max-width: 80vw;
-    height: 100vh;
 }
+
 /* ▲ position ▲ */
 </style>

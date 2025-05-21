@@ -137,10 +137,10 @@ if (fieldVal.value == null && model.value != null) {
 <style scoped>
 .component-radio {
     position: relative;
-    text-align: left;
     display: block;
     min-height: var(--c-radio-height);
     font-size: var(--c-radio-font-size);
+    text-align: left;
     :where(.radio) {
         display: none;
     }
@@ -167,6 +167,7 @@ if (fieldVal.value == null && model.value != null) {
             color: var(--c-radio-hover-color);
         }
     }
+
     @media (hover: none) {
         &:active {
             color: var(--c-radio-hover-color);
@@ -178,14 +179,14 @@ if (fieldVal.value == null && model.value != null) {
     position: absolute;
     top: -0.5em;
     left: 8px;
-    height: 1em;
-    line-height: 1em;
-    pointer-events: none;
-    transition: 0.2s;
     display: flex;
     align-items: baseline;
+    height: 1em;
     font-size: var(--font-size-small);
+    line-height: 1em;
     color: var(--color-theme-text-primary);
+    pointer-events: none;
+    transition: 0.2s;
     &.required {
         &::after {
             left: -0.5em;
@@ -197,19 +198,18 @@ if (fieldVal.value == null && model.value != null) {
 
 .item-label {
     position: relative;
-    text-align: left;
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    text-align: left;
     white-space: nowrap;
-
     :where(.input) {
         display: flex;
         gap: 8px;
         align-items: center;
         justify-content: flex-start;
-        line-height: 1.5em;
         min-height: var(--c-radio-height);
+        line-height: 1.5em;
     }
 }
 
@@ -219,44 +219,55 @@ if (fieldVal.value == null && model.value != null) {
 }
 
 /* ▼ variant ▼ */
+
 .primary {
     --c-radio-hover-color: var(--color-status-brand);
     --c-radio-is-checked-lucide-color: var(--color-status-brand);
 }
+
 /* .secondary {
     --c-radio-hover-color: var(--color-status-brand);
     --c-radio-is-checked-lucide-color: var(--color-status-brand);
 } */
+
 .info {
     --c-radio-hover-color: var(--color-status-info);
     --c-radio-is-checked-lucide-color: var(--color-status-info);
 }
+
 .success {
     --c-radio-hover-color: var(--color-status-success);
     --c-radio-is-checked-lucide-color: var(--color-status-success);
 }
+
 .warning {
     --c-radio-hover-color: var(--color-status-warning);
     --c-radio-is-checked-lucide-color: var(--color-status-warning);
 }
+
 .danger {
     --c-radio-hover-color: var(--color-status-danger);
     --c-radio-is-checked-lucide-color: var(--color-status-danger);
 }
+
 /* ▲ variant ▲ */
 
 /* ▼ size ▼ */
+
 .large {
     --c-radio-height: 40px;
     --c-radio-font-size: var(--font-size-medium);
 }
+
 .medium {
     --c-radio-height: 32px;
     --c-radio-font-size: var(--font-size-medium);
 }
+
 .small {
     --c-radio-height: 24px;
     --c-radio-font-size: var(--font-size-small);
 }
+
 /* ▲ size ▲ */
 </style>

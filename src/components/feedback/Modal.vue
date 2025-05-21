@@ -146,42 +146,41 @@ const onOutsideClick = computed(() => ({
     inset: 0;
     pointer-events: none;
     &::before {
-        content: '';
         position: fixed;
         inset: 0;
-        background-color: var(--color-theme-shadow);
         z-index: -1;
         pointer-events: initial;
+        content: '';
+        background-color: var(--color-theme-shadow);
     }
 }
 
 .modal {
-    min-height: var(--c-modal-height);
-    pointer-events: initial;
     position: fixed;
     inset: 0;
-    margin: auto;
     display: flex;
     flex-direction: column;
     gap: 8px;
     width: var(--c-modal-width);
     max-width: 80vw;
-    max-height: 80vh;
     height: 100%;
+    min-height: var(--c-modal-height);
+    max-height: 80vh;
     padding: 8px;
-    border: 1px solid;
-    border-radius: var(--c-modal-border-radius);
-    border-color: var(--color-theme-border);
-    background-color: var(--color-theme-bg-primary);
+    margin: auto;
     color: var(--color-theme-text-primary);
+    pointer-events: initial;
+    background-color: var(--color-theme-bg-primary);
+    border: 1px solid;
+    border-color: var(--color-theme-border);
+    border-radius: var(--c-modal-border-radius);
     transition:
         border-color 0.2s,
         opacity 0.2s;
-
     .closeable-box {
         position: absolute;
-        top: 0px;
-        right: 0px;
+        top: 0;
+        right: 0;
         z-index: 1;
         padding: 8px;
         .closeable-icon {
@@ -190,29 +189,27 @@ const onOutsideClick = computed(() => ({
         }
     }
     .inner {
-        flex-grow: 1;
         display: flex;
-        align-items: flex-start;
+        flex-grow: 1;
         gap: 8px;
+        align-items: flex-start;
         overflow: hidden;
     }
-
     .box {
         display: flex;
         flex-direction: column;
         gap: 8px;
         height: 100%;
         .title {
-            font-weight: bold;
             font-size: calc(var(--font-size-medium) * 1.2);
+            font-weight: bold;
         }
         .slot {
-            overflow-y: auto;
             flex-grow: 1;
             height: 100%;
+            overflow-y: auto;
         }
     }
-
     &.is-center {
         .title {
             justify-content: center;
@@ -222,34 +219,43 @@ const onOutsideClick = computed(() => ({
 }
 
 /* ▼ size ▼ */
+
 .full {
     max-width: initial;
     max-height: initial;
-    border-radius: 0;
     border: 0;
+    border-radius: 0;
+
     --c-modal-width: 100vw;
     --c-modal-height: 100vh;
 }
+
 .large {
     --c-modal-width: 1024px;
     --c-modal-height: 40px;
 }
+
 .medium {
     --c-modal-width: 720px;
     --c-modal-height: 32px;
 }
+
 .small {
     --c-modal-width: 320px;
     --c-modal-height: 24px;
 }
+
 /* ▲ size ▲ */
 
 /* ▼ shape ▼ */
+
 .normal {
     --c-modal-border-radius: 4px;
 }
+
 .no-radius {
     --c-modal-border-radius: 0;
 }
+
 /* ▲ shape ▲ */
 </style>

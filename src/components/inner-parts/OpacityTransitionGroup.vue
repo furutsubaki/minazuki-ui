@@ -52,6 +52,7 @@ const onTransitionEnd = () => {
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
     transition: opacity v-bind(duration) v-bind(easeFunction) v-bind(delay) !important;
 }
+
 .v-enter-from,
 .v-leave-to {
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */

@@ -140,24 +140,23 @@ defineExpose({ elementRef });
 <style scoped>
 .component-datepicker {
     position: relative;
-    text-align: left;
     display: block;
     width: fit-content;
+    text-align: left;
     &.is-disabled {
         pointer-events: none;
         opacity: 0.5;
     }
-
     :where(.datepicker) {
+        /* stylelint-disable-next-line selector-class-pattern */
         :deep(.dp__menu) {
-            border: none;
             background-color: transparent;
-
+            border: none;
+            /* stylelint-disable-next-line selector-class-pattern */
             .dp__calendar_item {
                 display: flex;
                 justify-content: center;
             }
-
             .saturday {
                 color: var(--color-base-blue);
             }
@@ -169,8 +168,10 @@ defineExpose({ elementRef });
 }
 
 /* ▼ shape ▼ */
+
 .rounded {
     border-radius: 2em;
 }
+
 /* ▲ shape ▲ */
 </style>

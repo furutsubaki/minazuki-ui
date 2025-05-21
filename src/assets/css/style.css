@@ -4,9 +4,9 @@
 *::before,
 *::after {
     box-sizing: inherit;
+    min-inline-size: 0;
     min-width: 0;
     min-height: 0;
-    min-inline-size: 0;
 }
 
 :root {
@@ -28,7 +28,7 @@ body {
     font-feature-settings: 'palt';
     color: var(--color-theme-text-primary);
     letter-spacing: 0.05em;
-    word-break: break-word;
+    word-break: break-all;
     text-size-adjust: 100%;
     background-color: var(--color-theme-bg-primary);
     transition:
@@ -97,6 +97,7 @@ form li {
 button,
 ::file-selector-button {
     touch-action: manipulation;
+
     /* &:focus-visible {
       outline: 2px solid magenta;
       outline-offset: 2px;

@@ -88,15 +88,14 @@ const onClick = (item: MiBreadcrumbItem) => {
     min-height: var(--c-breadcrumb-height);
     font-size: var(--c-breadcrumb-font-size);
     word-break: keep-all;
-
     .separator {
         font-size: var(--font-size-small);
     }
     .link {
         color: var(--color-theme-link);
-        transition: color 0.2s;
-        cursor: pointer;
         text-decoration: none;
+        cursor: pointer;
+        transition: color 0.2s;
 
         @media (hover: hover) {
             /* PC */
@@ -120,17 +119,21 @@ const onClick = (item: MiBreadcrumbItem) => {
 }
 
 /* ▼ size ▼ */
+
 .large {
     --c-breadcrumb-height: 40px;
     --c-breadcrumb-font-size: var(--font-size-medium);
 }
+
 .medium {
     --c-breadcrumb-height: 32px;
     --c-breadcrumb-font-size: var(--font-size-medium);
 }
+
 .small {
     --c-breadcrumb-height: 24px;
     --c-breadcrumb-font-size: var(--font-size-small);
 }
+
 /* ▲ size ▲ */
 </style>

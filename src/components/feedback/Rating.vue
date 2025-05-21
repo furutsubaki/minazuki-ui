@@ -121,13 +121,12 @@ watch(model, (v) => {
 
 <style scoped>
 .component-rating {
-    min-height: var(--c-rating-height);
-    font-size: var(--c-rating-font-size);
-
     display: flex;
     gap: 8px;
     justify-content: center;
     min-width: 100px;
+    min-height: var(--c-rating-height);
+    font-size: var(--c-rating-font-size);
     color: var(--c-rating-color);
     transition:
         color 0.2s,
@@ -137,10 +136,10 @@ watch(model, (v) => {
         display: flex;
         .button {
             .icon {
-                color: var(--c-rating-color);
-                fill: transparent;
                 width: var(--c-rating-height);
                 height: var(--c-rating-height);
+                color: var(--c-rating-color);
+                fill: transparent;
                 transition:
                     color 0.2s,
                     fill 0.2s;
@@ -183,6 +182,7 @@ watch(model, (v) => {
 }
 
 /* ▼ size ▼ */
+
 .large {
     --c-rating-height: 32px;
     --c-rating-font-size: var(--font-size-large);
@@ -197,5 +197,6 @@ watch(model, (v) => {
     --c-rating-height: 16px;
     --c-rating-font-size: var(--font-size-small);
 }
+
 /* ▲ size ▲ */
 </style>

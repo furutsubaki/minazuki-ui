@@ -214,6 +214,7 @@ const onClick = (page: number | undefined) => {
     width: 100%;
     height: var(--c-pagination-size);
 }
+
 .pagination-list {
     display: flex;
     flex-direction: row;
@@ -221,25 +222,24 @@ const onClick = (page: number | undefined) => {
     justify-content: space-between;
     width: 100%;
     height: 100%;
-    margin: 0;
     padding: 0;
+    margin: 0;
     word-break: keep-all;
-
     .pagination-item {
         position: relative;
         display: flex;
+        gap: 0;
         align-items: center;
         justify-content: center;
-        gap: 0;
         width: var(--c-pagination-size);
         height: var(--c-pagination-size);
         transition: opacity 0.2s;
-
         .pagination-item-button {
             width: 100%;
             height: 100%;
         }
         &.is-current {
+            color: var(--color-theme-text-primary);
             pointer-events: none;
             .pagination-item-button {
                 color: red;
@@ -252,75 +252,25 @@ const onClick = (page: number | undefined) => {
                 opacity 0.2s,
                 visibility 0s 0.2s;
         }
-
-        .icon {
-            width: calc(var(--c-pagination-font-size) * 2);
-            height: 100%;
-            transition:
-                width 0.2s,
-                height 0.2s;
-        }
-
-        .label {
-            position: absolute;
-            font-size: var(--font-size-small);
-            bottom: -1.5em;
-            line-height: 1;
-            transition: bottom 0.2s;
-        }
-        &.is-current {
-            color: var(--color-theme-text-primary);
-            pointer-events: none;
-            .icon {
-                width: calc(var(--c-pagination-font-size) * 1.5);
-                height: calc(var(--c-pagination-font-size) * 2.2);
-            }
-
-            .label {
-                bottom: calc(var(--c-pagination-font-size) * 0.25);
-            }
-        }
-
-        /* hover */
-        @media (hover: hover) {
-            &:hover {
-                .icon {
-                    width: calc(var(--c-pagination-font-size) * 1.5);
-                    height: calc(var(--c-pagination-font-size) * 2.2);
-                }
-
-                .label {
-                    bottom: calc(var(--c-pagination-font-size) * 0.25);
-                }
-            }
-        }
-        @media (hover: none) {
-            &:active {
-                .icon {
-                    width: calc(var(--c-pagination-font-size) * 1.5);
-                    height: calc(var(--c-pagination-font-size) * 2.2);
-                }
-
-                .label {
-                    bottom: calc(var(--c-pagination-font-size) * 0.25);
-                }
-            }
-        }
     }
 }
 
 /* ▼ size ▼ */
+
 .large {
     --c-pagination-size: 56px;
     --c-pagination-font-size: var(--font-size-large);
 }
+
 .medium {
     --c-pagination-size: 48px;
     --c-pagination-font-size: var(--font-size-medium);
 }
+
 .small {
     --c-pagination-size: 40px;
     --c-pagination-font-size: var(--font-size-small);
 }
+
 /* ▲ size ▲ */
 </style>
