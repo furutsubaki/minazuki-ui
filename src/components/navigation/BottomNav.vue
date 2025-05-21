@@ -91,33 +91,31 @@ const onClick = (item: MiBottomNavItem) => {
     width: 100%;
     height: var(--c-bottom-nav-height);
 }
+
 .component-bottom-nav-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    word-break: keep-all;
     overflow: hidden;
-
+    word-break: keep-all;
     &.is-center {
         justify-content: center;
         .item {
+            width: auto;
             min-width: 100px;
             max-width: 150px;
-            width: auto;
         }
     }
-
     .item {
         position: relative;
-        width: 100%;
-        height: var(--c-bottom-nav-height);
         display: flex;
         flex-direction: column;
+        gap: 0;
         align-items: center;
         justify-content: flex-start;
-        gap: 0;
-
+        width: 100%;
+        height: var(--c-bottom-nav-height);
         .icon {
             width: calc(var(--c-bottom-nav-font-size) * 2);
             height: 100%;
@@ -125,11 +123,10 @@ const onClick = (item: MiBottomNavItem) => {
                 width 0.2s,
                 height 0.2s;
         }
-
         .label {
             position: absolute;
-            font-size: var(--font-size-small);
             bottom: -1.5em;
+            font-size: var(--font-size-small);
             line-height: 1;
             transition: bottom 0.2s;
         }
@@ -140,7 +137,6 @@ const onClick = (item: MiBottomNavItem) => {
                 width: calc(var(--c-bottom-nav-font-size) * 1.5);
                 height: calc(var(--c-bottom-nav-font-size) * 2.2);
             }
-
             .label {
                 bottom: calc(var(--c-bottom-nav-font-size) * 0.25);
             }
@@ -153,19 +149,18 @@ const onClick = (item: MiBottomNavItem) => {
                     width: calc(var(--c-bottom-nav-font-size) * 1.5);
                     height: calc(var(--c-bottom-nav-font-size) * 2.2);
                 }
-
                 .label {
                     bottom: calc(var(--c-bottom-nav-font-size) * 0.25);
                 }
             }
         }
+
         @media (hover: none) {
             &:active {
                 .icon {
                     width: calc(var(--c-bottom-nav-font-size) * 1.5);
                     height: calc(var(--c-bottom-nav-font-size) * 2.2);
                 }
-
                 .label {
                     bottom: calc(var(--c-bottom-nav-font-size) * 0.25);
                 }
@@ -175,17 +170,21 @@ const onClick = (item: MiBottomNavItem) => {
 }
 
 /* ▼ size ▼ */
+
 .large {
     --c-bottom-nav-height: 56px;
     --c-bottom-nav-font-size: var(--font-size-large);
 }
+
 .medium {
     --c-bottom-nav-height: 48px;
     --c-bottom-nav-font-size: var(--font-size-medium);
 }
+
 .small {
     --c-bottom-nav-height: 40px;
     --c-bottom-nav-font-size: var(--font-size-small);
 }
+
 /* ▲ size ▲ */
 </style>

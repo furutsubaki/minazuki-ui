@@ -172,79 +172,73 @@ const hasSlot = (name: string) => {
 .component-dialog {
     position: fixed;
     inset: 0;
-
     pointer-events: none;
     &:not(.is-seamless) {
         &::before {
-            content: '';
             position: fixed;
             inset: 0;
-            background-color: var(--color-theme-shadow);
             z-index: -1;
             pointer-events: initial;
+            content: '';
+            background-color: var(--color-theme-shadow);
         }
     }
 }
 
 .dialog {
-    min-height: var(--c-dialog-height);
-
-    pointer-events: initial;
     position: fixed;
-    margin: auto;
     display: flex;
     flex-direction: column;
     gap: 8px;
     width: var(--c-dialog-width);
     max-width: 80vw;
-    max-height: 80vh;
     height: 100%;
+    min-height: var(--c-dialog-height);
+    max-height: 80vh;
     padding: 8px;
-    border: 1px solid;
-    border-radius: var(--c-dialog-border-radius);
-    border-color: var(--c-dialog-border-color);
+    margin: auto;
+    pointer-events: initial;
     background-color: var(--color-theme-bg-primary);
+    border: 1px solid;
+    border-color: var(--c-dialog-border-color);
+    border-radius: var(--c-dialog-border-radius);
     transition:
         border-color 0.2s,
         opacity 0.2s;
-
     .inner {
-        flex-grow: 1;
         display: flex;
-        align-items: flex-start;
+        flex-grow: 1;
         gap: 8px;
+        align-items: flex-start;
         overflow: hidden;
     }
     .icon {
         flex-shrink: 0;
         width: calc(var(--font-size-medium) * 1.8);
         height: calc(var(--font-size-medium) * 1.8);
-        fill: var(--c-dialog-icon-color);
         color: var(--color-theme-bg-primary);
+        fill: var(--c-dialog-icon-color);
     }
-
     .box {
         display: flex;
         flex-direction: column;
         gap: 8px;
         height: 100%;
         .title {
-            font-weight: bold;
             font-size: calc(var(--font-size-medium) * 1.2);
+            font-weight: bold;
         }
         .slot {
-            overflow-y: auto;
             flex-grow: 1;
             height: 100%;
+            overflow-y: auto;
         }
     }
-
     .footer {
         display: flex;
         gap: 8px;
         justify-content: flex-end;
     }
-
     &.is-center {
         .title,
         .footer {
@@ -255,92 +249,114 @@ const hasSlot = (name: string) => {
 }
 
 /* ▼ variant ▼ */
+
 .primary {
     --c-dialog-icon-color: var(--color-status-brand);
     --c-dialog-border-color: var(--color-status-brand);
 }
+
 .secondary {
     --c-dialog-icon-color: transparent;
     --c-dialog-border-color: var(--color-theme-border);
 }
+
 .info {
     --c-dialog-icon-color: var(--color-status-info);
     --c-dialog-border-color: var(--color-status-info);
 }
+
 .success {
     --c-dialog-icon-color: var(--color-status-success);
     --c-dialog-border-color: var(--color-status-success);
 }
+
 .warning {
     --c-dialog-icon-color: var(--color-status-warning);
     --c-dialog-border-color: var(--color-status-warning);
 }
+
 .danger {
     --c-dialog-icon-color: var(--color-status-danger);
     --c-dialog-border-color: var(--color-status-danger);
 }
+
 /* ▲ variant ▲ */
 
 /* ▼ size ▼ */
+
 .full {
     max-width: initial;
     max-height: initial;
-    border-radius: 0;
     border: 0;
+    border-radius: 0;
+
     --c-dialog-width: 100vw;
     --c-dialog-height: 100vh;
 }
+
 .large {
     --c-dialog-width: 1024px;
     --c-dialog-height: 40px;
 }
+
 .medium {
     --c-dialog-width: 720px;
     --c-dialog-height: 32px;
 }
+
 .small {
     --c-dialog-width: 320px;
     --c-dialog-height: 24px;
 }
+
 /* ▲ size ▲ */
 
 /* ▼ shape ▼ */
+
 .normal {
     --c-dialog-border-radius: 4px;
 }
+
 .no-radius {
     --c-dialog-border-radius: 0;
 }
+
 /* ▲ shape ▲ */
 
 /* ▼ position ▼ */
+
 .center {
     inset: 0;
     margin: auto;
 }
+
 .top {
     inset: 0;
     bottom: auto;
     border-top: 0;
     border-radius: 0 0 var(--c-dialog-border-radius) var(--c-dialog-border-radius);
 }
+
 .right {
     inset: 0;
     left: auto;
     border-right: 0;
     border-radius: var(--c-dialog-border-radius) 0 0 var(--c-dialog-border-radius);
 }
+
 .bottom {
     inset: 0;
     top: auto;
     border-bottom: 0;
     border-radius: var(--c-dialog-border-radius) var(--c-dialog-border-radius) 0 0;
 }
+
 .left {
     inset: 0;
     right: auto;
     border-left: 0;
     border-radius: 0 var(--c-dialog-border-radius) var(--c-dialog-border-radius) 0;
 }
+
 /* ▲ position ▲ */
 </style>

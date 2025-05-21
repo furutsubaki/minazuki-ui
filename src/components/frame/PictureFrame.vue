@@ -45,15 +45,16 @@ withDefaults(
 <style scoped>
 .picture-frame {
     --c-picture-frame-padding: 8px;
+
     position: relative;
     padding: var(--c-picture-frame-padding);
     &::before {
         position: absolute;
         inset: 0;
-        margin: auto;
         display: block;
         width: 100%;
         height: 100%;
+        margin: auto;
         pointer-events: none;
         content: '';
         background: rgb(0 0 0 / 2%);
@@ -63,34 +64,35 @@ withDefaults(
         position: absolute;
         inset: 0;
         display: block;
+        flex: 1;
         width: calc(100% - var(--c-picture-frame-padding) * 2);
         height: calc(100% - var(--c-picture-frame-padding) * 2);
+        padding: 0;
         margin: var(--c-picture-frame-padding);
-        padding: 0px;
-        border-width: 1px;
         pointer-events: none;
         content: '';
-        flex: 1;
         border: solid var(--color-theme-border);
+        border-width: 1px;
     }
-
     &.is-pading {
         .picture-frame-inner {
             padding: calc(var(--c-picture-frame-padding) * 2);
         }
     }
 }
+
 .picture-frame-inner {
-    overflow: hidden;
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 0;
     width: 100%;
     height: 100%;
+    padding: 0;
+    overflow: hidden;
 }
 
 /* ▼ layout ▼ */
+
 .pf-width {
     padding: 0 var(--c-picture-frame-padding);
     overflow-y: clip;
@@ -101,6 +103,7 @@ withDefaults(
         border-bottom-width: 0;
     }
 }
+
 .pf-height {
     padding: var(--c-picture-frame-padding) 0;
     overflow-x: clip;
@@ -111,6 +114,7 @@ withDefaults(
         border-left-width: 0;
     }
 }
+
 .pf-top {
     padding: var(--c-picture-frame-padding) 0 0 0;
     overflow-x: clip;
@@ -123,6 +127,7 @@ withDefaults(
         border-left-width: 0;
     }
 }
+
 .pf-right {
     padding: 0 var(--c-picture-frame-padding) 0 0;
     overflow-y: clip;
@@ -135,6 +140,7 @@ withDefaults(
         border-left-width: 0;
     }
 }
+
 .pf-bottom {
     padding: 0 0 var(--c-picture-frame-padding) 0;
     overflow-x: clip;
@@ -147,6 +153,7 @@ withDefaults(
         border-left-width: 0;
     }
 }
+
 .pf-left {
     padding: 0 0 0 var(--c-picture-frame-padding);
     overflow-y: clip;
@@ -159,9 +166,11 @@ withDefaults(
         border-bottom-width: 0;
     }
 }
+
 /* ▲ layout ▲ */
 
 /* ▼ shape ▼ */
+
 .circle {
     border-radius: 50%;
     &::before,
@@ -170,5 +179,6 @@ withDefaults(
         border-radius: 50%;
     }
 }
+
 /* ▲ shape ▲ */
 </style>

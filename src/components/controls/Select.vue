@@ -161,23 +161,23 @@ const onDelete = () => {
 
 <style scoped>
 .component-select-group {
+    position: relative;
     width: 100%;
     min-height: var(--c-select-height);
     font-size: var(--c-select-font-size);
-    position: relative;
     :where(.select) {
-        cursor: pointer;
         display: flex;
         gap: 16px;
         align-items: center;
         justify-content: space-between;
-        min-width: 100px;
         width: 100%;
-        line-height: 1.5em;
+        min-width: 100px;
         height: var(--c-select-height);
+        padding: 0;
+        line-height: 1.5em;
+        cursor: pointer;
         background-color: transparent;
         border: 0;
-        padding: 0;
         .selected-label {
             flex-grow: 1;
             height: 2em;
@@ -225,23 +225,29 @@ const onDelete = () => {
 }
 
 /* ▼ size ▼ */
+
 .large {
     --c-select-height: 40px;
     --c-select-font-size: var(--font-size-medium);
 }
+
 .medium {
     --c-select-height: 32px;
     --c-select-font-size: var(--font-size-medium);
 }
+
 .small {
     --c-select-height: 24px;
     --c-select-font-size: var(--font-size-small);
 }
+
 /* ▲ size ▲ */
 
 /* ▼ shape ▼ */
+
 .rounded {
     border-radius: 2em;
 }
+
 /* ▲ shape ▲ */
 </style>

@@ -58,21 +58,22 @@ const formatedContent = computed(() => {
     align-items: center;
     font-size: var(--font-size-medium);
 }
+
 .component-badge {
     --c-badge-size: 20px;
-    font-size: 1rem;
+
     display: flex;
     align-items: center;
     justify-content: center;
     min-width: var(--c-badge-size);
     height: var(--c-badge-size);
-    color: var(--c-badge-color);
     padding: 4px;
-    background-color: var(--c-badge-background-color);
-    border-radius: 2em;
+    font-size: 1rem;
+    color: var(--c-badge-color);
     word-break: keep-all;
     pointer-events: none;
-
+    background-color: var(--c-badge-background-color);
+    border-radius: 2em;
     &:not(.inline) {
         position: absolute;
         top: calc(var(--c-badge-size) * -0.5);
@@ -82,6 +83,7 @@ const formatedContent = computed(() => {
 }
 
 /* ▼ variant ▼ */
+
 .primary {
     --c-badge-color: var(--color-base-white);
     --c-badge-background-color: var(--color-status-brand);
@@ -91,29 +93,36 @@ const formatedContent = computed(() => {
     --c-badge-color: var(--color-theme-text-primary);
     --c-badge-background-color: var(--color-theme-border);
 }
+
 .info {
     --c-badge-color: var(--color-theme-text-primary);
     --c-badge-background-color: var(--color-status-info);
 }
+
 .success {
     --c-badge-color: var(--color-base-white);
     --c-badge-background-color: var(--color-status-success);
 }
+
 .warning {
     --c-badge-color: var(--color-base-black);
     --c-badge-background-color: var(--color-status-warning);
 }
+
 .danger {
     --c-badge-color: var(--color-base-white);
     --c-badge-background-color: var(--color-status-danger);
 }
+
 /* ▲ variant ▲ */
 
 /* ▼ shape ▼ */
+
 .dot {
     .component-badge {
         transform: translateX(50%) scale(0.5);
     }
 }
+
 /* ▲ shape ▲ */
 </style>

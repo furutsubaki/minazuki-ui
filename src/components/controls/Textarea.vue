@@ -175,7 +175,6 @@ onMounted(() => {
     width: 100%;
     min-height: var(--c-textarea-height);
     font-size: var(--c-textarea-font-size);
-
     :deep(.component-input-frame) {
         .frame-box {
             min-height: v-bind(cssMinLine);
@@ -185,19 +184,19 @@ onMounted(() => {
             align-items: flex-start;
         }
     }
-
     :where(.textarea) {
-        vertical-align: text-top;
-        min-width: 100px;
         width: 100%;
-        line-height: 1.5em;
-        /* field-sizing: content; 後に登場予定。まだ未実装 */
-        resize: none;
+        min-width: 100px;
         min-height: v-bind(cssMinLine);
         max-height: v-bind(cssMaxLine);
+        padding: 4px 0;
+        line-height: 1.5em;
+        vertical-align: text-top;
+
+        /* field-sizing: content; 後に登場予定。まだ未実装 */
+        resize: none;
         background-color: transparent;
         border: 0;
-        padding: 4px 0;
     }
 
     @media (hover: hover) {
@@ -225,8 +224,8 @@ onMounted(() => {
     }
     .clearable-box {
         width: var(--c-textarea-font-size);
-        margin-bottom: auto;
         padding-top: 8px;
+        margin-bottom: auto;
         .lucide {
             opacity: 0;
             transition: opacity 0.2s;
@@ -235,23 +234,29 @@ onMounted(() => {
 }
 
 /* ▼ size ▼ */
+
 .large {
     --c-textarea-height: 40px;
     --c-textarea-font-size: var(--font-size-medium);
 }
+
 .medium {
     --c-textarea-height: 32px;
     --c-textarea-font-size: var(--font-size-medium);
 }
+
 .small {
     --c-textarea-height: 24px;
     --c-textarea-font-size: var(--font-size-small);
 }
+
 /* ▲ size ▲ */
 
 /* ▼ shape ▼ */
+
 .rounded {
     border-radius: 2em;
 }
+
 /* ▲ shape ▲ */
 </style>

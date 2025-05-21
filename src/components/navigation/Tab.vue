@@ -130,15 +130,15 @@ const onChangeTab = (id: string) => {
 .component-tab {
     display: flex;
     .tab-header {
-        flex-shrink: 0;
         position: relative;
         display: flex;
+        flex-shrink: 0;
         justify-content: v-bind(tabAlignProperty);
         overflow: scroll;
         &:not(.no-separator)::before {
-            content: '';
             position: absolute;
             pointer-events: none;
+            content: '';
             background-color: var(--color-theme-border);
         }
         :deep(.component-button) {
@@ -147,12 +147,14 @@ const onChangeTab = (id: string) => {
         }
         .active-border {
             position: absolute;
+            inset:
+ v-bind('`${currentTabClientRects?.top}px`')
+                v-bind('`${currentTabClientRects?.right}px`')
+                v-bind('`${currentTabClientRects?.bottom}px`')
+                v-bind('`${currentTabClientRects?.left}px`');
+            z-index: 1;
             pointer-events: none;
             background-color: var(--color-status-brand);
-            top: v-bind('`${currentTabClientRects?.top}px`');
-            right: v-bind('`${currentTabClientRects?.right}px`');
-            bottom: v-bind('`${currentTabClientRects?.bottom}px`');
-            left: v-bind('`${currentTabClientRects?.left}px`');
             transition:
                 width 0.2s,
                 height 0.2s,
@@ -160,39 +162,43 @@ const onChangeTab = (id: string) => {
                 right 0.2s,
                 bottom 0.2s,
                 left 0.2s;
-            z-index: 1;
         }
     }
     .tab-slot {
-        overflow-y: auto;
         flex-grow: 1;
         height: 100%;
+        overflow-y: auto;
     }
 }
 
 /* ▼ size ▼ */
+
 .large {
     --c-tab-button-height: 40px;
 }
+
 .medium {
     --c-tab-button-height: 32px;
 }
+
 .small {
     --c-tab-button-height: 24px;
 }
+
 /* ▲ size ▲ */
 
 /* ▼ position ▼ */
+
 .top {
     flex-direction: column;
     width: 100%;
     .tab-header {
         &::before {
             top: auto;
-            width: 100%;
-            height: 2px;
             bottom: 0;
             left: 0;
+            width: 100%;
+            height: 2px;
         }
         .active-border {
             top: auto;
@@ -201,17 +207,18 @@ const onChangeTab = (id: string) => {
         }
     }
 }
+
 .right {
     flex-direction: row-reverse;
     height: 100%;
     .tab-header {
         flex-direction: column;
         &::before {
+            top: 0;
             right: auto;
+            left: 0;
             width: 2px;
             height: 100%;
-            top: 0;
-            left: 0;
         }
         .active-border {
             right: auto;
@@ -220,16 +227,17 @@ const onChangeTab = (id: string) => {
         }
     }
 }
+
 .bottom {
     flex-direction: column-reverse;
     width: 100%;
     .tab-header {
         &::before {
+            top: 0;
             bottom: auto;
+            left: 0;
             width: 100%;
             height: 2px;
-            top: 0;
-            left: 0;
         }
         .active-border {
             bottom: auto;
@@ -238,19 +246,19 @@ const onChangeTab = (id: string) => {
         }
     }
 }
+
 .left {
     flex-direction: row;
     height: 100%;
     .tab-header {
         flex-direction: column;
         &::before {
+            top: 0;
+            right: 0;
             left: auto;
             width: 2px;
             height: 100%;
-            top: 0;
-            right: 0;
         }
-
         .active-border {
             left: auto;
             width: 2px;
@@ -258,5 +266,6 @@ const onChangeTab = (id: string) => {
         }
     }
 }
+
 /* ▲ position ▲ */
 </style>

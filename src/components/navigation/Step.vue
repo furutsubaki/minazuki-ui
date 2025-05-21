@@ -148,16 +148,16 @@ const hasSlot = (name: string) => {
 .component-step {
     display: flex;
     .step-header {
-        flex-shrink: 0;
         position: relative;
         display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
+        flex-shrink: 0;
         gap: 8px;
+        align-items: flex-start;
+        justify-content: space-between;
         overflow: scroll;
         :deep(.component-button) {
-            padding: 0 1em;
             flex-shrink: 0;
+            padding: 0 1em;
         }
         .step-button {
             display: flex;
@@ -170,22 +170,22 @@ const hasSlot = (name: string) => {
                 color 0.2s;
             .icon {
                 display: flex;
-                justify-content: center;
                 align-items: center;
+                justify-content: center;
                 width: var(--c-step-icon-size);
                 height: var(--c-step-icon-size);
                 padding: 4px;
-                background-color: var(--color-theme-text-secondary);
                 color: var(--color-theme-bg-secondary);
+                background-color: var(--color-theme-text-secondary);
                 border-radius: 50%;
                 transition: background-color 0.2s;
             }
             .text {
-                transform: scale(0.8);
-                transition: transform 0.2s;
                 width: 100px;
                 text-align: center;
                 word-break: break-word;
+                transform: scale(0.8);
+                transition: transform 0.2s;
             }
             &.is-current {
                 .text {
@@ -205,10 +205,10 @@ const hasSlot = (name: string) => {
             &::before {
                 position: absolute;
                 inset: 0;
-                margin: auto;
-                content: '';
                 width: 100%;
                 height: 100%;
+                margin: auto;
+                content: '';
                 background-color: var(--color-status-success);
                 transform: scale(0);
                 transition: transform 0.2s;
@@ -220,9 +220,9 @@ const hasSlot = (name: string) => {
         flex-direction: column;
     }
     .step-slot {
-        overflow-y: auto;
         flex-grow: 1;
         height: 100%;
+        overflow-y: auto;
     }
     .step-footer {
         display: flex;
@@ -236,21 +236,26 @@ const hasSlot = (name: string) => {
 }
 
 /* ▼ size ▼ */
+
 .large {
     --c-step-button-height: 40px;
     --c-step-icon-size: 24px;
 }
+
 .medium {
     --c-step-button-height: 32px;
     --c-step-icon-size: 20px;
 }
+
 .small {
     --c-step-button-height: 24px;
     --c-step-icon-size: 16px;
 }
+
 /* ▲ size ▲ */
 
 /* ▼ position ▼ */
+
 .top {
     flex-direction: column;
     width: 100%;
@@ -261,9 +266,9 @@ const hasSlot = (name: string) => {
             border-bottom: 1px solid var(--color-theme-border);
         }
         .step-separator {
+            top: calc(var(--c-step-icon-size) / 2);
             width: 100%;
             height: 2px;
-            top: calc(var(--c-step-icon-size) / 2);
             &::before {
                 transform-origin: left;
             }
@@ -275,6 +280,7 @@ const hasSlot = (name: string) => {
         }
     }
 }
+
 .right {
     flex-direction: row-reverse;
     height: 100%;
@@ -300,6 +306,7 @@ const hasSlot = (name: string) => {
         }
     }
 }
+
 .bottom {
     flex-direction: column-reverse;
     width: 100%;
@@ -310,9 +317,9 @@ const hasSlot = (name: string) => {
             border-top: 1px solid var(--color-theme-border);
         }
         .step-separator {
+            top: calc(var(--c-step-icon-size) / 2);
             width: 100%;
             height: 2px;
-            top: calc(var(--c-step-icon-size) / 2);
             &::before {
                 transform-origin: left;
             }
@@ -324,6 +331,7 @@ const hasSlot = (name: string) => {
         }
     }
 }
+
 .left {
     flex-direction: row;
     height: 100%;
@@ -349,5 +357,6 @@ const hasSlot = (name: string) => {
         }
     }
 }
+
 /* ▲ position ▲ */
 </style>

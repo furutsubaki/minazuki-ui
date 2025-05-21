@@ -60,7 +60,7 @@ const strokeDashoffset = computed(
             class="progress-circle"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 45.714285714285715 45.714285714285715"
-            style="transform: rotate(calc(-90deg))"
+            style="transform: rotate(calc(-90deg));"
         >
             <circle
                 class="circle-underlay"
@@ -92,12 +92,12 @@ const strokeDashoffset = computed(
 
 <style scoped>
 .component-progress {
-    font-size: var(--c-progress-font-size);
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: var(--c-progress-font-size);
+    font-size: var(--c-progress-font-size);
     word-break: keep-all;
     pointer-events: none;
 }
@@ -127,6 +127,7 @@ const strokeDashoffset = computed(
 }
 
 /* ▼ size ▼ */
+
 .large {
     --c-progress-circle-size: 160px;
     --c-progress-font-size: var(--font-size-medium);
@@ -162,41 +163,44 @@ const strokeDashoffset = computed(
         }
     }
 }
+
 /* ▲ size ▲ */
 
 /* ▼ shape ▼ */
+
 .line,
 .slim-line {
     min-width: 100px;
     .progress-bar {
+        position: relative;
         display: flex;
         width: 100%;
-        position: relative;
-        background-color: var(--color-theme-border);
         height: var(--c-progress-border-stroke-width);
+        background-color: var(--color-theme-border);
         border-radius: 1em;
         &::before {
-            content: '';
-            background-color: var(--c-progress-background-color);
             width: v-bind(progressFullRatio + '%');
             height: 100%;
+            content: '';
+            background-color: var(--c-progress-background-color);
             border-radius: 1em;
             transition: width 0.2s;
         }
     }
-
     .ratio {
         flex-shrink: 0;
         width: 3em;
         text-align: right;
     }
 }
+
 .slim-line {
     height: auto;
 }
+
 .circle {
-    min-width: 50px;
     width: var(--c-progress-circle-size);
+    min-width: 50px;
     height: var(--c-progress-circle-size);
     .ratio {
         position: absolute;
@@ -213,10 +217,10 @@ const strokeDashoffset = computed(
             transition: stroke-dashoffset 0.2s;
         }
     }
-
     .ratio {
         text-align: center;
     }
 }
+
 /* ▲ shape ▲ */
 </style>
