@@ -103,7 +103,7 @@
     "lint-staged": "^15.2.2",
     "lodash.merge": "^4.6.2",
     "npm-run-all2": "^6.2.2",
-    "postcss-nesting": "^12.1.5",
+    "postcss-nesting": "^13.0.1",
     "prettier": "^3.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
