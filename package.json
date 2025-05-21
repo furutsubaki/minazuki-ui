@@ -63,7 +63,7 @@
     "@acab/reset.css": "^0.10.0",
     "@unhead/vue": "^1.11.19",
     "@vee-validate/rules": "^4.13.2",
-    "@vee-validate/zod": "^4.13.2",
+    "@vee-validate/zod": "^4.14.7",
     "@vuepic/vue-datepicker": "^11.0.2",
     "dayjs": "^1.11.11",
     "i18next": "^23.12.2",
