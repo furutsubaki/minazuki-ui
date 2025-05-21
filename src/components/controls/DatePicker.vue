@@ -148,9 +148,11 @@ defineExpose({ elementRef });
         opacity: 0.5;
     }
     :where(.datepicker) {
+        /* stylelint-disable-next-line selector-class-pattern */
         :deep(.dp__menu) {
             background-color: transparent;
             border: none;
+            /* stylelint-disable-next-line selector-class-pattern */
             .dp__calendar_item {
                 display: flex;
                 justify-content: center;

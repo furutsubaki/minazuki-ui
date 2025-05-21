@@ -239,6 +239,7 @@ const onClick = (page: number | undefined) => {
             height: 100%;
         }
         &.is-current {
+            color: var(--color-theme-text-primary);
             pointer-events: none;
             .pagination-item-button {
                 color: red;
@@ -250,56 +251,6 @@ const onClick = (page: number | undefined) => {
             transition:
                 opacity 0.2s,
                 visibility 0s 0.2s;
-        }
-        .icon {
-            width: calc(var(--c-pagination-font-size) * 2);
-            height: 100%;
-            transition:
-                width 0.2s,
-                height 0.2s;
-        }
-        .label {
-            position: absolute;
-            bottom: -1.5em;
-            font-size: var(--font-size-small);
-            line-height: 1;
-            transition: bottom 0.2s;
-        }
-        &.is-current {
-            color: var(--color-theme-text-primary);
-            pointer-events: none;
-            .icon {
-                width: calc(var(--c-pagination-font-size) * 1.5);
-                height: calc(var(--c-pagination-font-size) * 2.2);
-            }
-            .label {
-                bottom: calc(var(--c-pagination-font-size) * 0.25);
-            }
-        }
-
-        /* hover */
-        @media (hover: hover) {
-            &:hover {
-                .icon {
-                    width: calc(var(--c-pagination-font-size) * 1.5);
-                    height: calc(var(--c-pagination-font-size) * 2.2);
-                }
-                .label {
-                    bottom: calc(var(--c-pagination-font-size) * 0.25);
-                }
-            }
-        }
-
-        @media (hover: none) {
-            &:active {
-                .icon {
-                    width: calc(var(--c-pagination-font-size) * 1.5);
-                    height: calc(var(--c-pagination-font-size) * 2.2);
-                }
-                .label {
-                    bottom: calc(var(--c-pagination-font-size) * 0.25);
-                }
-            }
         }
     }
 }

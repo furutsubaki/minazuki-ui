@@ -205,6 +205,7 @@ const strokeDashoffset = computed(
     .ratio {
         position: absolute;
         margin: auto;
+        text-align: center;
     }
     .progress-circle {
         width: 100%;
@@ -216,9 +217,6 @@ const strokeDashoffset = computed(
             color: var(--c-progress-background-color);
             transition: stroke-dashoffset 0.2s;
         }
-    }
-    .ratio {
-        text-align: center;
     }
 }
 

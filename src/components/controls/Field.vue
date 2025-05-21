@@ -380,9 +380,16 @@ const onOutsideClick = computed(() => ({
             display: none;
         }
     }
+    .prefix-suffix {
+        flex-shrink: 0;
+        color: transparent;
+    }
     &.is-focus,
     &.is-value {
         [type='time'] {
+            color: var(--color-theme-text-primary);
+        }
+        .prefix-suffix {
             color: var(--color-theme-text-primary);
         }
     }
@@ -413,16 +420,6 @@ const onOutsideClick = computed(() => ({
                     opacity: 1;
                 }
             }
-        }
-    }
-    .prefix-suffix {
-        flex-shrink: 0;
-        color: transparent;
-    }
-    &.is-focus,
-    &.is-value {
-        .prefix-suffix {
-            color: var(--color-theme-text-primary);
         }
     }
     .icon-box {

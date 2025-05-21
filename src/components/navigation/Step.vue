@@ -183,7 +183,7 @@ const hasSlot = (name: string) => {
             .text {
                 width: 100px;
                 text-align: center;
-                word-break: break-word;
+                word-break: break-all;
                 transform: scale(0.8);
                 transition: transform 0.2s;
             }
