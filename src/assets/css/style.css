@@ -14,15 +14,17 @@
     interpolate-size: allow-keywords;
 }
 
-html {
+:where(html) {
     box-sizing: border-box;
-    overflow-y: auto;
+    scrollbar-gutter: auto;
     font-size: 62.5%; /* 1rem = 10px */
     scroll-behavior: smooth;
 }
 
 body {
     min-height: var(--height-vh);
+    overflow-y: auto;
+    scrollbar-gutter: stable;
     font-family: var(--font-sans);
     font-size: var(--font-size-medium);
     font-feature-settings: 'palt';
@@ -30,7 +32,6 @@ body {
     letter-spacing: 0.05em;
     word-break: break-all;
     text-size-adjust: 100%;
-    background-color: var(--color-theme-bg-primary);
     transition:
         color 0.2s,
         background-color 0.2s;
