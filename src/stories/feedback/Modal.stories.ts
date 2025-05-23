@@ -72,22 +72,22 @@ export const PropsIsFullSizeBySP: Story = {
             params: ref([
                 {
                     size: 'full',
-                    isFullSizeBySP: true,
+                    isFullSizeBySp: true,
                     modelValue: false
                 },
                 {
                     size: 'large',
-                    isFullSizeBySP: true,
+                    isFullSizeBySp: true,
                     modelValue: false
                 },
                 {
                     size: 'medium',
-                    isFullSizeBySP: true,
+                    isFullSizeBySp: true,
                     modelValue: false
                 },
                 {
                     size: 'small',
-                    isFullSizeBySP: true,
+                    isFullSizeBySp: true,
                     modelValue: false
                 }
             ])

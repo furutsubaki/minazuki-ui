@@ -18,7 +18,7 @@ const props = withDefaults(
         /**
          * SP時フルサイズにするか
          */
-        isFullSizeBySP?: boolean;
+        isFullSizeBySp?: boolean;
         /**
          * 形状
          */
@@ -46,7 +46,7 @@ const props = withDefaults(
     }>(),
     {
         size: 'medium',
-        isFullSizeBySP: false,
+        isFullSizeBySp: false,
         shape: 'normal',
         transitionFrom: 'opacity',
         title: '',
@@ -140,7 +140,7 @@ const onOutsideClick = computed(() => ({
                         size,
                         shape,
                         { 'is-center': center },
-                        { 'is-full-size-by-sp': isFullSizeBySP }
+                        { 'is-full-size-by-sp': isFullSizeBySp }
                     ]"
                     v-outside-click="onOutsideClick"
                 >
