@@ -15,8 +15,8 @@ importers:
         specifier: ^1.11.20
         version: 1.11.20(vue@3.4.27(typescript@5.8.3))
       '@vee-validate/rules':
-        specifier: ^4.13.2
-        version: 4.13.2(vue@3.4.27(typescript@5.8.3))
+        specifier: ^4.15.0
+        version: 4.15.0(vue@3.4.27(typescript@5.8.3))
       '@vee-validate/zod':
         specifier: ^4.14.7
         version: 4.14.7(vue@3.4.27(typescript@5.8.3))
@@ -871,8 +871,8 @@ packages:
     peerDependencies:
       vue: '>=2.7 || >=3'
 
-  '@vee-validate/rules@4.13.2':
-    resolution: {integrity: sha512-NrmjxXw/gZQVhjgwIdEOeRYxn74I/3BYXTuExdwbpCPVgFh0pjTQx9aPGkVBnueeszVqO2LfWyKUpvwSWLPXRA==}
+  '@vee-validate/rules@4.15.0':
+    resolution: {integrity: sha512-Cvll7r98O5tU6ew2AUifVpdhNnTkMTY7+D9N++J7apQXRXWfHMe4tNvjo4TJpKUPCtfLHbdTY/DCquDRc+uH4w==}
 
   '@vee-validate/zod@4.14.7':
     resolution: {integrity: sha512-UD0Tfyz1cKKd7BinnUztqKL+oeMjg/T4ZEguN/uZV4DsR9z7gdrD0lOuOU7aVl9UpVK6NM7MhDka35Lj7b/DTw==}
@@ -2572,6 +2572,11 @@ packages:
     peerDependencies:
       vue: ^3.4.26
 
+  vee-validate@4.15.0:
+    resolution: {integrity: sha512-PGJh1QCFwCBjbHu5aN6vB8macYVWrajbDvgo1Y/8fz9n/RVIkLmZCJDpUgu7+mUmCOPMxeyq7vXUOhbwAqdXcA==}
+    peerDependencies:
+      vue: ^3.4.26
+
   vite-plugin-dts@3.9.1:
     resolution: {integrity: sha512-rVp2KM9Ue22NGWB8dNtWEr+KekN3rIgz1tWD050QnRGlriUCmaDwa7qA5zDEjbXg5lAXhYMSBJtx3q3hQIJZSg==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -3471,9 +3476,9 @@ snapshots:
       unhead: 1.11.20
       vue: 3.4.27(typescript@5.8.3)
 
-  '@vee-validate/rules@4.13.2(vue@3.4.27(typescript@5.8.3))':
+  '@vee-validate/rules@4.15.0(vue@3.4.27(typescript@5.8.3))':
     dependencies:
-      vee-validate: 4.13.2(vue@3.4.27(typescript@5.8.3))
+      vee-validate: 4.15.0(vue@3.4.27(typescript@5.8.3))
     transitivePeerDependencies:
       - vue
 
@@ -5248,6 +5253,12 @@ snapshots:
       vue: 3.4.27(typescript@5.8.3)
 
   vee-validate@4.14.7(vue@3.4.27(typescript@5.8.3)):
+    dependencies:
+      '@vue/devtools-api': 7.7.6
+      type-fest: 4.38.0
+      vue: 3.4.27(typescript@5.8.3)
+
+  vee-validate@4.15.0(vue@3.4.27(typescript@5.8.3)):
     dependencies:
       '@vue/devtools-api': 7.7.6
       type-fest: 4.38.0
