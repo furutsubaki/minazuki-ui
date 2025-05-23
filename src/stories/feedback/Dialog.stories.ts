@@ -2,6 +2,7 @@ import { ref } from 'vue';
 import Dialog from '@/components/feedback/Dialog.vue';
 import Button from '@/components/basic/Button.vue';
 import Progress from '@/components/feedback/Progress.vue';
+import PictureFrame from '@/components/frame/PictureFrame.vue';
 import type { Args, Meta, StoryObj } from '@storybook/vue3';
 import { Play as IconPlay, Pause as IconPause, X as IconX } from 'lucide-vue-next';
 
@@ -256,6 +257,32 @@ export const PropsSeamless: Story = {
         seamless: true
     }
 };
+
+export const PropsFrameComponent: Story = {
+    render: (args: Args) => ({
+        components: { Dialog, Button },
+        setup: () => ({
+            args,
+            params: [
+                {
+                    modelValue: ref(false)
+                },
+                {
+                    frameComponent: PictureFrame,
+                    modelValue: ref(false)
+                },
+            ]
+        }),
+        template: `
+<template v-for="param in params" :key="param.frameComponent">
+    <Button @click="param.modelValue.value = true">Open Dialog{{param.frameComponent ? ' by frame' : ''}}</Button>
+    <Dialog v-bind="{...args, ...param}" v-model="param.modelValue.value">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </Dialog>
+</template>`
+    })
+};
+
 
 export const StoryPlayer: Story = {
     render: (args: Args) => ({
