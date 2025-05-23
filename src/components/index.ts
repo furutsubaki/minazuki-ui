@@ -69,8 +69,9 @@ export {
     MiBreadcrumb,
     MiPagination,
     MiStep,
-    MiTab
-};
+    MiTab,
+
+}
 
 declare module 'vue' {
     interface GlobalComponents {
@@ -109,5 +110,6 @@ declare module 'vue' {
         MiPagination: typeof MiPagination;
         MiStep: typeof MiStep;
         MiTab: typeof MiTab;
+
     }
 }

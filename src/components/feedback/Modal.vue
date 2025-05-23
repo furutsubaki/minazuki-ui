@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, type Component } from 'vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
 import Button from '@/components/basic/Button.vue';
@@ -43,6 +43,10 @@ const props = withDefaults(
          * 枠外クリック除外要素
          */
         outsideClickIgnore?: (Element | string)[];
+        /**
+         * フレーム装飾用コンポーネント
+         */
+        frameComponent?: Component | string;
     }>(),
     {
         size: 'medium',
@@ -53,7 +57,8 @@ const props = withDefaults(
         scroll: false,
         center: false,
         persistent: false,
-        outsideClickIgnore: () => ['button', 'dialog']
+        outsideClickIgnore: () => ['button', 'dialog'],
+        frameComponent: 'div'
     }
 );
 const emit = defineEmits<{
@@ -132,30 +137,30 @@ const onOutsideClick = computed(() => ({
                 @transition-start="transitioning = true"
                 @transition-end="transitioning = false"
             >
-                <dialog
+                <component
+                    :is="frameComponent"
                     v-show="flg"
-                    :open="flg"
-                    class="modal"
-                    :class="[
-                        size,
-                        shape,
-                        { 'is-center': center },
-                        { 'is-full-size-by-sp': isFullSizeBySp }
-                    ]"
+                    class="modal-frame"
                     v-outside-click="onOutsideClick"
                 >
-                    <Button size="large" shape="skeleton" class="closeable-box" @click="onClose">
-                        <IconX class="closeable-icon" />
-                    </Button>
-                    <div class="inner">
-                        <div class="box">
-                            <div v-if="title" class="title">{{ title }}</div>
-                            <div class="slot">
-                                <slot />
+                    <dialog
+                        :open="flg"
+                        class="modal"
+                        :class="[size, shape, { 'is-center': center, 'is-full-size-by-sp': isFullSizeBySp }]"
+                    >
+                        <Button size="large" shape="skeleton" class="closeable-box" @click="onClose">
+                            <IconX class="closeable-icon" />
+                        </Button>
+                        <div class="inner">
+                            <div class="box">
+                                <div v-if="title" class="title">{{ title }}</div>
+                                <div class="slot">
+                                    <slot />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </dialog>
+                    </dialog>
+                </component>
             </component>
         </div>
     </OpacityTransition>
@@ -166,9 +171,6 @@ const onOutsideClick = computed(() => ({
     position: fixed;
     inset: 0;
     z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     pointer-events: none;
     &::before {
         position: fixed;
@@ -178,9 +180,17 @@ const onOutsideClick = computed(() => ({
         content: '';
         background-color: var(--color-theme-shadow-alpha);
     }
+    .modal-frame {
+        position: fixed;
+        inset: 0;
+        width: fit-content;
+        height: fit-content;
+        margin: auto;
+    }
 }
 
 .modal {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 8px;
