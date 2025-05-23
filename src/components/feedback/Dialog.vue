@@ -102,13 +102,16 @@ const transitionFrom = computed(() => {
     }
 });
 
-watch(()=>flg.value, (newFlg) => {
-    if(newFlg && !props.seamless) {
-    document.documentElement.style.overflow = 'hidden';
-    }else {
-    document.documentElement.style.overflow = '';
+watch(
+    () => flg.value,
+    (newFlg) => {
+        if (newFlg && !props.seamless) {
+            document.documentElement.style.overflow = 'hidden';
+        } else {
+            document.documentElement.style.overflow = '';
+        }
     }
-})
+);
 
 // Accordion枠外制御
 const onClose = async () => {
