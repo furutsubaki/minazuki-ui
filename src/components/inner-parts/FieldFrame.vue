@@ -441,14 +441,14 @@ defineExpose({ frameRef });
         .frame-start,
         .frame-start::before {
             border-radius:
-                calc(var(--c-field-frame-start-end-padding) * 4) 0 0
+ calc(var(--c-field-frame-start-end-padding) * 4) 0 0
                 calc(var(--c-field-frame-start-end-padding) * 4);
         }
         .frame-end,
         .frame-end::before {
             width: var(--c-field-frame-start-end-padding);
             border-radius:
-                0 calc(var(--c-field-frame-start-end-padding) * 4)
+ 0 calc(var(--c-field-frame-start-end-padding) * 4)
                 calc(var(--c-field-frame-start-end-padding) * 4) 0;
         }
     }

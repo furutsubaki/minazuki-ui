@@ -148,7 +148,7 @@ const onChangeTab = (id: string) => {
         .active-border {
             position: absolute;
             inset:
-                v-bind('`${currentTabClientRects?.top}px`')
+ v-bind('`${currentTabClientRects?.top}px`')
                 v-bind('`${currentTabClientRects?.right}px`')
                 v-bind('`${currentTabClientRects?.bottom}px`')
                 v-bind('`${currentTabClientRects?.left}px`');

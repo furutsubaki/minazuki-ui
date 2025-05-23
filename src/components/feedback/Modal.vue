@@ -88,13 +88,16 @@ const transitionFrom = computed(() => {
     }
 });
 
-watch(()=>flg.value, (newFlg) => {
-    if(newFlg) {
-    document.documentElement.style.overflow = 'hidden';
-    }else {
-    document.documentElement.style.overflow = '';
+watch(
+    () => flg.value,
+    (newFlg) => {
+        if (newFlg) {
+            document.documentElement.style.overflow = 'hidden';
+        } else {
+            document.documentElement.style.overflow = '';
+        }
     }
-})
+);
 
 // Accordion枠外制御
 const onClose = async () => {
@@ -133,7 +136,12 @@ const onOutsideClick = computed(() => ({
                     v-show="flg"
                     :open="flg"
                     class="modal"
-                    :class="[size, shape, { 'is-center': center }, { 'is-full-size-by-sp': isFullSizeBySP }]"
+                    :class="[
+                        size,
+                        shape,
+                        { 'is-center': center },
+                        { 'is-full-size-by-sp': isFullSizeBySP }
+                    ]"
                     v-outside-click="onOutsideClick"
                 >
                     <Button size="large" shape="skeleton" class="closeable-box" @click="onClose">
