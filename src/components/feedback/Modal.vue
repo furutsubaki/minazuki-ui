@@ -16,6 +16,10 @@ const props = withDefaults(
          */
         size?: 'small' | 'medium' | 'large' | 'full';
         /**
+         * SP時フルサイズにするか
+         */
+        isFullSizeBySP?: boolean;
+        /**
          * 形状
          */
         shape?: 'normal' | 'no-radius';
@@ -42,6 +46,7 @@ const props = withDefaults(
     }>(),
     {
         size: 'medium',
+        isFullSizeBySP: false,
         shape: 'normal',
         transitionFrom: 'opacity',
         title: '',
@@ -128,7 +133,7 @@ const onOutsideClick = computed(() => ({
                     v-show="flg"
                     :open="flg"
                     class="modal"
-                    :class="[size, shape, { 'is-center': center }]"
+                    :class="[size, shape, { 'is-center': center }, { 'is-full-size-by-sp': isFullSizeBySP }]"
                     v-outside-click="onOutsideClick"
                 >
                     <Button size="large" shape="skeleton" class="closeable-box" @click="onClose">
@@ -260,6 +265,19 @@ const onOutsideClick = computed(() => ({
     --c-modal-width: 320px;
     --c-modal-max-height: 40vh;
     --c-modal-min-height: 24px;
+}
+
+.is-full-size-by-sp {
+    @media (600px > width) {
+        max-width: initial;
+        max-height: initial;
+        border: 0;
+        border-radius: 0;
+
+        --c-modal-width: 100vw;
+        --c-modal-max-height: 100vh;
+        --c-modal-min-height: 100vh;
+    }
 }
 
 /* ▲ size ▲ */
