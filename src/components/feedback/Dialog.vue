@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useSlots, watch } from 'vue';
+import { ref, useSlots, watch, type Component } from 'vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
 import { computed } from 'vue';
@@ -55,6 +55,10 @@ const props = withDefaults(
          * 枠外クリック除外要素
          */
         outsideClickIgnore?: (Element | string)[];
+        /**
+         * フレーム装飾用コンポーネント
+         */
+        frameComponent?: Component | string;
     }>(),
     {
         variant: 'secondary',
@@ -67,7 +71,8 @@ const props = withDefaults(
         center: false,
         persistent: false,
         seamless: false,
-        outsideClickIgnore: () => ['button', 'dialog']
+        outsideClickIgnore: () => ['button', 'dialog'],
+        frameComponent: 'div'
     }
 );
 const emit = defineEmits<{
@@ -151,29 +156,35 @@ const hasSlot = (name: string) => {
                 @transition-start="transitioning = true"
                 @transition-end="transitioning = false"
             >
-                <dialog
+                <component
+                    :is="frameComponent"
                     v-show="flg"
-                    :open="flg"
-                    class="dialog"
-                    :class="[variant, size, shape, position, { 'is-center': center }]"
+                    class="dialog-frame"
+                    :class="[position]"
                     v-outside-click="onOutsideClick"
-                >
-                    <div class="inner">
-                        <IconInfo v-if="variant === 'info'" class="icon" />
-                        <IconCheckCircle2 v-else-if="variant === 'success'" class="icon" />
-                        <IconAlertTriangle v-else-if="variant === 'warning'" class="icon" />
-                        <IconXOctagon v-else-if="variant === 'danger'" class="icon" />
-                        <div class="box">
-                            <div v-if="title" class="title">{{ title }}</div>
-                            <div class="slot">
-                                <slot />
+                    >
+                    <dialog
+                        :open="flg"
+                        class="dialog"
+                        :class="[variant, size, shape, { 'is-center': center }]"
+                    >
+                        <div class="inner">
+                            <IconInfo v-if="variant === 'info'" class="icon" />
+                            <IconCheckCircle2 v-else-if="variant === 'success'" class="icon" />
+                            <IconAlertTriangle v-else-if="variant === 'warning'" class="icon" />
+                            <IconXOctagon v-else-if="variant === 'danger'" class="icon" />
+                            <div class="box">
+                                <div v-if="title" class="title">{{ title }}</div>
+                                <div class="slot">
+                                    <slot />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div v-if="hasSlot('footer')" class="footer">
-                        <slot name="footer" />
-                    </div>
-                </dialog>
+                        <div v-if="hasSlot('footer')" class="footer">
+                            <slot name="footer" />
+                        </div>
+                    </dialog>
+                </component>
             </component>
         </div>
     </OpacityTransition>
@@ -184,7 +195,6 @@ const hasSlot = (name: string) => {
     position: fixed;
     inset: 0;
     z-index: 10;
-    width: 100vw;
     pointer-events: none;
     &:not(.is-seamless) {
         &::before {
@@ -197,10 +207,16 @@ const hasSlot = (name: string) => {
             background-color: var(--color-theme-shadow-alpha);
         }
     }
+    .dialog-frame {
+        position: fixed;
+        width: fit-content;
+        height: fit-content;
+        margin: auto;
+    }
 }
 
 .dialog {
-    position: fixed;
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 8px;
