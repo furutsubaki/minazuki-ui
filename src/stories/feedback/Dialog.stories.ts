@@ -265,8 +265,8 @@ export const StoryPlayer: Story = {
 <Button @click="args.modelValue = true">Open Player</Button>
 <Dialog v-bind="args">
     <Progress v-model="progressModel" variant="primary" shape="slim-line" no-text style="width: calc(100% + 18px);margin: 0 -9px;position: absolute; top:-8px;" />
-    <div style="display: flex;gap: 8px;">
-        <div>
+    <div style="display: flex;gap: 8px;width:100%;">
+        <div style="flex-grow: 1;">
             <div>Title</div><div>sample artist</div>
         </div>
         <div style="display: flex; align-items: center;justify-content: space-evenly;flex-grow: 1;">

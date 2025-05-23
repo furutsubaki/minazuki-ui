@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, useSlots } from 'vue';
+import { ref, computed, useSlots, watch } from 'vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
 import Button from '@/components/basic/Button.vue';
@@ -84,6 +84,17 @@ const transitionFrom = computed(() => {
     }
 });
 
+watch(
+    () => flg.value,
+    (newFlg) => {
+        if (newFlg && !props.seamless) {
+            document.documentElement.style.overflow = 'hidden';
+        } else {
+            document.documentElement.style.overflow = '';
+        }
+    }
+);
+
 // Accordion枠外制御
 const onClose = async () => {
     flg.value = false;
@@ -159,6 +170,7 @@ const hasSlot = (name: string) => {
 .component-drawer {
     position: fixed;
     inset: 0;
+    z-index: 10;
     pointer-events: none;
     &:not(.is-seamless) {
         &::before {
@@ -167,7 +179,7 @@ const hasSlot = (name: string) => {
             z-index: -1;
             pointer-events: initial;
             content: '';
-            background-color: var(--color-theme-shadow);
+            background-color: var(--color-theme-shadow-alpha);
         }
     }
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
 import Button from '@/components/basic/Button.vue';
@@ -15,6 +15,10 @@ const props = withDefaults(
          * サイズ
          */
         size?: 'small' | 'medium' | 'large' | 'full';
+        /**
+         * SP時フルサイズにするか
+         */
+        isFullSizeBySp?: boolean;
         /**
          * 形状
          */
@@ -42,6 +46,7 @@ const props = withDefaults(
     }>(),
     {
         size: 'medium',
+        isFullSizeBySp: false,
         shape: 'normal',
         transitionFrom: 'opacity',
         title: '',
@@ -83,6 +88,17 @@ const transitionFrom = computed(() => {
     }
 });
 
+watch(
+    () => flg.value,
+    (newFlg) => {
+        if (newFlg) {
+            document.documentElement.style.overflow = 'hidden';
+        } else {
+            document.documentElement.style.overflow = '';
+        }
+    }
+);
+
 // Accordion枠外制御
 const onClose = async () => {
     flg.value = false;
@@ -120,7 +136,12 @@ const onOutsideClick = computed(() => ({
                     v-show="flg"
                     :open="flg"
                     class="modal"
-                    :class="[size, shape, { 'is-center': center }]"
+                    :class="[
+                        size,
+                        shape,
+                        { 'is-center': center },
+                        { 'is-full-size-by-sp': isFullSizeBySp }
+                    ]"
                     v-outside-click="onOutsideClick"
                 >
                     <Button size="large" shape="skeleton" class="closeable-box" @click="onClose">
@@ -144,6 +165,10 @@ const onOutsideClick = computed(() => ({
 .component-modal {
     position: fixed;
     inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     pointer-events: none;
     &::before {
         position: fixed;
@@ -151,22 +176,20 @@ const onOutsideClick = computed(() => ({
         z-index: -1;
         pointer-events: initial;
         content: '';
-        background-color: var(--color-theme-shadow);
+        background-color: var(--color-theme-shadow-alpha);
     }
 }
 
 .modal {
-    position: fixed;
-    inset: 0;
     display: flex;
     flex-direction: column;
     gap: 8px;
     width: var(--c-modal-width);
     max-width: 80vw;
     height: 100%;
-    min-height: var(--c-modal-height);
-    max-height: 80vh;
-    padding: 8px;
+    min-height: var(--c-modal-min-height);
+    max-height: var(--c-modal-max-height);
+    padding: 8px 0;
     margin: auto;
     color: var(--color-theme-text-primary);
     pointer-events: initial;
@@ -199,14 +222,17 @@ const onOutsideClick = computed(() => ({
         display: flex;
         flex-direction: column;
         gap: 8px;
+        width: 100%;
         height: 100%;
         .title {
+            padding: 0 8px;
             font-size: calc(var(--font-size-medium) * 1.2);
             font-weight: bold;
         }
         .slot {
             flex-grow: 1;
             height: 100%;
+            padding: 0 8px;
             overflow-y: auto;
         }
     }
@@ -227,22 +253,39 @@ const onOutsideClick = computed(() => ({
     border-radius: 0;
 
     --c-modal-width: 100vw;
-    --c-modal-height: 100vh;
+    --c-modal-max-height: 100vh;
+    --c-modal-min-height: 100vh;
 }
 
 .large {
     --c-modal-width: 1024px;
-    --c-modal-height: 40px;
+    --c-modal-max-height: 60vh;
+    --c-modal-min-height: 40px;
 }
 
 .medium {
     --c-modal-width: 720px;
-    --c-modal-height: 32px;
+    --c-modal-max-height: 50vh;
+    --c-modal-min-height: 32px;
 }
 
 .small {
     --c-modal-width: 320px;
-    --c-modal-height: 24px;
+    --c-modal-max-height: 40vh;
+    --c-modal-min-height: 24px;
+}
+
+.is-full-size-by-sp {
+    @media (600px > width) {
+        max-width: initial;
+        max-height: initial;
+        border: 0;
+        border-radius: 0;
+
+        --c-modal-width: 100vw;
+        --c-modal-max-height: 100vh;
+        --c-modal-min-height: 100vh;
+    }
 }
 
 /* ▲ size ▲ */

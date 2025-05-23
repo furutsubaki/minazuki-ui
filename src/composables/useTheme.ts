@@ -115,7 +115,7 @@ const themes = ref<{ [key: string]: RecursivePartial<MiTheme> }>({
             bgSecondary: '--color-base-gray-light',
             bgSelect: '#49f9aa',
             border: '--color-base-gray',
-            shadow: '--color-base-gray-alpha'
+            shadow: '--color-base-black'
         }
     },
     dark: {

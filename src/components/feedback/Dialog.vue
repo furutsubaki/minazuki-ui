@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useSlots } from 'vue';
+import { ref, useSlots, watch } from 'vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
 import { computed } from 'vue';
@@ -102,6 +102,17 @@ const transitionFrom = computed(() => {
     }
 });
 
+watch(
+    () => flg.value,
+    (newFlg) => {
+        if (newFlg && !props.seamless) {
+            document.documentElement.style.overflow = 'hidden';
+        } else {
+            document.documentElement.style.overflow = '';
+        }
+    }
+);
+
 // Accordion枠外制御
 const onClose = async () => {
     flg.value = false;
@@ -172,15 +183,18 @@ const hasSlot = (name: string) => {
 .component-dialog {
     position: fixed;
     inset: 0;
+    z-index: 10;
+    width: 100vw;
     pointer-events: none;
     &:not(.is-seamless) {
         &::before {
             position: fixed;
             inset: 0;
             z-index: -1;
+            width: 100vw;
             pointer-events: initial;
             content: '';
-            background-color: var(--color-theme-shadow);
+            background-color: var(--color-theme-shadow-alpha);
         }
     }
 }
@@ -192,10 +206,9 @@ const hasSlot = (name: string) => {
     gap: 8px;
     width: var(--c-dialog-width);
     max-width: 80vw;
-    height: 100%;
-    min-height: var(--c-dialog-height);
-    max-height: 80vh;
-    padding: 8px;
+    min-height: var(--c-dialog-min-height);
+    max-height: var(--c-dialog-max-height);
+    padding: 8px 0;
     margin: auto;
     color: var(--color-theme-text-primary);
     pointer-events: initial;
@@ -209,7 +222,6 @@ const hasSlot = (name: string) => {
     .inner {
         display: flex;
         flex-grow: 1;
-        gap: 8px;
         align-items: flex-start;
         overflow: hidden;
     }
@@ -217,6 +229,8 @@ const hasSlot = (name: string) => {
         flex-shrink: 0;
         width: calc(var(--font-size-medium) * 1.8);
         height: calc(var(--font-size-medium) * 1.8);
+        margin: 0 8px;
+        margin-right: 0;
         color: var(--color-theme-bg-primary);
         fill: var(--c-dialog-icon-color);
     }
@@ -224,21 +238,26 @@ const hasSlot = (name: string) => {
         display: flex;
         flex-direction: column;
         gap: 8px;
+        width: 100%;
         height: 100%;
         .title {
+            padding: 0 8px;
             font-size: calc(var(--font-size-medium) * 1.2);
             font-weight: bold;
         }
         .slot {
             flex-grow: 1;
             height: 100%;
+            padding: 0 8px;
             overflow-y: auto;
         }
     }
     .footer {
         display: flex;
+        flex-shrink: 0;
         gap: 8px;
         justify-content: flex-end;
+        padding: 0 8px;
     }
     &.is-center {
         .title,
@@ -292,22 +311,26 @@ const hasSlot = (name: string) => {
     border-radius: 0;
 
     --c-dialog-width: 100vw;
-    --c-dialog-height: 100vh;
+    --c-dialog-max-height: 100vh;
+    --c-dialog-min-height: 100vh;
 }
 
 .large {
     --c-dialog-width: 1024px;
-    --c-dialog-height: 40px;
+    --c-dialog-max-height: 60vh;
+    --c-dialog-min-height: 40px;
 }
 
 .medium {
     --c-dialog-width: 720px;
-    --c-dialog-height: 32px;
+    --c-dialog-max-height: 50vh;
+    --c-dialog-min-height: 32px;
 }
 
 .small {
     --c-dialog-width: 320px;
-    --c-dialog-height: 24px;
+    --c-dialog-max-height: 250px;
+    --c-dialog-min-height: 24px;
 }
 
 /* ▲ size ▲ */
