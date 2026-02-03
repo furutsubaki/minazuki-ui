@@ -178,8 +178,7 @@ const setTheme = (themeId: string) => {
         },
         style: [
             {
-                hid: 'theme',
-                children: createThemeCss(themeId)
+                textContent: createThemeCss(themeId)
             }
         ]
     });
