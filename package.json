@@ -18,10 +18,12 @@
     "README.md",
     "LICENSE"
   ],
+  "sideEffects": false,
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs"
+      "require": "./dist/index.umd.cjs",
+      "types": "./dist/index.d.ts"
     },
     "./dist/style.css": "./dist/style.css"
   },
@@ -49,30 +51,22 @@
   },
   "peerDependencies": {
     "@acab/reset.css": "^0.11",
+    "@unhead/vue": "^1",
     "@vee-validate/rules": "^4",
     "@vee-validate/zod": "^4",
+    "@vuepic/vue-datepicker": "^11",
+    "dayjs": "^1",
     "i18next": "^23",
+    "lucide-vue-next": ">=0.356.0",
     "pinia": "^2",
     "vee-validate": "^4",
     "vue": "^3",
+    "vue-router": "^4",
     "zod": "^3",
     "zod-i18n-map": "^2"
   },
   "dependencies": {
-    "@acab/reset.css": "^0.11.0",
-    "@unhead/vue": "^1.11.20",
-    "@vee-validate/rules": "^4.13.2",
-    "@vee-validate/zod": "^4.14.7",
-    "@vuepic/vue-datepicker": "^11.0.2",
-    "dayjs": "^1.11.11",
-    "i18next": "^23.12.2",
-    "lucide-vue-next": "^0.356.0",
-    "pinia": "^2.2.2",
-    "vee-validate": "^4.13.2",
-    "vue": "^3.4.27",
-    "vue-router": "^4.5.1",
-    "zod": "^3.23.8",
-    "zod-i18n-map": "^2.27.0"
+    "lodash.merge": "^4.6.2"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.10.4",
