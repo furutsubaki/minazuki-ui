@@ -63,18 +63,18 @@ const props = withDefaults(
 );
 
 const clientWidth = ref(0);
-let resizeObserver: ResizeObserver | null = null;
+
+const onResize = () => {
+    clientWidth.value = window.innerWidth;
+};
 
 onMounted(() => {
-    clientWidth.value = document.body.clientWidth;
-    resizeObserver = new ResizeObserver((entries) => {
-        clientWidth.value = entries[0].contentRect.width;
-    });
-    resizeObserver.observe(document.body);
+    clientWidth.value = window.innerWidth;
+    window.addEventListener('resize', onResize);
 });
 
 onUnmounted(() => {
-    resizeObserver?.disconnect();
+    window.removeEventListener('resize', onResize);
 });
 
 const component = computed(() => {
