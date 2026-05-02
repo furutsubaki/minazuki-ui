@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { ref, onMounted, onUnmounted, computed, type ComponentPublicInstance } from 'vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
 import Frame from '@/components/frame/Frame.vue';
@@ -51,7 +51,7 @@ const positionY = props.notification.position.split('-')[0] as 'top' | 'bottom';
 const positionX = props.notification.position.split('-')[1] as 'right' | 'left';
 const POSITION_GAP = 16;
 
-const notificationEl = ref<HTMLElement | null>(null);
+const notificationEl = ref<ComponentPublicInstance | null>(null);
 let resizeObserver: ResizeObserver | null = null;
 
 const positionStyle = computed(() => {
@@ -96,12 +96,13 @@ const onClosed = async () => {
 onMounted(async () => {
     flg.value = true;
 
-    if (notificationEl.value) {
-        setNotificationHeight(props.notification.key, notificationEl.value.getBoundingClientRect().height);
+    const el = notificationEl.value?.$el as HTMLElement | undefined;
+    if (el) {
+        setNotificationHeight(props.notification.key, el.getBoundingClientRect().height);
         resizeObserver = new ResizeObserver((entries) => {
             setNotificationHeight(props.notification.key, entries[0].contentRect.height);
         });
-        resizeObserver.observe(notificationEl.value);
+        resizeObserver.observe(el);
     }
 
     if (props.notification.autoRemove) {
