@@ -13,7 +13,7 @@ const meta: Meta<typeof Pagination> = {
     }),
     args: {
         modelValue: 1,
-        total: 5
+        total: 50
     },
     argTypes: {}
 };
