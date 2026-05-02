@@ -232,6 +232,7 @@ onUnmounted(() => {
     --c-notification-item-border-color: var(--color-status-brand);
     --c-notification-item-icon-color: var(--color-status-brand);
     --color-theme-border: var(--c-notification-item-border-color);
+    --color-theme-shadow: var(--color-status-brand-alpha);
 }
 
 .secondary {
@@ -243,24 +244,28 @@ onUnmounted(() => {
     --c-notification-item-border-color: var(--color-status-info);
     --c-notification-item-icon-color: var(--color-status-info);
     --color-theme-border: var(--c-notification-item-border-color);
+    --color-theme-shadow: var(--color-status-info-alpha);
 }
 
 .success {
     --c-notification-item-border-color: var(--color-status-success);
     --c-notification-item-icon-color: var(--color-status-success);
     --color-theme-border: var(--c-notification-item-border-color);
+    --color-theme-shadow: var(--color-status-success-alpha);
 }
 
 .warning {
     --c-notification-item-border-color: var(--color-status-warning);
     --c-notification-item-icon-color: var(--color-status-warning);
     --color-theme-border: var(--c-notification-item-border-color);
+    --color-theme-shadow: var(--color-status-warning-alpha);
 }
 
 .danger {
     --c-notification-item-border-color: var(--color-status-danger);
     --c-notification-item-icon-color: var(--color-status-danger);
     --color-theme-border: var(--c-notification-item-border-color);
+    --color-theme-shadow: var(--color-status-danger-alpha);
 }
 
 /* ▲ variant ▲ */
