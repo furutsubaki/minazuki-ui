@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Component, computed } from 'vue';
+import { type Component, computed, onMounted, onUnmounted, ref } from 'vue';
 import Button from '@/components/basic/Button.vue';
 import Frame from '@/components/frame/Frame.vue';
 import PictureFrame from '@/components/frame/PictureFrame.vue';
@@ -62,6 +62,21 @@ const props = withDefaults(
     }
 );
 
+const clientWidth = ref(0);
+let resizeObserver: ResizeObserver | null = null;
+
+onMounted(() => {
+    clientWidth.value = document.body.clientWidth;
+    resizeObserver = new ResizeObserver((entries) => {
+        clientWidth.value = entries[0].contentRect.width;
+    });
+    resizeObserver.observe(document.body);
+});
+
+onUnmounted(() => {
+    resizeObserver?.disconnect();
+});
+
 const component = computed(() => {
     if (props.shape === 'picture-frame') {
         return PictureFrame;
@@ -81,9 +96,7 @@ const pages = computed(() => {
         return [];
     }
 
-    const clientWidth = document.body.clientWidth;
-
-    const pagenationLimit = clientWidth > 600 ? props.pagenationLimit : props.pagenationLimitMobile;
+    const pagenationLimit = clientWidth.value > 600 ? props.pagenationLimit : props.pagenationLimitMobile;
     const PAGENATION_LIMIT_CALC = pagenationLimit / 2;
     const limitPrev = Math.max(currentPage.value - PAGENATION_LIMIT_CALC, 0);
     const limitNext = Math.min(currentPage.value + PAGENATION_LIMIT_CALC, props.total + 1);
