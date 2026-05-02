@@ -11,7 +11,7 @@
     "allow": [
       "Edit(*)",
       "Write(*)",
-      "Bash(pnpm type-check *)",
+      "Bash(pnpm type*)",
       "Bash(gh issue *)",
       "Bash(git log *)",
       "Bash(git show *)",
