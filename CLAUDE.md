@@ -31,11 +31,29 @@ pnpm create-component-d  # src/components/index.ts を自動生成
 
 ### ディレクトリ構成
 
-- `src/components/` — コンポーネント本体。`basic/`, `controls/`, `feedback/`, `frame/`, `inner-parts/`, `navigation/` のカテゴリ別サブディレクトリに分類
-- `src/components/index.ts` — **自動生成ファイル**。直接編集せず `pnpm create-component-d` で再生成する
-- `src/composables/` — `useFormData`, `useNotification`, `useTheme`
-- `src/directives/` — Vue ディレクティブ（`useOutsideClick` など）
-- `src/assets/css/` — `variables.css`（CSS 変数・テーマ定義）, `style.css`（ベーススタイル）, `override.css`
+```text
+src/
+├── assets/
+│   ├── css/
+│   │   ├── variables.css   # CSS 変数・テーマ定義
+│   │   ├── style.css       # ベーススタイル
+│   │   └── override.css
+│   └── ts/
+├── components/
+│   ├── index.ts            # 自動生成ファイル（直接編集禁止。pnpm create-component-d で再生成）
+│   ├── basic/
+│   ├── controls/
+│   ├── feedback/
+│   ├── frame/
+│   ├── inner-parts/
+│   └── navigation/
+├── composables/            # useFormData / useNotification / useTheme
+├── directives/             # useOutsideClick など
+├── plugins/
+├── stores/
+├── stories/                # Storybook ストーリー（components/ と同じカテゴリ構成）
+└── test/                   # ユニットテスト（components/ composables/ と同じカテゴリ構成）
+```
 
 ### テーマシステム
 
