@@ -17,6 +17,9 @@ pnpm lint             # ESLint + Stylelint
 pnpm lint:fix         # ESLint + Stylelint 自動修正
 pnpm sb               # Storybook 開発サーバー（port 6006）
 pnpm sb:test          # Storybook ビジュアルテスト
+pnpm test             # Vitest ウォッチモード（TDD用）
+pnpm test:run         # Vitest 単発実行
+pnpm test:coverage    # カバレッジレポート生成
 pnpm create-component-d  # src/components/index.ts を自動生成
 ```
 
@@ -45,6 +48,10 @@ Vite + vite-plugin-dts で `dist/` に出力。`index.js`（ESM・ツリーシ�
 ### ピア依存関係
 
 vue, vee-validate, zod, pinia, vue-router, lucide-vue-next, dayjs, i18next 等は peerDependencies として扱い、ライブラリ自身はバンドルしない。
+
+## 外部ライブラリ
+
+ライブラリ/APIドキュメント、コード生成、セットアップ、構成手順などが必要な場合、明示的に依頼しなくても済むように、常にContext7 MCPを使用しています。
 
 ## 禁止事項
 
