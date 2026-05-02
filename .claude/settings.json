@@ -11,8 +11,11 @@
     "allow": [
       "Edit(*)",
       "Write(*)",
+      "Bash(pnpm type-check *)",
+      "Bash(gh issue *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
       "NotebookEdit(*)",
-      "Bash(*)",
       "WebFetch(domain:*)",
       "WebSearch",
       "mcp__*",
@@ -33,6 +36,7 @@
       "Read(.env)",
       "Read(*.env)",
       "Read(.env.*)",
+      "Read(./secrets/**)",
       "Bash(cat *.env*)",
       "Bash(head *.env*)",
       "Bash(tail *.env*)",
@@ -67,7 +71,8 @@
       "Bash(wget *)",
       "Bash(kill *)",
       "Bash(killall *)",
-      "Bash(pkill *)"
+      "Bash(pkill *)",
+      "Bash(git *)"
     ]
   },
   "enableAllProjectMcpServers": true,
