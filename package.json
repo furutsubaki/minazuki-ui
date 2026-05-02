@@ -45,6 +45,9 @@
     "lint:style:fix": "pnpm run lint:style --fix",
     "lint": "pnpm run lint:es && pnpm run lint:style",
     "lint:fix": "pnpm run lint:es:fix && pnpm run lint:style:fix",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "sb": "pnpm storybook dev --port 6006 --no-open",
     "sb:test": "test-storybook --url http://localhost:6006",
     "prepare": "husky"
@@ -87,10 +90,13 @@
     "@types/lodash.merge": "^4.6.9",
     "@types/node": "^20.14.1",
     "@vitejs/plugin-vue": "^5.0.5",
+    "@vitest/coverage-v8": "3",
     "@vue/eslint-config-typescript": "^13.0.0",
+    "@vue/test-utils": "^2.4.10",
     "@vue/tsconfig": "^0.5.0",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.33.0",
+    "happy-dom": "^20.9.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.2",
     "lodash.merge": "^4.6.2",
@@ -109,6 +115,7 @@
     "typescript": "~5.8.3",
     "vite": "^5.2.12",
     "vite-plugin-dts": "^3.9.1",
+    "vitest": "3",
     "vue-tsc": "^2.0.17"
   }
 }

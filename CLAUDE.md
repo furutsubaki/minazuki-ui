@@ -17,6 +17,9 @@ pnpm lint             # ESLint + Stylelint
 pnpm lint:fix         # ESLint + Stylelint 自動修正
 pnpm sb               # Storybook 開発サーバー（port 6006）
 pnpm sb:test          # Storybook ビジュアルテスト
+pnpm test             # Vitest ウォッチモード（TDD用）
+pnpm test:run         # Vitest 単発実行
+pnpm test:coverage    # カバレッジレポート生成
 pnpm create-component-d  # src/components/index.ts を自動生成
 ```
 
@@ -28,11 +31,29 @@ pnpm create-component-d  # src/components/index.ts を自動生成
 
 ### ディレクトリ構成
 
-- `src/components/` — コンポーネント本体。`basic/`, `controls/`, `feedback/`, `frame/`, `inner-parts/`, `navigation/` のカテゴリ別サブディレクトリに分類
-- `src/components/index.ts` — **自動生成ファイル**。直接編集せず `pnpm create-component-d` で再生成する
-- `src/composables/` — `useFormData`, `useNotification`, `useTheme`
-- `src/directives/` — Vue ディレクティブ（`useOutsideClick` など）
-- `src/assets/css/` — `variables.css`（CSS 変数・テーマ定義）, `style.css`（ベーススタイル）, `override.css`
+```text
+src/
+├── assets/
+│   ├── css/
+│   │   ├── variables.css   # CSS 変数・テーマ定義
+│   │   ├── style.css       # ベーススタイル
+│   │   └── override.css
+│   └── ts/
+├── components/
+│   ├── index.ts            # 自動生成ファイル（直接編集禁止。pnpm create-component-d で再生成）
+│   ├── basic/
+│   ├── controls/
+│   ├── feedback/
+│   ├── frame/
+│   ├── inner-parts/
+│   └── navigation/
+├── composables/            # useFormData / useNotification / useTheme
+├── directives/             # useOutsideClick など
+├── plugins/
+├── stores/
+├── stories/                # Storybook ストーリー（components/ と同じカテゴリ構成）
+└── test/                   # ユニットテスト（components/ composables/ と同じカテゴリ構成）
+```
 
 ### テーマシステム
 
@@ -45,6 +66,10 @@ Vite + vite-plugin-dts で `dist/` に出力。`index.js`（ESM・ツリーシ�
 ### ピア依存関係
 
 vue, vee-validate, zod, pinia, vue-router, lucide-vue-next, dayjs, i18next 等は peerDependencies として扱い、ライブラリ自身はバンドルしない。
+
+## 外部ライブラリ
+
+ライブラリ/APIドキュメント、コード生成、セットアップ、構成手順などが必要な場合、明示的に依頼しなくても済むように、常にContext7 MCPを使用しています。
 
 ## 禁止事項
 
