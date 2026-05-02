@@ -52,6 +52,7 @@ export interface MiRequiredNotification extends Required<MiNotificationOption> {
 
 // global state
 const notifications = ref<MiRequiredNotification[]>([]);
+const notificationHeights = ref<Record<string, number>>({});
 
 export default function () {
     const defaultOption: MiRequiredNotification = {
@@ -80,7 +81,12 @@ export default function () {
         if (targetIndex !== -1) {
             notifications.value.splice(targetIndex, 1);
         }
+        delete notificationHeights.value[key];
     };
 
-    return { notifications, addNotification, removeNotification };
+    const setNotificationHeight = (key: string, height: number) => {
+        notificationHeights.value[key] = height;
+    };
+
+    return { notifications, addNotification, removeNotification, notificationHeights, setNotificationHeight };
 }
