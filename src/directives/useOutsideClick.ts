@@ -1,61 +1,71 @@
-import { ref, type Directive } from 'vue';
+import { type Directive } from 'vue';
 
-export default function () {
-    const callback = ref<Function>(() => {});
-    const options = ref<{
-        handler: Function;
-        isActive: boolean;
-        ignore: Element[];
-    }>({
-        handler: () => {},
-        isActive: true,
-        ignore: []
-    });
-    const onOutsideClick = (event: Event) => {
-        const isActive = options.value.isActive;
-        if (!isActive) {
+type HandlerEntry = {
+    handler: Function;
+    isActive: boolean;
+    ignore: Element[];
+};
+
+const handlerMap = new Map<Element, HandlerEntry>();
+
+const onGlobalClick = (event: Event) => {
+    handlerMap.forEach((entry) => {
+        if (!entry.isActive) {
             return;
         }
 
-        const ignore = options.value.ignore;
-        const hasIgnoreElement = ignore.length
-            ? ignore.find((ignore) => {
-                  if (typeof ignore === 'string') {
-                      const nodes = document.querySelectorAll(ignore);
+        const hasIgnoreElement = entry.ignore.length
+            ? entry.ignore.find((ignoreEl) => {
+                  if (typeof ignoreEl === 'string') {
+                      const nodes = document.querySelectorAll(ignoreEl);
                       return Array.from<Element>(nodes).find((node) =>
                           node.contains(event.target as Node)
                       );
                   } else {
-                      return ignore.contains(event.target as Node);
+                      return ignoreEl.contains(event.target as Node);
                   }
               })
             : false;
-        if (hasIgnoreElement) {
-            return;
+
+        if (!hasIgnoreElement) {
+            entry.handler(event);
         }
+    });
+};
 
-        callback.value(event);
-    };
-
-    const vOutsideClick: Directive = {
-        mounted: (_, binding) => {
-            if (typeof binding.value === 'function') {
-                callback.value = binding.value as Function;
-            } else if (typeof binding.value === 'object') {
-                callback.value = binding.value.handler as Function;
-                options.value = { ...options.value, ...binding.value };
-            }
-            window.addEventListener('click', onOutsideClick);
-        },
-        beforeUnmount: () => {
-            window.removeEventListener('click', onOutsideClick);
-        },
-        updated: (_, binding) => {
-            if (typeof binding.value === 'object') {
-                options.value = { ...options.value, ...binding.value };
+const vOutsideClick: Directive = {
+    mounted: (el, binding) => {
+        const entry: HandlerEntry = {
+            handler: () => {},
+            isActive: true,
+            ignore: []
+        };
+        if (typeof binding.value === 'function') {
+            entry.handler = binding.value;
+        } else if (typeof binding.value === 'object') {
+            Object.assign(entry, binding.value);
+        }
+        handlerMap.set(el, entry);
+        if (handlerMap.size === 1) {
+            window.addEventListener('click', onGlobalClick);
+        }
+    },
+    beforeUnmount: (el) => {
+        handlerMap.delete(el);
+        if (handlerMap.size === 0) {
+            window.removeEventListener('click', onGlobalClick);
+        }
+    },
+    updated: (el, binding) => {
+        if (typeof binding.value === 'object') {
+            const entry = handlerMap.get(el);
+            if (entry) {
+                Object.assign(entry, binding.value);
             }
         }
-    };
+    }
+};
 
+export default function () {
     return { vOutsideClick };
 }
