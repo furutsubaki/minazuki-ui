@@ -5,7 +5,7 @@
  * ==================================================
  */
 
-import { ref, watch } from 'vue';
+import { ref, shallowRef, watch } from 'vue';
 import { useHead } from '@unhead/vue';
 import { toKebabCase } from '@/assets/ts/formatter';
 import merge from 'lodash.merge';
@@ -103,7 +103,7 @@ const baseTheme: MiTheme = {
         danger: '--color-base-red'
     }
 } as const;
-const themes = ref<{ [key: string]: RecursivePartial<MiTheme> }>({
+const themes = shallowRef<{ [key: string]: RecursivePartial<MiTheme> }>({
     light: {
         theme: {
             textPrimary: '--color-base-black',
