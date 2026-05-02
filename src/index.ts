@@ -23,14 +23,6 @@ type RecursivePartial<T> = {
     [P in keyof T]?: RecursivePartial<T[P]>;
 };
 
-declare module 'vue' {
-    interface NuxtApp {
-        $useFormData: ReturnType<typeof useFormData>;
-        $useNotification: ReturnType<typeof useNotification>;
-        $useTheme: ReturnType<typeof useTheme>;
-    }
-}
-
 export default {
     install(app: App, options?: { themes?: { [key: string]: RecursivePartial<MiTheme> } }) {
         Object.values(components).forEach((component) => {
@@ -38,15 +30,11 @@ export default {
         });
 
         // composables
-        app.config.globalProperties.$useFormData = useFormData;
         app.provide('useFormData', useFormData);
-        app.config.globalProperties.$useNotification = useNotification;
         app.provide('useNotification', useNotification);
-        app.config.globalProperties.$useTheme = useTheme;
         app.provide('useTheme', useTheme);
 
         // directives
-        app.config.globalProperties.$useOutsideClick = useOutsideClick;
         app.provide('useOutsideClick', useOutsideClick);
 
         // component
