@@ -43,7 +43,7 @@ const circleRef = ref();
 
 const progressFullRatio = computed(() => {
     const calc = Math.round((model.value / props.max) * 100);
-    return props.max > calc ? calc : props.max;
+    return Math.min(Math.max(calc, 0), 100);
 });
 const circumference = computed(() => Math.PI * (20 * 2)); //円周
 const strokeDashoffset = computed(

@@ -10,12 +10,15 @@ export default defineConfig({
         include: ['src/test/**/*.spec.ts'],
         setupFiles: ['./src/test/setup.ts'],
         coverage: {
-            provider: 'v8',
+            provider: 'istanbul',
             reporter: ['text', 'html'],
             include: ['src/**/*.{ts,vue}'],
             exclude: [
                 'src/test/**',
+                'src/stories/**',
                 'src/index.ts',
+                'src/App.vue',
+                'src/main.ts',
                 'src/generate-component-index.js',
                 'src/components/index.ts'
             ]

@@ -115,6 +115,9 @@ const props = withDefaults(
 );
 
 const { value, errors } = useField<string>(props.name);
+if (value.value == null && model.value != null) {
+    value.value = model.value;
+}
 const schemaChunks = computed(() => props.schema?._def.checks);
 const isRequired = computed(
     () =>
@@ -132,7 +135,7 @@ const max = computed(
         )?.value || null
 );
 
-const debouncedSearchValue = ref('');
+const debouncedSearchValue = ref(value.value ?? '');
 let debounceTimer: ReturnType<typeof setTimeout>;
 
 watch(value, (v) => {
@@ -142,13 +145,6 @@ watch(value, (v) => {
         debouncedSearchValue.value = v ?? '';
     }, 150);
 });
-
-// NOTE: 曖昧一致により、nullとundefinedを判定し、0は判定外とする
-if (value.value == null && model.value != null) {
-    value.value = model.value;
-}
-
-debouncedSearchValue.value = value.value ?? '';
 
 onUnmounted(() => clearTimeout(debounceTimer));
 
@@ -246,6 +242,8 @@ const onBlur = (event: Event) => {
     }
     isFocus.value = false;
 };
+
+defineExpose({ onBlur, debouncedSearchValue, value });
 </script>
 
 <template>

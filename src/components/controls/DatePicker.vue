@@ -65,6 +65,9 @@ const props = withDefaults(
 );
 
 const { value, errors } = useField<string>(props.name);
+if (value.value == null && model.value != null) {
+    value.value = model.value;
+}
 
 const schemaChunks = computed(() => props.schema?._def.checks);
 const isRequired = computed(
@@ -76,10 +79,6 @@ const isRequired = computed(
 watch(value, (v) => {
     model.value = v;
 });
-
-if (value.value == null && model.value != null) {
-    value.value = model.value;
-}
 
 const convertVueDatepickerFormat = (format: MiDateFormat) => {
     return format.replace(/(Y)/g, 'y').replace(/(D)/g, 'd');

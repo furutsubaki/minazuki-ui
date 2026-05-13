@@ -96,14 +96,12 @@ const onClosed = async () => {
 onMounted(async () => {
     flg.value = true;
 
-    const el = notificationEl.value?.$el as HTMLElement | undefined;
-    if (el) {
-        setNotificationHeight(props.notification.key, el.getBoundingClientRect().height);
-        resizeObserver = new ResizeObserver((entries) => {
-            setNotificationHeight(props.notification.key, entries[0].contentRect.height);
-        });
-        resizeObserver.observe(el);
-    }
+    const el = notificationEl.value!.$el as HTMLElement;
+    setNotificationHeight(props.notification.key, el.getBoundingClientRect().height);
+    resizeObserver = new ResizeObserver((entries) => {
+        setNotificationHeight(props.notification.key, entries[0].contentRect.height);
+    });
+    resizeObserver.observe(el);
 
     if (props.notification.autoRemove) {
         await sleep(5000);
@@ -114,6 +112,8 @@ onMounted(async () => {
 onUnmounted(() => {
     resizeObserver?.disconnect();
 });
+
+defineExpose({ flg, transitioning, isShowing, onClosed, transitionFrom });
 </script>
 
 <template>

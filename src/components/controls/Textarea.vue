@@ -115,7 +115,7 @@ if (value.value == null && model.value != null) {
 }
 
 const setLines = (value: string) => {
-    const lines = (value + '\n').match(/\n/g)?.length ?? 1;
+    const lines = (value + '\n').split('\n').length - 1;
     inputFrameRef.value.frameRef.style.height = `calc(${lines}lh + 0.5em)`;
     textareaRef.value.style.height = `calc(${lines}lh + 0.5em)`;
 };

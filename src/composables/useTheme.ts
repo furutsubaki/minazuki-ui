@@ -138,7 +138,7 @@ const themes = shallowRef<{ [key: string]: RecursivePartial<MiTheme> }>({
 const createThemeCss = (themeId: string) => {
     const targetTheme = themes.value[themeId];
     const defaultTheme = themes.value.light;
-    const joinTheme = merge(baseTheme, defaultTheme, targetTheme) as RecursiveRequired<MiTheme>;
+    const joinTheme = merge({}, baseTheme, defaultTheme, targetTheme) as RecursiveRequired<MiTheme>;
 
     let style = '';
     const optionKeys = ['base', 'status', 'theme'];
