@@ -4,6 +4,7 @@ import { mount } from '@vue/test-utils';
 import { z } from 'zod';
 import { useForm } from 'vee-validate';
 import RadioGroup from '@/components/controls/RadioGroup.vue';
+import { uniqueFieldName } from '@/test/utils/uniqueFieldName';
 
 const items = [
     { label: '選択肢A', value: 'a' },
@@ -93,7 +94,7 @@ describe('RadioGroup', () => {
     });
 
     it('フォームコンテキストからエラーが設定されると error div がレンダリングされる', async () => {
-        const fieldName = `rg-err-${Math.random()}`;
+        const fieldName = uniqueFieldName('rg-err');
         const TestParent = defineComponent({
             setup() {
                 const { setFieldError } = useForm();
@@ -110,7 +111,7 @@ describe('RadioGroup', () => {
     });
 
     it('フォームコンテキストで Radio を選択したとき watch が発火して model が更新される', async () => {
-        const fieldName = `rg-watch-${Math.random()}`;
+        const fieldName = uniqueFieldName('rg-watch');
         const TestParent = defineComponent({
             setup() {
                 useForm();
@@ -134,7 +135,7 @@ describe('RadioGroup', () => {
     });
 
     it('useForm の initialValues で value が初期から設定されている場合も正常にマウントされる', () => {
-        const fieldName = `rg-init-${Math.random()}`;
+        const fieldName = uniqueFieldName('rg-init');
         const TestParent = defineComponent({
             setup() {
                 useForm({ initialValues: { [fieldName]: 'a' } });

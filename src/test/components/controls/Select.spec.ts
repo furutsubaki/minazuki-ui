@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { Form as VeeForm } from 'vee-validate';
 import Select from '@/components/controls/Select.vue';
 import FieldAccordionList from '@/components/inner-parts/FieldAccordionList.vue';
+import { uniqueFieldName } from '@/test/utils/uniqueFieldName';
 
 const items = [
     { label: 'りんご', value: 'apple' },
@@ -122,7 +123,7 @@ describe('Select', () => {
     });
 
     it('vee-validate フォーム初期値が設定済みの場合 value は model で上書きされない', async () => {
-        const fieldName = `sel-form-test-${Date.now()}`;
+        const fieldName = uniqueFieldName('sel-form-test');
         const wrapper = mount(
             h(VeeForm, { initialValues: { [fieldName]: 'apple' } }, {
                 default: () => h(Select, { items, name: fieldName, modelValue: 'banana' })

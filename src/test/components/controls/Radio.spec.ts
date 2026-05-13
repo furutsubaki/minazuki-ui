@@ -4,6 +4,7 @@ import { mount } from '@vue/test-utils';
 import { z } from 'zod';
 import { useForm } from 'vee-validate';
 import Radio from '@/components/controls/Radio.vue';
+import { uniqueFieldName } from '@/test/utils/uniqueFieldName';
 
 describe('Radio', () => {
     it('デフォルトでレンダリングされる', () => {
@@ -102,7 +103,7 @@ describe('Radio', () => {
     });
 
     it('フォームコンテキストからエラーが設定されると error div がレンダリングされる', async () => {
-        const fieldName = `radio-err-${Math.random()}`;
+        const fieldName = uniqueFieldName('radio-err');
         const TestParent = defineComponent({
             setup() {
                 const { setFieldError } = useForm();

@@ -4,6 +4,7 @@ import { mount } from '@vue/test-utils';
 import { z } from 'zod';
 import { useForm } from 'vee-validate';
 import CheckboxGroup from '@/components/controls/CheckboxGroup.vue';
+import { uniqueFieldName } from '@/test/utils/uniqueFieldName';
 
 const items = [
     { label: 'りんご', value: 'apple' },
@@ -88,7 +89,7 @@ describe('CheckboxGroup', () => {
     });
 
     it('フォームコンテキストからエラーが設定されると error div がレンダリングされる', async () => {
-        const fieldName = `cbg-err-${Math.random()}`;
+        const fieldName = uniqueFieldName('cbg-err');
         const TestParent = defineComponent({
             setup() {
                 const { setFieldError } = useForm();
