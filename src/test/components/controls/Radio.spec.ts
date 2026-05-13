@@ -7,11 +7,6 @@ import Radio from '@/components/controls/Radio.vue';
 import { uniqueFieldName } from '@/test/utils/uniqueFieldName';
 
 describe('Radio', () => {
-    it('デフォルトでレンダリングされる', () => {
-        const wrapper = mount(Radio);
-        expect(wrapper.find('.component-radio').exists()).toBe(true);
-    });
-
     it('label が表示される', () => {
         const wrapper = mount(Radio, { props: { label: 'テストラベル' } });
         expect(wrapper.find('.label-placeholder').text()).toBe('テストラベル');
@@ -22,14 +17,12 @@ describe('Radio', () => {
         expect(wrapper.find('.component-radio').classes()).toContain('is-disabled');
     });
 
-    it('variant prop がクラスに反映される', () => {
-        const wrapper = mount(Radio, { props: { variant: 'danger' } });
-        expect(wrapper.find('.component-radio').classes()).toContain('danger');
-    });
-
-    it('size prop がクラスに反映される', () => {
-        const wrapper = mount(Radio, { props: { size: 'large' } });
-        expect(wrapper.find('.component-radio').classes()).toContain('large');
+    it.each([
+        ['variant', 'danger'],
+        ['size', 'large']
+    ])('%s prop がクラスに反映される', (prop, value) => {
+        const wrapper = mount(Radio, { props: { [prop]: value } });
+        expect(wrapper.find('.component-radio').classes()).toContain(value);
     });
 
     it('slot コンテンツが表示される', () => {
@@ -37,28 +30,24 @@ describe('Radio', () => {
         expect(wrapper.find('.text').text()).toBe('選択肢A');
     });
 
-    it('modelValue が value と等しいとき is-checked クラスが付く', () => {
-        const wrapper = mount(Radio, {
-            props: { modelValue: true, value: true }
-        });
-        expect(wrapper.find('.component-radio').classes()).toContain('is-checked');
-    });
-
-    it('modelValue が value と異なるとき is-checked クラスが付かない', () => {
-        const wrapper = mount(Radio, {
-            props: { modelValue: false, value: true }
-        });
-        expect(wrapper.find('.component-radio').classes()).not.toContain('is-checked');
+    it.each([
+        [true, true, true],
+        [false, true, false],
+        ['apple', 'apple', true],
+        [42, 42, true]
+    ])('modelValue と value の一致で is-checked が制御される (modelValue=%s, value=%s)', (modelValue, value, shouldBeChecked) => {
+        const wrapper = mount(Radio, { props: { modelValue, value } });
+        const classes = wrapper.find('.component-radio').classes();
+        if (shouldBeChecked) {
+            expect(classes).toContain('is-checked');
+        } else {
+            expect(classes).not.toContain('is-checked');
+        }
     });
 
     it('required が true かつ label なしのとき .text に required クラスが付く', () => {
         const wrapper = mount(Radio, { props: { required: true }, slots: { default: '選択肢' } });
         expect(wrapper.find('.text.required').exists()).toBe(true);
-    });
-
-    it('required が true のとき .label-placeholder が表示される', () => {
-        const wrapper = mount(Radio, { props: { required: true } });
-        expect(wrapper.find('.label-placeholder').exists()).toBe(true);
     });
 
     it('label があり required が true のとき .label-placeholder に required クラスが付く', () => {
@@ -77,27 +66,10 @@ describe('Radio', () => {
         expect(wrapper.find('.error').exists()).toBe(false);
     });
 
-    it('value が string のとき modelValue と一致すると is-checked になる', () => {
-        const wrapper = mount(Radio, { props: { value: 'apple', modelValue: 'apple' } });
-        expect(wrapper.find('.component-radio').classes()).toContain('is-checked');
-    });
-
-    it('value が number のとき modelValue と一致すると is-checked になる', () => {
-        const wrapper = mount(Radio, { props: { value: 42, modelValue: 42 } });
-        expect(wrapper.find('.component-radio').classes()).toContain('is-checked');
-    });
-
-    it('input に trigger("change") すると onChange が呼ばれる (未選択→選択)', async () => {
+    it('input に trigger("change") すると onChange が呼ばれる', async () => {
         const wrapper = mount(Radio, { props: { value: 'apple' } });
         const input = wrapper.find('input[type="radio"]');
         (input.element as HTMLInputElement).checked = true;
-        await input.trigger('change');
-        expect(wrapper.emitted('update:modelValue')).toBeTruthy();
-    });
-
-    it('input に trigger("change") すると onChange が呼ばれる', async () => {
-        const wrapper = mount(Radio, { props: { value: 'apple', modelValue: 'apple' } });
-        const input = wrapper.find('input[type="radio"]');
         await input.trigger('change');
         expect(wrapper.emitted('update:modelValue')).toBeTruthy();
     });

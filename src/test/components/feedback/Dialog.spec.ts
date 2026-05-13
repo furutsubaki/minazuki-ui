@@ -8,11 +8,6 @@ describe('Dialog', () => {
     afterEach(() => {
         vi.useRealTimers();
     });
-    it('デフォルトでレンダリングされる', () => {
-        const wrapper = mount(Dialog);
-        expect(wrapper.find('.component-dialog').exists()).toBe(true);
-    });
-
     it('v-model が true のとき dialog が表示される', () => {
         const wrapper = mount(Dialog, { props: { modelValue: true } });
         const el = wrapper.find('.component-dialog').element as HTMLElement;
@@ -35,19 +30,13 @@ describe('Dialog', () => {
         expect(wrapper.find('.title').exists()).toBe(false);
     });
 
-    it('variant prop がクラスに反映される', () => {
-        const wrapper = mount(Dialog, { props: { modelValue: true, variant: 'danger' } });
-        expect(wrapper.find('.dialog').classes()).toContain('danger');
-    });
-
-    it('size prop がクラスに反映される', () => {
-        const wrapper = mount(Dialog, { props: { modelValue: true, size: 'large' } });
-        expect(wrapper.find('.dialog').classes()).toContain('large');
-    });
-
-    it('shape prop がクラスに反映される', () => {
-        const wrapper = mount(Dialog, { props: { modelValue: true, shape: 'no-radius' } });
-        expect(wrapper.find('.dialog').classes()).toContain('no-radius');
+    it.each([
+        ['variant', 'danger'],
+        ['size', 'large'],
+        ['shape', 'no-radius']
+    ])('%s prop がクラスに反映される', (prop, value) => {
+        const wrapper = mount(Dialog, { props: { modelValue: true, [prop]: value } });
+        expect(wrapper.find('.dialog').classes()).toContain(value);
     });
 
     it('slot コンテンツが表示される', () => {
@@ -76,24 +65,14 @@ describe('Dialog', () => {
         expect(wrapper.find('.dialog-frame').classes()).toContain('top');
     });
 
-    it('transitionFrom="top" が反映される', () => {
-        const wrapper = mount(Dialog, { props: { modelValue: true, transitionFrom: 'top' } });
-        expect(wrapper.findComponent(TranslateTransition).props('from')).toBe('top-rebound');
-    });
-
-    it('transitionFrom="right" が反映される', () => {
-        const wrapper = mount(Dialog, { props: { modelValue: true, transitionFrom: 'right' } });
-        expect(wrapper.findComponent(TranslateTransition).props('from')).toBe('right-rebound');
-    });
-
-    it('transitionFrom="bottom" が反映される', () => {
-        const wrapper = mount(Dialog, { props: { modelValue: true, transitionFrom: 'bottom' } });
-        expect(wrapper.findComponent(TranslateTransition).props('from')).toBe('bottom-rebound');
-    });
-
-    it('transitionFrom="left" が反映される', () => {
-        const wrapper = mount(Dialog, { props: { modelValue: true, transitionFrom: 'left' } });
-        expect(wrapper.findComponent(TranslateTransition).props('from')).toBe('left-rebound');
+    it.each([
+        ['top', 'top-rebound'],
+        ['right', 'right-rebound'],
+        ['bottom', 'bottom-rebound'],
+        ['left', 'left-rebound']
+    ])('transitionFrom="%s" が TranslateTransition に反映される', (transitionFrom, expectedFrom) => {
+        const wrapper = mount(Dialog, { props: { modelValue: true, transitionFrom } });
+        expect(wrapper.findComponent(TranslateTransition).props('from')).toBe(expectedFrom);
     });
 
     it('seamless prop のとき is-seamless クラスが付く', () => {
@@ -115,19 +94,13 @@ describe('Dialog', () => {
         expect(wrapper.emitted('closed')).toBeTruthy();
     });
 
-    it('variant="info" のとき info クラスが付く', () => {
-        const wrapper = mount(Dialog, { props: { modelValue: true, variant: 'info' } });
-        expect(wrapper.find('.dialog').classes()).toContain('info');
-    });
-
-    it('variant="success" のとき success クラスが付く', () => {
-        const wrapper = mount(Dialog, { props: { modelValue: true, variant: 'success' } });
-        expect(wrapper.find('.dialog').classes()).toContain('success');
-    });
-
-    it('variant="warning" のとき warning クラスが付く', () => {
-        const wrapper = mount(Dialog, { props: { modelValue: true, variant: 'warning' } });
-        expect(wrapper.find('.dialog').classes()).toContain('warning');
+    it.each([
+        ['info'],
+        ['success'],
+        ['warning']
+    ])('variant="%s" のときクラスが付く', (variant) => {
+        const wrapper = mount(Dialog, { props: { modelValue: true, variant } });
+        expect(wrapper.find('.dialog').classes()).toContain(variant);
     });
 
     it('v-model が false → true に変わると overflow が hidden になる', async () => {

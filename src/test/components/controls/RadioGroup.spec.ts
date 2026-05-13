@@ -13,11 +13,6 @@ const items = [
 ];
 
 describe('RadioGroup', () => {
-    it('デフォルトでレンダリングされる', () => {
-        const wrapper = mount(RadioGroup, { props: { items } });
-        expect(wrapper.find('.component-radio-group').exists()).toBe(true);
-    });
-
     it('items の数だけラジオボタンがレンダリングされる', () => {
         const wrapper = mount(RadioGroup, { props: { items } });
         expect(wrapper.findAll('.component-radio')).toHaveLength(3);
@@ -30,16 +25,12 @@ describe('RadioGroup', () => {
         expect(wrapper.text()).toContain('選択してください');
     });
 
-    it('variant prop が各ラジオボタンに反映される', () => {
-        const wrapper = mount(RadioGroup, { props: { items, variant: 'danger' } });
-        const radios = wrapper.findAll('.component-radio');
-        expect(radios[0].classes()).toContain('danger');
-    });
-
-    it('size prop が各ラジオボタンに反映される', () => {
-        const wrapper = mount(RadioGroup, { props: { items, size: 'large' } });
-        const radios = wrapper.findAll('.component-radio');
-        expect(radios[0].classes()).toContain('large');
+    it.each([
+        ['variant', 'danger'],
+        ['size', 'large']
+    ])('%s prop が各ラジオボタンに反映される', (prop, value) => {
+        const wrapper = mount(RadioGroup, { props: { items, [prop]: value } });
+        expect(wrapper.findAll('.component-radio')[0].classes()).toContain(value);
     });
 
     it('disabled のラジオは is-disabled クラスを持つ', () => {

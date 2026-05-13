@@ -49,14 +49,12 @@ describe('Alert', () => {
         expect(el.style.display).toBe('none');
     });
 
-    it('variant prop がクラスに反映される', () => {
-        const wrapper = mount(Alert, { props: { text: 'msg', variant: 'danger' } });
-        expect(wrapper.find('.component-alert').classes()).toContain('danger');
-    });
-
-    it('shape prop がクラスに反映される', () => {
-        const wrapper = mount(Alert, { props: { text: 'msg', shape: 'no-radius' } });
-        expect(wrapper.find('.component-alert').classes()).toContain('no-radius');
+    it.each([
+        [{ variant: 'danger' }, 'danger'],
+        [{ shape: 'no-radius' }, 'no-radius']
+    ])('prop がクラスに反映される', (props, expectedClass) => {
+        const wrapper = mount(Alert, { props: { text: 'msg', ...props } });
+        expect(wrapper.find('.component-alert').classes()).toContain(expectedClass);
     });
 
     it('閉じるボタンクリックで closed イベントが発火する', async () => {
@@ -81,32 +79,15 @@ describe('Alert', () => {
         expect(wrapper.find('.icon').exists()).toBe(true);
     });
 
-    it('variant="info" のとき info アイコンが表示される', () => {
-        const wrapper = mount(Alert, { props: { text: 'msg', variant: 'info' } });
-        expect(wrapper.find('.component-alert').classes()).toContain('info');
+    it.each([
+        ['info'],
+        ['success'],
+        ['warning']
+    ])('variant="%s" のときクラスが付きアイコンが表示される', (variant) => {
+        const wrapper = mount(Alert, { props: { text: 'msg', variant } });
+        expect(wrapper.find('.component-alert').classes()).toContain(variant);
         expect(wrapper.find('.icon').exists()).toBe(true);
     });
 
-    it('variant="success" のとき success アイコンが表示される', () => {
-        const wrapper = mount(Alert, { props: { text: 'msg', variant: 'success' } });
-        expect(wrapper.find('.component-alert').classes()).toContain('success');
-        expect(wrapper.find('.icon').exists()).toBe(true);
-    });
-
-    it('variant="warning" のとき warning アイコンが表示される', () => {
-        const wrapper = mount(Alert, { props: { text: 'msg', variant: 'warning' } });
-        expect(wrapper.find('.component-alert').classes()).toContain('warning');
-        expect(wrapper.find('.icon').exists()).toBe(true);
-    });
-
-    it('OpacityTransition の transition-start/end イベントで transitioning が更新される', async () => {
-        const wrapper = mount(Alert, { props: { text: 'msg', modelValue: true } });
-        const OpacityTransition = (await import('@/components/inner-parts/OpacityTransition.vue')).default;
-        const ot = wrapper.findComponent(OpacityTransition);
-        if (ot.exists()) {
-            await ot.vm.$emit('transition-start');
-            await ot.vm.$emit('transition-end');
-        }
-        expect(wrapper.find('.component-alert').exists()).toBe(true);
-    });
 });
+

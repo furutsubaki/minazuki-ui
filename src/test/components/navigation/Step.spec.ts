@@ -11,11 +11,6 @@ const steps = [
 ];
 
 describe('Step', () => {
-    it('デフォルトでレンダリングされる', () => {
-        const wrapper = mount(Step, { props: { steps, modelValue: 'step1' } });
-        expect(wrapper.find('.component-step').exists()).toBe(true);
-    });
-
     it('steps のラベルが表示される', () => {
         const wrapper = mount(Step, { props: { steps, modelValue: 'step1' } });
         expect(wrapper.text()).toContain('ステップ1');

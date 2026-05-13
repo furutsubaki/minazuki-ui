@@ -3,24 +3,14 @@ import { mount } from '@vue/test-utils';
 import Badge from '@/components/feedback/Badge.vue';
 
 describe('Badge', () => {
-    it('content が表示される', () => {
-        const wrapper = mount(Badge, { props: { content: 42 } });
-        expect(wrapper.find('.component-badge').text()).toBe('42');
-    });
-
-    it('content が 99 以下のときはそのまま表示される', () => {
-        const wrapper = mount(Badge, { props: { content: 99 } });
-        expect(wrapper.find('.component-badge').text()).toBe('99');
-    });
-
-    it('content が 100 以上のとき 99+ と表示される', () => {
-        const wrapper = mount(Badge, { props: { content: 100 } });
-        expect(wrapper.find('.component-badge').text()).toBe('99+');
-    });
-
-    it('content が文字列のときはそのまま表示される', () => {
-        const wrapper = mount(Badge, { props: { content: 'NEW' } });
-        expect(wrapper.find('.component-badge').text()).toBe('NEW');
+    it.each([
+        [42, '42'],
+        [99, '99'],
+        [100, '99+'],
+        ['NEW', 'NEW']
+    ])('content=%s のとき %s と表示される', (content, expected) => {
+        const wrapper = mount(Badge, { props: { content } });
+        expect(wrapper.find('.component-badge').text()).toBe(expected);
     });
 
     it('shape が dot のとき content が表示されない', () => {
@@ -28,19 +18,13 @@ describe('Badge', () => {
         expect(wrapper.find('.component-badge').text()).toBe('');
     });
 
-    it('variant prop がクラスに反映される', () => {
-        const wrapper = mount(Badge, { props: { content: 1, variant: 'danger' } });
-        expect(wrapper.classes()).toContain('danger');
-    });
-
-    it('shape prop がクラスに反映される', () => {
-        const wrapper = mount(Badge, { props: { content: 1, shape: 'dot' } });
-        expect(wrapper.classes()).toContain('dot');
-    });
-
-    it('inline prop のとき inline クラスが付く', () => {
-        const wrapper = mount(Badge, { props: { content: 1, inline: true } });
-        expect(wrapper.classes()).toContain('inline');
+    it.each([
+        [{ variant: 'danger' }, 'danger'],
+        [{ shape: 'dot' }, 'dot'],
+        [{ inline: true }, 'inline']
+    ])('prop がクラスに反映される', (props, expectedClass) => {
+        const wrapper = mount(Badge, { props: { content: 1, ...props } });
+        expect(wrapper.classes()).toContain(expectedClass);
     });
 
     it('v-model が false のとき badge が非表示になる', () => {

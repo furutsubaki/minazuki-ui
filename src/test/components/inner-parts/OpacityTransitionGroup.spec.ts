@@ -11,19 +11,14 @@ describe('OpacityTransitionGroup', () => {
         expect(wrapper.find('.inner').text()).toBe('コンテンツ');
     });
 
-    it('transitionStart イベントが発火する', () => {
+    it.each([
+        ['transitionStart', 'onTransitionStart'],
+        ['transitionEnd', 'onTransitionEnd']
+    ])('%s イベントが発火する', (eventName, handlerName) => {
         const wrapper = mount(OpacityTransitionGroup, {
             slots: { default: '<div key="a">A</div>' }
         });
-        (wrapper.vm as any).onTransitionStart();
-        expect(wrapper.emitted('transitionStart')).toBeTruthy();
-    });
-
-    it('transitionEnd イベントが発火する', () => {
-        const wrapper = mount(OpacityTransitionGroup, {
-            slots: { default: '<div key="a">A</div>' }
-        });
-        (wrapper.vm as any).onTransitionEnd();
-        expect(wrapper.emitted('transitionEnd')).toBeTruthy();
+        (wrapper.vm as any)[handlerName]();
+        expect(wrapper.emitted(eventName)).toBeTruthy();
     });
 });

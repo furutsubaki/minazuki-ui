@@ -13,11 +13,6 @@ const items = [
 ];
 
 describe('CheckboxGroup', () => {
-    it('デフォルトでレンダリングされる', () => {
-        const wrapper = mount(CheckboxGroup, { props: { items } });
-        expect(wrapper.find('.component-checkbox-group').exists()).toBe(true);
-    });
-
     it('items の数だけチェックボックスがレンダリングされる', () => {
         const wrapper = mount(CheckboxGroup, { props: { items } });
         expect(wrapper.findAll('.component-checkbox')).toHaveLength(3);
@@ -30,16 +25,12 @@ describe('CheckboxGroup', () => {
         expect(wrapper.text()).toContain('フルーツ選択');
     });
 
-    it('variant prop が各チェックボックスに反映される', () => {
-        const wrapper = mount(CheckboxGroup, { props: { items, variant: 'danger' } });
-        const checkboxes = wrapper.findAll('.component-checkbox');
-        expect(checkboxes[0].classes()).toContain('danger');
-    });
-
-    it('size prop が各チェックボックスに反映される', () => {
-        const wrapper = mount(CheckboxGroup, { props: { items, size: 'large' } });
-        const checkboxes = wrapper.findAll('.component-checkbox');
-        expect(checkboxes[0].classes()).toContain('large');
+    it.each([
+        ['variant', 'danger'],
+        ['size', 'large']
+    ])('%s prop が各チェックボックスに反映される', (prop, value) => {
+        const wrapper = mount(CheckboxGroup, { props: { items, [prop]: value } });
+        expect(wrapper.findAll('.component-checkbox')[0].classes()).toContain(value);
     });
 
     it('disabled のチェックボックスは is-disabled クラスを持つ', () => {

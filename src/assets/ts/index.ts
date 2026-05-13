@@ -1,4 +1,4 @@
-import { KANA_MAP_FULL_2_HALF, KANA_MAP_HALF_2_FULL } from './const ';
+import { KANA_MAP_FULL_2_HALF, KANA_MAP_HALF_2_FULL } from './const';
 
 export const hira2Kata = (str: string) => {
     // ひら→カタ

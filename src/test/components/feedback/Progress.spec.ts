@@ -10,39 +10,17 @@ describe('Progress', () => {
         expect(wrapper.classes()).toContain('line');
     });
 
-    it('進捗率が正しく計算される', () => {
-        const wrapper = mount(Progress, { props: { modelValue: 50 } });
-        expect(wrapper.find('.ratio').text()).toBe('50%');
-    });
-
-    it('0% が正しく表示される', () => {
-        const wrapper = mount(Progress, { props: { modelValue: 0 } });
-        expect(wrapper.find('.ratio').text()).toBe('0%');
-    });
-
-    it('100% が正しく表示される', () => {
-        const wrapper = mount(Progress, { props: { modelValue: 100 } });
-        expect(wrapper.find('.ratio').text()).toBe('100%');
-    });
-
-    it('max を超えた値は max でクランプされる', () => {
-        const wrapper = mount(Progress, { props: { modelValue: 150 } });
-        expect(wrapper.find('.ratio').text()).toBe('100%');
-    });
-
-    it('max=200 で modelValue=250 のとき 100% にクランプされる', () => {
-        const wrapper = mount(Progress, { props: { modelValue: 250, max: 200 } });
-        expect(wrapper.find('.ratio').text()).toBe('100%');
-    });
-
-    it('modelValue が負数のとき 0% にクランプされる', () => {
-        const wrapper = mount(Progress, { props: { modelValue: -10 } });
-        expect(wrapper.find('.ratio').text()).toBe('0%');
-    });
-
-    it('カスタム max で進捗率が計算される', () => {
-        const wrapper = mount(Progress, { props: { modelValue: 100, max: 200 } });
-        expect(wrapper.find('.ratio').text()).toBe('50%');
+    it.each([
+        [50, 100, '50%'],
+        [0, 100, '0%'],
+        [100, 100, '100%'],
+        [150, 100, '100%'],
+        [250, 200, '100%'],
+        [-10, 100, '0%'],
+        [100, 200, '50%']
+    ])('modelValue=%i/max=%i のとき %s が表示される', (modelValue, max, expected) => {
+        const wrapper = mount(Progress, { props: { modelValue, max } });
+        expect(wrapper.find('.ratio').text()).toBe(expected);
     });
 
     it('noText のとき .ratio が表示されない', () => {

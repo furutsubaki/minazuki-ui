@@ -7,11 +7,6 @@ describe('Drawer', () => {
     afterEach(() => {
         vi.useRealTimers();
     });
-    it('デフォルトでレンダリングされる', () => {
-        const wrapper = mount(Drawer, { props: { position: 'left' } });
-        expect(wrapper.find('.component-drawer').exists()).toBe(true);
-    });
-
     it('v-model が true のとき drawer が表示される', () => {
         const wrapper = mount(Drawer, { props: { modelValue: true, position: 'right' } });
         const el = wrapper.find('.component-drawer').element as HTMLElement;

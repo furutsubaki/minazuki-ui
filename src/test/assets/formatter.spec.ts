@@ -33,30 +33,13 @@ describe('parseLocaleString', () => {
     });
 });
 
-describe('toKebabCase', () => {
-    it('キャメルケースをケバブケースに変換する', () => {
-        expect(toKebabCase('textPrimary')).toBe('text-primary');
-    });
-
-    it('複数の大文字も変換する', () => {
-        expect(toKebabCase('bgSelectColor')).toBe('bg-select-color');
-    });
-
-    it('すでに小文字のみの場合はそのまま', () => {
-        expect(toKebabCase('text')).toBe('text');
-    });
-});
-
-describe('toSnakeCase', () => {
-    it('キャメルケースをスネークケースに変換する', () => {
-        expect(toSnakeCase('textPrimary')).toBe('text_primary');
-    });
-
-    it('複数の大文字も変換する', () => {
-        expect(toSnakeCase('bgSelectColor')).toBe('bg_select_color');
-    });
-
-    it('すでに小文字のみの場合はそのまま', () => {
-        expect(toSnakeCase('text')).toBe('text');
+describe('toKebabCase / toSnakeCase', () => {
+    it.each([
+        ['textPrimary', 'text-primary', 'text_primary'],
+        ['bgSelectColor', 'bg-select-color', 'bg_select_color'],
+        ['text', 'text', 'text']
+    ])('%s をケバブ/スネークに変換する', (input, kebab, snake) => {
+        expect(toKebabCase(input)).toBe(kebab);
+        expect(toSnakeCase(input)).toBe(snake);
     });
 });

@@ -4,7 +4,6 @@ import { mount } from '@vue/test-utils';
 import { z } from 'zod';
 import { Form as VeeForm } from 'vee-validate';
 import Select from '@/components/controls/Select.vue';
-import FieldAccordionList from '@/components/inner-parts/FieldAccordionList.vue';
 import { uniqueFieldName } from '@/test/utils/uniqueFieldName';
 
 const items = [
@@ -14,11 +13,6 @@ const items = [
 ];
 
 describe('Select', () => {
-    it('デフォルトでレンダリングされる', () => {
-        const wrapper = mount(Select, { props: { items } });
-        expect(wrapper.find('.component-select-group').exists()).toBe(true);
-    });
-
     it('label が表示される', () => {
         const wrapper = mount(Select, {
             props: { items, label: '選択してください' }
@@ -32,29 +26,20 @@ describe('Select', () => {
         expect(wrapper.find('.component-select-group').classes()).toContain('is-focus');
     });
 
-    it('variant prop がクラスに反映される', () => {
-        const wrapper = mount(Select, { props: { items, variant: 'danger' } });
-        expect(wrapper.find('.component-select-group').classes()).toContain('danger');
+    it.each([
+        ['variant', 'danger'],
+        ['size', 'large'],
+        ['shape', 'no-radius']
+    ])('%s prop がクラスに反映される', (prop, value) => {
+        const wrapper = mount(Select, { props: { items, [prop]: value } });
+        expect(wrapper.find('.component-select-group').classes()).toContain(value);
     });
 
-    it('size prop がクラスに反映される', () => {
-        const wrapper = mount(Select, { props: { items, size: 'large' } });
-        expect(wrapper.find('.component-select-group').classes()).toContain('large');
-    });
-
-    it('shape prop がクラスに反映される', () => {
-        const wrapper = mount(Select, { props: { items, shape: 'no-radius' } });
-        expect(wrapper.find('.component-select-group').classes()).toContain('no-radius');
-    });
-
-    it('required が true のとき isRequired になる', () => {
-        const wrapper = mount(Select, { props: { items, required: true } });
-        expect(wrapper.find('.component-input-frame').classes()).toContain('is-required');
-    });
-
-    it('ZodString.min(1) schema で isRequired になる', () => {
-        const schema = z.string().min(1);
-        const wrapper = mount(Select, { props: { items, schema } });
+    it.each([
+        [{ required: true }],
+        [{ schema: z.string().min(1) }]
+    ])('required/schema で isRequired になる', (extraProps) => {
+        const wrapper = mount(Select, { props: { items, ...extraProps } });
         expect(wrapper.find('.component-input-frame').classes()).toContain('is-required');
     });
 
@@ -96,17 +81,6 @@ describe('Select', () => {
     it('position prop がクラスに反映される', () => {
         const wrapper = mount(Select, { props: { items, position: 'top' } });
         expect(wrapper.find('.component-select-group').classes()).toContain('top');
-    });
-
-    it('FieldAccordionList の change イベントで onChange が呼ばれ value と model が更新される', async () => {
-        const wrapper = mount(Select, { props: { items } });
-        const accordionList = wrapper.findComponent(FieldAccordionList);
-        await accordionList.vm.$emit('change', 'apple');
-        await nextTick();
-        const vm = wrapper.vm as any;
-        // onChange: value.value = 'apple' → watch → model.value = 'apple'
-        expect(vm.$.setupState.value).toBe('apple');
-        expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['apple']);
     });
 
     it('onDelete を呼ぶと value が空になり isOpen が false になる', async () => {

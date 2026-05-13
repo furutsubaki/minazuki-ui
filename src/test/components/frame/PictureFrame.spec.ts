@@ -13,19 +13,13 @@ describe('PictureFrame', () => {
         expect(wrapper.find('.picture-frame-inner').element.tagName).toBe('ARTICLE');
     });
 
-    it('layout prop がクラスに反映される', () => {
-        const wrapper = mount(PictureFrame, { props: { layout: 'pf-right' } });
-        expect(wrapper.classes()).toContain('pf-right');
-    });
-
-    it('shape prop がクラスに反映される', () => {
-        const wrapper = mount(PictureFrame, { props: { shape: 'circle' } });
-        expect(wrapper.classes()).toContain('circle');
-    });
-
-    it('isPading が true のとき is-pading クラスが付く', () => {
-        const wrapper = mount(PictureFrame, { props: { isPading: true } });
-        expect(wrapper.classes()).toContain('is-pading');
+    it.each([
+        [{ layout: 'pf-right' }, 'pf-right'],
+        [{ shape: 'circle' }, 'circle'],
+        [{ isPading: true }, 'is-pading']
+    ])('prop がクラスに反映される', (props, expectedClass) => {
+        const wrapper = mount(PictureFrame, { props });
+        expect(wrapper.classes()).toContain(expectedClass);
     });
 
     it('slot コンテンツが表示される', () => {

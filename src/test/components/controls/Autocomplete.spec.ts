@@ -19,34 +19,18 @@ describe('Autocomplete', () => {
         vi.useRealTimers();
     });
 
-    it('デフォルトでレンダリングされる', () => {
-        const wrapper = mount(Autocomplete, { props: { items } });
-        expect(wrapper.find('.component-input').exists()).toBe(true);
-    });
-
     it('label が表示される', () => {
         const wrapper = mount(Autocomplete, { props: { items, label: '検索' } });
         expect(wrapper.find('.label').text()).toBe('検索');
     });
 
-    it('variant prop がクラスに反映される', () => {
-        const wrapper = mount(Autocomplete, { props: { items, variant: 'danger' } });
-        expect(wrapper.find('.component-input').classes()).toContain('danger');
-    });
-
-    it('size prop がクラスに反映される', () => {
-        const wrapper = mount(Autocomplete, { props: { items, size: 'large' } });
-        expect(wrapper.find('.component-input').classes()).toContain('large');
-    });
-
-    it('shape prop がクラスに反映される', () => {
-        const wrapper = mount(Autocomplete, { props: { items, shape: 'no-radius' } });
-        expect(wrapper.find('.component-input').classes()).toContain('no-radius');
-    });
-
-    it('input 要素がレンダリングされる', () => {
-        const wrapper = mount(Autocomplete, { props: { items } });
-        expect(wrapper.find('input').exists()).toBe(true);
+    it.each([
+        ['variant', 'danger'],
+        ['size', 'large'],
+        ['shape', 'no-radius']
+    ])('%s prop がクラスに反映される', (prop, value) => {
+        const wrapper = mount(Autocomplete, { props: { items, [prop]: value } });
+        expect(wrapper.find('.component-input').classes()).toContain(value);
     });
 
     it('disabled が true のとき input が disabled になる', () => {

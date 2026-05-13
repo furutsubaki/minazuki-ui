@@ -13,7 +13,7 @@ import {
     Search as IconSearch,
     Clock as IconClock
 } from 'lucide-vue-next';
-import { DATE_FORMAT } from '@/assets/ts/const ';
+import { DATE_FORMAT } from '@/assets/ts/const';
 import dayjs from 'dayjs';
 import useOutsideClick from '@/directives/useOutsideClick';
 

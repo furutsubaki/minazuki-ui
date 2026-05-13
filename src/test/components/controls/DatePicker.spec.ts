@@ -26,29 +26,17 @@ function mountDP(props: Record<string, unknown> = {}, options: MountingOptions<o
 }
 
 describe('DatePicker', () => {
-    it('デフォルトでレンダリングされる', () => {
-        const wrapper = mountDP();
-        expect(wrapper.find('.component-datepicker').exists()).toBe(true);
-    });
-
     it('label が表示される', () => {
         const wrapper = mountDP({ label: '生年月日' });
         expect(wrapper.find('.label').text()).toBe('生年月日');
     });
 
-    it('variant prop がクラスに反映される', () => {
-        const wrapper = mountDP({ variant: 'danger' });
-        expect(wrapper.find('.component-datepicker').classes()).toContain('danger');
-    });
-
-    it('shape prop がクラスに反映される', () => {
-        const wrapper = mountDP({ shape: 'no-radius' });
-        expect(wrapper.find('.component-datepicker').classes()).toContain('no-radius');
-    });
-
-    it('datepicker 要素がレンダリングされる', () => {
-        const wrapper = mountDP();
-        expect(wrapper.find('.datepicker').exists()).toBe(true);
+    it.each([
+        ['variant', 'danger'],
+        ['shape', 'no-radius']
+    ])('%s prop がクラスに反映される', (prop, value) => {
+        const wrapper = mountDP({ [prop]: value });
+        expect(wrapper.find('.component-datepicker').classes()).toContain(value);
     });
 
     it('disabled が true のとき is-disabled クラスが付く', () => {
@@ -56,35 +44,21 @@ describe('DatePicker', () => {
         expect(wrapper.find('.component-input-frame').classes()).toContain('is-disabled');
     });
 
-    it('setDayClass は土曜日に saturday を返す', () => {
+    it.each([
+        ['2024-01-06T12:00:00Z', 'saturday'],
+        ['2024-01-07T12:00:00Z', 'sunday'],
+        ['2024-01-08T12:00:00Z', '']
+    ])('setDayClass は %s に %s を返す', (dateISO, expectedClass) => {
         const wrapper = mountDP();
         const dayClass = wrapper.findComponent({ name: 'VueDatePicker' }).props('dayClass') as (d: string) => string;
-        // 2024-01-06T12:00:00Z = 土曜日の正午UTC（どのタイムゾーンでも土曜日になる）
-        expect(dayClass('2024-01-06T12:00:00Z')).toBe('saturday');
+        expect(dayClass(dateISO)).toBe(expectedClass);
     });
 
-    it('setDayClass は日曜日に sunday を返す', () => {
-        const wrapper = mountDP();
-        const dayClass = wrapper.findComponent({ name: 'VueDatePicker' }).props('dayClass') as (d: string) => string;
-        // 2024-01-07T12:00:00Z = 日曜日の正午UTC
-        expect(dayClass('2024-01-07T12:00:00Z')).toBe('sunday');
-    });
-
-    it('setDayClass は平日に空文字を返す', () => {
-        const wrapper = mountDP();
-        const dayClass = wrapper.findComponent({ name: 'VueDatePicker' }).props('dayClass') as (d: string) => string;
-        // 2024-01-08T12:00:00Z = 月曜日の正午UTC
-        expect(dayClass('2024-01-08T12:00:00Z')).toBe('');
-    });
-
-    it('required prop が true のとき isRequired が true になる', () => {
-        const wrapper = mountDP({ required: true });
-        expect(wrapper.findComponent(FieldFrame).props('required')).toBe(true);
-    });
-
-    it('ZodString.min(1) schema で isRequired になる', () => {
-        const schema = z.string().min(1);
-        const wrapper = mountDP({ schema });
+    it.each([
+        [{ required: true }],
+        [{ schema: z.string().min(1) }]
+    ])('required/schema で isRequired が true になる', (extraProps) => {
+        const wrapper = mountDP(extraProps);
         expect(wrapper.findComponent(FieldFrame).props('required')).toBe(true);
     });
 

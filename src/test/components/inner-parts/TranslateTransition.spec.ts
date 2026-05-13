@@ -11,19 +11,14 @@ describe('TranslateTransition', () => {
         expect(wrapper.find('.inner').text()).toBe('コンテンツ');
     });
 
-    it('transitionStart イベントが発火する', () => {
+    it.each([
+        ['transitionStart', 'onTransitionStart'],
+        ['transitionEnd', 'onTransitionEnd']
+    ])('%s イベントが発火する', (eventName, handlerName) => {
         const wrapper = mount(TranslateTransition, {
             slots: { default: '<div>A</div>' }
         });
-        (wrapper.vm as any).onTransitionStart();
-        expect(wrapper.emitted('transitionStart')).toBeTruthy();
-    });
-
-    it('transitionEnd イベントが発火する', () => {
-        const wrapper = mount(TranslateTransition, {
-            slots: { default: '<div>A</div>' }
-        });
-        (wrapper.vm as any).onTransitionEnd();
-        expect(wrapper.emitted('transitionEnd')).toBeTruthy();
+        (wrapper.vm as any)[handlerName]();
+        expect(wrapper.emitted(eventName)).toBeTruthy();
     });
 });

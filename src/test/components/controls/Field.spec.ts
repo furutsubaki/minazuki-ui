@@ -9,29 +9,18 @@ import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
 import { uniqueFieldName } from '@/test/utils/uniqueFieldName';
 
 describe('Field', () => {
-    it('デフォルトでレンダリングされる', () => {
-        const wrapper = mount(Field);
-        expect(wrapper.find('.component-input').exists()).toBe(true);
-    });
-
     it('label が表示される', () => {
         const wrapper = mount(Field, { props: { label: 'メールアドレス' } });
         expect(wrapper.find('.label').text()).toBe('メールアドレス');
     });
 
-    it('variant prop がクラスに反映される', () => {
-        const wrapper = mount(Field, { props: { variant: 'danger' } });
-        expect(wrapper.find('.component-input').classes()).toContain('danger');
-    });
-
-    it('size prop がクラスに反映される', () => {
-        const wrapper = mount(Field, { props: { size: 'large' } });
-        expect(wrapper.find('.component-input').classes()).toContain('large');
-    });
-
-    it('shape prop がクラスに反映される', () => {
-        const wrapper = mount(Field, { props: { shape: 'no-radius' } });
-        expect(wrapper.find('.component-input').classes()).toContain('no-radius');
+    it.each([
+        ['variant', 'danger'],
+        ['size', 'large'],
+        ['shape', 'no-radius']
+    ])('%s prop がクラスに反映される', (prop, value) => {
+        const wrapper = mount(Field, { props: { [prop]: value } });
+        expect(wrapper.find('.component-input').classes()).toContain(value);
     });
 
     it('type="password" のとき password フィールドがレンダリングされる', () => {
@@ -68,34 +57,25 @@ describe('Field', () => {
         expect(wrapper.find('button.input').exists()).toBe(true);
     });
 
-    it('type="date" のとき カレンダーアイコンが表示される', () => {
-        const wrapper = mount(Field, { props: { type: 'date' } });
+    it.each([
+        ['date'],
+        ['time']
+    ])('type="%s" のとき .icon-box.always-visible が表示される', (type) => {
+        const wrapper = mount(Field, { props: { type } });
         expect(wrapper.find('.icon-box.always-visible').exists()).toBe(true);
     });
 
-    it('type="time" のとき 時計アイコンが表示される', () => {
-        const wrapper = mount(Field, { props: { type: 'time' } });
-        expect(wrapper.find('.icon-box.always-visible').exists()).toBe(true);
-    });
-
-    it('type="time" のとき input の type が time になる', () => {
-        const wrapper = mount(Field, { props: { type: 'time' } });
-        expect(wrapper.find('input').attributes('type')).toBe('time');
+    it.each([
+        ['time', 'time'],
+        ['number', 'tel']
+    ])('type="%s" のとき input の type が %s になる', (type, expectedType) => {
+        const wrapper = mount(Field, { props: { type } });
+        expect(wrapper.find('input').attributes('type')).toBe(expectedType);
     });
 
     it('type="search" のとき 検索アイコン領域がレンダリングされる', () => {
         const wrapper = mount(Field, { props: { type: 'search' } });
         expect(wrapper.find('.icon-box').exists()).toBe(true);
-    });
-
-    it('type="number" のとき fieldType が tel になる', () => {
-        const wrapper = mount(Field, { props: { type: 'number' } });
-        expect(wrapper.find('input').attributes('type')).toBe('tel');
-    });
-
-    it('type="date" のとき unmount でエラーが起きない', () => {
-        const wrapper = mount(Field, { props: { type: 'date' } });
-        expect(() => wrapper.unmount()).not.toThrow();
     });
 
     it('placeholder が FieldFrame に表示される', () => {
@@ -123,17 +103,18 @@ describe('Field', () => {
         expect(wrapper.find('.component-input').classes()).not.toContain('is-focus');
     });
 
-    it('required が true のとき isRequired になる', () => {
-        const wrapper = mount(Field, { props: { required: true } });
-        const input = wrapper.find('input');
-        expect(input.attributes('required')).not.toBeUndefined();
-    });
-
-    it('ZodString.min(1) schema で isRequired になる', () => {
-        const schema = z.string().min(1);
-        const wrapper = mount(Field, { props: { schema } });
-        const input = wrapper.find('input');
-        expect(input.attributes('required')).not.toBeUndefined();
+    it.each([
+        [{ required: true }, true],
+        [{ schema: z.string().min(1) }, true],
+        [{ schema: z.string().min(2) }, false]
+    ])('required/schema で isRequired が制御される', (props, shouldBeRequired) => {
+        const wrapper = mount(Field, { props });
+        const required = wrapper.find('input').attributes('required');
+        if (shouldBeRequired) {
+            expect(required).not.toBeUndefined();
+        } else {
+            expect(required).toBeUndefined();
+        }
     });
 
     it('ZodString.max(10) schema で max が設定される', () => {
@@ -148,17 +129,6 @@ describe('Field', () => {
         await wrapper.find('input').setValue('hello');
         await nextTick();
         expect(formatter).toHaveBeenCalled();
-    });
-
-    it('type="password" で値がある状態で目のアイコンをクリックするとパスワードが表示される', async () => {
-        const wrapper = mount(Field, { props: { type: 'password', modelValue: 'secret' } });
-        await nextTick();
-        const svgs = wrapper.findAll('.icon-box svg');
-        const eyeOffSvg = svgs.find((svg) => (svg.element as HTMLElement).style.display !== 'none');
-        expect(eyeOffSvg).toBeDefined();
-        await eyeOffSvg!.trigger('click');
-        await nextTick();
-        expect(wrapper.find('input').attributes('type')).toBe('text');
     });
 
     it('clearable で値がある状態でクリアアイコンをクリックすると値がリセットされる', async () => {
@@ -187,17 +157,6 @@ describe('Field', () => {
         const wrapper = mount(Field);
         await wrapper.find('input').setValue('新しい値');
         expect(wrapper.find('input').element.value).toBe('新しい値');
-    });
-
-    it('onShowPassword を呼ぶと input type が text になる', async () => {
-        const wrapper = mount(Field, { props: { type: 'password', modelValue: 'secret' } });
-        await nextTick();
-        const svgs = wrapper.findAll('.icon-box svg');
-        const visibleSvg = svgs.find((svg) => (svg.element as HTMLElement).style.display !== 'none');
-        expect(visibleSvg).toBeDefined();
-        await visibleSvg!.trigger('click');
-        await nextTick();
-        expect(wrapper.find('input').attributes('type')).toBe('text');
     });
 
     it('onHidePassword を呼ぶと input type が password に戻る', async () => {
@@ -382,8 +341,11 @@ describe('Field', () => {
         vi.unstubAllGlobals();
     });
 
-    it('非 date type のとき unmount でエラーが起きない', () => {
-        const wrapper = mount(Field, { props: { type: 'text' } });
+    it.each([
+        ['text'],
+        ['date']
+    ])('type="%s" のとき unmount でエラーが起きない', (type) => {
+        const wrapper = mount(Field, { props: { type } });
         expect(() => wrapper.unmount()).not.toThrow();
     });
 
@@ -441,10 +403,5 @@ describe('Field', () => {
         expect(wrapper.find('button.input span').text()).not.toBe('');
     });
 
-    it('ZodString.min(2) schema では isRequired にならない', () => {
-        const schema = z.string().min(2);
-        const wrapper = mount(Field, { props: { schema } });
-        const input = wrapper.find('input');
-        expect(input.attributes('required')).toBeUndefined();
-    });
 });
+

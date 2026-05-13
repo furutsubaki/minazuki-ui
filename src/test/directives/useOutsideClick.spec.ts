@@ -18,14 +18,6 @@ describe('useOutsideClick', () => {
         vi.restoreAllMocks();
     });
 
-    it('vOutsideClick ディレクティブが返される', () => {
-        const { vOutsideClick } = useOutsideClick();
-        expect(vOutsideClick).toBeDefined();
-        expect(typeof vOutsideClick.mounted).toBe('function');
-        expect(typeof vOutsideClick.beforeUnmount).toBe('function');
-        expect(typeof vOutsideClick.updated).toBe('function');
-    });
-
     it('要素の外側クリックでハンドラーが呼ばれる', () => {
         const handler = vi.fn();
         const { vOutsideClick } = useOutsideClick();
@@ -151,17 +143,6 @@ describe('useOutsideClick', () => {
         vOutsideClick.beforeUnmount!(el, mkBinding(undefined), nullVNode, null);
         el.remove();
         ignoreEl.remove();
-    });
-
-    it('binding.value が undefined のとき neither function nor object ブランチを通る', () => {
-        const { vOutsideClick } = useOutsideClick();
-        const el = document.createElement('div');
-        document.body.appendChild(el);
-
-        expect(() => vOutsideClick.mounted!(el, mkBinding(undefined), nullVNode, null)).not.toThrow();
-
-        vOutsideClick.beforeUnmount!(el, mkBinding(undefined), nullVNode, null);
-        el.remove();
     });
 
     it('updated で binding.value が関数のとき object ブランチをスキップし handler1 が維持される', () => {

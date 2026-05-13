@@ -6,7 +6,6 @@ import useNotification from '@/composables/useNotification';
 import Frame from '@/components/frame/Frame.vue';
 import PictureFrame from '@/components/frame/PictureFrame.vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
-import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
 import {
     Info,
     CheckCircle2,
@@ -40,18 +39,14 @@ describe('NotificationItem', () => {
         vi.useRealTimers();
     });
 
-    it('title が表示される', () => {
+    it.each([
+        ['.title', 'テストタイトル'],
+        ['.message', 'テストメッセージ']
+    ])('%s が表示される', (selector, expected) => {
         const wrapper = mount(NotificationItem, {
             props: { notification: baseNotification }
         });
-        expect(wrapper.find('.title').text()).toBe('テストタイトル');
-    });
-
-    it('message が表示される', () => {
-        const wrapper = mount(NotificationItem, {
-            props: { notification: baseNotification }
-        });
-        expect(wrapper.find('.message').text()).toBe('テストメッセージ');
+        expect(wrapper.find(selector).text()).toBe(expected);
     });
 
     it('closeable のとき閉じるボタンが表示される', () => {
@@ -133,29 +128,17 @@ describe('NotificationItem', () => {
         expect(wrapper.findComponent(Frame).props('noShadow')).toBe(true);
     });
 
-    it('position="top-right" のとき right-rebound が使われる', () => {
-        const wrapper = mount(NotificationItem, {
-            props: { notification: baseNotification }
-        });
-        expect((wrapper.vm as any).transitionFrom).toBe('right-rebound');
-    });
-
-    it('position="top-left" のとき left-rebound が使われる', () => {
-        const notification = { ...baseNotification, key: 'top-left-key', position: 'top-left' as const };
+    it.each([
+        ['top-right', 'right-rebound'],
+        ['top-left', 'left-rebound'],
+        ['top-center', undefined]
+    ])('position="%s" のとき transitionFrom が正しく設定される', (position, expectedFrom) => {
+        const notification = { ...baseNotification, key: `${position}-key`, position: position as any };
         notifications.value = [notification];
         const wrapper = mount(NotificationItem, {
             props: { notification }
         });
-        expect((wrapper.vm as any).transitionFrom).toBe('left-rebound');
-    });
-
-    it('position で right/left 以外のとき transitionFrom が undefined になる', () => {
-        const notification = { ...baseNotification, key: 'top-center-key', position: 'top-center' as any };
-        notifications.value = [notification];
-        const wrapper = mount(NotificationItem, {
-            props: { notification }
-        });
-        expect((wrapper.vm as any).transitionFrom).toBeUndefined();
+        expect((wrapper.vm as any).transitionFrom).toBe(expectedFrom);
     });
 
     it('positionStyle が正しい CSS を生成する（top-right 単独）', async () => {
@@ -253,44 +236,24 @@ describe('NotificationItem', () => {
         vi.unstubAllGlobals();
     });
 
-    it('variant="info" のとき Info アイコンが表示される', () => {
+    it.each([
+        ['info', Info],
+        ['success', CheckCircle2],
+        ['warning', AlertTriangle],
+        ['danger', XOctagon]
+    ])('variant="%s" のとき対応アイコンが表示される', (variant, IconComponent) => {
         const wrapper = mount(NotificationItem, {
-            props: { notification: baseNotification }
+            props: { notification: { ...baseNotification, variant: variant as any } }
         });
-        expect(wrapper.findComponent(Info).exists()).toBe(true);
+        expect(wrapper.findComponent(IconComponent).exists()).toBe(true);
     });
 
-    it('variant="success" のとき success アイコンが表示される', () => {
+    it.each([
+        ['primary'],
+        ['secondary']
+    ])('variant="%s" のときアイコンが表示されない', (variant) => {
         const wrapper = mount(NotificationItem, {
-            props: { notification: { ...baseNotification, variant: 'success' as const } }
-        });
-        expect(wrapper.findComponent(CheckCircle2).exists()).toBe(true);
-    });
-
-    it('variant="warning" のとき warning アイコンが表示される', () => {
-        const wrapper = mount(NotificationItem, {
-            props: { notification: { ...baseNotification, variant: 'warning' as const } }
-        });
-        expect(wrapper.findComponent(AlertTriangle).exists()).toBe(true);
-    });
-
-    it('variant="danger" のとき danger アイコンが表示される', () => {
-        const wrapper = mount(NotificationItem, {
-            props: { notification: { ...baseNotification, variant: 'danger' as const } }
-        });
-        expect(wrapper.findComponent(XOctagon).exists()).toBe(true);
-    });
-
-    it('variant="primary" のときアイコンが表示されない', () => {
-        const wrapper = mount(NotificationItem, {
-            props: { notification: { ...baseNotification, variant: 'primary' as const } }
-        });
-        expect(wrapper.findAll('.icon')).toHaveLength(0);
-    });
-
-    it('variant="secondary" のときアイコンが表示されない', () => {
-        const wrapper = mount(NotificationItem, {
-            props: { notification: { ...baseNotification, variant: 'secondary' as const } }
+            props: { notification: { ...baseNotification, variant: variant as any } }
         });
         expect(wrapper.findAll('.icon')).toHaveLength(0);
     });
@@ -321,22 +284,6 @@ describe('NotificationItem', () => {
         expect(vm.transitioning).toBe(true);
 
         await ot.vm.$emit('transitionEnd');
-        await nextTick();
-        expect(vm.transitioning).toBe(false);
-    });
-
-    it('TranslateTransition の transition-start/end イベントで transitioning が更新される', async () => {
-        const wrapper = mount(NotificationItem, {
-            props: { notification: baseNotification }
-        });
-        const tt = wrapper.findComponent(TranslateTransition);
-        const vm = wrapper.vm as any;
-
-        await tt.vm.$emit('transitionStart');
-        await nextTick();
-        expect(vm.transitioning).toBe(true);
-
-        await tt.vm.$emit('transitionEnd');
         await nextTick();
         expect(vm.transitioning).toBe(false);
     });

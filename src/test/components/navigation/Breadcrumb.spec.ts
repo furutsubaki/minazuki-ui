@@ -11,11 +11,6 @@ const items = [
 ];
 
 describe('Breadcrumb', () => {
-    it('デフォルトでレンダリングされる', () => {
-        const wrapper = mount(Breadcrumb, { props: { items } });
-        expect(wrapper.find('.component-breadcrumb').exists()).toBe(true);
-    });
-
     it('items の数だけリンクがレンダリングされる', () => {
         const wrapper = mount(Breadcrumb, { props: { items } });
         expect(wrapper.findAll('.link')).toHaveLength(3);

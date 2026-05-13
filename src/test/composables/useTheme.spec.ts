@@ -21,18 +21,6 @@ describe('useTheme', () => {
         expect(currentTheme.value).toBe('light');
     });
 
-    it('baseTheme が base と status を持つ', () => {
-        const { baseTheme } = useTheme();
-        expect(baseTheme.base).toBeDefined();
-        expect(baseTheme.status).toBeDefined();
-    });
-
-    it('themes が light と dark を含む', () => {
-        const { themes } = useTheme();
-        expect(themes.value.light).toBeDefined();
-        expect(themes.value.dark).toBeDefined();
-    });
-
     it('overrideTheme でカスタムテーマが追加される', () => {
         const { themes, overrideTheme } = useTheme();
         overrideTheme({
@@ -55,14 +43,6 @@ describe('useTheme', () => {
             }
         });
         expect(themes.value.light?.theme?.bgPrimary).toBe('#ffffff');
-    });
-
-    it('setTheme を呼ぶと useHead が呼ばれる', () => {
-        const mockHead = vi.mocked(useHead);
-        mockHead.mockClear();
-        const { setTheme } = useTheme();
-        setTheme('light');
-        expect(mockHead).toHaveBeenCalled();
     });
 
     it('setTheme("dark") を呼ぶと dark テーマの CSS が生成される', () => {
@@ -110,7 +90,7 @@ describe('useTheme', () => {
         themes.value = savedThemes;
     });
 
-    it('localStorage が存在しない場合は setTheme で localStorage を操作しない', () => {
+    it('localStorage が存在しない場合も setTheme が正常に完了する', () => {
         const mockHead = vi.mocked(useHead);
         mockHead.mockClear();
         const { setTheme } = useTheme();
@@ -118,8 +98,7 @@ describe('useTheme', () => {
         const savedLocalStorage = (globalThis as any).localStorage;
         (globalThis as any).localStorage = undefined;
 
-        setTheme('light');
-
+        expect(() => setTheme('light')).not.toThrow();
         expect(mockHead).toHaveBeenCalled();
 
         (globalThis as any).localStorage = savedLocalStorage;

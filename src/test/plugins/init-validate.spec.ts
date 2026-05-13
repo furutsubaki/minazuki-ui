@@ -7,63 +7,22 @@ describe('init-validate', () => {
         initValidate();
     });
 
-    it('invalid_literal で必須チェックエラーになる', () => {
-        const schema = z.literal(true);
-        const result = schema.safeParse(false);
+    it.each([
+        [z.literal(true), false, 'チェックしてください。', true],
+        [z.string().min(1), '', 'この項目は必須項目です。', true],
+        [z.string(), null, 'この項目は必須項目です。', true],
+        [z.literal(true), 1, 'チェックしてください。', false],
+        [z.string().min(2), 'a', 'この項目は必須項目です。', false],
+        [z.string(), 123, 'この項目は必須項目です。', false]
+    ])('schema=%o, input=%o のとき message が期待通り', (schema, input, expectedMessage, shouldMatch) => {
+        const result = (schema as z.ZodTypeAny).safeParse(input);
         expect(result.success).toBe(false);
         if (!result.success) {
-            expect(result.error.errors[0].message).toBe('チェックしてください。');
-        }
-    });
-
-    it('min(1) で必須エラーになる', () => {
-        const schema = z.string().min(1);
-        const result = schema.safeParse('');
-        expect(result.success).toBe(false);
-        if (!result.success) {
-            expect(result.error.errors[0].message).toBe('この項目は必須項目です。');
-        }
-    });
-
-    it('invalid_type で null を渡すと必須エラーになる', () => {
-        const schema = z.string();
-        const result = schema.safeParse(null);
-        expect(result.success).toBe(false);
-        if (!result.success) {
-            expect(result.error.errors[0].message).toBe('この項目は必須項目です。');
-        }
-    });
-
-    it('通常のバリデーションエラーでも成功しない', () => {
-        const schema = z.string().min(5);
-        const result = schema.safeParse('ab');
-        expect(result.success).toBe(false);
-    });
-
-    it('invalid_literal で received が truthy のとき zodI18nMap にフォールスルーする', () => {
-        const schema = z.literal(true);
-        const result = schema.safeParse(1);
-        expect(result.success).toBe(false);
-        if (!result.success) {
-            expect(result.error.errors[0].message).not.toBe('チェックしてください。');
-        }
-    });
-
-    it('min(2) の場合は必須エラーではなく通常エラーになる', () => {
-        const schema = z.string().min(2);
-        const result = schema.safeParse('a');
-        expect(result.success).toBe(false);
-        if (!result.success) {
-            expect(result.error.errors[0].message).not.toBe('この項目は必須項目です。');
-        }
-    });
-
-    it('invalid_type で数値を渡すと zodI18nMap にフォールスルーする', () => {
-        const schema = z.string();
-        const result = schema.safeParse(123);
-        expect(result.success).toBe(false);
-        if (!result.success) {
-            expect(result.error.errors[0].message).not.toBe('この項目は必須項目です。');
+            if (shouldMatch) {
+                expect(result.error.errors[0].message).toBe(expectedMessage);
+            } else {
+                expect(result.error.errors[0].message).not.toBe(expectedMessage);
+            }
         }
     });
 });

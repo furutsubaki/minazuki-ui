@@ -8,11 +8,6 @@ describe('Modal', () => {
     afterEach(() => {
         vi.useRealTimers();
     });
-    it('デフォルトでレンダリングされる', () => {
-        const wrapper = mount(Modal);
-        expect(wrapper.find('.component-modal').exists()).toBe(true);
-    });
-
     it('v-model が true のとき modal が表示される', () => {
         const wrapper = mount(Modal, { props: { modelValue: true } });
         const el = wrapper.find('.component-modal').element as HTMLElement;
@@ -35,14 +30,12 @@ describe('Modal', () => {
         expect(wrapper.find('.title').exists()).toBe(false);
     });
 
-    it('size prop がクラスに反映される', () => {
-        const wrapper = mount(Modal, { props: { modelValue: true, size: 'large' } });
-        expect(wrapper.find('.modal').classes()).toContain('large');
-    });
-
-    it('shape prop がクラスに反映される', () => {
-        const wrapper = mount(Modal, { props: { modelValue: true, shape: 'no-radius' } });
-        expect(wrapper.find('.modal').classes()).toContain('no-radius');
+    it.each([
+        ['size', 'large'],
+        ['shape', 'no-radius']
+    ])('%s prop がクラスに反映される', (prop, value) => {
+        const wrapper = mount(Modal, { props: { modelValue: true, [prop]: value } });
+        expect(wrapper.find('.modal').classes()).toContain(value);
     });
 
     it('slot コンテンツが表示される', () => {
@@ -71,24 +64,14 @@ describe('Modal', () => {
         document.documentElement.style.overflow = '';
     });
 
-    it('transitionFrom="left" が反映される', () => {
-        const wrapper = mount(Modal, { props: { modelValue: true, transitionFrom: 'left' } });
-        expect(wrapper.findComponent(TranslateTransition).props('from')).toBe('left-rebound');
-    });
-
-    it('transitionFrom="top" が反映される', () => {
-        const wrapper = mount(Modal, { props: { modelValue: true, transitionFrom: 'top' } });
-        expect(wrapper.findComponent(TranslateTransition).props('from')).toBe('top-rebound');
-    });
-
-    it('transitionFrom="right" が反映される', () => {
-        const wrapper = mount(Modal, { props: { modelValue: true, transitionFrom: 'right' } });
-        expect(wrapper.findComponent(TranslateTransition).props('from')).toBe('right-rebound');
-    });
-
-    it('transitionFrom="bottom" が反映される', () => {
-        const wrapper = mount(Modal, { props: { modelValue: true, transitionFrom: 'bottom' } });
-        expect(wrapper.findComponent(TranslateTransition).props('from')).toBe('bottom-rebound');
+    it.each([
+        ['top', 'top-rebound'],
+        ['right', 'right-rebound'],
+        ['bottom', 'bottom-rebound'],
+        ['left', 'left-rebound']
+    ])('transitionFrom="%s" が TranslateTransition に反映される', (transitionFrom, expectedFrom) => {
+        const wrapper = mount(Modal, { props: { modelValue: true, transitionFrom } });
+        expect(wrapper.findComponent(TranslateTransition).props('from')).toBe(expectedFrom);
     });
 
     it('閉じるボタンクリックで closed イベントが発火する', async () => {

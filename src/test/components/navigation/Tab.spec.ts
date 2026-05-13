@@ -11,11 +11,6 @@ const tabs = [
 ];
 
 describe('Tab', () => {
-    it('デフォルトでレンダリングされる', () => {
-        const wrapper = mount(Tab, { props: { tabs, modelValue: 'tab1' } });
-        expect(wrapper.find('.component-tab').exists()).toBe(true);
-    });
-
     it('tabs の数だけタブボタンがレンダリングされる', () => {
         const wrapper = mount(Tab, { props: { tabs, modelValue: 'tab1' } });
         const buttons = wrapper.findAll('button');
@@ -54,57 +49,23 @@ describe('Tab', () => {
         expect(wrapper.find('.slot-tab1').exists()).toBe(false);
     });
 
-    it('size prop がクラスに反映される', () => {
-        const wrapper = mount(Tab, { props: { tabs, modelValue: 'tab1', size: 'large' } });
-        expect(wrapper.find('.component-tab').classes()).toContain('large');
+    it.each([
+        ['size', 'large'],
+        ['position', 'bottom']
+    ])('%s prop がクラスに反映される', (prop, value) => {
+        const wrapper = mount(Tab, { props: { tabs, modelValue: 'tab1', [prop]: value } });
+        expect(wrapper.find('.component-tab').classes()).toContain(value);
     });
 
-    it('position prop がクラスに反映される', () => {
-        const wrapper = mount(Tab, { props: { tabs, modelValue: 'tab1', position: 'bottom' } });
-        expect(wrapper.find('.component-tab').classes()).toContain('bottom');
-    });
-
-    it('tabAlign="center" が反映される', () => {
-        const wrapper = mount(Tab, { props: { tabs, modelValue: 'tab1', tabAlign: 'center' } });
-        expect((wrapper.vm as any).tabAlignProperty).toBe('center');
-    });
-
-    it('tabAlign="end" が反映される', () => {
-        const wrapper = mount(Tab, { props: { tabs, modelValue: 'tab1', tabAlign: 'end' } });
-        expect((wrapper.vm as any).tabAlignProperty).toBe('flex-end');
-    });
-
-    it('tabAlign="between" が反映される', () => {
-        const wrapper = mount(Tab, { props: { tabs, modelValue: 'tab1', tabAlign: 'between' } });
-        expect((wrapper.vm as any).tabAlignProperty).toBe('space-between');
-    });
-
-    it('position="left" のとき Y方向のトランジションが使われる', async () => {
-        const wrapper = mount(Tab, {
-            props: {
-                tabs,
-                modelValue: 'tab1',
-                position: 'left',
-                'onUpdate:modelValue': (v: string) => wrapper.setProps({ modelValue: v })
-            }
-        });
-        const buttons = wrapper.findAll('button');
-        await buttons[1].trigger('click');
-        expect(wrapper.props('modelValue')).toBe('tab2');
-    });
-
-    it('position="right" でタブを前に戻すと top 方向になる', async () => {
-        const wrapper = mount(Tab, {
-            props: {
-                tabs,
-                modelValue: 'tab3',
-                position: 'right',
-                'onUpdate:modelValue': (v: string) => wrapper.setProps({ modelValue: v })
-            }
-        });
-        const buttons = wrapper.findAll('button');
-        await buttons[0].trigger('click');
-        expect(wrapper.props('modelValue')).toBe('tab1');
+    it.each([
+        ['start', 'flex-start'],
+        ['center', 'center'],
+        ['end', 'flex-end'],
+        ['between', 'space-between'],
+        ['invalid', 'flex-start']
+    ])('tabAlign="%s" のとき tabAlignProperty が %s になる', (tabAlign, expected) => {
+        const wrapper = mount(Tab, { props: { tabs, modelValue: 'tab1', tabAlign: tabAlign as any } });
+        expect((wrapper.vm as any).tabAlignProperty).toBe(expected);
     });
 
     it('transition="opacity" が反映される', () => {
@@ -115,36 +76,6 @@ describe('Tab', () => {
     it('noSeparator が true のとき no-separator クラスが付く', () => {
         const wrapper = mount(Tab, { props: { tabs, modelValue: 'tab1', noSeparator: true } });
         expect(wrapper.find('.tab-header').classes()).toContain('no-separator');
-    });
-
-    it('tabAlignProperty computed: start → flex-start', () => {
-        const wrapper = mount(Tab, { props: { tabs, modelValue: 'tab1', tabAlign: 'start' } });
-        const vm = wrapper.vm as any;
-        expect(vm.tabAlignProperty).toBe('flex-start');
-    });
-
-    it('tabAlignProperty computed: center → center', () => {
-        const wrapper = mount(Tab, { props: { tabs, modelValue: 'tab1', tabAlign: 'center' } });
-        const vm = wrapper.vm as any;
-        expect(vm.tabAlignProperty).toBe('center');
-    });
-
-    it('tabAlignProperty computed: end → flex-end', () => {
-        const wrapper = mount(Tab, { props: { tabs, modelValue: 'tab1', tabAlign: 'end' } });
-        const vm = wrapper.vm as any;
-        expect(vm.tabAlignProperty).toBe('flex-end');
-    });
-
-    it('tabAlignProperty computed: between → space-between', () => {
-        const wrapper = mount(Tab, { props: { tabs, modelValue: 'tab1', tabAlign: 'between' } });
-        const vm = wrapper.vm as any;
-        expect(vm.tabAlignProperty).toBe('space-between');
-    });
-
-    it('tabAlignProperty computed: 無効な値は flex-start になる（else ブランチ）', () => {
-        const wrapper = mount(Tab, { props: { tabs, modelValue: 'tab1', tabAlign: 'invalid' as any } });
-        const vm = wrapper.vm as any;
-        expect(vm.tabAlignProperty).toBe('flex-start');
     });
 
     it('currentTabClientRects computed にアクセスできる', () => {

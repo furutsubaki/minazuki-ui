@@ -7,11 +7,6 @@ import Checkbox from '@/components/controls/Checkbox.vue';
 import { uniqueFieldName } from '@/test/utils/uniqueFieldName';
 
 describe('Checkbox', () => {
-    it('デフォルトでレンダリングされる', () => {
-        const wrapper = mount(Checkbox);
-        expect(wrapper.find('.component-checkbox').exists()).toBe(true);
-    });
-
     it('label が表示される', () => {
         const wrapper = mount(Checkbox, { props: { label: 'テストラベル' } });
         expect(wrapper.find('.label-placeholder').text()).toBe('テストラベル');
@@ -22,14 +17,12 @@ describe('Checkbox', () => {
         expect(wrapper.find('.component-checkbox').classes()).toContain('is-disabled');
     });
 
-    it('variant prop がクラスに反映される', () => {
-        const wrapper = mount(Checkbox, { props: { variant: 'danger' } });
-        expect(wrapper.find('.component-checkbox').classes()).toContain('danger');
-    });
-
-    it('size prop がクラスに反映される', () => {
-        const wrapper = mount(Checkbox, { props: { size: 'large' } });
-        expect(wrapper.find('.component-checkbox').classes()).toContain('large');
+    it.each([
+        ['variant', 'danger'],
+        ['size', 'large']
+    ])('%s prop がクラスに反映される', (prop, value) => {
+        const wrapper = mount(Checkbox, { props: { [prop]: value } });
+        expect(wrapper.find('.component-checkbox').classes()).toContain(value);
     });
 
     it('slot コンテンツが表示される', () => {
@@ -37,18 +30,19 @@ describe('Checkbox', () => {
         expect(wrapper.find('.text').text()).toBe('選択肢A');
     });
 
-    it('modelValue が value と等しいとき is-checked クラスが付く', () => {
-        const wrapper = mount(Checkbox, {
-            props: { modelValue: true, value: true }
-        });
-        expect(wrapper.find('.component-checkbox').classes()).toContain('is-checked');
-    });
-
-    it('modelValue が value と異なるとき is-checked クラスが付かない', () => {
-        const wrapper = mount(Checkbox, {
-            props: { modelValue: false, value: true }
-        });
-        expect(wrapper.find('.component-checkbox').classes()).not.toContain('is-checked');
+    it.each([
+        [true, true, true],
+        [false, true, false],
+        ['apple', 'apple', true],
+        [42, 42, true]
+    ])('modelValue と value の一致で is-checked が制御される (modelValue=%s, value=%s)', (modelValue, value, shouldBeChecked) => {
+        const wrapper = mount(Checkbox, { props: { modelValue, value } });
+        const classes = wrapper.find('.component-checkbox').classes();
+        if (shouldBeChecked) {
+            expect(classes).toContain('is-checked');
+        } else {
+            expect(classes).not.toContain('is-checked');
+        }
     });
 
     it('required が true かつ label なしのとき .text に required クラスが付く', () => {
@@ -76,16 +70,6 @@ describe('Checkbox', () => {
     it('isErrorMessage が false のとき error コンテナがレンダリングされない', () => {
         const wrapper = mount(Checkbox, { props: { isErrorMessage: false } });
         expect(wrapper.find('.error').exists()).toBe(false);
-    });
-
-    it('value が string のとき modelValue と一致すると is-checked になる', () => {
-        const wrapper = mount(Checkbox, { props: { value: 'apple', modelValue: 'apple' } });
-        expect(wrapper.find('.component-checkbox').classes()).toContain('is-checked');
-    });
-
-    it('value が number のとき modelValue と一致すると is-checked になる', () => {
-        const wrapper = mount(Checkbox, { props: { value: 42, modelValue: 42 } });
-        expect(wrapper.find('.component-checkbox').classes()).toContain('is-checked');
     });
 
     it('input に setChecked(true) すると update:modelValue が apple で emit される', async () => {

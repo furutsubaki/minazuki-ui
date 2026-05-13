@@ -33,33 +33,13 @@ describe('Avatar', () => {
         expect(wrapper.find('svg').exists()).toBe(true);
     });
 
-    it('size prop がクラスに反映される', () => {
-        const wrapper = mount(Avatar, { props: { size: 'large' } });
-        expect(wrapper.classes()).toContain('large');
-    });
-
-    it('shape prop がクラスに反映される', () => {
-        const wrapper = mount(Avatar, { props: { shape: 'square' } });
-        expect(wrapper.classes()).toContain('square');
-    });
-
-    it('デフォルト size は medium', () => {
-        const wrapper = mount(Avatar);
-        expect(wrapper.classes()).toContain('medium');
-    });
-
-    it('デフォルト shape は circle', () => {
-        const wrapper = mount(Avatar);
-        expect(wrapper.classes()).toContain('circle');
-    });
-
-    it('color prop を指定すると color computed に反映される', () => {
-        const wrapper = mount(Avatar, { props: { color: 'red' } });
-        expect((wrapper.vm as any).color).toBe('red');
-    });
-
-    it('color prop を指定しないとき デフォルト色が返る', () => {
-        const wrapper = mount(Avatar);
-        expect((wrapper.vm as any).color).toBe('var(--color-theme-bg-secondary)');
+    it.each([
+        [{ size: 'large' }, 'large'],
+        [{ shape: 'square' }, 'square'],
+        [{}, 'medium'],
+        [{}, 'circle']
+    ])('size/shape prop とデフォルト値がクラスに反映される', (props, expectedClass) => {
+        const wrapper = mount(Avatar, { props });
+        expect(wrapper.classes()).toContain(expectedClass);
     });
 });

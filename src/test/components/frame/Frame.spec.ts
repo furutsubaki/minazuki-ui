@@ -13,24 +13,14 @@ describe('Frame', () => {
         expect(wrapper.find('.frame-inner').element.tagName).toBe('SECTION');
     });
 
-    it('layout prop がクラスに反映される', () => {
-        const wrapper = mount(Frame, { props: { layout: 'pf-top' } });
-        expect(wrapper.classes()).toContain('pf-top');
-    });
-
-    it('shape prop がクラスに反映される', () => {
-        const wrapper = mount(Frame, { props: { shape: 'no-radius' } });
-        expect(wrapper.classes()).toContain('no-radius');
-    });
-
-    it('isPading が true のとき is-pading クラスが付く', () => {
-        const wrapper = mount(Frame, { props: { isPading: true } });
-        expect(wrapper.classes()).toContain('is-pading');
-    });
-
-    it('noShadow が true のとき no-shadow クラスが付く', () => {
-        const wrapper = mount(Frame, { props: { noShadow: true } });
-        expect(wrapper.classes()).toContain('no-shadow');
+    it.each([
+        [{ layout: 'pf-top' }, 'pf-top'],
+        [{ shape: 'no-radius' }, 'no-radius'],
+        [{ isPading: true }, 'is-pading'],
+        [{ noShadow: true }, 'no-shadow']
+    ])('prop がクラスに反映される', (props, expectedClass) => {
+        const wrapper = mount(Frame, { props });
+        expect(wrapper.classes()).toContain(expectedClass);
     });
 
     it('slot コンテンツが表示される', () => {

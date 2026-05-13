@@ -11,11 +11,6 @@ const items = [
 ];
 
 describe('BottomNav', () => {
-    it('デフォルトでレンダリングされる', () => {
-        const wrapper = mount(BottomNav, { props: { items } });
-        expect(wrapper.find('.component-bottom-nav').exists()).toBe(true);
-    });
-
     it('items の数だけボタンがレンダリングされる', () => {
         const wrapper = mount(BottomNav, { props: { items } });
         expect(wrapper.findAll('.item')).toHaveLength(2);
@@ -43,20 +38,6 @@ describe('BottomNav', () => {
     it('center が true のとき is-center クラスが付く', () => {
         const wrapper = mount(BottomNav, { props: { items, center: true } });
         expect(wrapper.find('.component-bottom-nav-inner').classes()).toContain('is-center');
-    });
-
-    it('ラベルをクリックすると onClick が呼ばれる', async () => {
-        const wrapper = mount(BottomNav, { props: { items } });
-        // location.href = item.to が呼ばれる（router 未設定のため）
-        await wrapper.findAll('.label')[0].trigger('click');
-        expect(wrapper.find('.component-bottom-nav').exists()).toBe(true);
-    });
-
-    it('to が空の items をクリックしても何も起きない', async () => {
-        const noToItems = [{ label: 'テスト', icon: items[0].icon, to: '', isCurrent: false }];
-        const wrapper = mount(BottomNav, { props: { items: noToItems } });
-        await wrapper.find('.label').trigger('click');
-        expect(wrapper.find('.component-bottom-nav').exists()).toBe(true);
     });
 
     it('shape="picture-frame" のとき PictureFrame コンポーネントが使われる', () => {

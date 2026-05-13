@@ -3,7 +3,7 @@ import { computed, watch, ref } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodString } from 'zod';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
-import { DATE_FORMAT } from '@/assets/ts/const ';
+import { DATE_FORMAT } from '@/assets/ts/const';
 
 export type MiDateFormat = (typeof DATE_FORMAT)[keyof typeof DATE_FORMAT];
 const model = defineModel<string>();

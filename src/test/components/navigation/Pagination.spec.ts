@@ -5,11 +5,6 @@ import Pagination from '@/components/navigation/Pagination.vue';
 import PictureFrame from '@/components/frame/PictureFrame.vue';
 
 describe('Pagination', () => {
-    it('デフォルトでレンダリングされる', () => {
-        const wrapper = mount(Pagination, { props: { total: 10 } });
-        expect(wrapper.find('.component-pagination').exists()).toBe(true);
-    });
-
     it('total が 10 のとき表示ページ数が最大 9 になる', () => {
         const wrapper = mount(Pagination, {
             props: { total: 10, modelValue: 5 }
