@@ -1,7 +1,7 @@
 import { type Directive } from 'vue';
 
 type HandlerEntry = {
-    handler: Function;
+    handler: (event: Event) => void;
     isActive: boolean;
     ignore: Element[];
 };

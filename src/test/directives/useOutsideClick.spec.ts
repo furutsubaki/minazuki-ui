@@ -1,5 +1,17 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
+import type { DirectiveBinding, Directive, VNode } from 'vue';
 import useOutsideClick from '@/directives/useOutsideClick';
+
+const mkBinding = <T>(value: T, oldValue: T | null = null): DirectiveBinding<T> => ({
+    value,
+    arg: undefined,
+    modifiers: {},
+    instance: null,
+    dir: {} as Directive,
+    oldValue
+});
+
+const nullVNode = null as unknown as VNode;
 
 describe('useOutsideClick', () => {
     afterEach(() => {
@@ -20,14 +32,7 @@ describe('useOutsideClick', () => {
         const el = document.createElement('div');
         document.body.appendChild(el);
 
-        vOutsideClick.mounted!(el, {
-            value: { handler, isActive: true, ignore: [] },
-            arg: undefined,
-            modifiers: {},
-            instance: null,
-            dir: vOutsideClick as any,
-            oldValue: undefined
-        } as any, null as any, null as any);
+        vOutsideClick.mounted!(el, mkBinding({ handler, isActive: true, ignore: [] }), nullVNode, null);
 
         const outsideEl = document.createElement('div');
         document.body.appendChild(outsideEl);
@@ -35,7 +40,7 @@ describe('useOutsideClick', () => {
 
         expect(handler).toHaveBeenCalled();
 
-        vOutsideClick.beforeUnmount!(el, {} as any, null as any, null as any);
+        vOutsideClick.beforeUnmount!(el, mkBinding(undefined), nullVNode, null);
         el.remove();
         outsideEl.remove();
     });
@@ -46,14 +51,7 @@ describe('useOutsideClick', () => {
         const el = document.createElement('div');
         document.body.appendChild(el);
 
-        vOutsideClick.mounted!(el, {
-            value: { handler, isActive: false, ignore: [] },
-            arg: undefined,
-            modifiers: {},
-            instance: null,
-            dir: vOutsideClick as any,
-            oldValue: undefined
-        } as any, null as any, null as any);
+        vOutsideClick.mounted!(el, mkBinding({ handler, isActive: false, ignore: [] }), nullVNode, null);
 
         const outsideEl = document.createElement('div');
         document.body.appendChild(outsideEl);
@@ -61,7 +59,7 @@ describe('useOutsideClick', () => {
 
         expect(handler).not.toHaveBeenCalled();
 
-        vOutsideClick.beforeUnmount!(el, {} as any, null as any, null as any);
+        vOutsideClick.beforeUnmount!(el, mkBinding(undefined), nullVNode, null);
         el.remove();
         outsideEl.remove();
     });
@@ -73,23 +71,16 @@ describe('useOutsideClick', () => {
         const el = document.createElement('div');
         document.body.appendChild(el);
 
-        vOutsideClick.mounted!(el, {
-            value: { handler: handler1, isActive: true, ignore: [] },
-            arg: undefined,
-            modifiers: {},
-            instance: null,
-            dir: vOutsideClick as any,
-            oldValue: undefined
-        } as any, null as any, null as any);
-
-        vOutsideClick.updated!(el, {
-            value: { handler: handler2, isActive: true, ignore: [] },
-            arg: undefined,
-            modifiers: {},
-            instance: null,
-            dir: vOutsideClick as any,
-            oldValue: { handler: handler1, isActive: true, ignore: [] }
-        } as any, null as any, null as any);
+        vOutsideClick.mounted!(el, mkBinding({ handler: handler1, isActive: true, ignore: [] }), nullVNode, null);
+        vOutsideClick.updated!(
+            el,
+            mkBinding(
+                { handler: handler2, isActive: true, ignore: [] },
+                { handler: handler1, isActive: true, ignore: [] }
+            ),
+            nullVNode,
+            null
+        );
 
         const outsideEl = document.createElement('div');
         document.body.appendChild(outsideEl);
@@ -97,7 +88,7 @@ describe('useOutsideClick', () => {
 
         expect(handler2).toHaveBeenCalled();
 
-        vOutsideClick.beforeUnmount!(el, {} as any, null as any, null as any);
+        vOutsideClick.beforeUnmount!(el, mkBinding(undefined), nullVNode, null);
         el.remove();
         outsideEl.remove();
     });
@@ -108,14 +99,7 @@ describe('useOutsideClick', () => {
         const el = document.createElement('div');
         document.body.appendChild(el);
 
-        vOutsideClick.mounted!(el, {
-            value: handler,
-            arg: undefined,
-            modifiers: {},
-            instance: null,
-            dir: vOutsideClick as any,
-            oldValue: undefined
-        } as any, null as any, null as any);
+        vOutsideClick.mounted!(el, mkBinding(handler), nullVNode, null);
 
         const outsideEl = document.createElement('div');
         document.body.appendChild(outsideEl);
@@ -123,7 +107,7 @@ describe('useOutsideClick', () => {
 
         expect(handler).toHaveBeenCalled();
 
-        vOutsideClick.beforeUnmount!(el, {} as any, null as any, null as any);
+        vOutsideClick.beforeUnmount!(el, mkBinding(undefined), nullVNode, null);
         el.remove();
         outsideEl.remove();
     });
@@ -137,20 +121,13 @@ describe('useOutsideClick', () => {
         const ignoreEl = document.createElement('button');
         document.body.appendChild(ignoreEl);
 
-        vOutsideClick.mounted!(el, {
-            value: { handler, isActive: true, ignore: [ignoreEl] },
-            arg: undefined,
-            modifiers: {},
-            instance: null,
-            dir: vOutsideClick as any,
-            oldValue: undefined
-        } as any, null as any, null as any);
+        vOutsideClick.mounted!(el, mkBinding({ handler, isActive: true, ignore: [ignoreEl] }), nullVNode, null);
 
         ignoreEl.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
         expect(handler).not.toHaveBeenCalled();
 
-        vOutsideClick.beforeUnmount!(el, {} as any, null as any, null as any);
+        vOutsideClick.beforeUnmount!(el, mkBinding(undefined), nullVNode, null);
         el.remove();
         ignoreEl.remove();
     });
@@ -165,20 +142,13 @@ describe('useOutsideClick', () => {
         ignoreEl.className = 'ignore-target';
         document.body.appendChild(ignoreEl);
 
-        vOutsideClick.mounted!(el, {
-            value: { handler, isActive: true, ignore: ['.ignore-target'] },
-            arg: undefined,
-            modifiers: {},
-            instance: null,
-            dir: vOutsideClick as any,
-            oldValue: undefined
-        } as any, null as any, null as any);
+        vOutsideClick.mounted!(el, mkBinding({ handler, isActive: true, ignore: ['.ignore-target'] }), nullVNode, null);
 
         ignoreEl.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
         expect(handler).not.toHaveBeenCalled();
 
-        vOutsideClick.beforeUnmount!(el, {} as any, null as any, null as any);
+        vOutsideClick.beforeUnmount!(el, mkBinding(undefined), nullVNode, null);
         el.remove();
         ignoreEl.remove();
     });
@@ -188,16 +158,9 @@ describe('useOutsideClick', () => {
         const el = document.createElement('div');
         document.body.appendChild(el);
 
-        expect(() => vOutsideClick.mounted!(el, {
-            value: undefined,
-            arg: undefined,
-            modifiers: {},
-            instance: null,
-            dir: vOutsideClick as any,
-            oldValue: undefined
-        } as any, null as any, null as any)).not.toThrow();
+        expect(() => vOutsideClick.mounted!(el, mkBinding(undefined), nullVNode, null)).not.toThrow();
 
-        vOutsideClick.beforeUnmount!(el, {} as any, null as any, null as any);
+        vOutsideClick.beforeUnmount!(el, mkBinding(undefined), nullVNode, null);
         el.remove();
     });
 
@@ -207,24 +170,15 @@ describe('useOutsideClick', () => {
         const el = document.createElement('div');
         document.body.appendChild(el);
 
-        vOutsideClick.mounted!(el, {
-            value: { handler: handler1, isActive: true, ignore: [] },
-            arg: undefined,
-            modifiers: {},
-            instance: null,
-            dir: vOutsideClick as any,
-            oldValue: undefined
-        } as any, null as any, null as any);
+        vOutsideClick.mounted!(el, mkBinding({ handler: handler1, isActive: true, ignore: [] }), nullVNode, null);
 
         const newHandler = vi.fn();
-        vOutsideClick.updated!(el, {
-            value: newHandler,
-            arg: undefined,
-            modifiers: {},
-            instance: null,
-            dir: vOutsideClick as any,
-            oldValue: { handler: handler1, isActive: true, ignore: [] }
-        } as any, null as any, null as any);
+        vOutsideClick.updated!(
+            el,
+            mkBinding(newHandler, { handler: handler1, isActive: true, ignore: [] }),
+            nullVNode,
+            null
+        );
 
         const outsideEl = document.createElement('div');
         document.body.appendChild(outsideEl);
@@ -233,7 +187,7 @@ describe('useOutsideClick', () => {
         expect(handler1).toHaveBeenCalled();
         expect(newHandler).not.toHaveBeenCalled();
 
-        vOutsideClick.beforeUnmount!(el, {} as any, null as any, null as any);
+        vOutsideClick.beforeUnmount!(el, mkBinding(undefined), nullVNode, null);
         el.remove();
         outsideEl.remove();
     });
@@ -243,14 +197,14 @@ describe('useOutsideClick', () => {
         const el = document.createElement('div');
         document.body.appendChild(el);
 
-        expect(() => vOutsideClick.updated!(el, {
-            value: { handler: vi.fn(), isActive: true, ignore: [] },
-            arg: undefined,
-            modifiers: {},
-            instance: null,
-            dir: vOutsideClick as any,
-            oldValue: undefined
-        } as any, null as any, null as any)).not.toThrow();
+        expect(() =>
+            vOutsideClick.updated!(
+                el,
+                mkBinding({ handler: vi.fn(), isActive: true, ignore: [] }),
+                nullVNode,
+                null
+            )
+        ).not.toThrow();
 
         el.remove();
     });
@@ -260,20 +214,13 @@ describe('useOutsideClick', () => {
         const el = document.createElement('div');
         document.body.appendChild(el);
 
-        vOutsideClick.mounted!(el, {
-            value: undefined,
-            arg: undefined,
-            modifiers: {},
-            instance: null,
-            dir: vOutsideClick as any,
-            oldValue: undefined
-        } as any, null as any, null as any);
+        vOutsideClick.mounted!(el, mkBinding(undefined), nullVNode, null);
 
         const outsideEl = document.createElement('div');
         document.body.appendChild(outsideEl);
         expect(() => outsideEl.dispatchEvent(new MouseEvent('click', { bubbles: true }))).not.toThrow();
 
-        vOutsideClick.beforeUnmount!(el, {} as any, null as any, null as any);
+        vOutsideClick.beforeUnmount!(el, mkBinding(undefined), nullVNode, null);
         el.remove();
         outsideEl.remove();
     });

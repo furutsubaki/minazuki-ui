@@ -50,3 +50,25 @@ export const alphanumericHalf2Full = (str: string) => {
 };
 
 export const sleep = (waitTime: number) => new Promise((resolve) => setTimeout(resolve, waitTime));
+
+type PlainObject = Record<string, unknown>;
+
+const isPlainObject = (val: unknown): val is PlainObject =>
+    typeof val === 'object' && val !== null && !Array.isArray(val);
+
+export const deepMerge = <T>(target: T, ...sources: (Partial<T> | null | undefined)[]): T => {
+    if (!isPlainObject(target)) return target;
+    for (const source of sources) {
+        if (!isPlainObject(source)) continue;
+        for (const key of Object.keys(source)) {
+            const s = (source as PlainObject)[key];
+            const t = (target as PlainObject)[key];
+            if (isPlainObject(s) && isPlainObject(t)) {
+                deepMerge(t, s as Partial<typeof t>);
+            } else if (s !== undefined) {
+                (target as PlainObject)[key] = s;
+            }
+        }
+    }
+    return target;
+};

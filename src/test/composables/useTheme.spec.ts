@@ -54,7 +54,7 @@ describe('useTheme', () => {
                 }
             }
         });
-        expect((themes.value.light as any).theme?.bgPrimary).toBe('#ffffff');
+        expect(themes.value.light?.theme?.bgPrimary).toBe('#ffffff');
     });
 
     it('setTheme を呼ぶと useHead が呼ばれる', () => {
@@ -82,7 +82,7 @@ describe('useTheme', () => {
 
         const savedThemes = themes.value;
         themes.value = {
-            light: { theme: { textPrimary: 'transparent' } as any }
+            light: { theme: { textPrimary: 'transparent' } }
         };
 
         setTheme('light');
