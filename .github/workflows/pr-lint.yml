@@ -76,6 +76,6 @@ jobs:
         uses: dorny/test-reporter@v1
         with:
           name: Test Results
-          path: 'test-results/junit.xml'
+          path: '**/junit.xml'
           reporter: 'java'
           fail-on-error: false
