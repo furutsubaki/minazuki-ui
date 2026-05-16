@@ -29,9 +29,6 @@ importers:
       i18next:
         specifier: ^23
         version: 23.12.2
-      lodash.merge:
-        specifier: ^4.6.2
-        version: 4.6.2
       lucide-vue-next:
         specifier: '>=0.356.0'
         version: 0.356.0(vue@3.4.27(typescript@5.8.3))
@@ -99,9 +96,6 @@ importers:
       '@tsconfig/node18':
         specifier: ^18.2.4
         version: 18.2.4
-      '@types/lodash.merge':
-        specifier: ^4.6.9
-        version: 4.6.9
       '@types/node':
         specifier: ^20.14.1
         version: 20.14.1
@@ -857,12 +851,6 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
-
-  '@types/lodash.merge@4.6.9':
-    resolution: {integrity: sha512-23sHDPmzd59kUgWyKGiOMO2Qb9YtqRO/x4IhkgNUiPQ1+5MUVqi6bCZeq9nBJ17msjIMbEIO5u+XW4Kz6aGUhQ==}
-
-  '@types/lodash@4.14.202':
-    resolution: {integrity: sha512-OvlIYQK9tNneDlS0VN54LLd5uiPCBOp7gS5Z0f1mjoJYBrtStzgmJBxONW3U6OZqdtNzZPmn9BS/7WI7BFFcFQ==}
 
   '@types/mdx@2.0.10':
     resolution: {integrity: sha512-Rllzc5KHk0Al5/WANwgSPl1/CwjqCy+AZrGd78zuK+jO9aDM6ffblZ+zIjgPNAaEBmlO0RYDvLNh7wD0zKVgEg==}
@@ -3119,6 +3107,9 @@ packages:
   vue-component-type-helpers@3.2.7:
     resolution: {integrity: sha512-+gPp5YGmhfsj1IN+xUo7y0fb4clfnOiiUA39y07yW1VzCRjzVgwLbtmdWlghh7mXrPsEaYc7rrIir/HT6C8vYQ==}
 
+  vue-component-type-helpers@3.2.9:
+    resolution: {integrity: sha512-S3BiWYaLSzHxTpln665ELSrMR9UYmrIDUmhik7nVZxmJjTKL2/a+ew1hvGxksKelivm0ujjWfG1fYOiU/2e8rA==}
+
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
     engines: {node: '>=12'}
@@ -3909,7 +3900,7 @@ snapshots:
       ts-dedent: 2.2.0
       type-fest: 2.19.0
       vue: 3.4.27(typescript@5.8.3)
-      vue-component-type-helpers: 3.2.7
+      vue-component-type-helpers: 3.2.9
 
   '@stylistic/eslint-plugin@4.2.0(eslint@8.57.0)(typescript@5.8.3)':
     dependencies:
@@ -3953,12 +3944,6 @@ snapshots:
   '@types/estree@1.0.5': {}
 
   '@types/json-schema@7.0.15': {}
-
-  '@types/lodash.merge@4.6.9':
-    dependencies:
-      '@types/lodash': 4.14.202
-
-  '@types/lodash@4.14.202': {}
 
   '@types/mdx@2.0.10': {}
 
@@ -6364,6 +6349,8 @@ snapshots:
   vue-component-type-helpers@2.0.29: {}
 
   vue-component-type-helpers@3.2.7: {}
+
+  vue-component-type-helpers@3.2.9: {}
 
   vue-demi@0.14.10(vue@3.4.27(typescript@5.8.3)):
     dependencies:
