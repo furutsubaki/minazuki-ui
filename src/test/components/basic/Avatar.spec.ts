@@ -42,4 +42,12 @@ describe('Avatar', () => {
         const wrapper = mount(Avatar, { props });
         expect(wrapper.classes()).toContain(expectedClass);
     });
+
+    it.each([
+        [{}, 'var(--color-theme-bg-secondary)'],
+        [{ color: '#ff0000' }, '#ff0000']
+    ])('color prop が defineExpose 経由で取得できる', (props, expected) => {
+        const wrapper = mount(Avatar, { props });
+        expect((wrapper.vm as unknown as { color: string }).color).toBe(expected);
+    });
 });

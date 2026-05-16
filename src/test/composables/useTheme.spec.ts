@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { nextTick } from 'vue';
 
 vi.mock('@unhead/vue', () => ({
     useHead: vi.fn()
@@ -117,5 +118,52 @@ describe('useTheme', () => {
 
         (globalThis as any).localStorage = savedLocalStorage;
         vi.resetModules();
+    });
+
+    it('localStorage.themeId に値が入っている場合はその値が currentTheme の初期値になる', async () => {
+        localStorage.setItem('themeId', 'dark');
+
+        vi.resetModules();
+        vi.doMock('@unhead/vue', () => ({ useHead: vi.fn() }));
+        const { default: freshUseTheme } = await import('@/composables/useTheme');
+        const { currentTheme } = freshUseTheme();
+
+        expect(currentTheme.value).toBe('dark');
+
+        localStorage.removeItem('themeId');
+        vi.resetModules();
+    });
+
+    it('末尾が cc の # 色は alpha 変換されずそのまま出力される', () => {
+        const mockHead = vi.mocked(useHead);
+        mockHead.mockClear();
+        const { themes, setTheme } = useTheme();
+
+        const savedThemes = themes.value;
+        themes.value = { light: { theme: { textPrimary: '#abcdefcc' } } };
+
+        setTheme('light');
+
+        const callArgs = mockHead.mock.calls[0][0] as any;
+        const style: string = callArgs.style[0].textContent;
+        expect(style).toContain('--color-theme-text-primary:#abcdefcc;');
+        expect(style).toContain('--color-theme-text-primary-alpha:#abcdefcc;');
+
+        themes.value = savedThemes;
+    });
+
+    it('currentTheme を変更すると watch 経由で setTheme が呼ばれる', async () => {
+        const mockHead = vi.mocked(useHead);
+        mockHead.mockClear();
+        const { currentTheme } = useTheme();
+
+        currentTheme.value = 'dark';
+        await nextTick();
+
+        expect(mockHead).toHaveBeenCalled();
+        const callArgs = mockHead.mock.calls[0][0] as any;
+        expect(callArgs.bodyAttrs?.['data-theme']).toBe('dark');
+
+        currentTheme.value = 'light';
     });
 });
