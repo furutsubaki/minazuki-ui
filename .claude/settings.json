@@ -1,85 +1,138 @@
 {
-  "respectGitignore": true,
-  "env": {
-    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80"
-  },
-  "attribution": {
-    "commit": "Co-Authored-By: Claude <noreply@anthropic.com>",
-    "pr": "Generated with [Claude Code](https://claude.ai/code)"
-  },
-  "permissions": {
-    "allow": [
-      "Edit(*)",
-      "Write(*)",
-      "Bash(pnpm type*)",
-      "Bash(gh issue *)",
-      "Bash(git log *)",
-      "Bash(git show *)",
-      "NotebookEdit(*)",
-      "WebFetch(domain:*)",
-      "WebSearch",
-      "mcp__*",
-      "mcp__ide__*",
-      "mcp__chrome-devtools__*",
-      "mcp__claude-in-chrome__*",
-      "mcp__playwright__*",
-      "mcp__reddit-mcp-server__search_reddit",
-      "mcp__reddit-mcp-server__get_post_details",
-      "mcp__tavily-web-search__tavily_search",
-      "mcp__tavily-web-search__tavily_extract",
-      "WebFetch(domain:docs.anthropic.com)",
-      "WebFetch(domain:support.claude.com)",
-      "WebFetch(domain:github.com)",
-      "WebFetch(domain:api.github.com)"
-    ],
-    "deny": [
-      "Read(.env)",
-      "Read(*.env)",
-      "Read(.env.*)",
-      "Read(./secrets/**)",
-      "Bash(cat *.env*)",
-      "Bash(head *.env*)",
-      "Bash(tail *.env*)",
-      "Bash(less *.env*)",
-      "Bash(more *.env*)",
-      "Bash(grep *.env*)",
-      "Bash(sed *.env*)",
-      "Bash(awk *.env*)",
-      "Bash(vim *.env*)",
-      "Bash(nano *.env*)",
-      "Bash(bat *.env*)"
-    ],
-    "ask": [
-      "Bash(rm *)",
-      "Bash(rmdir *)",
-      "Bash(shred *)",
-      "Bash(unlink *)",
-      "Bash(dd *)",
-      "Bash(mkfs *)",
-      "Bash(fdisk *)",
-      "Bash(chmod *)",
-      "Bash(chown *)",
-      "Bash(npm *)",
-      "Bash(pip *)",
-      "Bash(pip3 *)",
-      "Bash(yarn *)",
-      "Bash(pnpm *)",
-      "Bash(docker *)",
-      "Bash(kubectl *)",
-      "Bash(firebase *)",
-      "Bash(gcloud *)",
-      "Bash(wget *)",
-      "Bash(kill *)",
-      "Bash(killall *)",
-      "Bash(pkill *)",
-      "Bash(git *)"
-    ]
-  },
-  "enableAllProjectMcpServers": true,
-  "hooks": {},
-  "disableAllHooks": false,
-  "enabledPlugins": {
-    "context7@claude-plugins-official": true,
-    "github@claude-plugins-official": true
-  }
+    "respectGitignore": true,
+    "env": {
+        "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80"
+    },
+    "attribution": {
+        "commit": "Co-Authored-By: Claude <noreply@anthropic.com>",
+        "pr": "Generated with [Claude Code](https://claude.ai/code)"
+    },
+    "permissions": {
+        "allow": [
+            "Read(*)",
+            "Edit(*)",
+            "Write(*)",
+            "Bash(pnpm *)",
+            "Bash(yarn *)",
+            "Bash(npm run *)",
+            "Bash(ls*)",
+            "Bash(which *)",
+            "Bash(echo *)",
+            "Bash(pwd)",
+            "Bash(date *)",
+            "Bash(wc *)",
+            "Bash(sort *)",
+            "Bash(sed *)",
+            "Bash(mkdir *)",
+            "Bash(git status)",
+            "Bash(git diff *)",
+            "Bash(git log *)",
+            "Bash(git branch *)",
+            "Bash(git checkout *)",
+            "Bash(git commit *)",
+            "Bash(git pull *)",
+            "Bash(git fetch *)",
+            "Read(~/.zshrc)",
+            "Read(~/.bashrc)",
+            "NotebookEdit(*)",
+            "WebFetch(domain:*)",
+            "WebFetch(domain:docs.anthropic.com)",
+            "WebFetch(domain:*.claude.com)",
+            "WebFetch(domain:github.com)",
+            "WebFetch(domain:api.github.com)",
+            "WebSearch",
+            "mcp__*"
+        ],
+        "deny": [
+            "NotebookEdit",
+            "NotebookRead",
+            "Read(.env)",
+            "Read(*.env)",
+            "Read(.env.*)",
+            "Read(./secrets/**)",
+            "Edit(.env)",
+            "Edit(*.env)",
+            "Edit(.env.*)",
+            "Bash(cat *.env*)",
+            "Bash(head *.env*)",
+            "Bash(tail *.env*)",
+            "Bash(less *.env*)",
+            "Bash(more *.env*)",
+            "Bash(grep *.env*)",
+            "Bash(sed *.env*)",
+            "Bash(awk *.env*)",
+            "Bash(vim *.env*)",
+            "Bash(nano *.env*)",
+            "Bash(bat *.env*)",
+            "Bash(npm publish *)",
+            "Bash(yarn publish *)",
+            "Bash(pnpm publish *)",
+            "Bash(*deploy*)",
+            "Bash(terraform apply *)",
+            "Read(~/.ssh/**)",
+            "Read(~/.aws/**)",
+            "Bash(find *)",
+            "Bash(curl *)",
+            "Bash(wget *)"
+        ],
+        "ask": [
+            "Bash(rm *)",
+            "Bash(mv *)",
+            "Bash(rmdir *)",
+            "Bash(shred *)",
+            "Bash(unlink *)",
+            "Bash(dd *)",
+            "Bash(mkfs *)",
+            "Bash(fdisk *)",
+            "Bash(chmod *)",
+            "Bash(chown *)",
+            "Bash(docker *)",
+            "Bash(kubectl *)",
+            "Bash(firebase *)",
+            "Bash(gcloud *)",
+            "Bash(kill *)",
+            "Bash(killall *)",
+            "Bash(pkill *)",
+            "Bash(git push *)",
+            "Bash(git commit *)",
+            "Bash(git add *)",
+            "Bash(git reset *)",
+            "Bash(git clean *)",
+            "Bash(git -c *)",
+            "Bash(gh *)"
+        ]
+    },
+    "enableAllProjectMcpServers": true,
+    "hooks": {
+        "PreToolUse": [
+            {
+                "matcher": "Bash",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": ".claude/hooks/guard-bash.sh"
+                    }
+                ]
+            }
+        ]
+    },
+    "disableAllHooks": false,
+    "enabledPlugins": {
+        "context7@claude-plugins-official": true,
+        "github@claude-plugins-official": true,
+        "security-guidance@claude-plugins-official": true
+    },
+    "sandbox": {
+        "enabled": true,
+        "autoAllowBashIfSandboxed": true,
+        "excludedCommands": [
+            "git",
+            "docker"
+        ],
+        "network": {
+            "allowUnixSockets": [
+                "~/.ssh/agent-socket"
+            ]
+        }
+    }
 }
