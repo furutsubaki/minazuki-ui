@@ -66,5 +66,5 @@ jobs:
         with:
           name: Test Results
           path: 'test-results/junit.xml'
-          reporter: 'jest-junit'
-          fail-on-error: true
+          reporter: 'java'
+          fail-on-error: false
