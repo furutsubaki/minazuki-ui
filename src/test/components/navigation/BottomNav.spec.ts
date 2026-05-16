@@ -45,6 +45,45 @@ describe('BottomNav', () => {
         expect(wrapper.findComponent(PictureFrame).exists()).toBe(true);
     });
 
+    it('item.to が空の場合クリックしても何もしない', async () => {
+        const hrefSetter = vi.fn();
+        const originalLocation = window.location;
+        Object.defineProperty(window, 'location', {
+            configurable: true,
+            value: { ...originalLocation, set href(v: string) { hrefSetter(v); } }
+        });
+        try {
+            const emptyToItems = [{ label: 'ホーム', icon: IconHome, to: '' }];
+            const wrapper = mount(BottomNav, { props: { items: emptyToItems as any } });
+            await wrapper.find('.label').trigger('click');
+            expect(hrefSetter).not.toHaveBeenCalled();
+        } finally {
+            Object.defineProperty(window, 'location', {
+                configurable: true,
+                value: originalLocation
+            });
+        }
+    });
+
+    it('router がない場合 location.href にアイテムの to が設定される', async () => {
+        const hrefSetter = vi.fn();
+        const originalLocation = window.location;
+        Object.defineProperty(window, 'location', {
+            configurable: true,
+            value: { ...originalLocation, set href(v: string) { hrefSetter(v); } }
+        });
+        try {
+            const wrapper = mount(BottomNav, { props: { items } });
+            await wrapper.findAll('.label')[1].trigger('click');
+            expect(hrefSetter).toHaveBeenCalledWith('/settings');
+        } finally {
+            Object.defineProperty(window, 'location', {
+                configurable: true,
+                value: originalLocation
+            });
+        }
+    });
+
     it('router がある場合 router.push が呼ばれる', async () => {
         const router = createRouter({
             history: createMemoryHistory(),

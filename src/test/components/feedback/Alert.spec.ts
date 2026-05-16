@@ -3,6 +3,7 @@ import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 import { Info } from 'lucide-vue-next';
 import Alert from '@/components/feedback/Alert.vue';
+import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 
 describe('Alert', () => {
     it('text が表示される', () => {
@@ -87,6 +88,16 @@ describe('Alert', () => {
         const wrapper = mount(Alert, { props: { text: 'msg', variant } });
         expect(wrapper.find('.component-alert').classes()).toContain(variant);
         expect(wrapper.find('.icon').exists()).toBe(true);
+    });
+
+    it('OpacityTransition の transition-start/end イベントで transitioning ハンドラが実行される', async () => {
+        const wrapper = mount(Alert, { props: { text: 'msg' } });
+        const ot = wrapper.findComponent(OpacityTransition);
+
+        await ot.vm.$emit('transitionStart');
+        await ot.vm.$emit('transitionEnd');
+
+        expect(wrapper.find('.component-alert').exists()).toBe(true);
     });
 
 });

@@ -3,6 +3,7 @@ import { nextTick, markRaw } from 'vue';
 import { mount } from '@vue/test-utils';
 import Tab from '@/components/navigation/Tab.vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
+import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
 
 const tabs = [
     { id: 'tab1', label: 'タブ1' },
@@ -93,6 +94,33 @@ describe('Tab', () => {
         await nextTick();
         const rects = vm.currentTabClientRects;
         expect(rects).toBeUndefined();
+    });
+
+    it('逆方向にタブ切替したとき transitionFrom が "left" になる', async () => {
+        const wrapper = mount(Tab, {
+            props: {
+                tabs,
+                modelValue: 'tab3',
+                'onUpdate:modelValue': (v: string) => wrapper.setProps({ modelValue: v })
+            }
+        });
+        await wrapper.findAll('button')[0].trigger('click'); // tab3 → tab1
+        expect(wrapper.findComponent(TranslateTransition).props('from')).toBe('left');
+    });
+
+    it('position="left" のとき transitionFrom は縦方向 ("bottom"/"top") を取る', async () => {
+        const wrapper = mount(Tab, {
+            props: {
+                tabs,
+                modelValue: 'tab1',
+                position: 'left',
+                'onUpdate:modelValue': (v: string) => wrapper.setProps({ modelValue: v })
+            }
+        });
+        await wrapper.findAll('button')[2].trigger('click'); // tab1 → tab3 (前進) ⇒ 'bottom'
+        expect(wrapper.findComponent(TranslateTransition).props('from')).toBe('bottom');
+        await wrapper.findAll('button')[0].trigger('click'); // tab3 → tab1 (戻る) ⇒ 'top'
+        expect(wrapper.findComponent(TranslateTransition).props('from')).toBe('top');
     });
 
     it('tab に icon がある場合は icon がレンダリングされる', () => {
