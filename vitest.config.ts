@@ -9,6 +9,10 @@ export default defineConfig({
         environment: 'happy-dom',
         include: ['src/test/**/*.spec.ts'],
         setupFiles: ['./src/test/setup.ts'],
+        reporters: ['default', 'junit'],
+        outputFile: {
+            junit: './test-results/junit.xml'
+        },
         coverage: {
             provider: 'istanbul',
             reporter: ['text', 'html'],
