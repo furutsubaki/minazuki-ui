@@ -60,6 +60,17 @@ jobs:
       - name: Run tests
         run: pnpm test:run
 
+      - name: Check test results file
+        if: always()
+        run: |
+          if [ -f test-results/junit.xml ]; then
+            echo "✓ junit.xml found"
+            ls -la test-results/
+          else
+            echo "✗ junit.xml not found"
+            find . -name "junit.xml" 2>/dev/null || echo "No junit.xml files found"
+          fi
+
       - name: Report test results
         if: always()
         uses: dorny/test-reporter@v1
