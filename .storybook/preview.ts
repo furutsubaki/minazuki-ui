@@ -1,5 +1,5 @@
-import { Preview, setup } from '@storybook/vue3'
-import { useArgs } from '@storybook/preview-api'
+import { Preview, setup } from '@storybook/vue3-vite'
+import { useArgs } from 'storybook/preview-api'
 import '@acab/reset.css'
 import '../src/assets/css/variables.css'
 import '../src/assets/css/style.css'
@@ -51,7 +51,20 @@ setup((app) => {
 })
 
 const preview: Preview = {
-    parameters: {},
+    parameters: {
+        // Storybook 10: backgrounds uses `options` (object) instead of `values` (array)
+        backgrounds: {
+            options: {
+                light: { name: 'light', value: '#ffffff' },
+                dark: { name: 'dark', value: '#1a1a1a' },
+            },
+        },
+    },
+
+    initialGlobals: {
+        backgrounds: { value: 'light' },
+    },
+
     decorators: [
         (story, context) => {
             // v-model調整
@@ -59,7 +72,7 @@ const preview: Preview = {
             if ('modelValue' in args) {
                 const update = args['onUpdate:model-value'] || args['onUpdate:modelValue'];
                 args['onUpdate:model-value'] = undefined;
-                args['onUpdate:modelValue'] = (...vals) => {
+                args['onUpdate:modelValue'] = (...vals: unknown[]) => {
                     update?.(...vals);
                     /**
                      * Arg with `undefined` will be deleted by `deleteUndefined()`, then loss of reactive
@@ -71,20 +84,20 @@ const preview: Preview = {
             }
 
             // 背景色をcss変数と同期させる
-            const currentBackground = context.globals.backgrounds?.value
-            const backgrounds = context.parameters.backgrounds.values
-            const currentBackgroundData = backgrounds.find(
-                (background) => background.value === currentBackground
-            )
-            document.documentElement.dataset.theme = currentBackgroundData?.name || 'light'
+            // Storybook 10: globals.backgrounds.value is the option key ('light' | 'dark')
+            const currentTheme = context.globals.backgrounds?.value || 'light';
+            document.documentElement.dataset.theme = currentTheme;
             document.body.style.cssText = 'background-color: var(--color-theme-bg-primary) !important;';
 
+            // Storybook 10: pass story function directly (do not call it)
             return {
-                components: { story: story({ ...context, updateArgs }) },
+                components: { story },
                 template: '<main style="display: flex; align-items: flex-start; gap:16px; flex-wrap: wrap; width: 100%;"><story /></main>',
             };
         },
-    ]
+    ],
+
+    tags: ['autodocs']
 }
 
 export default preview

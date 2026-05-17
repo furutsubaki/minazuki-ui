@@ -56,11 +56,14 @@ type PlainObject = Record<string, unknown>;
 const isPlainObject = (val: unknown): val is PlainObject =>
     typeof val === 'object' && val !== null && !Array.isArray(val);
 
+const DANGEROUS_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
 export const deepMerge = <T>(target: T, ...sources: (Partial<T> | null | undefined)[]): T => {
     if (!isPlainObject(target)) return target;
     for (const source of sources) {
         if (!isPlainObject(source)) continue;
         for (const key of Object.keys(source)) {
+            if (DANGEROUS_KEYS.has(key)) continue;
             const s = (source as PlainObject)[key];
             const t = (target as PlainObject)[key];
             if (isPlainObject(s) && isPlainObject(t)) {

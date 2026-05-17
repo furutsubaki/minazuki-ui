@@ -1,5 +1,5 @@
 import Rating from '@/components/feedback/Rating.vue';
-import type { Args, Meta, StoryObj } from '@storybook/vue3';
+import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
 
 const meta: Meta<typeof Rating> = {
     component: Rating,

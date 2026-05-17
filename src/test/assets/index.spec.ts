@@ -184,4 +184,24 @@ describe('deepMerge', () => {
     it('target がオブジェクトで source の同 key がプリミティブの場合は上書きされる', () => {
         expect(deepMerge({ a: { x: 1 } } as Record<string, unknown>, { a: 'str' })).toEqual({ a: 'str' });
     });
+
+    it('__proto__ キーはプロトタイプ汚染ガードにより無視される', () => {
+        const target = { a: 1 };
+        const malicious = JSON.parse('{"__proto__": {"polluted": true}}');
+        deepMerge(target, malicious);
+        expect((Object.prototype as Record<string, unknown>)['polluted']).toBeUndefined();
+        expect((target as Record<string, unknown>)['polluted']).toBeUndefined();
+    });
+
+    it('constructor キーはプロトタイプ汚染ガードにより無視される', () => {
+        const target = { a: 1 };
+        deepMerge(target, { constructor: { polluted: true } } as never);
+        expect((Object.prototype as Record<string, unknown>)['polluted']).toBeUndefined();
+    });
+
+    it('prototype キーはプロトタイプ汚染ガードにより無視される', () => {
+        const target = { a: 1 };
+        deepMerge(target, { prototype: { polluted: true } } as never);
+        expect((Object.prototype as Record<string, unknown>)['polluted']).toBeUndefined();
+    });
 });

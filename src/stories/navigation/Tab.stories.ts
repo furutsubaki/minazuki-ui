@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import Tab from '@/components/navigation/Tab.vue';
-import type { Args, Meta, StoryObj } from '@storybook/vue3';
+import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
 import { Home as IconHome } from 'lucide-vue-next';
 
 const meta: Meta<typeof Tab> = {

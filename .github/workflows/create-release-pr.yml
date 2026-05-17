@@ -4,29 +4,32 @@ on:
   push:
     branches: [develop]
 
+permissions:
+  contents: read
+
 jobs:
   develop2mainPR:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Generate token
         id: generate_token
-        uses: tibdex/github-app-token@v1
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.PRIVATE_KEY }}
-      - name: tokenの設定
-        run: |
-          echo GITHUB_TOKEN=${{ steps.generate_token.outputs.token }} >> "$GITHUB_ENV"
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Set up Ruby 3.1
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@97ecb7b512899eb71ab1bf2310a624c6f1589ac6 # v1.308.0
         with:
           ruby-version: 3.1
       - name: Create a release pull request
         env:
-          GIT_PR_RELEASE_TOKEN: ${{ env.GITHUB_TOKEN }}
+          GIT_PR_RELEASE_TOKEN: ${{ steps.generate_token.outputs.token }}
           GIT_PR_RELEASE_BRANCH_PRODUCTION: main
           GIT_PR_RELEASE_BRANCH_STAGING: develop
           GIT_PR_RELEASE_LABELS: release

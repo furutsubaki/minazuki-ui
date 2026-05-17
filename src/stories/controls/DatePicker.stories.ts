@@ -1,6 +1,6 @@
 import DatePicker from '@/components/controls/DatePicker.vue';
 import useFormData from '@/composables/useFormData';
-import type { Args, Meta, StoryObj } from '@storybook/vue3';
+import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
 import { string, object } from 'zod';
 
 const TEST_SCHEMA = object({

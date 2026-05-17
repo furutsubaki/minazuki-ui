@@ -4,6 +4,7 @@ import type { Router } from 'vue-router';
 import Button from '@/components/basic/Button.vue';
 import Frame from '@/components/frame/Frame.vue';
 import PictureFrame from '@/components/frame/PictureFrame.vue';
+import { isSafeNavigationUrl } from '@/assets/ts/url';
 
 export interface MiBottomNavItem {
     label: string;
@@ -49,6 +50,11 @@ const onClick = (item: MiBottomNavItem) => {
 
     if (!item.to || !router) {
         // 通常の遷移
+        if (!isSafeNavigationUrl(item.to)) {
+            // eslint-disable-next-line no-console
+            console.warn(`[minazuki-ui] Unsafe navigation URL blocked: ${item.to}`);
+            return;
+        }
         location.href = item.to;
     } else {
         // routerによる遷移

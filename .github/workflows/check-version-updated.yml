@@ -2,35 +2,41 @@ name: Check Version Updated
 on:
   pull_request:
     branches: [main]
+
+permissions:
+  contents: read
+
 jobs:
   version_diff:
     runs-on: ubuntu-latest
     outputs:
-      chagned: ${{ steps.get_diff.outputs.changed }}
+      changed: ${{ steps.get_diff.outputs.changed }}
     steps:
       - uses: actions/checkout@v4
 
       - name: マージ先を取得
-        run: git fetch origin ${{ github.base_ref }} --depth=1
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: git fetch origin "$BASE_REF" --depth=1
 
-      - name: パージョンの変更を保持する
+      - name: バージョンの変更を保持する
         id: get_diff
-        run: echo "changed=$(git diff origin/${{ github.base_ref }} HEAD --relative "./package.json" | grep "^+.\+version" | wc -l)" >> $GITHUB_OUTPUT
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: echo "changed=$(git diff "origin/$BASE_REF" HEAD --relative "./package.json" | grep "^+.\+version" | wc -l)" >> $GITHUB_OUTPUT
+
   version_check:
     runs-on: ubuntu-latest
     needs: [version_diff]
-    if: needs.version_diff.outputs.chagned == '0'
+    if: needs.version_diff.outputs.changed == '0'
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Gitの設定
-        if: steps.diff.outputs.changed == '0'
+      - name: バージョン更新を要求する
         run: |
-           echo "::error::package.json version update required."
-           exit 1
+          echo "::error::package.json version update required."
+          exit 1
