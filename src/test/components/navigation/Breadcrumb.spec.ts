@@ -58,7 +58,7 @@ describe('Breadcrumb', () => {
         const blankItems = [{ label: 'リンク', to: '/test', blank: true }];
         const wrapper = mount(Breadcrumb, { props: { items: blankItems } });
         await wrapper.find('.link').trigger('click');
-        expect(openSpy).toHaveBeenCalledWith('/test', '_blank', 'noreferrer');
+        expect(openSpy).toHaveBeenCalledWith('/test', '_blank', 'noopener,noreferrer');
         openSpy.mockRestore();
     });
 
@@ -67,7 +67,7 @@ describe('Breadcrumb', () => {
         const hrefItems = [{ label: 'リンク', to: '/test', href: 'https://example.com', blank: true }];
         const wrapper = mount(Breadcrumb, { props: { items: hrefItems } });
         await wrapper.find('.link').trigger('click');
-        expect(openSpy).toHaveBeenCalledWith('https://example.com', '_blank', 'noreferrer');
+        expect(openSpy).toHaveBeenCalledWith('https://example.com', '_blank', 'noopener,noreferrer');
         openSpy.mockRestore();
     });
 
@@ -139,5 +139,23 @@ describe('Breadcrumb', () => {
     it('separator が Component のとき component が表示される', () => {
         const wrapper = mount(Breadcrumb, { props: { items, separator: ChevronRight } });
         expect(wrapper.find('.separator').exists()).toBe(true);
+    });
+
+    it('不正な URL（javascript:）を渡した場合は遷移しない', async () => {
+        const hrefSpy = vi.spyOn(window.location, 'href', 'set');
+        const maliciousItems = [{ label: 'XSS', to: 'javascript:alert(1)' }];
+        const wrapper = mount(Breadcrumb, { props: { items: maliciousItems } });
+        await wrapper.find('.link').trigger('click');
+        expect(hrefSpy).not.toHaveBeenCalled();
+        hrefSpy.mockRestore();
+    });
+
+    it('不正な URL（javascript:）で blank=true の場合は window.open が呼ばれない', async () => {
+        const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null as any);
+        const maliciousItems = [{ label: 'XSS', to: 'javascript:alert(1)', blank: true }];
+        const wrapper = mount(Breadcrumb, { props: { items: maliciousItems } });
+        await wrapper.find('.link').trigger('click');
+        expect(openSpy).not.toHaveBeenCalled();
+        openSpy.mockRestore();
     });
 });

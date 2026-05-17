@@ -131,14 +131,14 @@ const pages = computed(() => {
     return pages;
 });
 const paginationPrev = computed(() => {
-    let prevPage = currentPage.value - 1;
+    const prevPage = currentPage.value - 1;
     if (prevPage === 0) {
         return undefined;
     }
     return prevPage;
 });
 const paginationNext = computed(() => {
-    let nextPage = currentPage.value + 1;
+    const nextPage = currentPage.value + 1;
     if (nextPage > props.total) {
         return undefined;
     }

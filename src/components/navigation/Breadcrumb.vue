@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { type Component, getCurrentInstance } from 'vue';
 import type { Router } from 'vue-router';
+import { isSafeNavigationUrl } from '@/assets/ts/url';
 
 export interface MiBreadcrumbItem {
     label?: string;
@@ -44,8 +45,13 @@ const onClick = (item: MiBreadcrumbItem) => {
     if (item.href || !item.to || !router) {
         // 通常の遷移
         const href = item.href ?? item.to;
+        if (!isSafeNavigationUrl(href)) {
+            // eslint-disable-next-line no-console
+            console.warn(`[minazuki-ui] Unsafe navigation URL blocked: ${href}`);
+            return;
+        }
         if (item.blank) {
-            window.open(href, '_blank', 'noreferrer');
+            window.open(href, '_blank', 'noopener,noreferrer');
         } else if (item.replace) {
             location.replace(href);
         } else {
@@ -53,7 +59,11 @@ const onClick = (item: MiBreadcrumbItem) => {
         }
     } else {
         // routerによる遷移
-        item.replace ? router.replace(item.to) : router.push(item.to);
+        if (item.replace) {
+            router.replace(item.to);
+        } else {
+            router.push(item.to);
+        }
     }
 };
 </script>

@@ -84,6 +84,26 @@ describe('BottomNav', () => {
         }
     });
 
+    it('不正な URL（javascript:）を渡した場合は location.href が設定されない', async () => {
+        const hrefSetter = vi.fn();
+        const originalLocation = window.location;
+        Object.defineProperty(window, 'location', {
+            configurable: true,
+            value: { ...originalLocation, set href(v: string) { hrefSetter(v); } }
+        });
+        try {
+            const maliciousItems = [{ label: 'XSS', icon: IconHome, to: 'javascript:alert(1)' }];
+            const wrapper = mount(BottomNav, { props: { items: maliciousItems as any } });
+            await wrapper.find('.label').trigger('click');
+            expect(hrefSetter).not.toHaveBeenCalled();
+        } finally {
+            Object.defineProperty(window, 'location', {
+                configurable: true,
+                value: originalLocation
+            });
+        }
+    });
+
     it('router がある場合 router.push が呼ばれる', async () => {
         const router = createRouter({
             history: createMemoryHistory(),
