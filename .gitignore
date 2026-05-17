@@ -16,6 +16,8 @@ coverage
 .env
 .env.*
 !.env.example
+.pnpm-store/
+test-results/
 
 /cypress/videos/
 /cypress/screenshots/
