@@ -1,12 +1,5 @@
 {
     "respectGitignore": true,
-    "env": {
-        "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80"
-    },
-    "attribution": {
-        "commit": "Co-Authored-By: Claude <noreply@anthropic.com>",
-        "pr": "Generated with [Claude Code](https://claude.ai/code)"
-    },
     "permissions": {
         "allow": [
             "Read(*)",
@@ -118,8 +111,6 @@
     },
     "disableAllHooks": false,
     "enabledPlugins": {
-        "context7@claude-plugins-official": true,
-        "github@claude-plugins-official": true,
         "security-guidance@claude-plugins-official": true
     },
     "sandbox": {
