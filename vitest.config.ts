@@ -9,13 +9,20 @@ export default defineConfig({
         environment: 'happy-dom',
         include: ['src/test/**/*.spec.ts'],
         setupFiles: ['./src/test/setup.ts'],
+        reporters: ['default', 'junit'],
+        outputFile: {
+            junit: './test-results/junit.xml'
+        },
         coverage: {
-            provider: 'v8',
-            reporter: ['text', 'html'],
+            provider: 'istanbul',
+            reporter: ['text', 'html', 'lcov', 'json-summary'],
             include: ['src/**/*.{ts,vue}'],
             exclude: [
                 'src/test/**',
+                'src/stories/**',
                 'src/index.ts',
+                'src/App.vue',
+                'src/main.ts',
                 'src/generate-component-index.js',
                 'src/components/index.ts'
             ]

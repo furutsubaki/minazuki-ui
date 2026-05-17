@@ -38,6 +38,8 @@ const onTransitionStart = () => {
 const onTransitionEnd = () => {
     emit('transitionEnd');
 };
+
+defineExpose({ onTransitionStart, onTransitionEnd });
 </script>
 
 <template>

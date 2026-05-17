@@ -81,6 +81,9 @@ const props = withDefaults(
 );
 
 const { value, errors } = useField<string | number | boolean>(props.name);
+if (value.value == null && model.value != null) {
+    value.value = model.value;
+}
 const schemaChunks = computed(() => (props.schema as ZodString | undefined)?._def.checks);
 const isRequired = computed(
     () =>
@@ -91,11 +94,6 @@ const isRequired = computed(
 watch(value, (v) => {
     model.value = v;
 });
-
-// NOTE: 曖昧一致により、nullとundefinedを判定し、0は判定外とする
-if (value.value == null && model.value != null) {
-    value.value = model.value;
-}
 
 const selectRef = ref();
 const isOpen = ref(false);

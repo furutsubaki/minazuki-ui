@@ -29,8 +29,7 @@ describe('useNotification', () => {
     it('addNotification が一意の key を付与する', () => {
         addNotification({});
         addNotification({});
-        const keys = notifications.value.map((n) => n.key);
-        expect(new Set(keys).size).toBe(2);
+        expect(notifications.value[0].key).not.toBe(notifications.value[1].key);
     });
 
     it('removeNotification が対象通知を削除する', () => {

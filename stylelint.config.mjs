@@ -11,7 +11,8 @@ export default {
         '@stylistic/stylelint-config'
     ],
     ignoreFiles: [
-        'dist/*'
+        'dist/**',
+        'coverage/**'
     ],
     overrides: [
         {

@@ -8,7 +8,7 @@
 import { ref, shallowRef, watch } from 'vue';
 import { useHead } from '@unhead/vue';
 import { toKebabCase } from '@/assets/ts/formatter';
-import merge from 'lodash.merge';
+import { deepMerge } from '@/assets/ts';
 
 type RecursiveRequired<T> = {
     [P in keyof T]-?: RecursiveRequired<T[P]>;
@@ -138,7 +138,7 @@ const themes = shallowRef<{ [key: string]: RecursivePartial<MiTheme> }>({
 const createThemeCss = (themeId: string) => {
     const targetTheme = themes.value[themeId];
     const defaultTheme = themes.value.light;
-    const joinTheme = merge(baseTheme, defaultTheme, targetTheme) as RecursiveRequired<MiTheme>;
+    const joinTheme = deepMerge({} as RecursivePartial<MiTheme>, baseTheme, defaultTheme, targetTheme) as RecursiveRequired<MiTheme>;
 
     let style = '';
     const optionKeys = ['base', 'status', 'theme'];
@@ -191,7 +191,7 @@ const setTheme = (themeId: string) => {
 watch(currentTheme, setTheme);
 
 const overrideTheme = (overrideThemes: { [key: string]: RecursivePartial<MiTheme> }) => {
-    themes.value = merge(themes.value, overrideThemes);
+    themes.value = deepMerge(themes.value, overrideThemes);
 };
 
 export default function () {

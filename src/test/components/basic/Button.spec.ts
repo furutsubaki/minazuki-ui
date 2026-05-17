@@ -12,19 +12,13 @@ describe('Button', () => {
         expect(button.attributes('disabled')).toBeUndefined();
     });
 
-    it('variant prop がクラスに反映される', () => {
-        const wrapper = mount(Button, { props: { variant: 'primary' } });
-        expect(wrapper.find('button').classes()).toContain('primary');
-    });
-
-    it('size prop がクラスに反映される', () => {
-        const wrapper = mount(Button, { props: { size: 'large' } });
-        expect(wrapper.find('button').classes()).toContain('large');
-    });
-
-    it('shape prop がクラスに反映される', () => {
-        const wrapper = mount(Button, { props: { shape: 'rounded' } });
-        expect(wrapper.find('button').classes()).toContain('rounded');
+    it.each([
+        ['variant', 'primary'],
+        ['size', 'large'],
+        ['shape', 'rounded']
+    ])('%s prop がクラスに反映される', (prop, value) => {
+        const wrapper = mount(Button, { props: { [prop]: value } });
+        expect(wrapper.find('button').classes()).toContain(value);
     });
 
     it('disabled のとき button が無効になる', () => {
@@ -38,14 +32,10 @@ describe('Button', () => {
         expect(wrapper.emitted('click')).toHaveLength(1);
     });
 
-    it('readonly のとき click イベントが発火しない', async () => {
+    it('readonly のとき click イベントが発火せず is-readonly クラスが付く', async () => {
         const wrapper = mount(Button, { props: { readonly: true } });
         await wrapper.find('button').trigger('click');
         expect(wrapper.emitted('click')).toBeUndefined();
-    });
-
-    it('readonly クラスが付与される', () => {
-        const wrapper = mount(Button, { props: { readonly: true } });
         expect(wrapper.find('button').classes()).toContain('is-readonly');
     });
 

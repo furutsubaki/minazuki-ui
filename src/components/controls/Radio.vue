@@ -86,12 +86,11 @@ const isRequired = computed(
 );
 
 const onChange = (event: Event) => {
-    let val = (event.target as HTMLInputElement).value as string | number | boolean;
-
     if (!(event.target as HTMLInputElement).checked) {
-        val = unCheckValue.value;
+        fieldVal.value = unCheckValue.value;
+    } else {
+        handleChange(event as unknown as string | number | boolean);
     }
-    handleChange(val);
 };
 
 watch(checked as Ref<boolean>, (flg) => {

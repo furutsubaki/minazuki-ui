@@ -13,7 +13,7 @@ import {
     Search as IconSearch,
     Clock as IconClock
 } from 'lucide-vue-next';
-import { DATE_FORMAT } from '@/assets/ts/const ';
+import { DATE_FORMAT } from '@/assets/ts/const';
 import dayjs from 'dayjs';
 import useOutsideClick from '@/directives/useOutsideClick';
 
@@ -137,6 +137,9 @@ defineEmits<{
 
 const fieldType = ref(props.type === 'number' ? 'tel' : props.type);
 const { value, errors } = useField<string>(props.name);
+if (value.value == null && model.value != null) {
+    value.value = model.value;
+}
 const schemaChunks = computed(() => props.schema?._def.checks);
 const isRequired = computed(
     () =>
@@ -170,10 +173,6 @@ watch(value, (v) => {
     formatValue.value = v;
 });
 
-// NOTE: 曖昧一致により、nullとundefinedを判定し、0は判定外とする
-if (value.value == null && model.value != null) {
-    value.value = model.value || '';
-}
 formatValue.value = value.value;
 
 const inputRef = ref();
@@ -268,6 +267,8 @@ const onOutsideClick = computed(() => ({
     isActive: isFocus.value && props.type === 'date',
     ignore: [inputRef.value]
 }));
+
+defineExpose({ onCloseDatePicker, isFocus, datePickerScrollObserver });
 </script>
 
 <template>

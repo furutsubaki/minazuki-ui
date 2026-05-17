@@ -99,6 +99,8 @@ const onChangeTab = (id: string) => {
 
     currentTab.value = id;
 };
+
+defineExpose({ tabAlignProperty, tabButtonRef, currentTabClientRects });
 </script>
 
 <template>
