@@ -3,25 +3,26 @@ paths:
   - "**/*.md"
 ---
 
-# Markdown Docs
+# Markdown ドキュメント
 
-## Documentation Standards
+## ドキュメント基準
 
-- Keep files focused and concise — one topic per file
-- Use relative links between docs (e.g., `../best-practice/claude-memory.md`), not absolute GitHub URLs
-- Include back-navigation link at top of best-practice and report docs (see existing files for pattern)
-- When adding a new concept or report, update the corresponding table in README.md (CONCEPTS or REPORTS)
+- ファイルは目的を絞って簡潔に保つ — 1 ファイル 1 トピック
+- ドキュメント間のリンクは相対パスを使用（例: `../best-practice/claude-memory.md`）。GitHub の絶対 URL は使わない
+- best-practice / report ドキュメントは先頭に戻りリンクを設置する（既存ファイルのパターンを参照）
+- 新しいコンセプトやレポートを追加した際は、README.md の対応する表（CONCEPTS または REPORTS）を更新する
 
-## Structure Conventions
+## 構成ルール
 
-- Best practice docs go in `best-practice/`
-- Implementation docs go in `implementation/`
-- Reports go in `reports/`
-- Tips go in `tips/`
-- Changelog tracking goes in `changelog/<category>/`
+- ベストプラクティスは `best-practice/` に配置
+- 実装ドキュメントは `implementation/` に配置
+- レポートは `reports/` に配置
+- Tips は `tips/` に配置
+- 変更履歴は `changelog/<category>/` に配置
 
-## Formatting
+## フォーマット
 
-- Use tables for structured comparisons (see README CONCEPTS table as reference)
-- Use badge images from `!/tags/` for visual consistency when linking best-practice or implementation docs
-- Keep headings hierarchical — don't skip levels (e.g., don't jump from `##` to `####`)
+- 構造化された比較には表を使用（README の CONCEPTS 表を参照）
+- best-practice / implementation ドキュメントへリンクする際は、視覚的統一のため `!/tags/` のバッジ画像を使用
+- 見出しは階層を守る — レベルを飛ばさない（例: `##` から `####` へ飛ばさない）
+- 見出しの直後は空行を追加する
