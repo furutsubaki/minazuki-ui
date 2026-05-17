@@ -1,6 +1,6 @@
 import Checkbox from '@/components/controls/Checkbox.vue';
 import useFormData from '@/composables/useFormData';
-import type { Args, Meta, StoryObj } from '@storybook/vue3';
+import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
 import { literal, object } from 'zod';
 
 const TEST_SCHEMA = object({

@@ -1,5 +1,5 @@
 import Badge from '@/components/feedback/Badge.vue';
-import type { Args, Meta, StoryObj } from '@storybook/vue3';
+import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
 
 const meta: Meta<typeof Badge> = {
     component: Badge,

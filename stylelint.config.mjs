@@ -12,7 +12,8 @@ export default {
     ],
     ignoreFiles: [
         'dist/**',
-        'coverage/**'
+        'coverage/**',
+        'storybook-static/**'
     ],
     overrides: [
         {

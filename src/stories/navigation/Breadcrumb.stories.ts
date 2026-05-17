@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import Breadcrumb from '@/components/navigation/Breadcrumb.vue';
-import type { Args, Meta, StoryObj } from '@storybook/vue3';
+import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
 import {
     ChevronRight as IconChevronRight,
     Home as IconHome,

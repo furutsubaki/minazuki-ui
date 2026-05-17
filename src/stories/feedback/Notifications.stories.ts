@@ -1,6 +1,6 @@
 import Notifications from '@/components/feedback/Notifications.vue';
 import Button from '@/components/basic/Button.vue';
-import type { Args, Meta, StoryObj } from '@storybook/vue3';
+import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
 import useNotification, { type MiNotificationOption } from '@/composables/useNotification';
 
 const meta: Meta<MiNotificationOption> = {
