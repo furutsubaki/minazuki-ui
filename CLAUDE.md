@@ -53,7 +53,14 @@ src/
 ├── stores/
 ├── stories/                # Storybook ストーリー（components/ と同じカテゴリ構成）
 └── test/                   # ユニットテスト（components/ composables/ と同じカテゴリ構成）
+
+playground/
+├── README.md               # 概要・使い方
+├── vue/                    # Vite + Vue 3 動作確認（構築予定）
+└── nuxt/                   # Nuxt 3+ 動作確認（構築予定）
 ```
+
+`playground/` は npm 配布物に含まれない（`files` フィールドで除外済み）。各環境は `workspace:*` で本ライブラリを参照。
 
 ### テーマシステム
 

@@ -37,3 +37,12 @@ test-results/
 
 # claude code
 .claude/**/*.local.json
+
+# Nuxt
+.nuxt
+.output
+.nitro
+.data
+
+# Vite cache
+.vite
