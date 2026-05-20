@@ -8,6 +8,8 @@ vi.mock('@unhead/vue', () => ({
 import { useHead } from '@unhead/vue';
 import useTheme from '@/composables/useTheme';
 
+const THEME_STYLE_ID = 'minazuki-theme-vars';
+
 describe('useTheme', () => {
     const { themes } = useTheme();
     const initialThemesSnapshot = JSON.parse(JSON.stringify(themes.value));
@@ -15,6 +17,8 @@ describe('useTheme', () => {
     beforeEach(() => {
         (globalThis as any).localStorage?.removeItem('themeId');
         themes.value = JSON.parse(JSON.stringify(initialThemesSnapshot));
+        document.body.removeAttribute('data-theme');
+        document.getElementById(THEME_STYLE_ID)?.remove();
     });
 
     it('currentTheme のデフォルト値が light になる', () => {
@@ -47,18 +51,13 @@ describe('useTheme', () => {
     });
 
     it('setTheme("dark") を呼ぶと dark テーマの CSS が生成される', () => {
-        const mockHead = vi.mocked(useHead);
-        mockHead.mockClear();
         const { setTheme } = useTheme();
         setTheme('dark');
-        expect(mockHead).toHaveBeenCalled();
-        const callArgs = mockHead.mock.calls[0][0] as any;
-        expect(callArgs.bodyAttrs?.['data-theme']).toBe('dark');
+        expect(document.body.getAttribute('data-theme')).toBe('dark');
+        expect(document.getElementById(THEME_STYLE_ID)).not.toBeNull();
     });
 
     it('# でも -- でも始まらないカラー値はそのまま CSS 変数に出力される', () => {
-        const mockHead = vi.mocked(useHead);
-        mockHead.mockClear();
         const { themes, setTheme } = useTheme();
 
         const savedThemes = themes.value;
@@ -68,16 +67,13 @@ describe('useTheme', () => {
 
         setTheme('light');
 
-        const callArgs = mockHead.mock.calls[0][0] as any;
-        const style: string = callArgs.style[0].textContent;
+        const style = document.getElementById(THEME_STYLE_ID)?.textContent ?? '';
         expect(style).toContain('transparent');
 
         themes.value = savedThemes;
     });
 
     it('joinThemeData が undefined の場合はその key をスキップする', () => {
-        const mockHead = vi.mocked(useHead);
-        mockHead.mockClear();
         const { themes, setTheme } = useTheme();
 
         const savedThemes = themes.value;
@@ -86,21 +82,19 @@ describe('useTheme', () => {
 
         setTheme('light');
 
-        expect(mockHead).toHaveBeenCalled();
+        expect(document.body.getAttribute('data-theme')).toBe('light');
 
         themes.value = savedThemes;
     });
 
     it('localStorage が存在しない場合も setTheme が正常に完了する', () => {
-        const mockHead = vi.mocked(useHead);
-        mockHead.mockClear();
         const { setTheme } = useTheme();
 
         const savedLocalStorage = (globalThis as any).localStorage;
         (globalThis as any).localStorage = undefined;
 
         expect(() => setTheme('light')).not.toThrow();
-        expect(mockHead).toHaveBeenCalled();
+        expect(document.body.getAttribute('data-theme')).toBe('light');
 
         (globalThis as any).localStorage = savedLocalStorage;
     });
@@ -135,8 +129,6 @@ describe('useTheme', () => {
     });
 
     it('末尾が cc の # 色は alpha 変換されずそのまま出力される', () => {
-        const mockHead = vi.mocked(useHead);
-        mockHead.mockClear();
         const { themes, setTheme } = useTheme();
 
         const savedThemes = themes.value;
@@ -144,8 +136,7 @@ describe('useTheme', () => {
 
         setTheme('light');
 
-        const callArgs = mockHead.mock.calls[0][0] as any;
-        const style: string = callArgs.style[0].textContent;
+        const style = document.getElementById(THEME_STYLE_ID)?.textContent ?? '';
         expect(style).toContain('--color-theme-text-primary:#abcdefcc;');
         expect(style).toContain('--color-theme-text-primary-alpha:#abcdefcc;');
 
@@ -153,17 +144,31 @@ describe('useTheme', () => {
     });
 
     it('currentTheme を変更すると watch 経由で setTheme が呼ばれる', async () => {
-        const mockHead = vi.mocked(useHead);
-        mockHead.mockClear();
         const { currentTheme } = useTheme();
 
         currentTheme.value = 'dark';
         await nextTick();
 
+        expect(document.body.getAttribute('data-theme')).toBe('dark');
+
+        currentTheme.value = 'light';
+    });
+
+    it('SSR 環境（document が undefined）では useHead でテーマが注入される', () => {
+        const mockHead = vi.mocked(useHead);
+        mockHead.mockClear();
+        const { setTheme } = useTheme();
+
+        const savedDocument = (globalThis as any).document;
+        (globalThis as any).document = undefined;
+
+        setTheme('dark');
+
         expect(mockHead).toHaveBeenCalled();
         const callArgs = mockHead.mock.calls[0][0] as any;
         expect(callArgs.bodyAttrs?.['data-theme']).toBe('dark');
+        expect(callArgs.style[0].textContent).toBeTruthy();
 
-        currentTheme.value = 'light';
+        (globalThis as any).document = savedDocument;
     });
 });
