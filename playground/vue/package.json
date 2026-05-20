@@ -1,0 +1,39 @@
+{
+  "name": "playground-vue",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "run-p type-check \"build-only {@}\" --",
+    "build-only": "vite build",
+    "preview": "vite preview",
+    "type-check": "vue-tsc --build --force"
+  },
+  "dependencies": {
+    "minazuki-ui": "workspace:*",
+    "@acab/reset.css": "^0.11",
+    "@unhead/vue": "^1",
+    "@vee-validate/rules": "^4",
+    "@vee-validate/zod": "^4",
+    "@vuepic/vue-datepicker": "^11",
+    "dayjs": "^1",
+    "i18next": "^23",
+    "lucide-vue-next": ">=0.356.0",
+    "pinia": "^2",
+    "vee-validate": "^4",
+    "vue": "^3",
+    "vue-router": "^4",
+    "zod": "^3",
+    "zod-i18n-map": "^2"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@vitejs/plugin-vue": "^5",
+    "@vue/tsconfig": "^0.5",
+    "npm-run-all2": "^6",
+    "typescript": "~5.8",
+    "vite": "^6",
+    "vue-tsc": "^2"
+  }
+}
