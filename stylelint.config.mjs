@@ -13,8 +13,12 @@ export default {
     ignoreFiles: [
         'dist/**',
         '**/dist/**',
+        'node_modules/**',
+        '**/node_modules/**',
         'coverage/**',
-        'storybook-static/**'
+        'storybook-static/**',
+        'playground/**/.nuxt/**',
+        'playground/**/.output/**'
     ],
     overrides: [
         {
