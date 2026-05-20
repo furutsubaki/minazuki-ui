@@ -34,6 +34,7 @@ export default defineConfig({
         lib: {
             entry: resolve(__dirname, './src/index.ts'),
             name: 'minazuki-ui',
+            cssFileName: 'style',
         },
         rollupOptions: {
             external: externalRegexps,

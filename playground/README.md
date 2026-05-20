@@ -17,7 +17,8 @@ Storybook は個別コンポーネントの UI 確認向けです。
 | ディレクトリ | 環境 | 状態 | 起動コマンド |
 | --- | --- | --- | --- |
 | `vue/` | Vite + Vue 3 | 構築済み | `pnpm play:vue` |
-| `nuxt/` | Nuxt 3+ | 構築予定 | - |
+| `nuxt3/` | Nuxt 3（SSR） | 構築済み | `pnpm play:nuxt3` |
+| `nuxt4/` | Nuxt 4（SSR） | 構築済み | `pnpm play:nuxt4` |
 
 ## ライブラリの参照方法
 

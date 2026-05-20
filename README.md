@@ -29,26 +29,11 @@ pnpm i -D minazuki-ui zod
 `plugins/minazuki-ui.ts`
 
 ```ts
-import MinazukiUi, { useFormData, useNotification, useTheme } from 'minazuki-ui';
+import MinazukiUi from 'minazuki-ui';
 import 'minazuki-ui/dist/style.css';
-
-declare module '#app' {
-    interface NuxtApp {
-        $useFormData: typeof useFormData;
-        $useNotification: typeof useNotification;
-        $useTheme: typeof useTheme;
-    }
-}
 
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.use(MinazukiUi);
-    return {
-        provide: {
-            useFormData,
-            useNotification,
-            useTheme
-        }
-    };
 });
 ```
 
@@ -61,13 +46,13 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 ```jsx
 // script
+import { useFormData } from 'minazuki-ui';
 import { string, object } from 'zod';
 
-const { $useFormData } = useNuxtApp();
 const TEST_SCHEMA = object({
     test: string().max(50).min(1)
 }).required();
-const { canSubmit, resetForm, setValues, setFieldValue } = $useFormData(TEST_SCHEMA, { test: '初期値' });
+const { canSubmit, resetForm, setValues, setFieldValue } = useFormData(TEST_SCHEMA, { test: '初期値' });
 setValues({
     test: '親から複数の項目に対して、値をセット'
 })
@@ -148,7 +133,7 @@ export default defineNuxtPlugin(() => {
 テーマカラーを上書きするにはpulginsでuseする際に、第2引数にテーマを設定します。
 
 ```ts
-import MinazukiUi, { useFormData, useNotification, useTheme } from 'minazuki-ui';
+import MinazukiUi from 'minazuki-ui';
 import 'minazuki-ui/dist/style.css';
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -186,14 +171,34 @@ export default defineNuxtPlugin((nuxtApp) => {
             }
         }
     });
+});
+```
 
-    return {
-        provide: {
-            useFormData,
-            useNotification,
-            useTheme
-        }
-    };
+## SSRでのダークモード初期フラッシュ対策
+
+SSRを使用する場合、サーバー側はlocalStorageを参照できないため、デフォルトのライトテーマでHTMLが生成されます。
+クッキーを使うことでサーバー・クライアント間でテーマを共有し、ページロード時のちらつきを防ぐことができます。
+
+`plugins/minazuki-ui.ts`
+
+```ts
+import MinazukiUi, { useTheme } from 'minazuki-ui';
+import { watch } from 'vue';
+import 'minazuki-ui/dist/style.css';
+
+export default defineNuxtPlugin((nuxtApp) => {
+    const themeCookie = useCookie<string>('themeId', { default: () => 'light' });
+    const { currentTheme } = useTheme();
+
+    // app.use の前に設定することで install 内の setTheme がクッキー値を使って SSR を描画する
+    currentTheme.value = themeCookie.value;
+
+    nuxtApp.vueApp.use(MinazukiUi);
+
+    // テーマ変更をクッキーに同期（次回リクエスト時の SSR も正しいテーマで描画される）
+    watch(currentTheme, (newTheme) => {
+        themeCookie.value = newTheme;
+    });
 });
 ```
 
