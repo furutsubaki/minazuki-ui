@@ -15,7 +15,7 @@ const toggleTheme = () => {
 <template>
     <div class="pg-layout">
         <header class="pg-header">
-            <span class="pg-header__title">minazuki-ui playground (Vue 3)</span>
+            <span class="pg-header-title">minazuki-ui playground (Vue 3)</span>
             <nav class="pg-nav">
                 <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/forms">Forms</RouterLink>

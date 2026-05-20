@@ -8,6 +8,7 @@ import vueTsEslintConfig from '@vue/eslint-config-typescript';
 export default [{
     ignores: [
         'dist/**',
+        '**/dist/**',
         'node_modules/**',
         'storybook-static/**',
         'src/components/index.ts',

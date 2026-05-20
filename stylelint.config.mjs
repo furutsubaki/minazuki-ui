@@ -12,6 +12,7 @@ export default {
     ],
     ignoreFiles: [
         'dist/**',
+        '**/dist/**',
         'coverage/**',
         'storybook-static/**'
     ],

@@ -1,7 +1,7 @@
 body {
-    background-color: var(--color-theme-bg-primary);
-    color: var(--color-theme-text-primary);
     font-family: sans-serif;
+    color: var(--color-theme-text-primary);
+    background-color: var(--color-theme-bg-primary);
     transition: background-color 0.2s, color 0.2s;
 }
 
@@ -13,17 +13,17 @@ body {
 
 .pg-header {
     display: flex;
-    align-items: center;
     gap: 24px;
+    align-items: center;
     padding: 12px 24px;
-    border-bottom: 1px solid var(--color-theme-border);
     background-color: var(--color-theme-bg-secondary);
+    border-bottom: 1px solid var(--color-theme-border);
 }
 
-.pg-header__title {
+.pg-header-title {
+    margin-right: auto;
     font-size: 1.1rem;
     font-weight: bold;
-    margin-right: auto;
 }
 
 .pg-nav {
@@ -33,10 +33,10 @@ body {
 
 .pg-nav a {
     padding: 4px 12px;
-    border-radius: 4px;
+    font-size: 0.9rem;
     color: var(--color-theme-text-primary);
     text-decoration: none;
-    font-size: 0.9rem;
+    border-radius: 4px;
 }
 
 .pg-nav a:hover,
@@ -45,9 +45,9 @@ body {
 }
 
 .pg-main {
-    padding: 24px;
-    max-width: 960px;
     width: 100%;
+    max-width: 960px;
+    padding: 24px;
     margin: 0 auto;
 }
 
@@ -56,10 +56,10 @@ body {
 }
 
 .pg-section h2 {
+    padding-bottom: 8px;
+    margin-bottom: 16px;
     font-size: 1rem;
     font-weight: bold;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
     border-bottom: 1px solid var(--color-theme-border);
 }
 
