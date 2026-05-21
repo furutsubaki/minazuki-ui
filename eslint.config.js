@@ -13,6 +13,10 @@ export default [{
         '**/node_modules/**',
         'storybook-static/**',
         'src/components/index.ts',
+        'src/components/nuxt-map.ts',
+        'src/composables/index.ts',
+        'src/directives/index.ts',
+        'src/nuxt/composable-map.ts',
         '.eslintrc.cjs',
         'playground/**/.nuxt/**',
         'playground/**/.output/**'

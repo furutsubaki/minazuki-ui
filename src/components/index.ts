@@ -34,6 +34,44 @@ import MiPagination from '@/components/navigation/Pagination.vue';
 import MiStep from '@/components/navigation/Step.vue';
 import MiTab from '@/components/navigation/Tab.vue';
 
+export const componentNameMap = {
+    MiAvatar: { name: 'MiAvatar' as const, component: MiAvatar },
+    MiButton: { name: 'MiButton' as const, component: MiButton },
+    MiAutocomplete: { name: 'MiAutocomplete' as const, component: MiAutocomplete },
+    MiCheckbox: { name: 'MiCheckbox' as const, component: MiCheckbox },
+    MiCheckboxGroup: { name: 'MiCheckboxGroup' as const, component: MiCheckboxGroup },
+    MiDatePicker: { name: 'MiDatePicker' as const, component: MiDatePicker },
+    MiField: { name: 'MiField' as const, component: MiField },
+    MiRadio: { name: 'MiRadio' as const, component: MiRadio },
+    MiRadioGroup: { name: 'MiRadioGroup' as const, component: MiRadioGroup },
+    MiSelect: { name: 'MiSelect' as const, component: MiSelect },
+    MiSwitch: { name: 'MiSwitch' as const, component: MiSwitch },
+    MiTextarea: { name: 'MiTextarea' as const, component: MiTextarea },
+    MiAlert: { name: 'MiAlert' as const, component: MiAlert },
+    MiBadge: { name: 'MiBadge' as const, component: MiBadge },
+    MiDialog: { name: 'MiDialog' as const, component: MiDialog },
+    MiDrawer: { name: 'MiDrawer' as const, component: MiDrawer },
+    MiModal: { name: 'MiModal' as const, component: MiModal },
+    MiNotificationItem: { name: 'MiNotificationItem' as const, component: MiNotificationItem },
+    MiNotifications: { name: 'MiNotifications' as const, component: MiNotifications },
+    MiProgress: { name: 'MiProgress' as const, component: MiProgress },
+    MiRating: { name: 'MiRating' as const, component: MiRating },
+    MiFrame: { name: 'MiFrame' as const, component: MiFrame },
+    MiPictureFrame: { name: 'MiPictureFrame' as const, component: MiPictureFrame },
+    MiFieldAccordionList: { name: 'MiFieldAccordionList' as const, component: MiFieldAccordionList },
+    MiFieldFrame: { name: 'MiFieldFrame' as const, component: MiFieldFrame },
+    MiInputTextCounter: { name: 'MiInputTextCounter' as const, component: MiInputTextCounter },
+    MiOpacityTransition: { name: 'MiOpacityTransition' as const, component: MiOpacityTransition },
+    MiOpacityTransitionGroup: { name: 'MiOpacityTransitionGroup' as const, component: MiOpacityTransitionGroup },
+    MiTranslateTransition: { name: 'MiTranslateTransition' as const, component: MiTranslateTransition },
+    MiTranslateTransitionGroup: { name: 'MiTranslateTransitionGroup' as const, component: MiTranslateTransitionGroup },
+    MiBottomNav: { name: 'MiBottomNav' as const, component: MiBottomNav },
+    MiBreadcrumb: { name: 'MiBreadcrumb' as const, component: MiBreadcrumb },
+    MiPagination: { name: 'MiPagination' as const, component: MiPagination },
+    MiStep: { name: 'MiStep' as const, component: MiStep },
+    MiTab: { name: 'MiTab' as const, component: MiTab },
+} as const;
+
 export {
     MiAvatar,
     MiButton,
@@ -70,7 +108,6 @@ export {
     MiPagination,
     MiStep,
     MiTab,
-
 }
 
 declare module 'vue' {
@@ -110,6 +147,5 @@ declare module 'vue' {
         MiPagination: typeof MiPagination;
         MiStep: typeof MiStep;
         MiTab: typeof MiTab;
-
     }
 }

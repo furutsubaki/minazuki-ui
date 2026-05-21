@@ -205,8 +205,11 @@ const setTheme = (themeId: string) => {
     }
 };
 
-// theme変更検知
-watch(currentTheme, setTheme);
+// theme変更検知（SSR では useHead コンテキスト外のため setTheme をスキップ、plugin の明示呼び出しに委譲）
+watch(currentTheme, (newTheme) => {
+    if (typeof document === 'undefined') return;
+    setTheme(newTheme);
+});
 
 const overrideTheme = (overrideThemes: { [key: string]: RecursivePartial<MiTheme> }) => {
     themes.value = deepMerge(themes.value, overrideThemes);

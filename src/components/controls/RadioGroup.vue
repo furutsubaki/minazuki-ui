@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { computed, useId, watch } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodNumber, ZodString, ZodBoolean } from 'zod';
 import Radio from '@/components/controls/Radio.vue';
@@ -52,7 +52,7 @@ const props = withDefaults(
         isErrorMessage?: boolean;
     }>(),
     {
-        name: Math.random().toString(),
+        name: '',
         schema: undefined,
         label: '',
         required: false,
@@ -63,7 +63,9 @@ const props = withDefaults(
     }
 );
 
-const { value, errors } = useField<string | number | boolean>(props.name);
+const generatedId = useId();
+const fieldName = computed(() => props.name || generatedId);
+const { value, errors } = useField<string | number | boolean>(fieldName);
 const schemaChunks = computed(() => (props.schema as ZodString | undefined)?._def.checks);
 const isRequired = computed(
     () =>
@@ -91,7 +93,7 @@ if (value.value == null && model.value != null) {
                 v-for="item in items"
                 :key="item.label"
                 :value="item.value"
-                :name="name"
+                :name="fieldName"
                 :disabled="disabled || item.disabled"
                 :variant="item.variant || variant"
                 :size="size"

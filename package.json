@@ -31,18 +31,25 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.umd.cjs"
     },
-    "./dist/style.css": "./dist/style.css"
+    "./nuxt": {
+      "types": "./dist/nuxt/module.d.ts",
+      "import": "./dist/nuxt/module.mjs"
+    },
+    "./dist/style.css": "./dist/style.css",
+    "./style.css": "./dist/style.css",
+    "./package.json": "./package.json"
   },
   "engines": {
     "node": ">=20.5.*"
   },
   "scripts": {
     "dev": "vite",
-    "build": "pnpm create-component-d && run-p type-check \"build-only {@}\" --",
+    "build": "pnpm create-component-d && run-p type-check \"build-only {@}\" -- && pnpm build:nuxt",
+    "build:nuxt": "vite build --config vite.nuxt.config.ts",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
@@ -69,6 +76,7 @@
     "prepare": "husky"
   },
   "peerDependencies": {
+    "@nuxt/kit": ">=3.0.0",
     "@acab/reset.css": "^0.11",
     "@unhead/vue": "^1",
     "@vee-validate/rules": "^4",
@@ -78,10 +86,15 @@
     "i18next": "^23",
     "lucide-vue-next": ">=0.356.0",
     "vee-validate": "^4",
-    "vue": "^3",
+    "vue": "^3.5",
     "vue-router": "^4",
     "zod": "^3",
     "zod-i18n-map": "^2"
+  },
+  "peerDependenciesMeta": {
+    "@nuxt/kit": {
+      "optional": true
+    }
   },
   "pnpm": {
     "overrides": {
@@ -89,6 +102,7 @@
     }
   },
   "devDependencies": {
+    "@nuxt/kit": "^4.4.1",
     "@eslint/js": "^10.0.1",
     "@rushstack/eslint-patch": "^1.10.4",
     "@storybook/addon-docs": "10.3.6",

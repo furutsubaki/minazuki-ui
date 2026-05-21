@@ -1,7 +1,7 @@
 {
   "extends": "@vue/tsconfig/tsconfig.lib.json",
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
-  "exclude": ["src/test/**", "src/stories/*", "src/App.vue", "src/main.ts"],
+  "exclude": ["src/test/**", "src/stories/*", "src/App.vue", "src/main.ts", "src/nuxt/runtime/**"],
   "compilerOptions": {
     "composite": true,
     "noEmit": false,

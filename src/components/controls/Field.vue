@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch, ref, onMounted, onBeforeUnmount } from 'vue';
+import { computed, useId, watch, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodString } from 'zod';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
@@ -109,7 +109,7 @@ const props = withDefaults(
         isErrorMessage?: boolean;
     }>(),
     {
-        name: Math.random().toString(),
+        name: '',
         schema: undefined,
         label: '',
         prefix: '',
@@ -135,8 +135,10 @@ defineEmits<{
     search: [value: string];
 }>();
 
+const generatedId = useId();
+const fieldName = computed(() => props.name || generatedId);
 const fieldType = ref(props.type === 'number' ? 'tel' : props.type);
-const { value, errors } = useField<string>(props.name);
+const { value, errors } = useField<string>(fieldName);
 if (value.value == null && model.value != null) {
     value.value = model.value;
 }

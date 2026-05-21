@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Ref, computed, watch } from 'vue';
+import { type Ref, computed, useId, watch } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodNumber, ZodString, ZodNullable, ZodBoolean, ZodLiteral } from 'zod';
 import { CheckSquare as IconCheckSquare, Square as IconSquare } from 'lucide-vue-next';
@@ -53,7 +53,7 @@ const props = withDefaults(
     }>(),
     {
         value: true,
-        name: Math.random().toString(),
+        name: '',
         schema: undefined,
         label: '',
         required: false,
@@ -65,12 +65,14 @@ const props = withDefaults(
 );
 const unCheckValue = computed(() => (typeof props.value === 'boolean' ? false : ''));
 
+const generatedId = useId();
+const fieldName = computed(() => props.name || generatedId);
 const {
     value: fieldVal,
     checked,
     errors,
     handleChange
-} = useField<string | number | boolean>(props.name, undefined, {
+} = useField<string | number | boolean>(fieldName, undefined, {
     type: 'checkbox',
     checkedValue: props.value,
     uncheckedValue: unCheckValue.value

@@ -20,9 +20,10 @@
     "i18next": "^23",
     "lucide-vue-next": ">=0.356.0",
     "nuxt": "^3.14.0",
-    "pinia": "^2",
+    "pinia": "^3",
     "vee-validate": "^4",
     "zod": "^3",
+    "vue": "^3.5",
     "zod-i18n-map": "^2"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch, ref, onMounted } from 'vue';
+import { computed, useId, watch, ref, onMounted } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodString } from 'zod';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
@@ -67,7 +67,7 @@ const props = withDefaults(
         isErrorMessage?: boolean;
     }>(),
     {
-        name: Math.random().toString(),
+        name: '',
         schema: undefined,
         label: '',
         clearable: false,
@@ -82,7 +82,9 @@ const props = withDefaults(
     }
 );
 
-const { value, errors } = useField<string>(props.name);
+const generatedId = useId();
+const fieldName = computed(() => props.name || generatedId);
+const { value, errors } = useField<string>(fieldName);
 const schemaChunks = computed(() => props.schema?._def.checks);
 const isRequired = computed(
     () =>
