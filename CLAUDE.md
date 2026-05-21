@@ -49,15 +49,31 @@ src/
 │   └── navigation/
 ├── composables/            # useFormData / useNotification / useTheme
 ├── directives/             # useOutsideClick など
-├── plugins/
+├── plugins/                # init-validate など
 ├── stores/
+├── utils/                  # formatter / url / const など汎用ユーティリティ
 ├── stories/                # Storybook ストーリー（components/ と同じカテゴリ構成）
-└── test/                   # ユニットテスト（components/ composables/ と同じカテゴリ構成）
+└── test/                   # ユニットテスト（components/ composables/ directives/ utils/ と同じカテゴリ構成）
 
 playground/
 ├── README.md               # 概要・使い方
-├── vue/                    # Vite + Vue 3 動作確認（構築予定）
-└── nuxt/                   # Nuxt 3+ 動作確認（構築予定）
+├── vue/                    # Vite + Vue 3 動作確認環境
+│   ├── src/
+│   │   ├── views/          # カテゴリ別サンプルページ
+│   │   ├── App.vue
+│   │   └── main.ts
+│   └── dist/               # ビルド出力（lint 除外対象）
+├── nuxt3/                  # Nuxt 3 動作確認環境（SSR 対応確認用）
+│   ├── pages/              # カテゴリ別サンプルページ
+│   ├── plugins/
+│   ├── .nuxt/              # 開発ビルドキャッシュ（lint 除外対象）
+│   └── .output/            # SSR ビルド出力（lint 除外対象）
+└── nuxt4/                  # Nuxt 4 動作確認環境（SSR 対応確認用）
+    ├── app/
+    │   ├── pages/          # カテゴリ別サンプルページ
+    │   └── plugins/
+    ├── .nuxt/              # 開発ビルドキャッシュ（lint 除外対象）
+    └── .output/            # SSR ビルド出力（lint 除外対象）
 ```
 
 `playground/` は npm 配布物に含まれない（`files` フィールドで除外済み）。各環境は `workspace:*` で本ライブラリを参照。
@@ -72,12 +88,31 @@ Vite + vite-plugin-dts で `dist/` に出力。`index.js`（ESM・ツリーシ�
 
 ### ピア依存関係
 
-vue, vee-validate, zod, pinia, vue-router, lucide-vue-next, dayjs, i18next 等は peerDependencies として扱い、ライブラリ自身はバンドルしない。
+vue, vee-validate, zod, vue-router, lucide-vue-next, dayjs, i18next 等は peerDependencies として扱い、ライブラリ自身はバンドルしない。
 
 ## プロジェクト固有の指示
 
 ライブラリやAPIのドキュメント参照、コード生成、セットアップや設定手順が必要な場合は、
 常にContext7 MCPを使用してください。明示的に依頼しなくても自動的に使用してください。
+
+### playground の整備
+
+コンポーネントを追加・修正した場合は、必要に応じて `playground/` も整備してください。
+
+playground は 3 環境あります。基本的に 3 環境すべてのサンプルを揃えてください。
+
+| 環境 | パス | 用途 |
+| --- | --- | --- |
+| Vite + Vue 3 | `playground/vue/src/views/` | CSR 動作確認 |
+| Nuxt 3 | `playground/nuxt3/pages/` | SSR / Nuxt 3 動作確認 |
+| Nuxt 4 | `playground/nuxt4/app/pages/` | SSR / Nuxt 4 動作確認 |
+
+#### 対応ルール
+
+- 新規コンポーネントを追加した場合: 3 環境すべてのカテゴリ対応ページに使用例を追加する
+- 既存コンポーネントの Props・emit・動作を変更した場合: 3 環境すべての対応するサンプルコードも更新する
+- playground に該当コンポーネントのサンプルがまだ存在しない場合は新規作成する
+- Nuxt 3 / Nuxt 4 固有の問題（SSR フラッシュ・ハイドレーションエラー等）が確認できた場合は対処する
 
 ## 禁止事項
 
