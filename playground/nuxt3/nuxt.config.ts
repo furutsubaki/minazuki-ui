@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -18,7 +19,7 @@ const minazukiNuxtModule = resolve(__dirname, '../../dist/nuxt/module.mjs');
 export default defineNuxtConfig({
     compatibilityDate: '2024-11-01',
     ssr: true,
-    modules: ['@pinia/nuxt', minazukiNuxtModule],
+    modules: ['@pinia/nuxt', ...(existsSync(minazukiNuxtModule) ? [minazukiNuxtModule] : [])],
     minazukiUi: {
         theme: 'light'
     },
