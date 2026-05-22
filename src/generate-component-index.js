@@ -96,5 +96,3 @@ if (!fs.existsSync('./src/nuxt/runtime')) {
     fs.mkdirSync('./src/nuxt/runtime', { recursive: true });
 }
 fs.writeFileSync('./src/nuxt/composable-map.ts', composableMapContent);
-
-console.log('✓ components/index.ts, nuxt-map.ts, composables/index.ts, directives/index.ts, nuxt/composable-map.ts を生成しました');
