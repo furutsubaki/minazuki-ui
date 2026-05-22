@@ -21,8 +21,6 @@ export default defineConfig({
                 'src/test/**',
                 'src/stories/**',
                 'src/index.ts',
-                'src/App.vue',
-                'src/main.ts',
                 'src/generate-component-index.js',
                 'src/components/index.ts'
             ]

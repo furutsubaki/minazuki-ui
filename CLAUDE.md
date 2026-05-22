@@ -9,7 +9,6 @@ Vue 3 / Nuxt 3 以上向けの UI コンポーネントライブラリ。npm パ
 ## コマンド
 
 ```bash
-pnpm dev              # 開発サーバー起動
 pnpm build            # フルビルド（型チェック + Vite ビルド）
 pnpm build-only       # Vite ビルドのみ
 pnpm type-check       # vue-tsc による型チェック
@@ -101,11 +100,11 @@ vue, vee-validate, zod, vue-router, lucide-vue-next, dayjs, i18next 等は peerD
 
 playground は 3 環境あります。基本的に 3 環境すべてのサンプルを揃えてください。
 
-| 環境 | パス | 用途 |
-| --- | --- | --- |
-| Vite + Vue 3 | `playground/vue/src/views/` | CSR 動作確認 |
-| Nuxt 3 | `playground/nuxt3/pages/` | SSR / Nuxt 3 動作確認 |
-| Nuxt 4 | `playground/nuxt4/app/pages/` | SSR / Nuxt 4 動作確認 |
+| 環境 | パス | 用途 | 起動コマンド |
+| --- | --- | --- | --- |
+| Vite + Vue 3 | `playground/vue/src/views/` | CSR 動作確認 | `cd playground/vue && pnpm dev` |
+| Nuxt 3 | `playground/nuxt3/pages/` | SSR / Nuxt 3 動作確認 | `cd playground/nuxt3 && pnpm dev` |
+| Nuxt 4 | `playground/nuxt4/app/pages/` | SSR / Nuxt 4 動作確認 | `cd playground/nuxt4 && pnpm dev` |
 
 #### 対応ルール
 
