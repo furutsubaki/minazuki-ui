@@ -94,7 +94,7 @@ const isShowing = computed(() => {
         return transitioning.value;
     }
 });
-const transitionFrom = computed(() => {
+const resolvedTransitionFrom = computed(() => {
     if (props.transitionFrom === 'top') {
         return 'top-rebound';
     } else if (props.transitionFrom === 'right') {
@@ -153,7 +153,7 @@ const hasSlot = (name: string) => {
         <div v-show="flg" class="component-dialog" :class="{ 'is-seamless': seamless }">
             <component
                 :is="TransitionComponent"
-                :from="transitionFrom"
+                :from="resolvedTransitionFrom"
                 @transition-start="transitioning = true"
                 @transition-end="transitioning = false"
             >

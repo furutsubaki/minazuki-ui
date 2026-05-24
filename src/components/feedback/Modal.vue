@@ -80,7 +80,7 @@ const isShowing = computed(() => {
         return transitioning.value;
     }
 });
-const transitionFrom = computed(() => {
+const resolvedTransitionFrom = computed(() => {
     if (props.transitionFrom === 'top') {
         return 'top-rebound';
     } else if (props.transitionFrom === 'right') {
@@ -134,7 +134,7 @@ const onOutsideClick = computed(() => ({
         <div v-show="flg" class="component-modal">
             <component
                 :is="TransitionComponent"
-                :from="transitionFrom"
+                :from="resolvedTransitionFrom"
                 @transition-start="transitioning = true"
                 @transition-end="transitioning = false"
             >

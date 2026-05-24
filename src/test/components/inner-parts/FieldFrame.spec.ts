@@ -16,11 +16,11 @@ describe('FieldFrame', () => {
     it.each([
         [{ required: true }, 'is-required'],
         [{ disabled: true }, 'is-disabled'],
-        [{ variant: 'danger' }, 'danger'],
-        [{ size: 'large' }, 'large'],
-        [{ shape: 'no-radius' }, 'no-radius']
+        [{ variant: 'danger' as const }, 'danger'],
+        [{ size: 'large' as const }, 'large'],
+        [{ shape: 'no-radius' as const }, 'no-radius']
     ])('prop がクラスに反映される', (props, expectedClass) => {
-        const wrapper = mount(FieldFrame, { props });
+        const wrapper = mount(FieldFrame, { props: props as any });
         expect(wrapper.find('.component-input-frame').classes()).toContain(expectedClass);
     });
 

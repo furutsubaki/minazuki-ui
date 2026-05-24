@@ -1,4 +1,4 @@
-import { type Directive } from 'vue';
+import { type ObjectDirective } from 'vue';
 
 type HandlerEntry = {
     handler: (event: Event) => void;
@@ -33,7 +33,7 @@ const onGlobalClick = (event: Event) => {
     });
 };
 
-const vOutsideClick: Directive = {
+const vOutsideClick: ObjectDirective = {
     mounted: (el, binding) => {
         const entry: HandlerEntry = {
             handler: () => {},

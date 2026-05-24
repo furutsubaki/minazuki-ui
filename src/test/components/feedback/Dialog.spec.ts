@@ -71,7 +71,7 @@ describe('Dialog', () => {
         ['bottom', 'bottom-rebound'],
         ['left', 'left-rebound']
     ])('transitionFrom="%s" が TranslateTransition に反映される', (transitionFrom, expectedFrom) => {
-        const wrapper = mount(Dialog, { props: { modelValue: true, transitionFrom } });
+        const wrapper = mount(Dialog, { props: { modelValue: true, transitionFrom: transitionFrom as any } });
         expect(wrapper.findComponent(TranslateTransition).props('from')).toBe(expectedFrom);
     });
 
@@ -99,7 +99,7 @@ describe('Dialog', () => {
         ['success'],
         ['warning']
     ])('variant="%s" のときクラスが付く', (variant) => {
-        const wrapper = mount(Dialog, { props: { modelValue: true, variant } });
+        const wrapper = mount(Dialog, { props: { modelValue: true, variant: variant as any } });
         expect(wrapper.find('.dialog').classes()).toContain(variant);
     });
 

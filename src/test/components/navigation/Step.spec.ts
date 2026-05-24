@@ -66,7 +66,7 @@ describe('Step', () => {
             props: {
                 steps,
                 modelValue: 'step1',
-                'onUpdate:modelValue': (v: string) => wrapper.setProps({ modelValue: v })
+                'onUpdate:modelValue': (v: string | undefined) => wrapper.setProps({ modelValue: v })
             },
             slots: {
                 step1: '<div>1</div>',
@@ -84,7 +84,7 @@ describe('Step', () => {
             props: {
                 steps,
                 modelValue: 'step2',
-                'onUpdate:modelValue': (v: string) => wrapper.setProps({ modelValue: v })
+                'onUpdate:modelValue': (v: string | undefined) => wrapper.setProps({ modelValue: v })
             },
             slots: {
                 step1: '<div>1</div>',
@@ -107,8 +107,8 @@ describe('Step', () => {
             props: {
                 steps,
                 modelValue: 'step1',
-                position: 'left',
-                'onUpdate:modelValue': (v: string) => wrapper.setProps({ modelValue: v })
+                position: 'left' as const,
+                'onUpdate:modelValue': (v: string | undefined) => wrapper.setProps({ modelValue: v })
             },
             slots: {
                 step1: '<div>1</div>',
@@ -141,7 +141,7 @@ describe('Step', () => {
             props: {
                 steps,
                 modelValue: 'step2',
-                'onUpdate:modelValue': (v: string) => wrapper.setProps({ modelValue: v })
+                'onUpdate:modelValue': (v: string | undefined) => wrapper.setProps({ modelValue: v })
             }
         });
         const buttons = wrapper.findAll('.step-button');

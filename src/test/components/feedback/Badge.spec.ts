@@ -19,8 +19,8 @@ describe('Badge', () => {
     });
 
     it.each([
-        [{ variant: 'danger' }, 'danger'],
-        [{ shape: 'dot' }, 'dot'],
+        [{ variant: 'danger' as const }, 'danger'],
+        [{ shape: 'dot' as const }, 'dot'],
         [{ inline: true }, 'inline']
     ])('prop がクラスに反映される', (props, expectedClass) => {
         const wrapper = mount(Badge, { props: { content: 1, ...props } });

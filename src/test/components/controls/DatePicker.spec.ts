@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { defineComponent, nextTick, h } from 'vue';
-import { mount, type MountingOptions } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import { z } from 'zod';
 import { Form as VeeForm } from 'vee-validate';
 import DatePicker from '@/components/controls/DatePicker.vue';
@@ -14,7 +14,7 @@ const VueDatePickerStub = defineComponent({
     template: '<div class="vue-datepicker-stub"></div>'
 });
 
-function mountDP(props: Record<string, unknown> = {}, options: MountingOptions<object> = {}) {
+function mountDP(props: Record<string, unknown> = {}, options: Record<string, any> = {}) {
     return mount(DatePicker, {
         props,
         ...options,

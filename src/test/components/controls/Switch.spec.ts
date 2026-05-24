@@ -73,9 +73,9 @@ describe('Switch', () => {
     it.each([
         [true, { value: true }],
         [false, { value: true, modelValue: true }]
-    ])('input に setChecked(%s) すると update:modelValue が emit される', async (checked, props) => {
+    ])('input に setValue(%s) すると update:modelValue が emit される', async (checked, props) => {
         const wrapper = mount(Switch, { props });
-        await wrapper.find('input[type="checkbox"]').setChecked(checked);
+        await wrapper.find('input[type="checkbox"]').setValue(checked);
         expect(wrapper.emitted('update:modelValue')).toBeTruthy();
     });
 

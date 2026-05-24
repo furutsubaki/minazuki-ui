@@ -30,7 +30,7 @@ describe('Tab', () => {
             props: {
                 tabs,
                 modelValue: 'tab1',
-                'onUpdate:modelValue': (v: string) => wrapper.setProps({ modelValue: v })
+                'onUpdate:modelValue': (v: string | undefined) => wrapper.setProps({ modelValue: v })
             }
         });
         const buttons = wrapper.findAll('button');
@@ -101,7 +101,7 @@ describe('Tab', () => {
             props: {
                 tabs,
                 modelValue: 'tab3',
-                'onUpdate:modelValue': (v: string) => wrapper.setProps({ modelValue: v })
+                'onUpdate:modelValue': (v: string | undefined) => wrapper.setProps({ modelValue: v })
             }
         });
         await wrapper.findAll('button')[0].trigger('click'); // tab3 → tab1
@@ -113,8 +113,8 @@ describe('Tab', () => {
             props: {
                 tabs,
                 modelValue: 'tab1',
-                position: 'left',
-                'onUpdate:modelValue': (v: string) => wrapper.setProps({ modelValue: v })
+                position: 'left' as const,
+                'onUpdate:modelValue': (v: string | undefined) => wrapper.setProps({ modelValue: v })
             }
         });
         await wrapper.findAll('button')[2].trigger('click'); // tab1 → tab3 (前進) ⇒ 'bottom'

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import type { DirectiveBinding, Directive, VNode } from 'vue';
+import type { DirectiveBinding, ObjectDirective, VNode } from 'vue';
 import useOutsideClick from '@/directives/useOutsideClick';
 
 const mkBinding = <T>(value: T, oldValue: T | null = null): DirectiveBinding<T> => ({
@@ -7,7 +7,7 @@ const mkBinding = <T>(value: T, oldValue: T | null = null): DirectiveBinding<T> 
     arg: undefined,
     modifiers: {},
     instance: null,
-    dir: {} as Directive,
+    dir: {} as ObjectDirective,
     oldValue
 });
 
@@ -71,7 +71,7 @@ describe('useOutsideClick', () => {
                 { handler: handler1, isActive: true, ignore: [] }
             ),
             nullVNode,
-            null
+            nullVNode
         );
 
         const outsideEl = document.createElement('div');
@@ -156,9 +156,9 @@ describe('useOutsideClick', () => {
         const newHandler = vi.fn();
         vOutsideClick.updated!(
             el,
-            mkBinding(newHandler, { handler: handler1, isActive: true, ignore: [] }),
+            mkBinding(newHandler, { handler: handler1, isActive: true, ignore: [] } as any),
             nullVNode,
-            null
+            nullVNode
         );
 
         const outsideEl = document.createElement('div');
@@ -183,7 +183,7 @@ describe('useOutsideClick', () => {
                 el,
                 mkBinding({ handler: vi.fn(), isActive: true, ignore: [] }),
                 nullVNode,
-                null
+                nullVNode
             )
         ).not.toThrow();
 

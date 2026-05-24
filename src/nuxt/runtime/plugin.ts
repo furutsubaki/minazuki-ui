@@ -12,7 +12,7 @@ type MinazukiUiConfig = {
     themes: Record<string, unknown>;
 };
 
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin((nuxtApp: { vueApp: import('vue').App }) => {
     const config = useRuntimeConfig();
     const cfg = config.public.minazukiUi as MinazukiUiConfig;
 

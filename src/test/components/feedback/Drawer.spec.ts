@@ -79,7 +79,7 @@ describe('Drawer', () => {
         const wrapper = mount(Drawer, {
             props: {
                 modelValue: true,
-                position: 'left',
+                position: 'left' as const,
                 'onUpdate:modelValue': (v: boolean) => wrapper.setProps({ modelValue: v })
             }
         });
