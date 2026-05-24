@@ -26,7 +26,8 @@ pnpm create-component-d  # src/components/index.ts を自動生成
 
 ### エントリーポイント
 
-`src/index.ts` がライブラリのルート。Vue プラグインとして `install()` を提供し、全コンポーネントを `Mi{ComponentName}` の形でグローバル登録する。コンポーザブル・ディレクティブも個別エクスポートされる。
+- `src/index.ts` — ライブラリのルート。Vue プラグインとして `install()` を提供し、全コンポーネントを `Mi{ComponentName}` の形でグローバル登録する。コンポーザブル・ディレクティブも個別エクスポートされる。
+- `src/nuxt/module.ts` — Nuxt Module のエントリーポイント。`minazuki-ui/nuxt` として配布される。auto-import・CSS 注入・テーマ設定・SSR フラッシュ防止を自動で設定する。
 
 ### ディレクトリ構成
 
@@ -40,6 +41,7 @@ src/
 │   └── ts/
 ├── components/
 │   ├── index.ts            # 自動生成ファイル（直接編集禁止。pnpm create-component-d で再生成）
+│   ├── nuxt-map.ts         # Nuxt Module の auto-import 用コンポーネントマップ（直接編集禁止）
 │   ├── basic/
 │   ├── controls/
 │   ├── feedback/
@@ -48,6 +50,12 @@ src/
 │   └── navigation/
 ├── composables/            # useFormData / useNotification / useTheme
 ├── directives/             # useOutsideClick など
+├── nuxt/                   # Nuxt Module 実装（minazuki-ui/nuxt エントリーポイント）
+│   ├── module.ts           # defineNuxtModule 本体（auto-import / CSS / テーマ設定）
+│   ├── composable-map.ts   # Nuxt auto-import 対象のコンポーザブル一覧
+│   ├── env.d.ts            # Nuxt ランタイム型補完
+│   └── runtime/
+│       └── plugin.ts       # Nuxt runtime plugin（SSR フラッシュ防止・テーマ初期化）
 ├── plugins/                # init-validate など
 ├── stores/
 ├── utils/                  # formatter / url / const など汎用ユーティリティ

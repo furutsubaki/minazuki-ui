@@ -25,7 +25,41 @@ reset cssとして[@acab/reset.css](https://github.com/mayank99/reset.css)を導
 pnpm i -D minazuki-ui zod
 ```
 
-### Nuxt
+### Nuxt（推奨: Nuxt Module）
+
+`nuxt.config.ts` に追加するだけで、コンポーネント・コンポーザブルの auto-import、CSS 自動注入、SSR フラッシュ防止が自動で設定されます。
+
+```ts
+export default defineNuxtConfig({
+    modules: ['minazuki-ui/nuxt'],
+    minazukiUi: {
+        // デフォルトテーマ（省略可。default: 'light'）
+        theme: 'light',
+        // テーマ上書き（省略可）
+        themes: {
+            light: {
+                status: { brand: '--color-base-red' }
+            }
+        }
+    }
+});
+```
+
+#### Nuxt Module オプション
+
+| オプション | 型 | デフォルト | 説明 |
+|---|---|---|---|
+| `autoImport` | `boolean` | `true` | コンポーネント・コンポーザブルの auto-import |
+| `css` | `boolean` | `true` | `minazuki-ui/dist/style.css` の自動注入 |
+| `theme` | `string` | `'light'` | デフォルトテーマ |
+| `themes` | `Record<string, unknown>` | `{}` | テーマ上書き定義 |
+| `cookieName` | `string` | `'themeId'` | テーマ保持用クッキー名 |
+| `cookieMaxAge` | `number` | `31536000` | クッキーの有効期限（秒） |
+| `install` | `boolean` | `false` | `app.use()` で全コンポーネントをグローバル登録（Tree Shaking 無効） |
+
+### Nuxt（手動 Plugin）
+
+Nuxt Module を使わない場合は手動で Plugin を設定します。
 
 `plugins/minazuki-ui.ts`
 
@@ -128,10 +162,11 @@ export default defineNuxtPlugin(() => {
 
 ## テーマ設定
 
+Nuxt Module を使う場合は `nuxt.config.ts` の `minazukiUi.themes` に設定します（上記参照）。
+
+手動 Plugin の場合は `app.use()` の第2引数にテーマを渡します。
 
 `plugins/minazuki-ui.ts`
-
-テーマカラーを上書きするにはpulginsでuseする際に、第2引数にテーマを設定します。
 
 ```ts
 import MinazukiUi from 'minazuki-ui';
@@ -177,8 +212,9 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 ## SSRでのダークモード初期フラッシュ対策
 
-SSRを使用する場合、サーバー側はlocalStorageを参照できないため、デフォルトのライトテーマでHTMLが生成されます。
-クッキーを使うことでサーバー・クライアント間でテーマを共有し、ページロード時のちらつきを防ぐことができます。
+**Nuxt Module を使う場合はクッキー管理が自動で行われます**（追加設定不要）。
+
+手動 Plugin を使う場合は、SSR 側が localStorage を参照できないため、クッキーを使って明示的に対処してください。
 
 `plugins/minazuki-ui.ts`
 
