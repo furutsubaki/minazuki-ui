@@ -154,6 +154,22 @@ describe('useTheme', () => {
         currentTheme.value = 'light';
     });
 
+    it('SSR 環境（document が undefined）では currentTheme 変更時の watch が早期リターンし data-theme が設定されない', async () => {
+        const { currentTheme } = useTheme();
+
+        const savedDocument = (globalThis as any).document;
+        (globalThis as any).document = undefined;
+
+        currentTheme.value = 'dark';
+        await nextTick();
+
+        (globalThis as any).document = savedDocument;
+        expect(document.body.getAttribute('data-theme')).toBeNull();
+
+        currentTheme.value = 'light';
+        await nextTick();
+    });
+
     it('SSR 環境（document が undefined）では useHead でテーマが注入される', () => {
         const mockHead = vi.mocked(useHead);
         mockHead.mockClear();

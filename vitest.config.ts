@@ -23,7 +23,9 @@ export default defineConfig({
                 'src/index.ts',
                 'src/generate-component-index.js',
                 'src/components/index.ts',
-                'src/components/nuxt-map.ts'
+                'src/components/nuxt-map.ts',
+                'src/nuxt/**',
+
             ]
         }
     },
