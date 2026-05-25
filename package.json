@@ -69,9 +69,9 @@
     "sb:test": "test-storybook --url http://localhost:6006",
     "play:vue": "pnpm --filter playground-vue dev",
     "play:vue:build": "pnpm --filter playground-vue build",
-    "play:nuxt3": "pnpm --filter playground-nuxt3 dev",
+    "play:nuxt3": "rm -rf playground/nuxt3/.nuxt playground/nuxt3/node_modules/.cache && pnpm --filter playground-nuxt3 dev",
     "play:nuxt3:build": "pnpm --filter playground-nuxt3 build",
-    "play:nuxt4": "pnpm --filter playground-nuxt4 dev",
+    "play:nuxt4": "rm -rf playground/nuxt4/.nuxt playground/nuxt4/node_modules/.cache && pnpm --filter playground-nuxt4 dev",
     "play:nuxt4:build": "pnpm --filter playground-nuxt4 build",
     "prepare": "husky"
   },

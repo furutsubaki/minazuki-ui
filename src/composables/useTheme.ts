@@ -212,7 +212,9 @@ watch(currentTheme, (newTheme) => {
 });
 
 const overrideTheme = (overrideThemes: { [key: string]: RecursivePartial<MiTheme> }) => {
-    themes.value = deepMerge(themes.value, overrideThemes);
+    // useRuntimeConfig() 由来の reactive Proxy は structuredClone できないため JSON round-trip で剥がす
+    const rawThemes: typeof overrideThemes = JSON.parse(JSON.stringify(overrideThemes));
+    themes.value = deepMerge(themes.value, rawThemes);
 };
 
 export default function () {
