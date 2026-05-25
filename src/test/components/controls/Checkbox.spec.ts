@@ -72,17 +72,17 @@ describe('Checkbox', () => {
         expect(wrapper.find('.error').exists()).toBe(false);
     });
 
-    it('input に setChecked(true) すると update:modelValue が apple で emit される', async () => {
+    it('input に setValue(true) すると update:modelValue が apple で emit される', async () => {
         const wrapper = mount(Checkbox, { props: { value: 'apple' } });
         const input = wrapper.find('input[type="checkbox"]');
-        await input.setChecked(true);
+        await input.setValue(true);
         expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['apple']);
     });
 
-    it('input に setChecked(false) すると update:modelValue が空文字で emit される', async () => {
+    it('input に setValue(false) すると update:modelValue が空文字で emit される', async () => {
         const wrapper = mount(Checkbox, { props: { value: 'apple', modelValue: 'apple' } });
         const input = wrapper.find('input[type="checkbox"]');
-        await input.setChecked(false);
+        await input.setValue(false);
         expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['']);
     });
 

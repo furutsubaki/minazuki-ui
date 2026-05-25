@@ -61,7 +61,7 @@ describe('Field', () => {
         ['date'],
         ['time']
     ])('type="%s" のとき .icon-box.always-visible が表示される', (type) => {
-        const wrapper = mount(Field, { props: { type } });
+        const wrapper = mount(Field, { props: { type: type as any } });
         expect(wrapper.find('.icon-box.always-visible').exists()).toBe(true);
     });
 
@@ -69,7 +69,7 @@ describe('Field', () => {
         ['time', 'time'],
         ['number', 'tel']
     ])('type="%s" のとき input の type が %s になる', (type, expectedType) => {
-        const wrapper = mount(Field, { props: { type } });
+        const wrapper = mount(Field, { props: { type: type as any } });
         expect(wrapper.find('input').attributes('type')).toBe(expectedType);
     });
 
@@ -108,7 +108,7 @@ describe('Field', () => {
         [{ schema: z.string().min(1) }, true],
         [{ schema: z.string().min(2) }, false]
     ])('required/schema で isRequired が制御される', (props, shouldBeRequired) => {
-        const wrapper = mount(Field, { props });
+        const wrapper = mount(Field, { props: props as any });
         const required = wrapper.find('input').attributes('required');
         if (shouldBeRequired) {
             expect(required).not.toBeUndefined();
@@ -345,7 +345,7 @@ describe('Field', () => {
         ['text'],
         ['date']
     ])('type="%s" のとき unmount でエラーが起きない', (type) => {
-        const wrapper = mount(Field, { props: { type } });
+        const wrapper = mount(Field, { props: { type: type as any } });
         expect(() => wrapper.unmount()).not.toThrow();
     });
 

@@ -14,11 +14,11 @@ describe('PictureFrame', () => {
     });
 
     it.each([
-        [{ layout: 'pf-right' }, 'pf-right'],
-        [{ shape: 'circle' }, 'circle'],
+        [{ layout: 'pf-right' as const }, 'pf-right'],
+        [{ shape: 'circle' as const }, 'circle'],
         [{ isPading: true }, 'is-pading']
     ])('prop がクラスに反映される', (props, expectedClass) => {
-        const wrapper = mount(PictureFrame, { props });
+        const wrapper = mount(PictureFrame, { props: props as any });
         expect(wrapper.classes()).toContain(expectedClass);
     });
 

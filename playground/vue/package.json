@@ -11,7 +11,6 @@
     "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
-    "minazuki-ui": "workspace:*",
     "@acab/reset.css": "^0.11",
     "@unhead/vue": "^1",
     "@vee-validate/rules": "^4",
@@ -20,9 +19,10 @@
     "dayjs": "^1",
     "i18next": "^23",
     "lucide-vue-next": ">=0.356.0",
+    "minazuki-ui": "workspace:*",
     "pinia": "^2",
     "vee-validate": "^4",
-    "vue": "^3",
+    "vue": "^3.5.34",
     "vue-router": "^4",
     "zod": "^3",
     "zod-i18n-map": "^2"

@@ -70,7 +70,7 @@ describe('Modal', () => {
         ['bottom', 'bottom-rebound'],
         ['left', 'left-rebound']
     ])('transitionFrom="%s" が TranslateTransition に反映される', (transitionFrom, expectedFrom) => {
-        const wrapper = mount(Modal, { props: { modelValue: true, transitionFrom } });
+        const wrapper = mount(Modal, { props: { modelValue: true, transitionFrom: transitionFrom as any } });
         expect(wrapper.findComponent(TranslateTransition).props('from')).toBe(expectedFrom);
     });
 

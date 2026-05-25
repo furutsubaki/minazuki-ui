@@ -14,12 +14,12 @@ describe('Frame', () => {
     });
 
     it.each([
-        [{ layout: 'pf-top' }, 'pf-top'],
-        [{ shape: 'no-radius' }, 'no-radius'],
+        [{ layout: 'pf-top' as const }, 'pf-top'],
+        [{ shape: 'no-radius' as const }, 'no-radius'],
         [{ isPading: true }, 'is-pading'],
         [{ noShadow: true }, 'no-shadow']
     ])('prop がクラスに反映される', (props, expectedClass) => {
-        const wrapper = mount(Frame, { props });
+        const wrapper = mount(Frame, { props: props as any });
         expect(wrapper.classes()).toContain(expectedClass);
     });
 

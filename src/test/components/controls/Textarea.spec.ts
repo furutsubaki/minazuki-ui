@@ -78,7 +78,7 @@ describe('Textarea', () => {
         [{ schema: z.string().min(2) }, false],
         [{ required: true }, true]
     ])('required/schema で required 属性が制御される', (props, shouldBeRequired) => {
-        const wrapper = mount(Textarea, { props });
+        const wrapper = mount(Textarea, { props: props as any });
         const requiredAttr = wrapper.find('textarea').attributes('required');
         if (shouldBeRequired) {
             expect(requiredAttr).not.toBeUndefined();
@@ -93,7 +93,7 @@ describe('Textarea', () => {
         [{ maxLine: null }, 'cssMaxLine', null],
         [{ line: 4 }, 'cssMinLine', 'calc(4lh + 0.5em)']
     ])('行数 prop で css 変数が更新される', (props, stateKey, expectedValue) => {
-        const wrapper = mount(Textarea, { props });
+        const wrapper = mount(Textarea, { props: props as any });
         expect((wrapper.vm as any).$.setupState[stateKey]).toBe(expectedValue);
     });
 });

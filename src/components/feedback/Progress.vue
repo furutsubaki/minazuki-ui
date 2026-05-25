@@ -53,7 +53,9 @@ const strokeDashoffset = computed(
 
 <template>
     <div class="component-progress" :class="[variant, size, shape]">
-        <div class="progress-bar" v-if="['line', 'slim-line'].includes(shape)" />
+        <div class="progress-bar" v-if="['line', 'slim-line'].includes(shape)">
+            <div class="progress-fill" :style="{ width: progressFullRatio + '%' }" />
+        </div>
         <svg
             v-if="shape === 'circle'"
             ref="circleRef"
@@ -173,15 +175,12 @@ const strokeDashoffset = computed(
     min-width: 100px;
     .progress-bar {
         position: relative;
-        display: flex;
         width: 100%;
         height: var(--c-progress-border-stroke-width);
         background-color: var(--color-theme-border);
         border-radius: 1em;
-        &::before {
-            width: v-bind(progressFullRatio + '%');
+        .progress-fill {
             height: 100%;
-            content: '';
             background-color: var(--c-progress-background-color);
             border-radius: 1em;
             transition: width 0.2s;

@@ -138,7 +138,13 @@ const themes = shallowRef<{ [key: string]: RecursivePartial<MiTheme> }>({
 const createThemeCss = (themeId: string) => {
     const targetTheme = themes.value[themeId];
     const defaultTheme = themes.value.light;
-    const joinTheme = deepMerge({} as RecursivePartial<MiTheme>, baseTheme, defaultTheme, targetTheme) as RecursiveRequired<MiTheme>;
+    // structuredClone でディープコピー: deepMerge が参照代入で元データを汚染するのを防ぐ
+    const joinTheme = deepMerge(
+        {} as RecursivePartial<MiTheme>,
+        structuredClone(baseTheme) as RecursivePartial<MiTheme>,
+        structuredClone(defaultTheme) as RecursivePartial<MiTheme>,
+        structuredClone(targetTheme) as RecursivePartial<MiTheme>
+    ) as RecursiveRequired<MiTheme>;
 
     let style = '';
     const optionKeys = ['base', 'status', 'theme'];
@@ -171,27 +177,44 @@ const createThemeCss = (themeId: string) => {
 
     return `:root{${style}}`;
 };
+const THEME_STYLE_ID = 'minazuki-theme-vars';
+
 const setTheme = (themeId: string) => {
-    useHead({
-        bodyAttrs: {
-            'data-theme': themeId
-        },
-        style: [
-            {
-                textContent: createThemeCss(themeId)
-            }
-        ]
-    });
+    const themeCss = createThemeCss(themeId);
+
+    if (typeof document !== 'undefined') {
+        // クライアント: DOM直操作（Unheadの重複排除によるスタイル上書き失敗を回避）
+        document.body.setAttribute('data-theme', themeId);
+        let styleEl = document.getElementById(THEME_STYLE_ID) as HTMLStyleElement | null;
+        if (!styleEl) {
+            styleEl = document.createElement('style');
+            styleEl.id = THEME_STYLE_ID;
+            document.head.appendChild(styleEl);
+        }
+        styleEl.textContent = themeCss;
+    } else {
+        // SSR: useHeadでHTMLに注入
+        useHead({
+            bodyAttrs: { 'data-theme': themeId },
+            style: [{ textContent: themeCss }]
+        });
+    }
+
     if (typeof localStorage !== 'undefined') {
         localStorage.setItem('themeId', themeId);
     }
 };
 
-// theme変更検知
-watch(currentTheme, setTheme);
+// theme変更検知（SSR では useHead コンテキスト外のため setTheme をスキップ、plugin の明示呼び出しに委譲）
+watch(currentTheme, (newTheme) => {
+    if (typeof document === 'undefined') return;
+    setTheme(newTheme);
+});
 
 const overrideTheme = (overrideThemes: { [key: string]: RecursivePartial<MiTheme> }) => {
-    themes.value = deepMerge(themes.value, overrideThemes);
+    // useRuntimeConfig() 由来の reactive Proxy は structuredClone できないため JSON round-trip で剥がす
+    const rawThemes: typeof overrideThemes = JSON.parse(JSON.stringify(overrideThemes));
+    themes.value = deepMerge(themes.value, rawThemes);
 };
 
 export default function () {

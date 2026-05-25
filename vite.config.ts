@@ -16,9 +16,7 @@ const externalPackages = [
     '@vuepic/vue-datepicker',
     'dayjs',
     'i18next',
-    'lodash.merge',
     'lucide-vue-next',
-    'pinia',
     'vee-validate',
     'vue-router',
     'zod',
@@ -34,6 +32,7 @@ export default defineConfig({
         lib: {
             entry: resolve(__dirname, './src/index.ts'),
             name: 'minazuki-ui',
+            cssFileName: 'style',
         },
         rollupOptions: {
             external: externalRegexps,
@@ -64,9 +63,7 @@ export default defineConfig({
                         '@vuepic/vue-datepicker': 'VueDatePicker',
                         'dayjs': 'dayjs',
                         'i18next': 'i18next',
-                        'lodash.merge': '_merge',
                         'lucide-vue-next': 'LucideVueNext',
-                        'pinia': 'Pinia',
                         'vee-validate': 'VeeValidate',
                         'vue-router': 'VueRouter',
                         'zod': 'Zod',

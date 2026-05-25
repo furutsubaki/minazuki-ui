@@ -51,8 +51,8 @@ describe('Alert', () => {
     });
 
     it.each([
-        [{ variant: 'danger' }, 'danger'],
-        [{ shape: 'no-radius' }, 'no-radius']
+        [{ variant: 'danger' as const }, 'danger'],
+        [{ shape: 'no-radius' as const }, 'no-radius']
     ])('prop がクラスに反映される', (props, expectedClass) => {
         const wrapper = mount(Alert, { props: { text: 'msg', ...props } });
         expect(wrapper.find('.component-alert').classes()).toContain(expectedClass);
@@ -85,7 +85,7 @@ describe('Alert', () => {
         ['success'],
         ['warning']
     ])('variant="%s" のときクラスが付きアイコンが表示される', (variant) => {
-        const wrapper = mount(Alert, { props: { text: 'msg', variant } });
+        const wrapper = mount(Alert, { props: { text: 'msg', variant: variant as any } });
         expect(wrapper.find('.component-alert').classes()).toContain(variant);
         expect(wrapper.find('.icon').exists()).toBe(true);
     });

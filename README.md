@@ -3,6 +3,7 @@
 vue/nuxt用のUIコンポーネントライブラリ
 
 ※nuxt ^3
+※vue ^3.5
 
 ## リソース
 
@@ -24,31 +25,50 @@ reset cssとして[@acab/reset.css](https://github.com/mayank99/reset.css)を導
 pnpm i -D minazuki-ui zod
 ```
 
-### Nuxt
+### Nuxt（推奨: Nuxt Module）
+
+`nuxt.config.ts` に追加するだけで、コンポーネント・コンポーザブルの auto-import、CSS 自動注入、SSR フラッシュ防止が自動で設定されます。
+
+```ts
+export default defineNuxtConfig({
+    modules: ['minazuki-ui/nuxt'],
+    minazukiUi: {
+        // デフォルトテーマ（省略可。default: 'light'）
+        theme: 'light',
+        // テーマ上書き（省略可）
+        themes: {
+            light: {
+                status: { brand: '--color-base-red' }
+            }
+        }
+    }
+});
+```
+
+#### Nuxt Module オプション
+
+| オプション | 型 | デフォルト | 説明 |
+|---|---|---|---|
+| `autoImport` | `boolean` | `true` | コンポーネント・コンポーザブルの auto-import |
+| `css` | `boolean` | `true` | `minazuki-ui/dist/style.css` の自動注入 |
+| `theme` | `string` | `'light'` | デフォルトテーマ |
+| `themes` | `Record<string, unknown>` | `{}` | テーマ上書き定義 |
+| `cookieName` | `string` | `'themeId'` | テーマ保持用クッキー名 |
+| `cookieMaxAge` | `number` | `31536000` | クッキーの有効期限（秒） |
+| `install` | `boolean` | `false` | `app.use()` で全コンポーネントをグローバル登録（Tree Shaking 無効） |
+
+### Nuxt（手動 Plugin）
+
+Nuxt Module を使わない場合は手動で Plugin を設定します。
 
 `plugins/minazuki-ui.ts`
 
 ```ts
-import MinazukiUi, { useFormData, useNotification, useTheme } from 'minazuki-ui';
+import MinazukiUi from 'minazuki-ui';
 import 'minazuki-ui/dist/style.css';
-
-declare module '#app' {
-    interface NuxtApp {
-        $useFormData: typeof useFormData;
-        $useNotification: typeof useNotification;
-        $useTheme: typeof useTheme;
-    }
-}
 
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.use(MinazukiUi);
-    return {
-        provide: {
-            useFormData,
-            useNotification,
-            useTheme
-        }
-    };
 });
 ```
 
@@ -61,13 +81,13 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 ```jsx
 // script
+import { useFormData } from 'minazuki-ui';
 import { string, object } from 'zod';
 
-const { $useFormData } = useNuxtApp();
 const TEST_SCHEMA = object({
     test: string().max(50).min(1)
 }).required();
-const { canSubmit, resetForm, setValues, setFieldValue } = $useFormData(TEST_SCHEMA, { test: '初期値' });
+const { canSubmit, resetForm, setValues, setFieldValue } = useFormData(TEST_SCHEMA, { test: '初期値' });
 setValues({
     test: '親から複数の項目に対して、値をセット'
 })
@@ -142,13 +162,14 @@ export default defineNuxtPlugin(() => {
 
 ## テーマ設定
 
+Nuxt Module を使う場合は `nuxt.config.ts` の `minazukiUi.themes` に設定します（上記参照）。
+
+手動 Plugin の場合は `app.use()` の第2引数にテーマを渡します。
 
 `plugins/minazuki-ui.ts`
 
-テーマカラーを上書きするにはpulginsでuseする際に、第2引数にテーマを設定します。
-
 ```ts
-import MinazukiUi, { useFormData, useNotification, useTheme } from 'minazuki-ui';
+import MinazukiUi from 'minazuki-ui';
 import 'minazuki-ui/dist/style.css';
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -186,14 +207,35 @@ export default defineNuxtPlugin((nuxtApp) => {
             }
         }
     });
+});
+```
 
-    return {
-        provide: {
-            useFormData,
-            useNotification,
-            useTheme
-        }
-    };
+## SSRでのダークモード初期フラッシュ対策
+
+**Nuxt Module を使う場合はクッキー管理が自動で行われます**（追加設定不要）。
+
+手動 Plugin を使う場合は、SSR 側が localStorage を参照できないため、クッキーを使って明示的に対処してください。
+
+`plugins/minazuki-ui.ts`
+
+```ts
+import MinazukiUi, { useTheme } from 'minazuki-ui';
+import { watch } from 'vue';
+import 'minazuki-ui/dist/style.css';
+
+export default defineNuxtPlugin((nuxtApp) => {
+    const themeCookie = useCookie<string>('themeId', { default: () => 'light' });
+    const { currentTheme } = useTheme();
+
+    // app.use の前に設定することで install 内の setTheme がクッキー値を使って SSR を描画する
+    currentTheme.value = themeCookie.value;
+
+    nuxtApp.vueApp.use(MinazukiUi);
+
+    // テーマ変更をクッキーに同期（次回リクエスト時の SSR も正しいテーマで描画される）
+    watch(currentTheme, (newTheme) => {
+        themeCookie.value = newTheme;
+    });
 });
 ```
 

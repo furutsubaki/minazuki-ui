@@ -10,9 +10,16 @@ export default [{
         'dist/**',
         '**/dist/**',
         'node_modules/**',
+        '**/node_modules/**',
         'storybook-static/**',
         'src/components/index.ts',
-        '.eslintrc.cjs'
+        'src/components/nuxt-map.ts',
+        'src/composables/index.ts',
+        'src/directives/index.ts',
+        'src/nuxt/composable-map.ts',
+        '.eslintrc.cjs',
+        'playground/**/.nuxt/**',
+        'playground/**/.output/**'
     ]
 }, js.configs.recommended, ...pluginVue.configs['flat/essential'], ...vueTsEslintConfig(), {
     rules: {
