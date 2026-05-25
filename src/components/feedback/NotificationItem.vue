@@ -172,12 +172,9 @@ defineExpose({ flg, transitioning, isShowing, onClosed, transitionFrom });
 </template>
 
 <style scoped>
-.component-notification {
-    z-index: 10000;
-}
-
 .notification {
     position: fixed;
+    z-index: 10000;
     width: var(--c-notification-item-width);
     margin: auto;
     pointer-events: initial;
