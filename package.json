@@ -98,7 +98,8 @@
   },
   "pnpm": {
     "overrides": {
-      "devalue": "^5.8.1"
+      "devalue": "^5.8.1",
+      "js-cookie": "^3.0.7"
     }
   },
   "devDependencies": {
