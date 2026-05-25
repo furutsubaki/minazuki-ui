@@ -11,7 +11,14 @@ export default {
         '@stylistic/stylelint-config'
     ],
     ignoreFiles: [
-        'dist/*'
+        'dist/**',
+        '**/dist/**',
+        'node_modules/**',
+        '**/node_modules/**',
+        'coverage/**',
+        'storybook-static/**',
+        'playground/**/.nuxt/**',
+        'playground/**/.output/**'
     ],
     overrides: [
         {

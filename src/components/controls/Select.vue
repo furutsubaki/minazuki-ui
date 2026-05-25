@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch, ref } from 'vue';
+import { computed, useId, watch, ref } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodNumber, ZodString, ZodBoolean } from 'zod';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
@@ -66,7 +66,7 @@ const props = withDefaults(
         isErrorMessage?: boolean;
     }>(),
     {
-        name: Math.random().toString(),
+        name: '',
         schema: undefined,
         label: '',
         clearable: false,
@@ -80,7 +80,12 @@ const props = withDefaults(
     }
 );
 
-const { value, errors } = useField<string | number | boolean>(props.name);
+const generatedId = useId();
+const fieldName = computed(() => props.name || generatedId);
+const { value, errors } = useField<string | number | boolean>(fieldName);
+if (value.value == null && model.value != null) {
+    value.value = model.value;
+}
 const schemaChunks = computed(() => (props.schema as ZodString | undefined)?._def.checks);
 const isRequired = computed(
     () =>
@@ -91,11 +96,6 @@ const isRequired = computed(
 watch(value, (v) => {
     model.value = v;
 });
-
-// NOTE: 曖昧一致により、nullとundefinedを判定し、0は判定外とする
-if (value.value == null && model.value != null) {
-    value.value = model.value;
-}
 
 const selectRef = ref();
 const isOpen = ref(false);

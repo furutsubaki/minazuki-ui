@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Component, ref, computed } from 'vue';
+import { type Component, ref, computed, markRaw } from 'vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
 import Button from '@/components/basic/Button.vue';
@@ -56,8 +56,9 @@ const tabAlignProperty = computed(() => {
 });
 
 // transition状態
-const TransitionComponent =
-    props.transition === 'opacity' ? OpacityTransition : TranslateTransition;
+const TransitionComponent = markRaw(
+    props.transition === 'opacity' ? OpacityTransition : TranslateTransition
+);
 const transitionFrom = ref('right');
 
 const tabHeaderRef = ref();
@@ -98,6 +99,8 @@ const onChangeTab = (id: string) => {
 
     currentTab.value = id;
 };
+
+defineExpose({ tabAlignProperty, tabButtonRef, currentTabClientRects });
 </script>
 
 <template>

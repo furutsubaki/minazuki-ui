@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Component, useSlots, computed } from 'vue';
+import { type Component, useSlots, computed, markRaw } from 'vue';
 import { User as IconUser } from 'lucide-vue-next';
 
 const props = withDefaults(
@@ -35,17 +35,20 @@ const props = withDefaults(
 );
 
 const color = computed(() => props.color);
+const rawIcon = computed(() => (props.icon ? markRaw(props.icon as Component) : undefined));
 
 const slots = useSlots();
 const hasSlot = (name: string) => {
     return slots[name] ? !!(slots[name] as () => [])()?.length : false;
 };
+
+defineExpose({ color });
 </script>
 
 <template>
     <img v-if="image" :src="image" class="component-avatar" :class="[size, shape]" />
     <div v-else class="component-avatar" :class="[size, shape]">
-        <component v-if="icon" :is="icon" class="icon" />
+        <component v-if="rawIcon" :is="rawIcon" class="icon" />
         <slot v-else-if="hasSlot('default')" />
         <IconUser v-else class="icon" />
     </div>

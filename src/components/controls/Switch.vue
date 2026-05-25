@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Ref, computed, watch } from 'vue';
+import { type Ref, computed, useId, watch } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodNullable, ZodBoolean, ZodLiteral } from 'zod';
 
@@ -45,7 +45,7 @@ const props = withDefaults(
     }>(),
     {
         value: true,
-        name: Math.random().toString(),
+        name: '',
         schema: undefined,
         label: '',
         required: false,
@@ -56,12 +56,14 @@ const props = withDefaults(
     }
 );
 
+const generatedId = useId();
+const fieldName = computed(() => props.name || generatedId);
 const {
     value: fieldVal,
     checked,
     errors,
     handleChange
-} = useField<boolean>(props.name, undefined, {
+} = useField<boolean>(fieldName, undefined, {
     type: 'checkbox',
     checkedValue: props.value,
     uncheckedValue: false

@@ -1,0 +1,22 @@
+{
+    "extends": "@vue/tsconfig/tsconfig.lib.json",
+    "include": [
+        "src/nuxt/module.ts",
+        "src/nuxt/composable-map.ts",
+        "src/components/nuxt-map.ts",
+        "src/nuxt/runtime/env.d.ts"
+    ],
+    "compilerOptions": {
+        "composite": false,
+        "noEmit": false,
+        "emitDeclarationOnly": true,
+        "declaration": true,
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "rootDir": "./src",
+        "baseUrl": "./src",
+        "paths": {
+            "@/*": ["./*"]
+        }
+    }
+}

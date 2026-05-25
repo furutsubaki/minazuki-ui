@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch, ref } from 'vue';
+import { computed, useId, watch, ref, onUnmounted } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodString } from 'zod';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
@@ -96,7 +96,7 @@ const props = withDefaults(
     }>(),
     {
         match: undefined,
-        name: Math.random().toString(),
+        name: '',
         schema: undefined,
         label: '',
         prefix: '',
@@ -114,7 +114,12 @@ const props = withDefaults(
     }
 );
 
-const { value, errors } = useField<string>(props.name);
+const generatedId = useId();
+const fieldName = computed(() => props.name || generatedId);
+const { value, errors } = useField<string>(fieldName);
+if (value.value == null && model.value != null) {
+    value.value = model.value;
+}
 const schemaChunks = computed(() => props.schema?._def.checks);
 const isRequired = computed(
     () =>
@@ -132,75 +137,84 @@ const max = computed(
         )?.value || null
 );
 
+const debouncedSearchValue = ref(value.value ?? '');
+let debounceTimer: ReturnType<typeof setTimeout>;
+
 watch(value, (v) => {
     model.value = v;
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+        debouncedSearchValue.value = v ?? '';
+    }, 150);
 });
 
-// NOTE: 曖昧一致により、nullとundefinedを判定し、0は判定外とする
-if (value.value == null && model.value != null) {
-    value.value = model.value;
-}
+onUnmounted(() => clearTimeout(debounceTimer));
 
 const inputRef = ref();
 const isFocus = ref(false);
 
+// items 変更時のみ変換処理を実行し、キーストローク毎の再計算を回避する
+const formattedItemsCache = computed(() =>
+    props.items.map((item) => {
+        const val = item.value.toString();
+        const ruby = item.ruby;
+        return {
+            item,
+            variants: Array.from(
+                new Set([
+                    hira2Kata(item.label),
+                    kata2Hira(item.label),
+                    kanaHalf2Full(hira2Kata(item.label)),
+                    kataFull2Half(hira2Kata(item.label)),
+                    alphanumericFull2Half(item.label),
+                    alphanumericHalf2Full(item.label),
+                    hira2Kata(val),
+                    kata2Hira(val),
+                    kanaHalf2Full(hira2Kata(val)),
+                    kataFull2Half(hira2Kata(val)),
+                    alphanumericFull2Half(val),
+                    alphanumericHalf2Full(val),
+                    ...(ruby
+                        ? [
+                              hira2Kata(ruby),
+                              kata2Hira(ruby),
+                              kanaHalf2Full(hira2Kata(ruby)),
+                              kataFull2Half(hira2Kata(ruby)),
+                              alphanumericFull2Half(ruby),
+                              alphanumericHalf2Full(ruby)
+                          ]
+                        : [])
+                ])
+            )
+        };
+    })
+);
+
 const matchItems = computed(() => {
-    if (!value.value) {
+    if (!debouncedSearchValue.value) {
         return props.items;
     }
-    return props.items.filter((item) => {
-        if (
-            item.label.includes(value.value) ||
-            item.value.toString().includes(value.value) ||
-            item.ruby?.includes(value.value)
-        ) {
-            // 通常チェック
-            return true;
-        }
+    const searchLower = debouncedSearchValue.value.toLocaleLowerCase();
+    return formattedItemsCache.value
+        .filter(({ item, variants }) => {
+            if (
+                item.label.includes(debouncedSearchValue.value) ||
+                item.value.toString().includes(debouncedSearchValue.value) ||
+                item.ruby?.includes(debouncedSearchValue.value)
+            ) {
+                return true;
+            }
 
-        // TODO: 処理コスト高そう……
-        const formatStrs = Array.from(
-            new Set([
-                hira2Kata(item.label),
-                kata2Hira(item.label),
-                kanaHalf2Full(hira2Kata(item.label)),
-                kataFull2Half(hira2Kata(item.label)),
-                alphanumericFull2Half(item.label),
-                alphanumericHalf2Full(item.label),
-                hira2Kata(item.value.toString()),
-                kata2Hira(item.value.toString()),
-                kanaHalf2Full(hira2Kata(item.value.toString())),
-                kataFull2Half(hira2Kata(item.value.toString())),
-                alphanumericFull2Half(item.value.toString()),
-                alphanumericHalf2Full(item.value.toString()),
-                ...(item.ruby
-                    ? [
-                          hira2Kata(item.ruby),
-                          kata2Hira(item.ruby),
-                          kanaHalf2Full(hira2Kata(item.ruby)),
-                          kataFull2Half(hira2Kata(item.ruby)),
-                          alphanumericFull2Half(item.ruby),
-                          alphanumericHalf2Full(item.ruby)
-                      ]
-                    : [])
-            ])
-        );
+            if (variants.some((str) => str.toLocaleLowerCase().includes(searchLower))) {
+                return true;
+            }
 
-        if (
-            formatStrs.findIndex((str) =>
-                str.toLocaleLowerCase().includes(value.value.toLocaleLowerCase())
-            ) !== -1
-        ) {
-            // 各種変換した文字でチェック
-            return true;
-        }
-
-        if (typeof props.match == 'function') {
-            // props.match関数チェック
-            return props.match(item, value.value);
-        }
-        return false;
-    });
+            if (typeof props.match === 'function') {
+                return props.match(item, debouncedSearchValue.value);
+            }
+            return false;
+        })
+        .map(({ item }) => item);
 });
 
 // NOTE: 初期値がリスト外の場合は初期化する
@@ -230,6 +244,8 @@ const onBlur = (event: Event) => {
     }
     isFocus.value = false;
 };
+
+defineExpose({ onBlur, debouncedSearchValue, value });
 </script>
 
 <template>

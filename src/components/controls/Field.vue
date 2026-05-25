@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch, ref, onMounted, onBeforeUnmount } from 'vue';
+import { computed, useId, watch, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodString } from 'zod';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
@@ -13,7 +13,7 @@ import {
     Search as IconSearch,
     Clock as IconClock
 } from 'lucide-vue-next';
-import { DATE_FORMAT } from '@/assets/ts/const ';
+import { DATE_FORMAT } from '@/assets/ts/const';
 import dayjs from 'dayjs';
 import useOutsideClick from '@/directives/useOutsideClick';
 
@@ -109,7 +109,7 @@ const props = withDefaults(
         isErrorMessage?: boolean;
     }>(),
     {
-        name: Math.random().toString(),
+        name: '',
         schema: undefined,
         label: '',
         prefix: '',
@@ -135,8 +135,13 @@ defineEmits<{
     search: [value: string];
 }>();
 
+const generatedId = useId();
+const fieldName = computed(() => props.name || generatedId);
 const fieldType = ref(props.type === 'number' ? 'tel' : props.type);
-const { value, errors } = useField<string>(props.name);
+const { value, errors } = useField<string>(fieldName);
+if (value.value == null && model.value != null) {
+    value.value = model.value;
+}
 const schemaChunks = computed(() => props.schema?._def.checks);
 const isRequired = computed(
     () =>
@@ -170,10 +175,6 @@ watch(value, (v) => {
     formatValue.value = v;
 });
 
-// NOTE: 曖昧一致により、nullとundefinedを判定し、0は判定外とする
-if (value.value == null && model.value != null) {
-    value.value = model.value || '';
-}
 formatValue.value = value.value;
 
 const inputRef = ref();
@@ -268,6 +269,8 @@ const onOutsideClick = computed(() => ({
     isActive: isFocus.value && props.type === 'date',
     ignore: [inputRef.value]
 }));
+
+defineExpose({ onCloseDatePicker, isFocus, datePickerScrollObserver });
 </script>
 
 <template>

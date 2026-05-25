@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { type Component, getCurrentInstance } from 'vue';
 import type { Router } from 'vue-router';
+import { isSafeNavigationUrl } from '@/assets/ts/url';
 
 export interface MiBreadcrumbItem {
     label?: string;
     icon?: Component;
-    to: string;
+    to?: string;
     replace?: boolean;
     href?: string;
     blank?: boolean;
@@ -43,9 +44,14 @@ const onClick = (item: MiBreadcrumbItem) => {
 
     if (item.href || !item.to || !router) {
         // 通常の遷移
-        const href = item.href ?? item.to;
+        const href = (item.href ?? item.to) as string;
+        if (!isSafeNavigationUrl(href)) {
+            // eslint-disable-next-line no-console
+            console.warn(`[minazuki-ui] Unsafe navigation URL blocked: ${href}`);
+            return;
+        }
         if (item.blank) {
-            window.open(href, '_blank', 'noreferrer');
+            window.open(href, '_blank', 'noopener,noreferrer');
         } else if (item.replace) {
             location.replace(href);
         } else {
@@ -53,7 +59,11 @@ const onClick = (item: MiBreadcrumbItem) => {
         }
     } else {
         // routerによる遷移
-        item.replace ? router.replace(item.to) : router.push(item.to);
+        if (item.replace) {
+            router.replace(item.to);
+        } else {
+            router.push(item.to);
+        }
     }
 };
 </script>
@@ -62,7 +72,7 @@ const onClick = (item: MiBreadcrumbItem) => {
     <div class="component-breadcrumb" :class="[size]">
         <slot name="prefix" />
         <template v-if="title">{{ title }}</template>
-        <template v-for="(item, i) in items" :key="item.to + item.href">
+        <template v-for="(item, i) in items" :key="(item.to ?? '') + (item.href ?? '')">
             <span class="separator" v-if="i !== 0 || title"
                 ><template v-if="typeof separator === 'string'">{{ separator }}</template
                 ><component v-else :is="separator as any"

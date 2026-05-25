@@ -13,6 +13,12 @@ dist
 dist-ssr
 coverage
 *.local
+.env
+.env.*
+!.env.example
+.pnpm-store/
+test-results/
+.playwright-mcp/
 
 /cypress/videos/
 /cypress/screenshots/
@@ -29,3 +35,15 @@ coverage
 
 *.tsbuildinfo
 *.clip
+
+# claude code
+.claude/**/*.local.json
+
+# Nuxt
+.nuxt
+.output
+.nitro
+.data
+
+# Vite cache
+.vite

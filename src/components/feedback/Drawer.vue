@@ -119,6 +119,8 @@ const slots = useSlots();
 const hasSlot = (name: string) => {
     return slots[name] ? !!(slots[name] as () => [])()?.length : false;
 };
+
+defineExpose({ transitionFrom });
 </script>
 
 <template>

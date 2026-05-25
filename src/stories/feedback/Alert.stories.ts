@@ -1,5 +1,5 @@
 import Alert from '@/components/feedback/Alert.vue';
-import type { Args, Meta, StoryObj } from '@storybook/vue3';
+import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
 import { Pen as IconPen } from 'lucide-vue-next';
 
 const meta: Meta<typeof Alert> = {

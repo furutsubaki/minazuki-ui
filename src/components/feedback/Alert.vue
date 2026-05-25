@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, type Component } from 'vue';
+import { ref, computed, markRaw, type Component } from 'vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import Button from '@/components/basic/Button.vue';
 import {
@@ -9,11 +9,10 @@ import {
     AlertTriangle as IconAlertTriangle,
     XOctagon as IconXOctagon
 } from 'lucide-vue-next';
-import { computed } from 'vue';
 import { sleep } from '@/assets/ts';
 
 const flg = defineModel<boolean>({ default: true });
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /**
          * 表示色
@@ -53,6 +52,8 @@ const emit = defineEmits<{
     closed: [];
 }>();
 
+const rawIcon = computed(() => (props.icon ? markRaw(props.icon as Component) : undefined));
+
 // transition状態
 const transitioning = ref(false);
 const isShowing = computed(() => {
@@ -83,7 +84,7 @@ const onClosed = async () => {
         @transition-end="transitioning = false"
     >
         <div class="component-alert" :class="[variant, shape]" v-show="flg">
-            <icon v-if="icon" class="icon" />
+            <component v-if="rawIcon" :is="rawIcon" class="icon" />
             <IconInfo v-else-if="variant === 'info'" class="icon" />
             <IconCheckCircle2 v-else-if="variant === 'success'" class="icon" />
             <IconAlertTriangle v-else-if="variant === 'warning'" class="icon" />

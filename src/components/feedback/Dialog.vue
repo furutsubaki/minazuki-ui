@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useSlots, watch, type Component } from 'vue';
+import { ref, useSlots, watch, markRaw, type Component } from 'vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
 import { computed } from 'vue';
@@ -83,8 +83,9 @@ const emit = defineEmits<{
 }>();
 
 // transition状態
-const TransitionComponent =
-    props.transitionFrom === 'opacity' ? OpacityTransition : TranslateTransition;
+const TransitionComponent = markRaw(
+    props.transitionFrom === 'opacity' ? OpacityTransition : TranslateTransition
+);
 const transitioning = ref(false);
 const isShowing = computed(() => {
     if (flg.value) {
@@ -93,7 +94,7 @@ const isShowing = computed(() => {
         return transitioning.value;
     }
 });
-const transitionFrom = computed(() => {
+const resolvedTransitionFrom = computed(() => {
     if (props.transitionFrom === 'top') {
         return 'top-rebound';
     } else if (props.transitionFrom === 'right') {
@@ -152,7 +153,7 @@ const hasSlot = (name: string) => {
         <div v-show="flg" class="component-dialog" :class="{ 'is-seamless': seamless }">
             <component
                 :is="TransitionComponent"
-                :from="transitionFrom"
+                :from="resolvedTransitionFrom"
                 @transition-start="transitioning = true"
                 @transition-end="transitioning = false"
             >

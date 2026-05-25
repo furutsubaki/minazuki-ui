@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import BottomNav from '@/components/navigation/BottomNav.vue';
-import type { Args, Meta, StoryObj } from '@storybook/vue3';
+import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
 import {
     Home as IconHome,
     Newspaper as IconNewspaper,

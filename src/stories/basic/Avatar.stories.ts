@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import Avatar from '@/components/basic/Avatar.vue';
-import type { Args, Meta, StoryObj } from '@storybook/vue3';
+import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
 import { Smile as IconSmile } from 'lucide-vue-next';
 import imgPath from '@/assets/logo.png';
 

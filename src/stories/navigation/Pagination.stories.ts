@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import Pagination from '@/components/navigation/Pagination.vue';
-import type { Args, Meta, StoryObj } from '@storybook/vue3';
+import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
 
 const meta: Meta<typeof Pagination> = {
     component: Pagination,
@@ -13,7 +13,7 @@ const meta: Meta<typeof Pagination> = {
     }),
     args: {
         modelValue: 1,
-        total: 5
+        total: 50
     },
     argTypes: {}
 };

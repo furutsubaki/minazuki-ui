@@ -10,43 +10,30 @@ import useTheme, { type MiTheme } from '@/composables/useTheme';
 import useOutsideClick from './directives/useOutsideClick';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-import * as components from '@/components';
-export * from './composables/useFormData';
-export * from './composables/useNotification';
-export * from './composables/useTheme';
-export * from './directives/useOutsideClick';
-export * from '@/components';
+import { componentNameMap } from '@/components';
 
+export * from '@/components';
+export * from '@/composables';
+export * from '@/directives';
+export { default as initValidate } from '@/plugins/init-validate';
 export { useFormData, useNotification, useTheme };
 
 type RecursivePartial<T> = {
     [P in keyof T]?: RecursivePartial<T[P]>;
 };
 
-declare module 'vue' {
-    interface NuxtApp {
-        $useFormData: ReturnType<typeof useFormData>;
-        $useNotification: ReturnType<typeof useNotification>;
-        $useTheme: ReturnType<typeof useTheme>;
-    }
-}
-
 export default {
-    install(app: App, options?: { themes?: { [key: string]: RecursivePartial<MiTheme> } }) {
-        Object.values(components).forEach((component) => {
-            app.component(`Mi${component.__name!}`, component);
-        });
+    install(app: App, options?: { themes?: { [key: string]: RecursivePartial<MiTheme> }; theme?: string }) {
+        for (const { name, component } of Object.values(componentNameMap)) {
+            app.component(name, component);
+        }
 
         // composables
-        app.config.globalProperties.$useFormData = useFormData;
         app.provide('useFormData', useFormData);
-        app.config.globalProperties.$useNotification = useNotification;
         app.provide('useNotification', useNotification);
-        app.config.globalProperties.$useTheme = useTheme;
         app.provide('useTheme', useTheme);
 
         // directives
-        app.config.globalProperties.$useOutsideClick = useOutsideClick;
         app.provide('useOutsideClick', useOutsideClick);
 
         // component
@@ -56,6 +43,9 @@ export default {
         const { currentTheme, overrideTheme, setTheme } = useTheme();
         if (options?.themes) {
             overrideTheme(options.themes);
+        }
+        if (options?.theme) {
+            currentTheme.value = options.theme;
         }
         // 初期style設定
         setTheme(currentTheme.value);

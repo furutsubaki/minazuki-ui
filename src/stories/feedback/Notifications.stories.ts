@@ -1,9 +1,9 @@
 import Notifications from '@/components/feedback/Notifications.vue';
 import Button from '@/components/basic/Button.vue';
-import type { Args, Meta, StoryObj } from '@storybook/vue3';
+import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
 import useNotification, { type MiNotificationOption } from '@/composables/useNotification';
 
-const meta: Meta<typeof Notifications> = {
+const meta: Meta<MiNotificationOption> = {
     component: Notifications,
     render: (args: Args) => ({
         components: { Notifications, Button },
@@ -12,10 +12,8 @@ const meta: Meta<typeof Notifications> = {
             return {
                 args,
                 onSetNotification: () => {
-                    addNotification({
-                        title: '通知',
-                        message: 'テスト通知'
-                    });
+                    const { variant, size, shape, position, noShadow, title, message, closeable, autoRemove } = args;
+                    addNotification({ variant, size, shape, position, noShadow, title, message, closeable, autoRemove });
                 }
             };
         },
@@ -23,12 +21,55 @@ const meta: Meta<typeof Notifications> = {
 <Button @click="onSetNotification">Open Notifications</Button>
 <Notifications />`
     }),
-    args: {},
+    args: {
+        variant: 'secondary',
+        size: 'medium',
+        shape: 'normal',
+        position: 'top-right',
+        noShadow: false,
+        title: '通知',
+        message: 'テスト通知',
+        closeable: false,
+        autoRemove: true
+    },
+    argTypes: {
+        variant: {
+            control: 'select',
+            options: ['primary', 'secondary', 'info', 'success', 'warning', 'danger']
+        },
+        size: {
+            control: 'select',
+            options: ['small', 'medium', 'large']
+        },
+        shape: {
+            control: 'select',
+            options: ['normal', 'no-radius', 'picture-frame']
+        },
+        position: {
+            control: 'select',
+            options: ['top-right', 'top-left', 'bottom-right', 'bottom-left']
+        },
+        noShadow: {
+            control: 'boolean'
+        },
+        title: {
+            control: 'text'
+        },
+        message: {
+            control: 'text'
+        },
+        closeable: {
+            control: 'boolean'
+        },
+        autoRemove: {
+            control: 'boolean'
+        }
+    },
     tags: ['autodocs']
 };
 
 export default meta;
-type Story = StoryObj<typeof Notifications>;
+type Story = StoryObj<MiNotificationOption>;
 
 export const Default: Story = {};
 

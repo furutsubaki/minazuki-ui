@@ -2,7 +2,7 @@ import { ref } from 'vue';
 import Modal from '@/components/feedback/Modal.vue';
 import Button from '@/components/basic/Button.vue';
 import PictureFrame from '@/components/frame/PictureFrame.vue';
-import type { Args, Meta, StoryObj } from '@storybook/vue3';
+import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
 
 const meta: Meta<typeof Modal> = {
     component: Modal,

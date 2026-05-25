@@ -1,6 +1,6 @@
 import Switch from '@/components/controls/Switch.vue';
 import useFormData from '@/composables/useFormData';
-import type { Args, Meta, StoryObj } from '@storybook/vue3';
+import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
 import { literal, object } from 'zod';
 import { X as IconX, Check as IconCheck } from 'lucide-vue-next';
 

@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
-import type { Args, Meta, StoryObj } from '@storybook/vue3';
+import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
 
 const meta: Meta<typeof FieldFrame> = {
     component: FieldFrame,

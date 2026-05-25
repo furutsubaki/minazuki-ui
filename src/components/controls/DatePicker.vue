@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, watch, ref } from 'vue';
+import { computed, useId, watch, ref } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodString } from 'zod';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
-import { DATE_FORMAT } from '@/assets/ts/const ';
+import { DATE_FORMAT } from '@/assets/ts/const';
 
 export type MiDateFormat = (typeof DATE_FORMAT)[keyof typeof DATE_FORMAT];
 const model = defineModel<string>();
@@ -51,7 +51,7 @@ const props = withDefaults(
         isErrorMessage?: boolean;
     }>(),
     {
-        name: Math.random().toString(),
+        name: '',
         schema: undefined,
         format: DATE_FORMAT.YYYYMMDD_JA,
         dataFormat: DATE_FORMAT.YYYYMMDD,
@@ -64,7 +64,12 @@ const props = withDefaults(
     }
 );
 
-const { value, errors } = useField<string>(props.name);
+const generatedId = useId();
+const fieldName = computed(() => props.name || generatedId);
+const { value, errors } = useField<string>(fieldName);
+if (value.value == null && model.value != null) {
+    value.value = model.value;
+}
 
 const schemaChunks = computed(() => props.schema?._def.checks);
 const isRequired = computed(
@@ -76,10 +81,6 @@ const isRequired = computed(
 watch(value, (v) => {
     model.value = v;
 });
-
-if (value.value == null && model.value != null) {
-    value.value = model.value;
-}
 
 const convertVueDatepickerFormat = (format: MiDateFormat) => {
     return format.replace(/(Y)/g, 'y').replace(/(D)/g, 'd');

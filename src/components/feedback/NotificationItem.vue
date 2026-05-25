@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted, computed, type ComponentPublicInstance } from 'vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
 import Frame from '@/components/frame/Frame.vue';
 import PictureFrame from '@/components/frame/PictureFrame.vue';
 import Button from '@/components/basic/Button.vue';
-import { computed } from 'vue';
 import { sleep } from '@/assets/ts';
 import {
     X as IconX,
@@ -36,7 +35,7 @@ const component = computed(() => {
 });
 
 const flg = ref(false);
-const { notifications, removeNotification } = useNotification();
+const { notifications, removeNotification, notificationHeights, setNotificationHeight } = useNotification();
 
 // 表示位置調整
 const transitionFrom = computed(() => {
@@ -51,34 +50,22 @@ const transitionFrom = computed(() => {
 const positionY = props.notification.position.split('-')[0] as 'top' | 'bottom';
 const positionX = props.notification.position.split('-')[1] as 'right' | 'left';
 const POSITION_GAP = 16;
+
+const notificationEl = ref<ComponentPublicInstance | null>(null);
+let resizeObserver: ResizeObserver | null = null;
+
 const positionStyle = computed(() => {
-    const filteredPositions = notifications.value.filter(
-        (notification) =>
-            notification.position.includes(positionY) && notification.position.includes(positionX)
+    const samePositionNotifications = notifications.value.filter(
+        (n) => n.position.includes(positionY) && n.position.includes(positionX)
     );
-    const currentPositionIndex = filteredPositions.findIndex(
-        (notification) => notification.key === props.notification.key
+    const currentIndex = samePositionNotifications.findIndex(
+        (n) => n.key === props.notification.key
     );
-    const filteredNotificationNodes = Array.from(
-        document.querySelectorAll(
-            `[data-notification-x="${positionX}"][data-notification-y="${positionY}"]`
-        )
-    ) as HTMLElement[];
-    let filteredNotificationCurrentNodeIndex = filteredNotificationNodes.findIndex(
-        (node) => node.dataset.notificationKey === props.notification.key
-    );
-    filteredNotificationCurrentNodeIndex =
-        filteredNotificationCurrentNodeIndex !== -1
-            ? filteredNotificationCurrentNodeIndex
-            : filteredNotificationNodes.length;
-    const filteredNotificationPreHeight = filteredNotificationNodes.reduce(
-        (all, node, i) =>
-            i < filteredNotificationCurrentNodeIndex
-                ? all + node.getBoundingClientRect().height
-                : all,
+    const prevHeight = samePositionNotifications.slice(0, currentIndex).reduce(
+        (sum, n) => sum + (notificationHeights.value[n.key] ?? 0),
         0
     );
-    const positionYGap = (currentPositionIndex + 1) * POSITION_GAP + filteredNotificationPreHeight;
+    const positionYGap = (currentIndex + 1) * POSITION_GAP + prevHeight;
     return `${positionY}: ${positionYGap}px; ${positionX}: ${POSITION_GAP}px`;
 });
 
@@ -109,11 +96,24 @@ const onClosed = async () => {
 onMounted(async () => {
     flg.value = true;
 
+    const el = notificationEl.value!.$el as HTMLElement;
+    setNotificationHeight(props.notification.key, el.getBoundingClientRect().height);
+    resizeObserver = new ResizeObserver((entries) => {
+        setNotificationHeight(props.notification.key, entries[0].contentRect.height);
+    });
+    resizeObserver.observe(el);
+
     if (props.notification.autoRemove) {
         await sleep(5000);
         onClose();
     }
 });
+
+onUnmounted(() => {
+    resizeObserver?.disconnect();
+});
+
+defineExpose({ flg, transitioning, isShowing, onClosed, transitionFrom });
 </script>
 
 <template>
@@ -129,9 +129,7 @@ onMounted(async () => {
             >
                 <component
                     :is="component"
-                    :data-notification-x="positionX"
-                    :data-notification-y="positionY"
-                    :data-notification-key="notification.key"
+                    ref="notificationEl"
                     v-show="flg"
                     class="notification"
                     :class="[notification.variant, notification.size]"
@@ -233,6 +231,8 @@ onMounted(async () => {
 .primary {
     --c-notification-item-border-color: var(--color-status-brand);
     --c-notification-item-icon-color: var(--color-status-brand);
+    --color-theme-border: var(--c-notification-item-border-color);
+    --color-theme-shadow: var(--color-status-brand-alpha);
 }
 
 .secondary {
@@ -243,21 +243,29 @@ onMounted(async () => {
 .info {
     --c-notification-item-border-color: var(--color-status-info);
     --c-notification-item-icon-color: var(--color-status-info);
+    --color-theme-border: var(--c-notification-item-border-color);
+    --color-theme-shadow: var(--color-status-info-alpha);
 }
 
 .success {
     --c-notification-item-border-color: var(--color-status-success);
     --c-notification-item-icon-color: var(--color-status-success);
+    --color-theme-border: var(--c-notification-item-border-color);
+    --color-theme-shadow: var(--color-status-success-alpha);
 }
 
 .warning {
     --c-notification-item-border-color: var(--color-status-warning);
     --c-notification-item-icon-color: var(--color-status-warning);
+    --color-theme-border: var(--c-notification-item-border-color);
+    --color-theme-shadow: var(--color-status-warning-alpha);
 }
 
 .danger {
     --c-notification-item-border-color: var(--color-status-danger);
     --c-notification-item-icon-color: var(--color-status-danger);
+    --color-theme-border: var(--c-notification-item-border-color);
+    --color-theme-shadow: var(--color-status-danger-alpha);
 }
 
 /* ▲ variant ▲ */

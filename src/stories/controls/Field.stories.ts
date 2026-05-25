@@ -1,6 +1,6 @@
 import Field from '@/components/controls/Field.vue';
 import useFormData from '@/composables/useFormData';
-import type { Args, Meta, StoryObj } from '@storybook/vue3';
+import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
 import { string, object } from 'zod';
 import { formatLocaleString, parseLocaleString } from '@/assets/ts/formatter';
 

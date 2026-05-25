@@ -7,21 +7,9 @@ const config: StorybookConfig = {
             docgen: "vue-component-meta"
         },
     },
+
     stories: ['../src/**/*.stories.@(js|ts)'],
-
-    addons: [
-        '@storybook/addon-controls',
-        '@storybook/addon-actions',
-        '@storybook/addon-viewport',
-        '@storybook/addon-backgrounds',
-        '@storybook/addon-measure',
-        '@storybook/addon-outline',
-        '@storybook/addon-docs'
-    ],
-
-    docs: {
-        autodocs: true
-    }
+    addons: ['@storybook/addon-docs']
 }
 
 export default config

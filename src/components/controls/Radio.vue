@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Ref, computed, watch } from 'vue';
+import { type Ref, computed, useId, watch } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodNumber, ZodString, ZodNullable, ZodBoolean, ZodLiteral } from 'zod';
 import { CircleCheck as IconCircleCheck, Circle as IconCircle } from 'lucide-vue-next';
@@ -55,7 +55,7 @@ const props = withDefaults(
     }>(),
     {
         value: true,
-        name: Math.random().toString(),
+        name: '',
         schema: undefined,
         label: '',
         required: false,
@@ -67,12 +67,14 @@ const props = withDefaults(
 );
 const unCheckValue = computed(() => (typeof props.value === 'boolean' ? false : ''));
 
+const generatedId = useId();
+const fieldName = computed(() => props.name || generatedId);
 const {
     value: fieldVal,
     checked,
     errors,
     handleChange
-} = useField<string | number | boolean>(props.name, undefined, {
+} = useField<string | number | boolean>(fieldName, undefined, {
     type: 'radio',
     checkedValue: props.value,
     uncheckedValue: unCheckValue.value
@@ -86,12 +88,11 @@ const isRequired = computed(
 );
 
 const onChange = (event: Event) => {
-    let val = (event.target as HTMLInputElement).value as string | number | boolean;
-
     if (!(event.target as HTMLInputElement).checked) {
-        val = unCheckValue.value;
+        fieldVal.value = unCheckValue.value;
+    } else {
+        handleChange(event as unknown as string | number | boolean);
     }
-    handleChange(val);
 };
 
 watch(checked as Ref<boolean>, (flg) => {
