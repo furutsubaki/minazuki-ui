@@ -190,8 +190,8 @@ importers:
         specifier: ^1
         version: 1.11.20
       i18next:
-        specifier: ^23
-        version: 23.16.8
+        specifier: ^26
+        version: 26.2.0(typescript@5.8.3)
       lucide-vue-next:
         specifier: '>=0.356.0'
         version: 1.0.0(vue@3.5.34(typescript@5.8.3))
@@ -215,7 +215,7 @@ importers:
         version: 3.25.76
       zod-i18n-map:
         specifier: ^2
-        version: 2.27.0(i18next@23.16.8)(zod@3.25.76)
+        version: 2.27.0(i18next@26.2.0(typescript@5.8.3))(zod@3.25.76)
     devDependencies:
       '@types/node':
         specifier: ^22
@@ -248,8 +248,8 @@ importers:
         specifier: ^1
         version: 1.11.20
       i18next:
-        specifier: ^23
-        version: 23.16.8
+        specifier: ^26
+        version: 26.2.0(typescript@5.8.3)
       lucide-vue-next:
         specifier: '>=0.356.0'
         version: 1.0.0(vue@3.5.34(typescript@5.8.3))
@@ -273,7 +273,7 @@ importers:
         version: 3.25.76
       zod-i18n-map:
         specifier: ^2
-        version: 2.27.0(i18next@23.16.8)(zod@3.25.76)
+        version: 2.27.0(i18next@26.2.0(typescript@5.8.3))(zod@3.25.76)
     devDependencies:
       '@types/node':
         specifier: ^22
@@ -306,8 +306,8 @@ importers:
         specifier: ^1
         version: 1.11.20
       i18next:
-        specifier: ^23
-        version: 23.16.8
+        specifier: ^26
+        version: 26.2.0(typescript@5.8.3)
       lucide-vue-next:
         specifier: '>=0.356.0'
         version: 1.0.0(vue@3.5.34(typescript@5.8.3))
@@ -331,7 +331,7 @@ importers:
         version: 3.25.76
       zod-i18n-map:
         specifier: ^2
-        version: 2.27.0(i18next@23.16.8)(zod@3.25.76)
+        version: 2.27.0(i18next@26.2.0(typescript@5.8.3))(zod@3.25.76)
     devDependencies:
       '@types/node':
         specifier: ^22
@@ -3754,6 +3754,14 @@ packages:
   i18next@23.16.8:
     resolution: {integrity: sha512-06r/TitrM88Mg5FdUXAKL96dJMzgqLE5dv3ryBAra4KCwD9mJ4ndOTS95ZuymIGoE+2hzfdaMak2X11/es7ZWg==}
 
+  i18next@26.2.0:
+    resolution: {integrity: sha512-zwBHldHdTmwN7r6UNc7lC6GWNN+YYg3DrRSeHR5PRRBf5QnJZcYHrQc0uaU26qZeYxR7iFZD+Y315dPnKP47wA==}
+    peerDependencies:
+      typescript: ^5 || ^6
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
 
@@ -6006,6 +6014,9 @@ packages:
   vue-component-type-helpers@3.2.9:
     resolution: {integrity: sha512-S3BiWYaLSzHxTpln665ELSrMR9UYmrIDUmhik7nVZxmJjTKL2/a+ew1hvGxksKelivm0ujjWfG1fYOiU/2e8rA==}
 
+  vue-component-type-helpers@3.3.0:
+    resolution: {integrity: sha512-vwR8DDsBysI9NWXa0okPFpCcW+BUC3sPTuLBNo1faMzw4QWMFd+3/lFYFu29ZN0q+8UReXWJHEYesC9dcXYCLg==}
+
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
     engines: {node: '>=12'}
@@ -8010,7 +8021,7 @@ snapshots:
       storybook: 10.3.6(@testing-library/dom@10.4.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       type-fest: 2.19.0
       vue: 3.5.34(typescript@5.8.3)
-      vue-component-type-helpers: 3.2.9
+      vue-component-type-helpers: 3.3.0
 
   '@stylistic/eslint-plugin@5.10.0(eslint@10.3.0(jiti@2.7.0))':
     dependencies:
@@ -9831,6 +9842,10 @@ snapshots:
   i18next@23.16.8:
     dependencies:
       '@babel/runtime': 7.29.2
+
+  i18next@26.2.0(typescript@5.8.3):
+    optionalDependencies:
+      typescript: 5.8.3
 
   ieee754@1.2.1: {}
 
@@ -12434,6 +12449,8 @@ snapshots:
 
   vue-component-type-helpers@3.2.9: {}
 
+  vue-component-type-helpers@3.3.0: {}
+
   vue-demi@0.14.10(vue@3.5.34(typescript@5.8.3)):
     dependencies:
       vue: 3.5.34(typescript@5.8.3)
@@ -12639,6 +12656,11 @@ snapshots:
   zod-i18n-map@2.27.0(i18next@23.16.8)(zod@3.25.76):
     dependencies:
       i18next: 23.16.8
+      zod: 3.25.76
+
+  zod-i18n-map@2.27.0(i18next@26.2.0(typescript@5.8.3))(zod@3.25.76):
+    dependencies:
+      i18next: 26.2.0(typescript@5.8.3)
       zod: 3.25.76
 
   zod@3.25.76: {}
