@@ -182,7 +182,7 @@ importers:
         version: 4.15.1(vue@3.5.34(typescript@5.8.3))
       '@vee-validate/zod':
         specifier: ^4
-        version: 4.15.1(vue@3.5.34(typescript@5.8.3))(zod@3.25.76)
+        version: 4.15.1(vue@3.5.34(typescript@5.8.3))(zod@4.4.3)
       '@vuepic/vue-datepicker':
         specifier: ^11
         version: 11.0.3(vue@3.5.34(typescript@5.8.3))
@@ -211,11 +211,11 @@ importers:
         specifier: ^3.5
         version: 3.5.34(typescript@5.8.3)
       zod:
-        specifier: ^3
-        version: 3.25.76
+        specifier: ^4
+        version: 4.4.3
       zod-i18n-map:
         specifier: ^2
-        version: 2.27.0(i18next@23.16.8)(zod@3.25.76)
+        version: 2.27.0(i18next@23.16.8)(zod@4.4.3)
     devDependencies:
       '@types/node':
         specifier: ^22
@@ -240,7 +240,7 @@ importers:
         version: 4.15.1(vue@3.5.34(typescript@5.8.3))
       '@vee-validate/zod':
         specifier: ^4
-        version: 4.15.1(vue@3.5.34(typescript@5.8.3))(zod@3.25.76)
+        version: 4.15.1(vue@3.5.34(typescript@5.8.3))(zod@4.4.3)
       '@vuepic/vue-datepicker':
         specifier: ^11
         version: 11.0.3(vue@3.5.34(typescript@5.8.3))
@@ -269,11 +269,11 @@ importers:
         specifier: ^3.5
         version: 3.5.34(typescript@5.8.3)
       zod:
-        specifier: ^3
-        version: 3.25.76
+        specifier: ^4
+        version: 4.4.3
       zod-i18n-map:
         specifier: ^2
-        version: 2.27.0(i18next@23.16.8)(zod@3.25.76)
+        version: 2.27.0(i18next@23.16.8)(zod@4.4.3)
     devDependencies:
       '@types/node':
         specifier: ^22
@@ -298,7 +298,7 @@ importers:
         version: 4.15.1(vue@3.5.34(typescript@5.8.3))
       '@vee-validate/zod':
         specifier: ^4
-        version: 4.15.1(vue@3.5.34(typescript@5.8.3))(zod@3.25.76)
+        version: 4.15.1(vue@3.5.34(typescript@5.8.3))(zod@4.4.3)
       '@vuepic/vue-datepicker':
         specifier: ^11
         version: 11.0.3(vue@3.5.34(typescript@5.8.3))
@@ -327,11 +327,11 @@ importers:
         specifier: ^4
         version: 4.6.4(vue@3.5.34(typescript@5.8.3))
       zod:
-        specifier: ^3
-        version: 3.25.76
+        specifier: ^4
+        version: 4.4.3
       zod-i18n-map:
         specifier: ^2
-        version: 2.27.0(i18next@23.16.8)(zod@3.25.76)
+        version: 2.27.0(i18next@23.16.8)(zod@4.4.3)
     devDependencies:
       '@types/node':
         specifier: ^22
@@ -6006,6 +6006,9 @@ packages:
   vue-component-type-helpers@3.2.9:
     resolution: {integrity: sha512-S3BiWYaLSzHxTpln665ELSrMR9UYmrIDUmhik7nVZxmJjTKL2/a+ew1hvGxksKelivm0ujjWfG1fYOiU/2e8rA==}
 
+  vue-component-type-helpers@3.3.0:
+    resolution: {integrity: sha512-vwR8DDsBysI9NWXa0okPFpCcW+BUC3sPTuLBNo1faMzw4QWMFd+3/lFYFu29ZN0q+8UReXWJHEYesC9dcXYCLg==}
+
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
     engines: {node: '>=12'}
@@ -6204,6 +6207,9 @@ packages:
 
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
+  zod@4.4.3:
+    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
 
 snapshots:
 
@@ -8010,7 +8016,7 @@ snapshots:
       storybook: 10.3.6(@testing-library/dom@10.4.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       type-fest: 2.19.0
       vue: 3.5.34(typescript@5.8.3)
-      vue-component-type-helpers: 3.2.9
+      vue-component-type-helpers: 3.3.0
 
   '@stylistic/eslint-plugin@5.10.0(eslint@10.3.0(jiti@2.7.0))':
     dependencies:
@@ -8240,6 +8246,14 @@ snapshots:
       type-fest: 4.41.0
       vee-validate: 4.15.1(vue@3.5.34(typescript@5.8.3))
       zod: 3.25.76
+    transitivePeerDependencies:
+      - vue
+
+  '@vee-validate/zod@4.15.1(vue@3.5.34(typescript@5.8.3))(zod@4.4.3)':
+    dependencies:
+      type-fest: 4.41.0
+      vee-validate: 4.15.1(vue@3.5.34(typescript@5.8.3))
+      zod: 4.4.3
     transitivePeerDependencies:
       - vue
 
@@ -12434,6 +12448,8 @@ snapshots:
 
   vue-component-type-helpers@3.2.9: {}
 
+  vue-component-type-helpers@3.3.0: {}
+
   vue-demi@0.14.10(vue@3.5.34(typescript@5.8.3)):
     dependencies:
       vue: 3.5.34(typescript@5.8.3)
@@ -12641,4 +12657,11 @@ snapshots:
       i18next: 23.16.8
       zod: 3.25.76
 
+  zod-i18n-map@2.27.0(i18next@23.16.8)(zod@4.4.3):
+    dependencies:
+      i18next: 23.16.8
+      zod: 4.4.3
+
   zod@3.25.76: {}
+
+  zod@4.4.3: {}
