@@ -20,13 +20,15 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.PRIVATE_KEY }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
       - name: Set up Ruby 3.1
         uses: ruby/setup-ruby@97ecb7b512899eb71ab1bf2310a624c6f1589ac6 # v1.308.0
         with:
           ruby-version: 3.1
+          gemfile: .github/Gemfile
+          bundler-cache: true
       - name: Create a release pull request
         env:
           GIT_PR_RELEASE_TOKEN: ${{ steps.generate_token.outputs.token }}
@@ -34,6 +36,4 @@ jobs:
           GIT_PR_RELEASE_BRANCH_STAGING: develop
           GIT_PR_RELEASE_LABELS: release
           GIT_PR_RELEASE_TEMPLATE: '.github/.git-pr-release-template'
-        run: |
-          gem install git-pr-release -v "1.9.0"
-          git-pr-release --no-fetch || echo "Done."
+        run: bundle exec git-pr-release --no-fetch || echo "Done."
