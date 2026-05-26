@@ -17,7 +17,7 @@
     "@vee-validate/zod": "^4",
     "@vuepic/vue-datepicker": "^11",
     "dayjs": "^1",
-    "i18next": "^23",
+    "i18next": "^26",
     "lucide-vue-next": ">=0.356.0",
     "minazuki-ui": "workspace:*",
     "pinia": "^2",
