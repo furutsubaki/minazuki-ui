@@ -1,16 +1,17 @@
-name: Node.js Package
-
+name: Build
 on:
-  release:
-    types: [created]
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+    branches: [main]
+permissions:
+  contents: read
 
 jobs:
-  publish-gpr:
+  build:
+    if: github.event.pull_request.draft == false
+
     runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
-      id-token: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
@@ -26,11 +27,9 @@ jobs:
         with:
           node-version: '24'
           cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org'
-          scope: '@furutsubaki'
 
-      - name: npm module install
+      - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
-      - run: pnpm build
-      - run: pnpm publish --no-git-checks --access public
+      - name: Run Build
+        run: pnpm build

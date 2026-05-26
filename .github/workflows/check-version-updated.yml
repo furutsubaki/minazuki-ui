@@ -12,7 +12,7 @@ jobs:
     outputs:
       changed: ${{ steps.get_diff.outputs.changed }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: マージ先を取得
         env:
@@ -30,12 +30,6 @@ jobs:
     needs: [version_diff]
     if: needs.version_diff.outputs.changed == '0'
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
       - name: バージョン更新を要求する
         run: |
           echo "::error::package.json version update required."
