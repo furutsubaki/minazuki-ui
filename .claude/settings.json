@@ -63,10 +63,7 @@
             "Bash(*deploy*)",
             "Bash(terraform apply *)",
             "Read(~/.ssh/**)",
-            "Read(~/.aws/**)",
-            "Bash(find *)",
-            "Bash(curl *)",
-            "Bash(wget *)"
+            "Read(~/.aws/**)"
         ],
         "ask": [
             "Bash(rm *)",
