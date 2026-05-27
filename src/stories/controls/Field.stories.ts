@@ -135,7 +135,7 @@ export const PropsPrefixSuffix: Story = {
                 }
             ]
         }),
-        template: `<Field v-for="param in params" :key="param.prefix + '-' + param.suffix" :label="[param.prefix, param.suffix].join('')" />`
+        template: `<Field v-for="param in params" :key="param.prefix + '-' + param.suffix" v-bind="{...args, ...param}" :label="[param.prefix, param.suffix].join('')" />`
     }),
     args: {
         ...Default.args
