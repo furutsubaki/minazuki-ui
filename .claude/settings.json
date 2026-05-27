@@ -1,121 +1,88 @@
 {
-    "respectGitignore": true,
-    "permissions": {
-        "allow": [
-            "Read(*)",
-            "Edit(*)",
-            "Write(*)",
-            "Bash(pnpm *)",
-            "Bash(yarn *)",
-            "Bash(npm run *)",
-            "Bash(ls*)",
-            "Bash(which *)",
-            "Bash(echo *)",
-            "Bash(pwd)",
-            "Bash(date *)",
-            "Bash(wc *)",
-            "Bash(sort *)",
-            "Bash(sed *)",
-            "Bash(mkdir *)",
-            "Bash(git status)",
-            "Bash(git diff *)",
-            "Bash(git log *)",
-            "Bash(git branch *)",
-            "Bash(git checkout *)",
-            "Bash(git commit *)",
-            "Bash(git pull *)",
-            "Bash(git fetch *)",
-            "Read(~/.zshrc)",
-            "Read(~/.bashrc)",
-            "NotebookEdit(*)",
-            "WebFetch(domain:*)",
-            "WebFetch(domain:docs.anthropic.com)",
-            "WebFetch(domain:*.claude.com)",
-            "WebFetch(domain:github.com)",
-            "WebFetch(domain:api.github.com)",
-            "WebSearch",
-            "mcp__*"
-        ],
-        "deny": [
-            "NotebookEdit",
-            "NotebookRead",
-            "Read(.env)",
-            "Read(*.env)",
-            "Read(.env.*)",
-            "Read(./secrets/**)",
-            "Edit(.env)",
-            "Edit(*.env)",
-            "Edit(.env.*)",
-            "Bash(cat *.env*)",
-            "Bash(head *.env*)",
-            "Bash(tail *.env*)",
-            "Bash(less *.env*)",
-            "Bash(more *.env*)",
-            "Bash(grep *.env*)",
-            "Bash(sed *.env*)",
-            "Bash(awk *.env*)",
-            "Bash(vim *.env*)",
-            "Bash(nano *.env*)",
-            "Bash(bat *.env*)",
-            "Bash(npm publish *)",
-            "Bash(yarn publish *)",
-            "Bash(pnpm publish *)",
-            "Bash(*deploy*)",
-            "Bash(terraform apply *)",
-            "Read(~/.ssh/**)",
-            "Read(~/.aws/**)"
-        ],
-        "ask": [
-            "Bash(rm *)",
-            "Bash(mv *)",
-            "Bash(rmdir *)",
-            "Bash(shred *)",
-            "Bash(unlink *)",
-            "Bash(dd *)",
-            "Bash(mkfs *)",
-            "Bash(fdisk *)",
-            "Bash(chmod *)",
-            "Bash(chown *)",
-            "Bash(docker *)",
-            "Bash(kubectl *)",
-            "Bash(firebase *)",
-            "Bash(gcloud *)",
-            "Bash(kill *)",
-            "Bash(killall *)",
-            "Bash(pkill *)",
-            "Bash(git push *)",
-            "Bash(git commit *)",
-            "Bash(git add *)",
-            "Bash(git reset *)",
-            "Bash(git clean *)",
-            "Bash(git -c *)",
-            "Bash(gh *)"
-        ]
-    },
-    "enableAllProjectMcpServers": true,
-    "hooks": {
-        "PreToolUse": [
-            {
-                "matcher": "Bash",
-                "hooks": [
-                    {
-                        "type": "command",
-                        "command": ".claude/hooks/guard-bash.sh"
-                    }
-                ]
-            }
-        ]
-    },
     "disableAllHooks": false,
+    "enableAllProjectMcpServers": true,
     "enabledPlugins": {
         "security-guidance@claude-plugins-official": true
     },
+    "hooks": {
+        "PreToolUse": [
+            {
+                "hooks": [
+                    {
+                        "command": ".claude/hooks/guard-bash.sh",
+                        "type": "command"
+                    }
+                ],
+                "matcher": "Bash"
+            }
+        ]
+    },
+    "permissions": {
+        "allow": [
+        ],
+        "ask": [
+            "Bash(chmod *)",
+            "Bash(chown *)",
+            "Bash(dd *)",
+            "Bash(docker *)",
+            "Bash(fdisk *)",
+            "Bash(firebase *)",
+            "Bash(gcloud *)",
+            "Bash(gh *)",
+            "Bash(git -c *)",
+            "Bash(git add *)",
+            "Bash(git clean *)",
+            "Bash(git commit *)",
+            "Bash(git push *)",
+            "Bash(git reset *)",
+            "Bash(kill *)",
+            "Bash(killall *)",
+            "Bash(kubectl *)",
+            "Bash(mkfs *)",
+            "Bash(mv *)",
+            "Bash(pkill *)",
+            "Bash(rm *)",
+            "Bash(rmdir *)",
+            "Bash(shred *)",
+            "Bash(unlink *)"
+        ],
+        "deny": [
+            "Bash(*deploy*)",
+            "Bash(awk *.env*)",
+            "Bash(bat *.env*)",
+            "Bash(cat *.env*)",
+            "Bash(grep *.env*)",
+            "Bash(head *.env*)",
+            "Bash(less *.env*)",
+            "Bash(more *.env*)",
+            "Bash(nano *.env*)",
+            "Bash(npm publish *)",
+            "Bash(pnpm publish *)",
+            "Bash(sed *.env*)",
+            "Bash(tail *.env*)",
+            "Bash(terraform apply *)",
+            "Bash(vim *.env*)",
+            "Bash(yarn publish *)",
+            "Edit(*.env)",
+            "Edit(.env)",
+            "Edit(.env.*)",
+            "NotebookEdit",
+            "NotebookRead",
+            "Read(*.env)",
+            "Read(./secrets/**)",
+            "Read(.env)",
+            "Read(.env.*)",
+            "Read(~/.aws/**)",
+            "Read(~/.ssh/**)"
+        ]
+    },
+    "respectGitignore": true,
     "sandbox": {
-        "enabled": true,
         "autoAllowBashIfSandboxed": true,
+        "enabled": true,
         "excludedCommands": [
-            "git",
-            "docker"
+            "docker",
+            "git"
         ],
         "network": {
             "allowUnixSockets": [
