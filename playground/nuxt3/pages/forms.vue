@@ -83,7 +83,7 @@ const radioGroupItems = [
             <h2>Select</h2>
             <div class="pg-row">
                 <MiSelect
-                    v-model="selectValue"
+                    v-modevariantctValue"
                     :items="selectItems"
                     label="選択してください"
                     clearable
