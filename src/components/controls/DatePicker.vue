@@ -2,6 +2,7 @@
 import { computed, useId, watch, ref } from 'vue';
 import { useField } from 'vee-validate';
 import type { ZodTypeAny } from 'zod';
+import VueDatePicker from '@vuepic/vue-datepicker';
 import { resolveStringChecks } from '@/assets/ts/schema';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
 import { DATE_FORMAT } from '@/assets/ts/const';
@@ -87,8 +88,8 @@ const convertVueDatepickerFormat = (format: MiDateFormat) => {
     return format.replace(/(Y)/g, 'y').replace(/(D)/g, 'd');
 };
 
-const setDayClass = (date: string) => {
-    const weekDay = new Date(date).getDay();
+const setDayClass = (date: Date) => {
+    const weekDay = date.getDay();
     if (weekDay == 6) {
         // 土曜日の場合、classに"saturday"を追加
         return 'saturday';
