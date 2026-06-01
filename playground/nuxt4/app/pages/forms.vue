@@ -83,7 +83,7 @@ const radioGroupItems = [
                     label="ホームページ（任意）"
                     placeholder="https://example.com"
                 />
-                <MiButton varaint="primary" :disabled="!canSubmit" @click="onSubmit">
+                <MiButton variant="primary" :disabled="!canSubmit" @click="onSubmit">
                     送信
                 </MiButton>
             </div>
