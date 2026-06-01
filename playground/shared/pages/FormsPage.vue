@@ -193,7 +193,7 @@ const radioGroupItems = [
 
         <section class="pg-section">
             <h2>DatePicker</h2>
-            <div class="pg-row" style="align-items: flex-start; flex-wrap: wrap; gap: 24px;">
+            <div class="pg-row" style=" flex-wrap: wrap; gap: 24px;align-items: flex-start;">
                 <div>
                     <p style="margin-bottom: 8px;">デフォルト（日本語表示）</p>
                     <MiDatePicker v-model="datePickerValue" label="日付を選択" />
