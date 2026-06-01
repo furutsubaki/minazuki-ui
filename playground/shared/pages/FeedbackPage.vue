@@ -70,8 +70,8 @@ const sendNotification = (variant: 'secondary' | 'success' | 'warning' | 'danger
         <section class="pg-section">
             <h2>Drawer</h2>
             <MiButton @click="showDrawer = true">ドロワーを開く</MiButton>
-            <MiDrawer v-model="showDrawer" title="ドロワーメニュー">
-                <div style=" display: flex; flex-direction: column; gap: 8px;padding: 16px;">
+            <MiDrawer v-model="showDrawer" title="ドロワーメニュー" position="left">
+                <div style="display: flex; flex-direction: column; gap: 8px; padding: 16px;">
                     <MiButton shape="link">メニュー 1</MiButton>
                     <MiButton shape="link">メニュー 2</MiButton>
                     <MiButton shape="link">メニュー 3</MiButton>

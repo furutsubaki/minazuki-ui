@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
 import { useTheme } from 'minazuki-ui';
-import './style.css';
+import 'playground-shared/styles/playground.css';
 
 const { currentTheme, setTheme } = useTheme();
 
