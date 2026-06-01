@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, useId, watch, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useField } from 'vee-validate';
-import { ZodString } from 'zod';
+import type { ZodTypeAny } from 'zod';
+import { resolveStringChecks } from '@/assets/ts/schema';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
 import DatePicker from '@/components/controls/DatePicker.vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
@@ -38,7 +39,7 @@ const props = withDefaults(
         /**
          * zodスキーマ
          */
-        schema?: ZodString;
+        schema?: ZodTypeAny;
         /**
          * 表示フォーマット(type: dateのみ)
          */
@@ -142,7 +143,7 @@ const { value, errors } = useField<string>(fieldName);
 if (value.value == null && model.value != null) {
     value.value = model.value;
 }
-const schemaChunks = computed(() => props.schema?._def.checks);
+const schemaChunks = computed(() => resolveStringChecks(props.schema));
 const isRequired = computed(
     () =>
         schemaChunks.value?.some((check) => check.kind === 'min' && check.value === 1) ??

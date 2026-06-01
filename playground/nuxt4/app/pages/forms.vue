@@ -6,12 +6,14 @@ import { useFormData, useNotification } from 'minazuki-ui';
 const schema = z.object({
     name: z.string().min(1).max(50),
     email: z.string().min(1).email(),
-    memo: z.string().max(200).optional()
+    memo: z.string().max(200).optional(),
+    homepage: z.string().url().or(z.literal(''))
 });
 
 const { handleSubmit, canSubmit, values } = useFormData(schema, {
     name: '',
-    email: ''
+    email: '',
+    homepage: ''
 });
 
 const { addNotification } = useNotification();
@@ -72,6 +74,14 @@ const radioGroupItems = [
                     name="memo"
                     label="メモ（任意）"
                     placeholder="自由記入欄"
+                />
+                <!-- ZodUnion (string().url().or(literal(''))) を schema に渡す例 -->
+                <MiField
+                    name="homepage"
+                    :schema="schema.shape.homepage"
+                    type="url"
+                    label="ホームページ（任意）"
+                    placeholder="https://example.com"
                 />
                 <MiButton variant="primary" :disabled="!canSubmit" @click="onSubmit">
                     送信

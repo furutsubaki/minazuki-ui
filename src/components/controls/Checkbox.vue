@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { type Ref, computed, useId, watch } from 'vue';
 import { ZodNumber, ZodString, ZodNullable, ZodBoolean, ZodLiteral } from 'zod';
+import { resolveStringChecks } from '@/assets/ts/schema';
 import { useCheckableField } from '@/composables/useCheckableField';
 import { CheckSquare as IconCheckSquare, Square as IconSquare } from 'lucide-vue-next';
 
@@ -70,7 +71,7 @@ const fieldName = computed(() => props.name || generatedId);
 const { value: fieldVal, checked, errors, meta, onFieldChange } =
     useCheckableField<string | number | boolean>(fieldName, 'checkbox', props.value, unCheckValue.value);
 
-const schemaChunks = computed(() => (props.schema as ZodString | undefined)?._def.checks);
+const schemaChunks = computed(() => resolveStringChecks(props.schema));
 const isRequired = computed(() => {
     if (props.schema?._def.typeName === 'ZodLiteral') {
         return true;

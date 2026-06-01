@@ -2,6 +2,7 @@
 import { computed, useId, watch, ref } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodNumber, ZodString, ZodBoolean } from 'zod';
+import { resolveStringChecks } from '@/assets/ts/schema';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
 import FieldAccordionList from '@/components/inner-parts/FieldAccordionList.vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
@@ -86,7 +87,7 @@ const { value, errors } = useField<string | number | boolean>(fieldName);
 if (value.value == null && model.value != null) {
     value.value = model.value;
 }
-const schemaChunks = computed(() => (props.schema as ZodString | undefined)?._def.checks);
+const schemaChunks = computed(() => resolveStringChecks(props.schema));
 const isRequired = computed(
     () =>
         schemaChunks.value?.some((check) => check.kind === 'min' && check.value === 1) ??
