@@ -73,7 +73,9 @@ const {
     value: fieldVal,
     checked,
     errors,
-    handleChange
+    handleChange,
+    setTouched,
+    meta
 } = useField<string | number | boolean>(fieldName, undefined, {
     type: 'radio',
     checkedValue: props.value,
@@ -88,6 +90,7 @@ const isRequired = computed(
 );
 
 const onChange = (event: Event) => {
+    setTouched(true);
     if (!(event.target as HTMLInputElement).checked) {
         fieldVal.value = unCheckValue.value;
     } else {
@@ -129,7 +132,7 @@ if (fieldVal.value == null && model.value != null) {
                 </div>
             </label>
         </div>
-        <template v-if="isErrorMessage">
+        <template v-if="isErrorMessage && meta.touched">
             <div v-for="error in errors" :key="error" class="error">{{ error }}</div>
         </template>
     </div>

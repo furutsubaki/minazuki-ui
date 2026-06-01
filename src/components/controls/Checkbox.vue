@@ -71,7 +71,9 @@ const {
     value: fieldVal,
     checked,
     errors,
-    handleChange
+    handleChange,
+    setTouched,
+    meta
 } = useField<string | number | boolean>(fieldName, undefined, {
     type: 'checkbox',
     checkedValue: props.value,
@@ -95,6 +97,7 @@ const onChange = (event: Event) => {
     if (!(event.target as HTMLInputElement).checked) {
         val = unCheckValue.value;
     }
+    setTouched(true);
     handleChange(val);
 };
 
@@ -132,7 +135,7 @@ if (fieldVal.value == null && model.value != null) {
                 </div>
             </label>
         </div>
-        <template v-if="isErrorMessage">
+        <template v-if="isErrorMessage && meta.touched">
             <div v-for="error in errors" :key="error" class="error">{{ error }}</div>
         </template>
     </div>

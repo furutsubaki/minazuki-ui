@@ -74,12 +74,13 @@ describe('Radio', () => {
         expect(wrapper.emitted('update:modelValue')).toBeTruthy();
     });
 
-    it('フォームコンテキストからエラーが設定されると error div がレンダリングされる', async () => {
+    it('フォームコンテキストで touched かつエラーが設定されると error div がレンダリングされる', async () => {
         const fieldName = uniqueFieldName('radio-err');
         const TestParent = defineComponent({
             setup() {
-                const { setFieldError } = useForm();
+                const { setFieldError, setFieldTouched } = useForm();
                 onMounted(() => {
+                    setFieldTouched(fieldName, true);
                     setFieldError(fieldName, 'エラーメッセージ');
                 });
                 return () => h(Radio, { name: fieldName });
@@ -87,6 +88,42 @@ describe('Radio', () => {
         });
         const wrapper = mount(TestParent);
         await nextTick();
+        await nextTick();
+        expect(wrapper.find('.error').exists()).toBe(true);
+    });
+
+    it('schema + initialValues 未指定でマウント直後はエラーが表示されない', () => {
+        const schema = z.string().min(1);
+        const fieldName = uniqueFieldName('radio-no-err');
+        const TestParent = defineComponent({
+            setup() {
+                useForm();
+                return () => h(Radio, { name: fieldName, schema, value: 'apple' });
+            }
+        });
+        const wrapper = mount(TestParent);
+        expect(wrapper.find('.error').exists()).toBe(false);
+    });
+
+    it('エラーあり・未操作（not touched）ではエラーが表示されず、change 後（touched）に表示される', async () => {
+        const schema = z.string().min(1);
+        const fieldName = uniqueFieldName('radio-touched-err');
+        const TestParent = defineComponent({
+            setup() {
+                const { setFieldError } = useForm();
+                onMounted(() => {
+                    setFieldError(fieldName, '選択してください。');
+                });
+                return () => h(Radio, { name: fieldName, schema, value: 'apple' });
+            }
+        });
+        const wrapper = mount(TestParent);
+        await nextTick();
+        await nextTick();
+        expect(wrapper.find('.error').exists()).toBe(false);
+        const input = wrapper.find('input[type="radio"]');
+        (input.element as HTMLInputElement).checked = true;
+        await input.trigger('change');
         await nextTick();
         expect(wrapper.find('.error').exists()).toBe(true);
     });
