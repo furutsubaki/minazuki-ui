@@ -28,7 +28,6 @@
             "Bash(fdisk *)",
             "Bash(firebase *)",
             "Bash(gcloud *)",
-            "Bash(gh *)",
             "Bash(git -c *)",
             "Bash(git add *)",
             "Bash(git clean *)",
@@ -41,7 +40,7 @@
             "Bash(mkfs *)",
             "Bash(mv *)",
             "Bash(pkill *)",
-            "Bash(rm *)",
+            "Bash(rm -rf:*)",
             "Bash(rmdir *)",
             "Bash(shred *)",
             "Bash(unlink *)"
