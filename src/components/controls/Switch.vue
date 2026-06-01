@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type Ref, computed, useId, watch } from 'vue';
-import { useField } from 'vee-validate';
 import { ZodNullable, ZodBoolean, ZodLiteral } from 'zod';
+import { useCheckableField } from '@/composables/useCheckableField';
 
 const model = defineModel<boolean>();
 const props = withDefaults(
@@ -58,31 +58,17 @@ const props = withDefaults(
 
 const generatedId = useId();
 const fieldName = computed(() => props.name || generatedId);
-const {
-    value: fieldVal,
-    checked,
-    errors,
-    handleChange,
-    setTouched,
-    meta
-} = useField<boolean>(fieldName, undefined, {
-    type: 'checkbox',
-    checkedValue: props.value,
-    uncheckedValue: false
-});
+const { value: fieldVal, checked, errors, meta, onFieldChange } =
+    useCheckableField<boolean>(fieldName, 'checkbox', props.value, false);
 
 const isRequired = computed(() =>
     props.schema ? props.schema?._def.typeName === 'ZodLiteral' : props.required
 );
 
 const onChange = (event: Event) => {
-    let val = JSON.parse((event.target as HTMLInputElement).value.toLowerCase());
-
-    if (!(event.target as HTMLInputElement).checked) {
-        val = false;
-    }
-    setTouched(true);
-    handleChange(val);
+    const input = event.target as HTMLInputElement;
+    const val = input.checked ? (JSON.parse(input.value.toLowerCase()) as boolean) : false;
+    onFieldChange(val);
 };
 
 watch(checked as Ref<boolean>, (flg) => {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type Ref, computed, useId, watch } from 'vue';
-import { useField } from 'vee-validate';
 import { ZodNumber, ZodString, ZodNullable, ZodBoolean, ZodLiteral } from 'zod';
+import { useCheckableField } from '@/composables/useCheckableField';
 import { CheckSquare as IconCheckSquare, Square as IconSquare } from 'lucide-vue-next';
 
 const model = defineModel<string | number | boolean>();
@@ -67,18 +67,8 @@ const unCheckValue = computed(() => (typeof props.value === 'boolean' ? false : 
 
 const generatedId = useId();
 const fieldName = computed(() => props.name || generatedId);
-const {
-    value: fieldVal,
-    checked,
-    errors,
-    handleChange,
-    setTouched,
-    meta
-} = useField<string | number | boolean>(fieldName, undefined, {
-    type: 'checkbox',
-    checkedValue: props.value,
-    uncheckedValue: unCheckValue.value
-});
+const { value: fieldVal, checked, errors, meta, onFieldChange } =
+    useCheckableField<string | number | boolean>(fieldName, 'checkbox', props.value, unCheckValue.value);
 
 const schemaChunks = computed(() => (props.schema as ZodString | undefined)?._def.checks);
 const isRequired = computed(() => {
@@ -93,12 +83,10 @@ const isRequired = computed(() => {
 
 const onChange = (event: Event) => {
     let val = (event.target as HTMLInputElement).value as string | number | boolean;
-
     if (!(event.target as HTMLInputElement).checked) {
         val = unCheckValue.value;
     }
-    setTouched(true);
-    handleChange(val);
+    onFieldChange(val);
 };
 
 watch(checked as Ref<boolean>, (flg) => {

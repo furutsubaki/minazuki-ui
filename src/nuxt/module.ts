@@ -37,7 +37,6 @@ interface _NuxtModule<T> extends _NuxtModuleFn<T> {
     getMeta?: () => Promise<_NuxtModule<T>['meta']>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const _module = defineNuxtModule<ModuleOptions>({
     meta: {
         name: 'minazuki-ui',
