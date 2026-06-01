@@ -2,6 +2,7 @@
 import { computed, useId, watch } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodNumber, ZodString, ZodBoolean } from 'zod';
+import { resolveStringChecks } from '@/assets/ts/schema';
 import Radio from '@/components/controls/Radio.vue';
 
 export interface MiRadioGroupItem {
@@ -66,7 +67,7 @@ const props = withDefaults(
 const generatedId = useId();
 const fieldName = computed(() => props.name || generatedId);
 const { value, errors } = useField<string | number | boolean>(fieldName);
-const schemaChunks = computed(() => (props.schema as ZodString | undefined)?._def.checks);
+const schemaChunks = computed(() => resolveStringChecks(props.schema));
 const isRequired = computed(
     () =>
         schemaChunks.value?.some((check) => check.kind === 'min' && check.value === 1) ??

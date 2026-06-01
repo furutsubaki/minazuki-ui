@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { type Ref, computed, useId, watch } from 'vue';
 import { ZodNumber, ZodString, ZodNullable, ZodBoolean, ZodLiteral } from 'zod';
+import { resolveStringChecks } from '@/assets/ts/schema';
 import { useCheckableField } from '@/composables/useCheckableField';
 import { CircleCheck as IconCircleCheck, Circle as IconCircle } from 'lucide-vue-next';
 
@@ -72,7 +73,7 @@ const fieldName = computed(() => props.name || generatedId);
 const { value: fieldVal, checked, errors, meta, onFieldChange, setTouched } =
     useCheckableField<string | number | boolean>(fieldName, 'radio', props.value, unCheckValue.value);
 
-const schemaChunks = computed(() => (props.schema as ZodString | undefined)?._def.checks);
+const schemaChunks = computed(() => resolveStringChecks(props.schema));
 const isRequired = computed(
     () =>
         schemaChunks.value?.some((check) => check.kind === 'min' && check.value === 1) ??
