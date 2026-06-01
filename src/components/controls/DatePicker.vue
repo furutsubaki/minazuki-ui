@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, useId, watch, ref } from 'vue';
 import { useField } from 'vee-validate';
-import { ZodString } from 'zod';
+import type { ZodTypeAny } from 'zod';
+import { resolveStringChecks } from '@/assets/ts/schema';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
 import { DATE_FORMAT } from '@/assets/ts/const';
 
@@ -16,7 +17,7 @@ const props = withDefaults(
         /**
          * zodスキーマ
          */
-        schema?: ZodString;
+        schema?: ZodTypeAny;
         /**
          * 表示フォーマット
          */
@@ -71,7 +72,7 @@ if (value.value == null && model.value != null) {
     value.value = model.value;
 }
 
-const schemaChunks = computed(() => props.schema?._def.checks);
+const schemaChunks = computed(() => resolveStringChecks(props.schema));
 const isRequired = computed(
     () =>
         schemaChunks.value?.some((check) => check.kind === 'min' && check.value === 1) ??
