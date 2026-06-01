@@ -73,7 +73,7 @@ const radioGroupItems = [
                     label="メモ（任意）"
                     placeholder="自由記入欄"
                 />
-                <MiButton varaint="primary" :disabled="!canSubmit" @click="onSubmit">
+                <MiButton variant="primary" :disabled="!canSubmit" @click="onSubmit">
                     送信
                 </MiButton>
             </div>
@@ -83,7 +83,7 @@ const radioGroupItems = [
             <h2>Select</h2>
             <div class="pg-row">
                 <MiSelect
-                    v-modevariantctValue"
+                    v-model="selectValue"
                     :items="selectItems"
                     label="選択してください"
                     clearable
