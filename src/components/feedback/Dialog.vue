@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, useSlots, watch, markRaw, type Component } from 'vue';
+import { ref, computed, useSlots, watch, markRaw, onMounted, type Component } from 'vue';
+import TeleportRoot from '@/components/inner-parts/TeleportRoot.vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
-import { computed } from 'vue';
 import { sleep } from '@/assets/ts';
 import {
     Info as IconInfo,
@@ -108,12 +108,23 @@ const resolvedTransitionFrom = computed(() => {
     }
 });
 
+const dialogEl = ref<HTMLDialogElement | null>(null);
+
+onMounted(() => {
+    if (flg.value) {
+        dialogEl.value?.show();
+        if (!props.seamless) document.documentElement.style.overflow = 'hidden';
+    }
+});
+
 watch(
     () => flg.value,
     (newFlg) => {
-        if (newFlg && !props.seamless) {
-            document.documentElement.style.overflow = 'hidden';
+        if (newFlg) {
+            dialogEl.value?.show();
+            if (!props.seamless) document.documentElement.style.overflow = 'hidden';
         } else {
+            dialogEl.value?.close();
             document.documentElement.style.overflow = '';
         }
     }
@@ -146,6 +157,7 @@ const hasSlot = (name: string) => {
 </script>
 
 <template>
+    <TeleportRoot>
     <OpacityTransition
         @transition-start="transitioning = true"
         @transition-end="transitioning = false"
@@ -165,7 +177,7 @@ const hasSlot = (name: string) => {
                     v-outside-click="onOutsideClick"
                     >
                     <dialog
-                        :open="flg"
+                        ref="dialogEl"
                         class="dialog"
                         :class="[variant, size, shape, { 'is-center': center }]"
                     >
@@ -189,6 +201,7 @@ const hasSlot = (name: string) => {
             </component>
         </div>
     </OpacityTransition>
+    </TeleportRoot>
 </template>
 
 <style scoped>

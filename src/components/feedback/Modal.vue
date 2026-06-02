@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, watch, markRaw, type Component } from 'vue';
+import { ref, computed, watch, markRaw, onMounted, type Component } from 'vue';
+import TeleportRoot from '@/components/inner-parts/TeleportRoot.vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
 import Button from '@/components/basic/Button.vue';
-import { computed } from 'vue';
 import { sleep } from '@/assets/ts';
 import { X as IconX } from 'lucide-vue-next';
 import useOutsideClick from '@/directives/useOutsideClick';
@@ -94,12 +94,23 @@ const resolvedTransitionFrom = computed(() => {
     }
 });
 
+const dialogEl = ref<HTMLDialogElement | null>(null);
+
+onMounted(() => {
+    if (flg.value) {
+        dialogEl.value?.show();
+        document.documentElement.style.overflow = 'hidden';
+    }
+});
+
 watch(
     () => flg.value,
     (newFlg) => {
         if (newFlg) {
+            dialogEl.value?.show();
             document.documentElement.style.overflow = 'hidden';
         } else {
+            dialogEl.value?.close();
             document.documentElement.style.overflow = '';
         }
     }
@@ -127,6 +138,7 @@ const onOutsideClick = computed(() => ({
 </script>
 
 <template>
+    <TeleportRoot>
     <OpacityTransition
         @transition-start="transitioning = true"
         @transition-end="transitioning = false"
@@ -145,7 +157,7 @@ const onOutsideClick = computed(() => ({
                     v-outside-click="onOutsideClick"
                 >
                     <dialog
-                        :open="flg"
+                        ref="dialogEl"
                         class="modal"
                         :class="[size, shape, { 'is-center': center, 'is-full-size-by-sp': isFullSizeBySp }]"
                     >
@@ -165,6 +177,7 @@ const onOutsideClick = computed(() => ({
             </component>
         </div>
     </OpacityTransition>
+    </TeleportRoot>
 </template>
 
 <style scoped>

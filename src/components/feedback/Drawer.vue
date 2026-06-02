@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, useSlots, watch } from 'vue';
+import TeleportRoot from '@/components/inner-parts/TeleportRoot.vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
 import Button from '@/components/basic/Button.vue';
@@ -124,6 +125,7 @@ defineExpose({ transitionFrom });
 </script>
 
 <template>
+    <TeleportRoot>
     <OpacityTransition
         @transition-start="transitioning = true"
         @transition-end="transitioning = false"
@@ -166,6 +168,7 @@ defineExpose({ transitionFrom });
             </TranslateTransition>
         </div>
     </OpacityTransition>
+    </TeleportRoot>
 </template>
 
 <style scoped>
