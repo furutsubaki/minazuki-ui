@@ -26,6 +26,7 @@ import MiFieldFrame from '@/components/inner-parts/FieldFrame.vue';
 import MiInputTextCounter from '@/components/inner-parts/InputTextCounter.vue';
 import MiOpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import MiOpacityTransitionGroup from '@/components/inner-parts/OpacityTransitionGroup.vue';
+import MiTeleportRoot from '@/components/inner-parts/TeleportRoot.vue';
 import MiTranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
 import MiTranslateTransitionGroup from '@/components/inner-parts/TranslateTransitionGroup.vue';
 import MiBottomNav from '@/components/navigation/BottomNav.vue';
@@ -63,6 +64,7 @@ export const componentNameMap = {
     MiInputTextCounter: { name: 'MiInputTextCounter' as const, component: MiInputTextCounter },
     MiOpacityTransition: { name: 'MiOpacityTransition' as const, component: MiOpacityTransition },
     MiOpacityTransitionGroup: { name: 'MiOpacityTransitionGroup' as const, component: MiOpacityTransitionGroup },
+    MiTeleportRoot: { name: 'MiTeleportRoot' as const, component: MiTeleportRoot },
     MiTranslateTransition: { name: 'MiTranslateTransition' as const, component: MiTranslateTransition },
     MiTranslateTransitionGroup: { name: 'MiTranslateTransitionGroup' as const, component: MiTranslateTransitionGroup },
     MiBottomNav: { name: 'MiBottomNav' as const, component: MiBottomNav },
@@ -101,6 +103,7 @@ export {
     MiInputTextCounter,
     MiOpacityTransition,
     MiOpacityTransitionGroup,
+    MiTeleportRoot,
     MiTranslateTransition,
     MiTranslateTransitionGroup,
     MiBottomNav,
@@ -140,6 +143,7 @@ declare module 'vue' {
         MiInputTextCounter: typeof MiInputTextCounter;
         MiOpacityTransition: typeof MiOpacityTransition;
         MiOpacityTransitionGroup: typeof MiOpacityTransitionGroup;
+        MiTeleportRoot: typeof MiTeleportRoot;
         MiTranslateTransition: typeof MiTranslateTransition;
         MiTranslateTransitionGroup: typeof MiTranslateTransitionGroup;
         MiBottomNav: typeof MiBottomNav;
