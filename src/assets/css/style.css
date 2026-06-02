@@ -90,7 +90,7 @@ form li {
     list-style: none;
 }
 
-:where(:focus-visible) {
+:focus-visible {
     outline: none;
     box-shadow: none;
 }
