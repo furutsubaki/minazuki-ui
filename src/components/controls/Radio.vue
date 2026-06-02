@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { type Ref, computed, useId, watch } from 'vue';
-import { useField } from 'vee-validate';
 import { ZodNumber, ZodString, ZodNullable, ZodBoolean, ZodLiteral } from 'zod';
+import { resolveStringChecks } from '@/assets/ts/schema';
+import { useCheckableField } from '@/composables/useCheckableField';
 import { CircleCheck as IconCircleCheck, Circle as IconCircle } from 'lucide-vue-next';
 
 // TODO: ラジオボタンのチェック済みアイコンが適切ではないが、lucideにはまだないため、仮置き
@@ -69,18 +70,10 @@ const unCheckValue = computed(() => (typeof props.value === 'boolean' ? false : 
 
 const generatedId = useId();
 const fieldName = computed(() => props.name || generatedId);
-const {
-    value: fieldVal,
-    checked,
-    errors,
-    handleChange
-} = useField<string | number | boolean>(fieldName, undefined, {
-    type: 'radio',
-    checkedValue: props.value,
-    uncheckedValue: unCheckValue.value
-});
+const { value: fieldVal, checked, errors, meta, onFieldChange, setTouched } =
+    useCheckableField<string | number | boolean>(fieldName, 'radio', props.value, unCheckValue.value);
 
-const schemaChunks = computed(() => (props.schema as ZodString | undefined)?._def.checks);
+const schemaChunks = computed(() => resolveStringChecks(props.schema));
 const isRequired = computed(
     () =>
         schemaChunks.value?.some((check) => check.kind === 'min' && check.value === 1) ??
@@ -89,9 +82,10 @@ const isRequired = computed(
 
 const onChange = (event: Event) => {
     if (!(event.target as HTMLInputElement).checked) {
+        setTouched(true);
         fieldVal.value = unCheckValue.value;
     } else {
-        handleChange(event as unknown as string | number | boolean);
+        onFieldChange(event as unknown as string | number | boolean);
     }
 };
 
@@ -129,7 +123,7 @@ if (fieldVal.value == null && model.value != null) {
                 </div>
             </label>
         </div>
-        <template v-if="isErrorMessage">
+        <template v-if="isErrorMessage && meta.touched">
             <div v-for="error in errors" :key="error" class="error">{{ error }}</div>
         </template>
     </div>

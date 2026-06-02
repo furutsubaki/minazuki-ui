@@ -50,8 +50,8 @@ describe('DatePicker', () => {
         ['2024-01-08T12:00:00Z', '']
     ])('setDayClass は %s に %s を返す', (dateISO, expectedClass) => {
         const wrapper = mountDP();
-        const dayClass = wrapper.findComponent({ name: 'VueDatePicker' }).props('dayClass') as (d: string) => string;
-        expect(dayClass(dateISO)).toBe(expectedClass);
+        const dayClass = wrapper.findComponent({ name: 'VueDatePicker' }).props('dayClass') as (d: Date) => string;
+        expect(dayClass(new Date(dateISO))).toBe(expectedClass);
     });
 
     it.each([

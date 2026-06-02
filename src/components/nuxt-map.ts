@@ -28,6 +28,7 @@ export const miComponentList = [
     { name: 'MiInputTextCounter', export: 'MiInputTextCounter', filePath: 'minazuki-ui' },
     { name: 'MiOpacityTransition', export: 'MiOpacityTransition', filePath: 'minazuki-ui' },
     { name: 'MiOpacityTransitionGroup', export: 'MiOpacityTransitionGroup', filePath: 'minazuki-ui' },
+    { name: 'MiTeleportRoot', export: 'MiTeleportRoot', filePath: 'minazuki-ui' },
     { name: 'MiTranslateTransition', export: 'MiTranslateTransition', filePath: 'minazuki-ui' },
     { name: 'MiTranslateTransitionGroup', export: 'MiTranslateTransitionGroup', filePath: 'minazuki-ui' },
     { name: 'MiBottomNav', export: 'MiBottomNav', filePath: 'minazuki-ui' },

@@ -20,7 +20,10 @@ export default defineNuxtConfig({
     minazukiUi: {
         theme: 'light'
     },
-    css: ['~/assets/css/playground.css'],
+    css: ['playground-shared/styles/playground.css'],
+    build: {
+        transpile: ['playground-shared']
+    },
     devServer: {
         port: 5176
     },

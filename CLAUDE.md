@@ -64,26 +64,30 @@ src/
 
 playground/
 ├── README.md               # 概要・使い方
+├── shared/                 # 3 環境共通のページ本文・CSS・validate（単一ソース）
+│   ├── pages/              # ページコンポーネント（HomePage / FormsPage / FeedbackPage / NavigationPage）
+│   ├── styles/
+│   │   └── playground.css  # playground 共通スタイル
+│   └── validate.ts         # vee-validate 初期化（setupValidate）
 ├── vue/                    # Vite + Vue 3 動作確認環境
 │   ├── src/
-│   │   ├── views/          # カテゴリ別サンプルページ
 │   │   ├── App.vue
 │   │   └── main.ts
 │   └── dist/               # ビルド出力（lint 除外対象）
 ├── nuxt3/                  # Nuxt 3 動作確認環境（SSR 対応確認用）
-│   ├── pages/              # カテゴリ別サンプルページ
+│   ├── pages/              # shared/pages/ への薄いラッパー（直接編集禁止）
 │   ├── plugins/
 │   ├── .nuxt/              # 開発ビルドキャッシュ（lint 除外対象）
 │   └── .output/            # SSR ビルド出力（lint 除外対象）
 └── nuxt4/                  # Nuxt 4 動作確認環境（SSR 対応確認用）
     ├── app/
-    │   ├── pages/          # カテゴリ別サンプルページ
+    │   ├── pages/          # shared/pages/ への薄いラッパー（直接編集禁止）
     │   └── plugins/
     ├── .nuxt/              # 開発ビルドキャッシュ（lint 除外対象）
     └── .output/            # SSR ビルド出力（lint 除外対象）
 ```
 
-`playground/` は npm 配布物に含まれない（`files` フィールドで除外済み）。各環境は `workspace:*` で本ライブラリを参照。
+`playground/` は npm 配布物に含まれない（`files` フィールドで除外済み）。各環境は `workspace:*` で本ライブラリを参照。`playground/shared` も同様に workspace パッケージとして管理される。
 
 ### テーマシステム
 
@@ -107,18 +111,34 @@ vue, vee-validate, zod, vue-router, lucide-vue-next, dayjs, i18next 等は peerD
 コンポーネントを追加・修正した場合は、必要に応じて `playground/` も整備してください。
 
 playground は 3 環境あります。基本的に 3 環境すべてのサンプルを揃えてください。
+もし3環境をすべて確認する必要がある場合は、並列で確認を進めてください。
+また完了したらplaygroundのサーバーは落としてください。
 
-| 環境 | パス | 用途 | 起動コマンド |
-| --- | --- | --- | --- |
-| Vite + Vue 3 | `playground/vue/src/views/` | CSR 動作確認 | `cd playground/vue && pnpm dev` |
-| Nuxt 3 | `playground/nuxt3/pages/` | SSR / Nuxt 3 動作確認 | `cd playground/nuxt3 && pnpm dev` |
-| Nuxt 4 | `playground/nuxt4/app/pages/` | SSR / Nuxt 4 動作確認 | `cd playground/nuxt4 && pnpm dev` |
+| 環境 | 起動コマンド | 用途 |
+| --- | --- | --- |
+| Vite + Vue 3 | `cd playground/vue && pnpm dev` | CSR 動作確認 |
+| Nuxt 3 | `cd playground/nuxt3 && pnpm dev` | SSR / Nuxt 3 動作確認 |
+| Nuxt 4 | `cd playground/nuxt4 && pnpm dev` | SSR / Nuxt 4 動作確認 |
+
+#### ページ本文の編集先
+
+ページのサンプルコード（4 種: Home / Forms / Feedback / Navigation）は **`playground/shared/pages/`** に集約されています。
+各環境の `pages/` は `shared/pages/` への薄いラッパーなので**直接編集しないこと**。
+
+| ファイル | 対応ページ |
+| --- | --- |
+| `playground/shared/pages/HomePage.vue` | Home（`/`） |
+| `playground/shared/pages/FormsPage.vue` | Forms（`/forms`） |
+| `playground/shared/pages/FeedbackPage.vue` | Feedback（`/feedback`） |
+| `playground/shared/pages/NavigationPage.vue` | Navigation（`/navigation`） |
+
+playground 共通スタイルは `playground/shared/styles/playground.css`、vee-validate 初期化は `playground/shared/validate.ts` を編集する。
 
 #### 対応ルール
 
-- 新規コンポーネントを追加した場合: 3 環境すべてのカテゴリ対応ページに使用例を追加する
-- 既存コンポーネントの Props・emit・動作を変更した場合: 3 環境すべての対応するサンプルコードも更新する
-- playground に該当コンポーネントのサンプルがまだ存在しない場合は新規作成する
+- 新規コンポーネントを追加した場合: `playground/shared/pages/` の対応ページに使用例を追加する（1 ファイルの修正で 3 環境に反映）
+- 既存コンポーネントの Props・emit・動作を変更した場合: `playground/shared/pages/` の対応ファイルを更新する
+- playground に該当コンポーネントのサンプルがまだ存在しない場合は `shared/pages/` に追加する
 - Nuxt 3 / Nuxt 4 固有の問題（SSR フラッシュ・ハイドレーションエラー等）が確認できた場合は対処する
 
 ## 禁止事項

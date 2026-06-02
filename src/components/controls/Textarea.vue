@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, useId, watch, ref, onMounted } from 'vue';
 import { useField } from 'vee-validate';
-import { ZodString } from 'zod';
+import type { ZodTypeAny } from 'zod';
+import { resolveStringChecks } from '@/assets/ts/schema';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import { XCircle as IconXCircle } from 'lucide-vue-next';
@@ -16,7 +17,7 @@ const props = withDefaults(
         /**
          * zodスキーマ
          */
-        schema?: ZodString;
+        schema?: ZodTypeAny;
         /**
          * 見出し
          */
@@ -85,7 +86,7 @@ const props = withDefaults(
 const generatedId = useId();
 const fieldName = computed(() => props.name || generatedId);
 const { value, errors } = useField<string>(fieldName);
-const schemaChunks = computed(() => props.schema?._def.checks);
+const schemaChunks = computed(() => resolveStringChecks(props.schema));
 const isRequired = computed(
     () =>
         schemaChunks.value?.some((check) => check.kind === 'min' && check.value === 1) ??

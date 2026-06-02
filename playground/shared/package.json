@@ -1,0 +1,21 @@
+{
+  "name": "playground-shared",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./pages/HomePage.vue": "./pages/HomePage.vue",
+    "./pages/FormsPage.vue": "./pages/FormsPage.vue",
+    "./pages/FeedbackPage.vue": "./pages/FeedbackPage.vue",
+    "./pages/NavigationPage.vue": "./pages/NavigationPage.vue",
+    "./styles/playground.css": "./styles/playground.css",
+    "./validate": "./validate.ts"
+  },
+  "dependencies": {
+    "minazuki-ui": "workspace:*"
+  },
+  "peerDependencies": {
+    "@vee-validate/rules": "^4",
+    "vee-validate": "^4"
+  }
+}

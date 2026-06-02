@@ -86,12 +86,13 @@ describe('Checkbox', () => {
         expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['']);
     });
 
-    it('フォームコンテキストからエラーが設定されると error div がレンダリングされる', async () => {
+    it('フォームコンテキストで touched かつエラーが設定されると error div がレンダリングされる', async () => {
         const fieldName = uniqueFieldName('checkbox-err');
         const TestParent = defineComponent({
             setup() {
-                const { setFieldError } = useForm();
+                const { setFieldError, setFieldTouched } = useForm();
                 onMounted(() => {
+                    setFieldTouched(fieldName, true);
                     setFieldError(fieldName, 'エラーメッセージ');
                 });
                 return () => h(Checkbox, { name: fieldName });
@@ -99,6 +100,43 @@ describe('Checkbox', () => {
         });
         const wrapper = mount(TestParent);
         await nextTick();
+        await nextTick();
+        expect(wrapper.find('.error').exists()).toBe(true);
+    });
+
+    it('literal(true) schema + initialValues 未指定でマウント直後はエラーが表示されない', () => {
+        const schema = z.literal(true);
+        const fieldName = uniqueFieldName('checkbox-no-err');
+        const TestParent = defineComponent({
+            setup() {
+                useForm();
+                return () => h(Checkbox, { name: fieldName, schema });
+            }
+        });
+        const wrapper = mount(TestParent);
+        expect(wrapper.find('.error').exists()).toBe(false);
+    });
+
+    it('エラーあり・未操作（not touched）ではエラーが表示されず、change 後（touched）に表示される', async () => {
+        const schema = z.literal(true);
+        const fieldName = uniqueFieldName('checkbox-touched-err');
+        const TestParent = defineComponent({
+            setup() {
+                const { setFieldError } = useForm();
+                onMounted(() => {
+                    // バリデーション済みエラーがある状態を再現
+                    setFieldError(fieldName, 'チェックしてください。');
+                });
+                return () => h(Checkbox, { name: fieldName, schema });
+            }
+        });
+        const wrapper = mount(TestParent);
+        await nextTick();
+        await nextTick();
+        // touched 前はエラーを表示しない
+        expect(wrapper.find('.error').exists()).toBe(false);
+        // ユーザーが操作（change → setTouched(true)）するとエラーが表示される
+        await wrapper.find('input[type="checkbox"]').trigger('change');
         await nextTick();
         expect(wrapper.find('.error').exists()).toBe(true);
     });
