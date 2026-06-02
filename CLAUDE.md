@@ -111,6 +111,8 @@ vue, vee-validate, zod, vue-router, lucide-vue-next, dayjs, i18next 等は peerD
 コンポーネントを追加・修正した場合は、必要に応じて `playground/` も整備してください。
 
 playground は 3 環境あります。基本的に 3 環境すべてのサンプルを揃えてください。
+もし3環境をすべて確認する必要がある場合は、並列で確認を進めてください。
+また完了したらplaygroundのサーバーは落としてください。
 
 | 環境 | 起動コマンド | 用途 |
 | --- | --- | --- |
