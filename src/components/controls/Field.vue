@@ -139,7 +139,12 @@ defineEmits<{
 const generatedId = useId();
 const fieldName = computed(() => props.name || generatedId);
 const fieldType = ref(props.type === 'number' ? 'tel' : props.type);
-const { value, errors } = useField<string>(fieldName);
+// validateOnValueUpdate を無効化し、値の代入では自動バリデートを走らせない。
+// これにより resetForm() / model 反映 / 表示⇔値の同期といったプログラム的な値変更で
+// 誤って未入力バリデーションが走るのを防ぐ。バリデートはユーザー入力時に明示的に行う。
+const { value, errors, validate } = useField<string>(fieldName, undefined, {
+    validateOnValueUpdate: false
+});
 if (value.value == null && model.value != null) {
     value.value = model.value;
 }
@@ -163,13 +168,19 @@ const max = computed(
 const formatValue = ref('');
 watch(formatValue, (v) => {
     // フォーマット処理
-
     const formatedValue = props.formatter(v);
     const displayFormatedValue = props.displayFormatter(formatedValue);
     const nativeParsedValue = props.displayParser(formatedValue);
 
-    formatValue.value = displayFormatedValue;
-    value.value = nativeParsedValue;
+    if (formatValue.value !== displayFormatedValue) {
+        formatValue.value = displayFormatedValue;
+    }
+    // value からの伝播（reset / model / DatePicker 等）による往復では同値が返るため、
+    // 実際に値が変わったユーザー入力時のみ value を更新し、その場合だけライブバリデートする。
+    if (value.value !== nativeParsedValue) {
+        value.value = nativeParsedValue;
+        validate();
+    }
 });
 watch(value, (v) => {
     model.value = v;
@@ -183,6 +194,7 @@ const isFocus = ref(false);
 const onDelete = () => {
     formatValue.value = '';
     value.value = '';
+    validate();
 };
 
 // --- ▼ type: Password時の処理 ▼ ---
@@ -215,6 +227,12 @@ const onCloseDatePicker = () => {
     if (datePickerScrollObserver.value) {
         datePickerScrollObserver.value.disconnect();
     }
+};
+// 日付選択はユーザー操作のため、選択確定時に明示的にバリデートする
+// （value 経由の変更は watch では区別できずバリデートされないため）
+const onDatePickerUpdate = () => {
+    validate();
+    onCloseDatePicker();
 };
 onMounted(() => {
     const intersect = (entries: IntersectionObserverEntry[]) => {
@@ -353,7 +371,7 @@ defineExpose({ onCloseDatePicker, isFocus, datePickerScrollObserver });
                 :dataFormat="dataFormat"
                 :variant:="variant"
                 :shape="shape"
-                @update:model-value="onCloseDatePicker"
+                @update:model-value="onDatePickerUpdate"
                 v-outside-click="onOutsideClick"
             />
         </OpacityTransition>
