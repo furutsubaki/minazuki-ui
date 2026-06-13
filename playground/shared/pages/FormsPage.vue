@@ -10,7 +10,7 @@ const schema = z.object({
     homepage: z.string().url().or(z.literal(''))
 });
 
-const { handleSubmit, canSubmit, values } = useFormData(schema, {
+const { handleSubmit, canSubmit, values, resetForm } = useFormData(schema, {
     name: '',
     email: '',
     homepage: ''
@@ -25,7 +25,13 @@ const onSubmit = handleSubmit(() => {
         message: `名前: ${values.name} / メール: ${values.email}`,
         autoRemove: true
     });
+    // 送信後にフォームをリセット（リセット直後に未入力エラーが復活しないことを確認する）
+    resetForm();
 });
+
+const onReset = () => {
+    resetForm();
+};
 
 const selectValue = ref<string>('');
 const switchValue = ref(false);
@@ -97,9 +103,14 @@ const radioGroupItems = [
                     label="ホームページ（任意）"
                     placeholder="https://example.com"
                 />
-                <MiButton variant="primary" :disabled="!canSubmit" @click="onSubmit">
-                    送信
-                </MiButton>
+                <div class="pg-row">
+                    <MiButton variant="primary" :disabled="!canSubmit" @click="onSubmit">
+                        送信
+                    </MiButton>
+                    <MiButton variant="secondary" @click="onReset">
+                        リセット
+                    </MiButton>
+                </div>
             </div>
         </section>
 
