@@ -1,12 +1,22 @@
 import { describe, it, expect, vi } from 'vitest';
-import { nextTick, h } from 'vue';
-import { mount } from '@vue/test-utils';
+import { nextTick, h, defineComponent } from 'vue';
+import { mount, flushPromises } from '@vue/test-utils';
 import { z } from 'zod';
 import { Form as VeeForm } from 'vee-validate';
 import Field from '@/components/controls/Field.vue';
 import DatePicker from '@/components/controls/DatePicker.vue';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
+import useFormData from '@/composables/useFormData';
 import { uniqueFieldName } from '@/test/utils/uniqueFieldName';
+
+// validate() は fire-and-forget のため、複数マイクロタスク + マクロタスクを消化して
+// バリデーション結果が DOM に反映されるまで待つ
+const settleValidation = async () => {
+    for (let i = 0; i < 6; i++) {
+        await flushPromises();
+        await new Promise((resolve) => setTimeout(resolve, 0));
+    }
+};
 
 describe('Field', () => {
     it('label が表示される', () => {
@@ -401,6 +411,81 @@ describe('Field', () => {
         await datePicker.vm.$emit('update:modelValue', '20240115');
         await nextTick();
         expect(wrapper.find('button.input span').text()).not.toBe('');
+    });
+
+    describe('useFormData 連携時のバリデーション挙動', () => {
+        const schema = z.object({ field: z.string().min(1) });
+        const mountWithForm = (extraAttrs = '', initialValues?: Record<string, unknown>) => {
+            const Host = defineComponent({
+                components: { Field },
+                setup() {
+                    const form = useFormData(schema as never, initialValues as never);
+                    return { form };
+                },
+                template: `<Field name="field" ${extraAttrs} />`
+            });
+            const wrapper = mount(Host);
+            const form = (wrapper.vm as { form: ReturnType<typeof useFormData> }).form;
+            return { wrapper, form };
+        };
+
+        it('resetForm() 後に未入力バリデーションエラーが復活しない（#784）', async () => {
+            const { wrapper, form } = mountWithForm();
+            await nextTick();
+
+            // 有効な値を入力（エラーなし）
+            await wrapper.find('input').setValue('入力値');
+            await settleValidation();
+            expect(wrapper.find('.error').exists()).toBe(false);
+
+            // resetForm() で空に戻る。echo による再バリデートでエラーが復活しないこと
+            form.resetForm();
+            await settleValidation();
+            expect(wrapper.find('input').element.value).toBe('');
+            expect(wrapper.find('.error').exists()).toBe(false);
+        });
+
+        it('入力後にクリアすると未入力エラーが表示される', async () => {
+            const { wrapper } = mountWithForm();
+            await nextTick();
+
+            await wrapper.find('input').setValue('a');
+            await settleValidation();
+            expect(wrapper.find('.error').exists()).toBe(false);
+
+            await wrapper.find('input').setValue('');
+            await settleValidation();
+            expect(wrapper.find('.error').exists()).toBe(true);
+        });
+
+        it('送信でエラー表示後、有効値を入力するとエラーが解消し送信可能になる', async () => {
+            const { wrapper, form } = mountWithForm();
+            await nextTick();
+
+            // 未入力で送信 → Required 表示・送信不可
+            await form.handleSubmit(() => {})();
+            await settleValidation();
+            expect(wrapper.find('.error').exists()).toBe(true);
+            expect(form.canSubmit.value).toBe(false);
+
+            // 有効値を入力 → エラー解消・送信可能
+            await wrapper.find('input').setValue('入力値');
+            await settleValidation();
+            expect(wrapper.find('.error').exists()).toBe(false);
+            expect(form.canSubmit.value).toBe(true);
+        });
+
+        it('clearable のクリアで未入力エラーが表示される', async () => {
+            const { wrapper } = mountWithForm('clearable');
+            await nextTick();
+
+            await wrapper.find('input').setValue('入力値');
+            await settleValidation();
+            await wrapper.find('.icon-box:not(.always-visible) svg').trigger('click');
+            await settleValidation();
+            expect(wrapper.find('input').element.value).toBe('');
+            expect(wrapper.find('.error').exists()).toBe(true);
+        });
     });
 
 });
