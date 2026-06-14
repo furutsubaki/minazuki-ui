@@ -70,8 +70,11 @@ export interface MiTheme
 }
 
 // global state
+// Node 22.4+ では bare な localStorage が globalThis の遅延 getter になり、参照だけで
+// ExperimentalWarning が発火する。window 経由でアクセスすれば SSR（window 不在）では
+// 触れず、Node のグローバル getter を踏まない。
 const currentTheme = ref<themeId>(
-    typeof localStorage !== 'undefined' ? localStorage.themeId ?? 'light' : 'light'
+    typeof window !== 'undefined' ? window.localStorage.themeId ?? 'light' : 'light'
 );
 const baseTheme: MiTheme = {
     base: {
@@ -200,8 +203,8 @@ const setTheme = (themeId: string) => {
         });
     }
 
-    if (typeof localStorage !== 'undefined') {
-        localStorage.setItem('themeId', themeId);
+    if (typeof window !== 'undefined') {
+        window.localStorage.setItem('themeId', themeId);
     }
 };
 
