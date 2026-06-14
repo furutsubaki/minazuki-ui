@@ -2,7 +2,7 @@
 
 /* lucideのオーバーライド */
 
-.lucide {
+:where(.lucide) {
     width: var(--font-size-medium);
     height: var(--font-size-medium);
 }
