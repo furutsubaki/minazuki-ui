@@ -15,7 +15,7 @@ describe('useTheme', () => {
     const initialThemesSnapshot = JSON.parse(JSON.stringify(themes.value));
 
     beforeEach(() => {
-        (globalThis as any).localStorage?.removeItem('themeId');
+        window.localStorage?.removeItem('themeId');
         themes.value = JSON.parse(JSON.stringify(initialThemesSnapshot));
         document.body.removeAttribute('data-theme');
         document.getElementById(THEME_STYLE_ID)?.remove();
@@ -87,21 +87,21 @@ describe('useTheme', () => {
         themes.value = savedThemes;
     });
 
-    it('localStorage が存在しない場合も setTheme が正常に完了する', () => {
+    it('window が存在しない（SSR）環境でも setTheme が正常に完了する', () => {
         const { setTheme } = useTheme();
 
-        const savedLocalStorage = (globalThis as any).localStorage;
-        (globalThis as any).localStorage = undefined;
+        const savedWindow = (globalThis as any).window;
+        (globalThis as any).window = undefined;
 
         expect(() => setTheme('light')).not.toThrow();
         expect(document.body.getAttribute('data-theme')).toBe('light');
 
-        (globalThis as any).localStorage = savedLocalStorage;
+        (globalThis as any).window = savedWindow;
     });
 
-    it('localStorage が存在しない環境での currentTheme のデフォルト値は light', async () => {
-        const savedLocalStorage = (globalThis as any).localStorage;
-        (globalThis as any).localStorage = undefined;
+    it('window が存在しない（SSR）環境での currentTheme のデフォルト値は light', async () => {
+        const savedWindow = (globalThis as any).window;
+        (globalThis as any).window = undefined;
 
         vi.resetModules();
         vi.doMock('@unhead/vue', () => ({ useHead: vi.fn() }));
@@ -110,12 +110,12 @@ describe('useTheme', () => {
 
         expect(currentTheme.value).toBe('light');
 
-        (globalThis as any).localStorage = savedLocalStorage;
+        (globalThis as any).window = savedWindow;
         vi.resetModules();
     });
 
     it('localStorage.themeId に値が入っている場合はその値が currentTheme の初期値になる', async () => {
-        localStorage.setItem('themeId', 'dark');
+        window.localStorage.setItem('themeId', 'dark');
 
         vi.resetModules();
         vi.doMock('@unhead/vue', () => ({ useHead: vi.fn() }));
@@ -124,7 +124,7 @@ describe('useTheme', () => {
 
         expect(currentTheme.value).toBe('dark');
 
-        localStorage.removeItem('themeId');
+        window.localStorage.removeItem('themeId');
         vi.resetModules();
     });
 
