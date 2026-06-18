@@ -1,6 +1,7 @@
 body {
     font-family: sans-serif;
     color: var(--color-theme-text-primary);
+    letter-spacing: 0;
     background-color: var(--color-theme-bg-primary);
     transition: background-color 0.2s, color 0.2s;
 }
@@ -68,4 +69,62 @@ body {
     flex-wrap: wrap;
     gap: 12px;
     align-items: flex-start;
+}
+
+.pg-override-desc {
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+}
+
+.pg-override-desc code,
+.pg-override-label code {
+    padding: 2px 6px;
+    font-size: 0.85rem;
+    background-color: var(--color-theme-bg-secondary);
+    border-radius: 4px;
+}
+
+.pg-override-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (width < 600px) {
+    .pg-override-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.pg-override-card {
+    padding: 16px;
+    border: 1px solid var(--color-theme-border);
+    border-radius: 8px;
+}
+
+.pg-override-card h3 {
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--color-theme-text-secondary, #888);
+}
+
+.pg-override-app {
+    border-color: #16a34a;
+    border-width: 2px;
+}
+
+.pg-override-app h3 {
+    color: #16a34a;
+}
+
+.pg-override-label {
+    margin-bottom: 12px;
+}
+
+.pg-override-sample {
+    padding: 12px;
+    font-size: 1.1rem;
+    background-color: var(--color-theme-bg-secondary);
+    border-radius: 4px;
 }

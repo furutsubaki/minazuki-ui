@@ -9,6 +9,34 @@ const showBadge = ref(true);
 <template>
     <div>
         <section class="pg-section">
+            <h2>Style Override（CSS Layer）</h2>
+            <p class="pg-override-desc">
+                minazuki-ui のベース CSS は <code>@layer minazuki</code>
+                で囲まれているため、消費側アプリの無レイヤー CSS で常に上書きできます。
+            </p>
+            <div class="pg-override-grid">
+                <div class="pg-override-card">
+                    <h3>ライブラリ既定</h3>
+                    <p class="pg-override-label">
+                        <code>letter-spacing: 0.05em</code>
+                    </p>
+                    <p class="pg-override-sample" style="letter-spacing: 0.05em;">
+                        あいうえおかきくけこ ABCDEFG 0123456789
+                    </p>
+                </div>
+                <div class="pg-override-card pg-override-app">
+                    <h3>アプリ上書き（実際の適用値）</h3>
+                    <p class="pg-override-label">
+                        <code>letter-spacing: 0</code>
+                    </p>
+                    <p class="pg-override-sample">
+                        あいうえおかきくけこ ABCDEFG 0123456789
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="pg-section">
             <h2>Button</h2>
             <div class="pg-row">
                 <MiButton variant="primary">Primary</MiButton>

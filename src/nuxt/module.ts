@@ -58,7 +58,7 @@ const _module = defineNuxtModule<ModuleOptions>({
         if (options.css) {
             nuxt.options.css = nuxt.options.css ?? [];
             if (!nuxt.options.css.includes('minazuki-ui/dist/style.css')) {
-                nuxt.options.css.push('minazuki-ui/dist/style.css');
+                nuxt.options.css.unshift('minazuki-ui/dist/style.css');
             }
         }
 
