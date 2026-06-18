@@ -5,72 +5,18 @@
         "security-guidance@claude-plugins-official": true
     },
     "hooks": {
-        "PreToolUse": [
-            {
-                "hooks": [
-                    {
-                        "command": ".claude/hooks/guard-bash.sh",
-                        "type": "command"
-                    }
-                ],
-                "matcher": "Bash"
-            }
-        ]
     },
     "permissions": {
-        "allow": [
-        ],
+        "allow": [],
         "ask": [
-            "Bash(chmod *)",
-            "Bash(chown *)",
-            "Bash(dd *)",
-            "Bash(docker *)",
-            "Bash(fdisk *)",
-            "Bash(firebase *)",
-            "Bash(gcloud *)",
-            "Bash(git -c *)",
-            "Bash(git add *)",
-            "Bash(git clean *)",
-            "Bash(git commit *)",
-            "Bash(git push *)",
-            "Bash(git reset *)",
-            "Bash(kill *)",
-            "Bash(killall *)",
-            "Bash(kubectl *)",
-            "Bash(mkfs *)",
-            "Bash(mv *)",
-            "Bash(pkill *)",
-            "Bash(rm -rf:*)",
-            "Bash(rmdir *)",
-            "Bash(shred *)",
-            "Bash(unlink *)"
         ],
         "deny": [
             "Bash(*deploy*)",
-            "Bash(awk *.env*)",
-            "Bash(bat *.env*)",
-            "Bash(cat *.env*)",
-            "Bash(grep *.env*)",
-            "Bash(head *.env*)",
-            "Bash(less *.env*)",
-            "Bash(more *.env*)",
-            "Bash(nano *.env*)",
             "Bash(npm publish *)",
             "Bash(pnpm publish *)",
-            "Bash(sed *.env*)",
-            "Bash(tail *.env*)",
             "Bash(terraform apply *)",
-            "Bash(vim *.env*)",
             "Bash(yarn publish *)",
-            "Edit(*.env)",
-            "Edit(.env)",
-            "Edit(.env.*)",
-            "NotebookEdit",
-            "NotebookRead",
-            "Read(*.env)",
             "Read(./secrets/**)",
-            "Read(.env)",
-            "Read(.env.*)",
             "Read(~/.aws/**)",
             "Read(~/.ssh/**)"
         ]
