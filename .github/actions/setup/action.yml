@@ -1,0 +1,54 @@
+name: Setup Node & pnpm
+description: >
+  Corepack 経由で pnpm を有効化し、Node をセットアップ、pnpm の store とメタデータを
+  restore-keys 付きでキャッシュしてから frozen install する共通セットアップ。
+  lockfile が変わってもキャッシュは直近のものから復元されるため、minimumReleaseAge の
+  サプライチェーン検証が全件レジストリ問い合わせ（コールド）になるのを防ぐ。
+  外部 action は本リポの方針に合わせて SHA ピンする。
+
+inputs:
+  node-version:
+    description: Node.js のバージョン
+    required: false
+    default: '24'
+
+runs:
+  using: composite
+  steps:
+    - name: Enable corepack
+      shell: bash
+      env:
+        # corepack が pnpm を取得する際の署名検証を無効化（CI で integrity keys が無い環境向け）
+        COREPACK_INTEGRITY_KEYS: '0'
+      run: |
+        npm install -g corepack@latest
+        corepack enable
+
+    - name: Setup Node
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      with:
+        node-version: ${{ inputs.node-version }}
+
+    - name: Resolve pnpm store dir
+      id: store
+      shell: bash
+      run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+    - name: Cache pnpm store & metadata
+      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      with:
+        # store=パッケージ本体、~/.cache/pnpm=レジストリのメタデータ（公開日含む）。
+        # 後者が効くと minimumReleaseAge の検証がオフラインで済む。
+        path: |
+          ${{ steps.store.outputs.path }}
+          ~/.cache/pnpm
+        key: pnpm-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+        # 完全一致が無くても直近の pnpm-<os>-* を復元し、差分だけ取得・検証する
+        restore-keys: |
+          pnpm-${{ runner.os }}-
+
+    - name: Install dependencies
+      shell: bash
+      env:
+        COREPACK_INTEGRITY_KEYS: '0'
+      run: pnpm install --frozen-lockfile --prefer-offline
