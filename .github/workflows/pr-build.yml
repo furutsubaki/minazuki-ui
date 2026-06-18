@@ -18,18 +18,8 @@ jobs:
         env:
           COREPACK_INTEGRITY_KEYS: 0
 
-      - name: Enable corepack
-        run: |
-          npm install -g corepack@latest
-          corepack enable
-
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: '24'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm i --frozen-lockfile
+      - name: Setup
+        uses: ./.github/actions/setup
 
       - name: Run Build
         run: pnpm build
