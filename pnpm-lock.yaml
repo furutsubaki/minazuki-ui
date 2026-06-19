@@ -222,9 +222,6 @@ importers:
       dayjs:
         specifier: '>=1.0.0'
         version: 1.11.20
-      i18next:
-        specifier: '>=23.0.0'
-        version: 23.16.8
       lucide-vue-next:
         specifier: '>=0.356.0'
         version: 1.0.0(vue@3.5.34(typescript@5.8.3))
@@ -240,9 +237,6 @@ importers:
       zod:
         specifier: '>=3.20.0 <4.0.0'
         version: 3.25.76
-      zod-i18n-map:
-        specifier: '>=2.0.0'
-        version: 2.27.0(i18next@23.16.8)(zod@3.25.76)
     devDependencies:
       '@acab/reset.css':
         specifier: ^0.11.0
@@ -388,9 +382,6 @@ importers:
       dayjs:
         specifier: ^1
         version: 1.11.20
-      i18next:
-        specifier: ^23
-        version: 23.16.8
       lucide-vue-next:
         specifier: '>=0.356.0'
         version: 1.0.0(vue@3.5.34(typescript@5.8.3))
@@ -415,9 +406,6 @@ importers:
       zod:
         specifier: ^3
         version: 3.25.76
-      zod-i18n-map:
-        specifier: ^2
-        version: 2.27.0(i18next@23.16.8)(zod@3.25.76)
     devDependencies:
       '@types/node':
         specifier: ^22
@@ -449,9 +437,6 @@ importers:
       dayjs:
         specifier: ^1
         version: 1.11.20
-      i18next:
-        specifier: ^23
-        version: 23.16.8
       lucide-vue-next:
         specifier: '>=0.356.0'
         version: 1.0.0(vue@3.5.34(typescript@5.8.3))
@@ -476,9 +461,6 @@ importers:
       zod:
         specifier: ^3
         version: 3.25.76
-      zod-i18n-map:
-        specifier: ^2
-        version: 2.27.0(i18next@23.16.8)(zod@3.25.76)
     devDependencies:
       '@types/node':
         specifier: ^22
@@ -522,9 +504,6 @@ importers:
       dayjs:
         specifier: ^1
         version: 1.11.20
-      i18next:
-        specifier: ^23
-        version: 23.16.8
       lucide-vue-next:
         specifier: '>=0.356.0'
         version: 1.0.0(vue@3.5.34(typescript@5.8.3))
@@ -549,9 +528,6 @@ importers:
       zod:
         specifier: ^3
         version: 3.25.76
-      zod-i18n-map:
-        specifier: ^2
-        version: 2.27.0(i18next@23.16.8)(zod@3.25.76)
     devDependencies:
       '@types/node':
         specifier: ^22
@@ -3971,9 +3947,6 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  i18next@23.16.8:
-    resolution: {integrity: sha512-06r/TitrM88Mg5FdUXAKL96dJMzgqLE5dv3ryBAra4KCwD9mJ4ndOTS95ZuymIGoE+2hzfdaMak2X11/es7ZWg==}
-
   ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
 
@@ -6418,12 +6391,6 @@ packages:
   zip-stream@6.0.1:
     resolution: {integrity: sha512-zK7YHHz4ZXpW89AHXUPbQVGKI7uvkd3hzusTdotCg1UxyaVtg0zFJSTfW/Dq5f7OBBVnq6cZIaC8Ti4hb6dtCA==}
     engines: {node: '>= 14'}
-
-  zod-i18n-map@2.27.0:
-    resolution: {integrity: sha512-ORu9XpiVh3WDiEUs5Cr9siGgnpeODoBsTIgSD8sQCH9B//f9KowlzqHUEdPYb3vFonaSH8yPvPCOFM4niwp3Sg==}
-    peerDependencies:
-      i18next: '>=21.3.0'
-      zod: '>=3.17.0'
 
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
@@ -10063,10 +10030,6 @@ snapshots:
 
   husky@9.1.7: {}
 
-  i18next@23.16.8:
-    dependencies:
-      '@babel/runtime': 7.29.2
-
   ieee754@1.2.1: {}
 
   ignore@5.3.2: {}
@@ -12888,10 +12851,5 @@ snapshots:
       archiver-utils: 5.0.2
       compress-commons: 6.0.2
       readable-stream: 4.7.0
-
-  zod-i18n-map@2.27.0(i18next@23.16.8)(zod@3.25.76):
-    dependencies:
-      i18next: 23.16.8
-      zod: 3.25.76
 
   zod@3.25.76: {}
