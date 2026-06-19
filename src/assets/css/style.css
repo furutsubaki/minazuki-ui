@@ -15,14 +15,14 @@
     }
     :where(html) {
         box-sizing: border-box;
-        scrollbar-gutter: auto;
+        scrollbar-gutter: stable;
         font-size: 62.5%; /* 1rem = 10px */
         scroll-behavior: smooth;
     }
     body {
         min-height: var(--height-vh);
         overflow-y: auto;
-        scrollbar-gutter: stable;
+        scrollbar-gutter: auto;
         font-family: var(--font-sans);
         font-size: var(--font-size-medium);
         font-feature-settings: 'palt';
