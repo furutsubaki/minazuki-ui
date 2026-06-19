@@ -1,8 +1,9 @@
 @charset "utf-8";
 
-/* lucideのオーバーライド */
-
-:where(.lucide) {
-    width: var(--font-size-medium);
-    height: var(--font-size-medium);
+@layer minazuki {
+    /* lucideのオーバーライド */
+    :where(.lucide) {
+        width: var(--font-size-medium);
+        height: var(--font-size-medium);
+    }
 }

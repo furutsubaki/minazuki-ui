@@ -1,4 +1,4 @@
-import '@acab/reset.css';
+import '@/assets/css/reset.css';
 import '@/assets/css/variables.css';
 import '@/assets/css/style.css';
 import '@/assets/css/override.css';

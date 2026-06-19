@@ -77,7 +77,6 @@
   },
   "peerDependencies": {
     "@nuxt/kit": ">=3.14.0",
-    "@acab/reset.css": ">=0.11.0",
     "@unhead/vue": ">=1.0.0",
     "@vee-validate/rules": ">=4.9.0",
     "@vee-validate/zod": ">=4.9.0",
@@ -103,6 +102,7 @@
     }
   },
   "devDependencies": {
+    "@acab/reset.css": "^0.11.0",
     "@nuxt/kit": "^4.4.1",
     "@eslint/js": "^10.0.1",
     "@rushstack/eslint-patch": "^1.10.4",
