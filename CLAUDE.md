@@ -127,6 +127,15 @@ playground 共通スタイルは `playground/shared/styles/playground.css`、vee
 - playground に該当コンポーネントのサンプルがまだ存在しない場合は `shared/pages/` に追加する
 - Nuxt 3 / Nuxt 4 固有の問題（SSR フラッシュ・ハイドレーションエラー等）が確認できた場合は対処する
 
+## CI / Dependabot
+
+`.github/workflows/dependabot-auto-merge.yml` の自動マージ対象は以下に限定している。
+
+- GitHub Actions の minor/patch 更新
+- npm の **devDependencies** の minor/patch 更新
+
+`dependencies` / `peerDependencies`（vue, zod, lucide-vue-next 等）は本ライブラリの利用側プロジェクトに直接影響するため、minor 更新であっても自動マージの対象外とし、手動レビューを必須とする。`update-type` だけで判定すると production 系の依存も自動マージされてしまうため、`dependabot/fetch-metadata` の `dependency-type` 出力（`direct:development` かどうか）と `package-ecosystem` 出力を併用して判定すること。
+
 ## 禁止事項
 
 - `develop` `main`ブランチでの作業は禁止
