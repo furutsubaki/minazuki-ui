@@ -1,0 +1,26 @@
+name: Dependabot rebase
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Rebase open Dependabot PRs
+        run: |
+          prs=$(gh pr list --author "dependabot[bot]" --state open --json number --jq '.[].number')
+          for pr in $prs; do
+            echo "Rebasing PR #$pr..."
+            gh pr comment "$pr" --body "@dependabot rebase"
+            sleep 5
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
