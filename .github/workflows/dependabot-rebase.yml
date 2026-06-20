@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Rebase open Dependabot PRs
         run: |
-          prs=$(gh pr list --author "dependabot[bot]" --state open --json number --jq '.[].number')
+          prs=$(gh pr list --author "dependabot[bot]" --state open --limit 100 --json number --jq '.[].number')
           for pr in $prs; do
             echo "Rebasing PR #$pr..."
             gh pr comment "$pr" --body "@dependabot rebase"
