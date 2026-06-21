@@ -1,0 +1,18 @@
+name: Re-trigger CI for Dependabot rebase
+on:
+  pull_request_target:
+    types: [synchronize]
+
+jobs:
+  retrigger:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close and reopen PR to trigger CI
+        env:
+          GH_TOKEN: ${{ secrets.DEPENDABOT_AUTOMATION_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          gh pr close "$PR_NUMBER" -R "$GITHUB_REPOSITORY"
+          sleep 3
+          gh pr reopen "$PR_NUMBER" -R "$GITHUB_REPOSITORY"
