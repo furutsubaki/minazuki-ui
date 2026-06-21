@@ -1,0 +1,27 @@
+name: Retry failed Dependabot CI
+on:
+  schedule:
+    - cron: '40 0 * * *'
+
+permissions:
+  actions: write
+
+jobs:
+  retry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Re-run failed CI on open Dependabot PRs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr list --author "dependabot[bot]" --state open \
+            --json number,headRefOid \
+            --jq '.[] | "\(.number) \(.headRefOid)"' \
+            -R "$GITHUB_REPOSITORY" | while read -r pr sha; do
+
+            gh api "repos/$GITHUB_REPOSITORY/actions/runs?head_sha=$sha&status=failure" \
+              --jq '.workflow_runs[].id' | while read -r run_id; do
+              echo "Re-running run $run_id for PR #$pr"
+              gh run rerun "$run_id" --failed -R "$GITHUB_REPOSITORY" 2>/dev/null || true
+            done
+          done
