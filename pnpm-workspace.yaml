@@ -6,3 +6,6 @@ allowBuilds:
   esbuild: true
   vue-demi: true
 minimumReleaseAge: 10080
+overrides:
+  devalue: "^5.8.1"
+  js-cookie: "^3.0.7"
