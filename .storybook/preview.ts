@@ -7,37 +7,18 @@ import '../src/assets/css/override.css'
 
 import { defineRule } from 'vee-validate';
 import { all } from '@vee-validate/rules'
-import { init } from 'i18next';
 import { z } from 'zod';
-import { zodI18nMap } from 'zod-i18n-map';
-import translation from 'zod-i18n-map/locales/ja/zod.json';
+import { jaErrorMap } from '../src/plugins/init-validate';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import useTheme from '../src/composables/useTheme';
 import { createHead } from '@unhead/vue';
 
-const customErrorMap: z.ZodErrorMap = (issue, ctx) => {
-    switch (issue.code) {
-        case z.ZodIssueCode.too_small:
-            if (['string'].includes(issue.type) && issue.minimum === 1) {
-                return { message: 'この項目は必須項目です。' };
-            }
-    }
-    return zodI18nMap(issue, ctx);
-};
-
 Object.entries(all).forEach(([name, rule]) => {
     defineRule(name, rule);
 });
 
-// zod
-init({
-    lng: 'ja',
-    resources: {
-        ja: { zod: translation }
-    }
-});
-z.setErrorMap(customErrorMap);
+z.setErrorMap(jaErrorMap);
 
 setup((app) => {
     app.component('VueDatePicker', VueDatePicker);

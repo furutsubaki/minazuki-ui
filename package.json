@@ -1,13 +1,12 @@
 {
   "name": "minazuki-ui",
-  "version": "1.6.2",
+  "version": "2.0.0",
   "private": false,
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "packageManager": "pnpm@11.1.2",
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
@@ -73,6 +72,8 @@
     "play:nuxt3:build": "pnpm build && pnpm --filter playground-nuxt3 build",
     "play:nuxt4": "pnpm build && rm -rf playground/nuxt4/.nuxt playground/nuxt4/node_modules/.cache && pnpm --filter playground-nuxt4 dev",
     "play:nuxt4:build": "pnpm build && pnpm --filter playground-nuxt4 build",
+    "design:md:lint": "pnpm dlx @google/design.md lint docs/DESIGN.md",
+    "design:md:export": "pnpm dlx @google/design.md export --format dtcg docs/DESIGN.md > tokens.json",
     "prepare": "husky"
   },
   "peerDependencies": {
@@ -93,16 +94,10 @@
       "optional": true
     }
   },
-  "pnpm": {
-    "overrides": {
-      "devalue": "^5.8.1",
-      "js-cookie": "^3.0.7"
-    }
-  },
   "devDependencies": {
     "@acab/reset.css": "^0.11.0",
-    "@nuxt/kit": "^4.4.1",
     "@eslint/js": "^10.0.1",
+    "@nuxt/kit": "^4.4.1",
     "@rushstack/eslint-patch": "^1.10.4",
     "@storybook/addon-docs": "10.3.6",
     "@storybook/vue3": "10.3.6",
