@@ -13,9 +13,11 @@ body {
 }
 
 .pg-header {
+    position: fixed;
     display: flex;
     gap: 24px;
     align-items: center;
+    width: 100%;
     padding: 12px 24px;
     background-color: var(--color-theme-bg-secondary);
     border-bottom: 1px solid var(--color-theme-border);
@@ -49,6 +51,7 @@ body {
     width: 100%;
     max-width: 960px;
     padding: 24px;
+    padding-top: calc(24px + 56px);
     margin: 0 auto;
 }
 
@@ -125,6 +128,72 @@ body {
 .pg-override-sample {
     padding: 12px;
     font-size: 1.1rem;
+    background-color: var(--color-theme-bg-secondary);
+    border-radius: 4px;
+}
+
+.pg-color-group {
+    margin-bottom: 24px;
+}
+
+.pg-color-group h3 {
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.pg-color-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.pg-color-card {
+    width: 120px;
+}
+
+.pg-color-swatch {
+    height: 56px;
+    border: 1px solid var(--color-theme-border);
+    border-radius: 4px;
+}
+
+.pg-color-name {
+    margin-top: 4px;
+    font-family: monospace;
+    font-size: 0.7rem;
+    color: var(--color-theme-text-secondary);
+    overflow-wrap: anywhere;
+}
+
+.pg-token-table {
+    width: 100%;
+    margin-bottom: 24px;
+    font-size: 0.85rem;
+    border-collapse: collapse;
+}
+
+.pg-token-table th,
+.pg-token-table td {
+    padding: 6px 12px;
+    text-align: left;
+    border: 1px solid var(--color-theme-border);
+}
+
+.pg-token-table th {
+    background-color: var(--color-theme-bg-secondary);
+}
+
+.pg-token-sample-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.pg-token-sample {
+    padding: 12px;
     background-color: var(--color-theme-bg-secondary);
     border-radius: 4px;
 }

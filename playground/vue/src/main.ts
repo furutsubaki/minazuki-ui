@@ -20,7 +20,8 @@ const router = createRouter({
         { path: '/', component: HomePage },
         { path: '/forms', component: () => import('playground-shared/pages/FormsPage.vue') },
         { path: '/feedback', component: () => import('playground-shared/pages/FeedbackPage.vue') },
-        { path: '/navigation', component: () => import('playground-shared/pages/NavigationPage.vue') }
+        { path: '/navigation', component: () => import('playground-shared/pages/NavigationPage.vue') },
+        { path: '/tokens', component: () => import('playground-shared/pages/TokensPage.vue') }
     ]
 });
 

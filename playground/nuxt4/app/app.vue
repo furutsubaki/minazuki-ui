@@ -19,6 +19,7 @@ const toggleTheme = () => {
                 <NuxtLink to="/forms">Forms</NuxtLink>
                 <NuxtLink to="/feedback">Feedback</NuxtLink>
                 <NuxtLink to="/navigation">Navigation</NuxtLink>
+                <NuxtLink to="/tokens">Tokens</NuxtLink>
             </nav>
             <MiButton :variant="currentTheme === 'dark' ? 'primary' : 'secondary'" size="small" @click="toggleTheme">
                 {{ currentTheme === 'dark' ? 'Light' : 'Dark' }} Mode

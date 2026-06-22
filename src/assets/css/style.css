@@ -18,6 +18,8 @@
         scrollbar-gutter: stable;
         font-size: 62.5%; /* 1rem = 10px */
         scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
     body {
         min-height: var(--height-vh);
