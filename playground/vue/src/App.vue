@@ -21,7 +21,6 @@ const toggleTheme = () => {
                 <RouterLink to="/forms">Forms</RouterLink>
                 <RouterLink to="/feedback">Feedback</RouterLink>
                 <RouterLink to="/navigation">Navigation</RouterLink>
-                <RouterLink to="/tokens">Tokens</RouterLink>
             </nav>
             <MiButton :variant="currentTheme === 'dark' ? 'primary' : 'secondary'" size="small" @click="toggleTheme">
                 {{ currentTheme === 'dark' ? 'Light' : 'Dark' }} Mode
