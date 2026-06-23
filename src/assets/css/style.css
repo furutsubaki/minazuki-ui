@@ -92,4 +92,8 @@
     ::file-selector-button {
         touch-action: manipulation;
     }
+    ::selection {
+        color: var(--color-base-black);
+        background-color: var(--color-theme-bg-select);
+    }
 }
