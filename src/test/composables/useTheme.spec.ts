@@ -380,6 +380,32 @@ describe('useTheme', () => {
             expect(style).not.toContain('--color-green-emphasis');
             expect(style).not.toContain('--color-green-surface');
         });
+
+        it('role に紐付く色相（red/orange/lime/teal/blue）も base + alpha が直接公開される', () => {
+            const { setTheme } = useTheme();
+            setTheme('light');
+
+            const style = document.getElementById(THEME_STYLE_ID)?.textContent ?? '';
+            // role の base 値と同一の hue/chroma のため、同じ hex になる
+            expect(style).toContain('--color-red:#f94144;');
+            expect(style).toContain('--color-orange:#d3721e;');
+            expect(style).toContain('--color-lime:#65a33c;');
+            expect(style).toContain('--color-teal:#38a391;');
+            expect(style).toContain('--color-blue:#3a93e6;');
+            expect(style).toContain('--color-teal-alpha:#38a391cc;');
+            // ラダー展開はされない
+            expect(style).not.toContain('--color-teal-emphasis');
+            expect(style).not.toContain('--color-teal-surface');
+        });
+
+        it('yellow は lightnessOffset を適用しない生の値のため warning ロールとは異なる', () => {
+            const { setTheme } = useTheme();
+            setTheme('light');
+
+            const style = document.getElementById(THEME_STYLE_ID)?.textContent ?? '';
+            expect(style).toContain('--color-yellow:#ae8c00;');
+            expect(style).toContain('--color-warning:#efcc36;');
+        });
     });
 
     describe('後方互換エイリアス', () => {

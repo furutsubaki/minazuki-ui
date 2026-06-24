@@ -19,6 +19,7 @@ coverage
 .pnpm-store/
 test-results/
 .playwright-mcp/
+.playwright-cli/
 
 /cypress/videos/
 /cypress/screenshots/

@@ -190,8 +190,11 @@ const ROLE_MAP: MiRoleMap = {
     link: { hue: 'orange', chroma: 'orange' }
 };
 
-// role に紐付かない拡張色（base のみ生成。ladder 展開はしない）
-const EXTENDED_HUES = ['green', 'cyan', 'indigo', 'purple', 'pink'] as const;
+// 全色相プリミティブの base + alpha を role 経由せず直接公開する（ladder 展開はしない）。
+// role が参照する hue（teal/lime/blue/yellow/red/orange）も対象に含む。role の base 段階と
+// 同一の hue/chroma を使うため見た目は基本的に一致するが、Warning(yellow) は lightnessOffset
+// 分だけ役割側の値とずれる（生の hue を確認する用途のため意図的に offset を適用しない）
+const EXTENDED_HUES = Object.keys(HUES);
 
 // 明度スケール（lightnessKey）× 彩度スケール係数（chromaScaleKey）の組み合わせ
 const LIGHTNESS_LADDER = [
