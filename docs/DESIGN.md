@@ -50,7 +50,7 @@ Layer 3: Semantic（最終カラー。hex フォールバック + oklch() 合成
 
 Chroma は各色相が sRGB ガモット内で出せる最大彩度の90%（ガモット制限が厳しい色相はその上限値）。CSS 変数名は `--mi-hue-{name}` / `--mi-chroma-{name}`（例: `--mi-hue-teal`, `--mi-chroma-teal`）。
 
-**ロール色とベース色の違い**: 「用途」が role 名（Danger / Link / Warning ...）になっているものは [2.3](#23-layer-2-roles意味づけ) の Role が `--mi-hue-{role}:var(--mi-hue-{hueKey})` という間接参照で使用する **ロール色**。「ベース色」のものはどの role からも参照されておらず、`--color-{name}` として hue/chroma プリミティブをそのまま公開しているだけの **ベース色**（旧称: 拡張色）。ロール色は role の紐付けを変えるだけで意味（Danger 等）を保ったまま見た目を変更できるのに対し、ベース色は常にその hue 固有の色（green は常に緑）。
+**ロール色とベース色の違い**: 全 11 色相は role の有無に関わらず `--color-{name}`（base + alpha のみ。フルラダー展開はしない）として直接公開される。これが **ベース色**。「用途」が role 名（Danger / Link / Warning ...）になっているものは、[2.3](#23-layer-2-roles意味づけ) の Role が `--mi-hue-{role}:var(--mi-hue-{hueKey})` という間接参照で同じ hue/chroma を使い、明度ラダー（Surface〜Alpha の7段階）まで展開した **ロール色**でもある。ロール色の base 段階はベース色と基本的に同一の見た目になるが、Warning（Yellow）のみ `lightnessOffset` 分だけ異なる（ベース色の Yellow は offset 未適用の生の値）。ロール色は role の紐付けを変えるだけで意味（Danger 等）を保ったまま見た目を変更できるのに対し、ベース色は常にその hue 固有の色（teal は常に teal、green は常に緑）。
 
 **Yellow の Hue/Chroma について**: sRGB ガモットの制約上、Yellow は明度（L）0.65 付近では彩度をどれだけ上げても金色〜オリーブにしかならず、鮮やかな黄色にはならない（黄色は知覚的に最も明るい色相であり、ガモット内の鮮やかな黄色は L=0.85〜0.95 付近にしか存在しないため）。これを Hue/Chroma だけで解決することはできないため、Warning ロールには [2.3](#23-layer-2-roles意味づけ) で後述する `lightnessOffset` を設定し、ラダー全体の明度を底上げしている。
 
@@ -101,7 +101,7 @@ role は `--mi-hue-{role}:var(--mi-hue-{hueKey})` という間接参照で実装
 
 例（Brand, Light）: `--color-brand-surface` = `#e8f5f2` / `--color-brand-subtle` = `#bad5ce` / `--color-brand-muted` = `#84bbaf` / `--color-brand`（Base） = `#38a391` / `--color-brand-emphasis` = `#008474` / `--color-brand-strong` = `#006757` / `--color-brand-alpha` = `#38a391cc`
 
-role に紐付かないベース色（Green / Cyan / Indigo / Purple / Pink）は base + alpha のみ生成される（フルラダー展開はしない）。
+ベース色は role の有無に関わらず全 11 色相について base + alpha のみ生成される（フルラダー展開はしない）。
 
 **Semantic（Role）値一覧（base 段階）**:
 
@@ -115,6 +115,24 @@ role に紐付かないベース色（Green / Cyan / Indigo / Purple / Pink）�
 | Link | `#d3721e` | `oklch(0.65 0.15 55)` | `#b96929` | `oklch(0.6 0.1275 55)` |
 
 Warning の OKLCH L は `lightnessOffset`（+0.2）適用後の値（Light: 0.65+0.2=0.85 / Dark: 0.6+0.2=0.8）。
+
+**ベース色（`--color-{name}`）値一覧（全 11 色相、base 段階）**:
+
+| Hue | Light Hex | Light OKLCH | Dark Hex | Dark OKLCH | 対応する Role |
+|-----|-----------|-------------|----------|------------|--------------|
+| Red | `#f94144` | `oklch(0.65 0.22 25)` | `#d94343` | `oklch(0.6 0.187 25)` | Danger |
+| Orange | `#d3721e` | `oklch(0.65 0.15 55)` | `#b96929` | `oklch(0.6 0.1275 55)` | Link |
+| Yellow | `#ae8c00` | `oklch(0.65 0.16 95)` | `#9a7e00` | `oklch(0.6 0.136 95)` | — |
+| Lime | `#65a33c` | `oklch(0.65 0.15 135)` | `#5d913d` | `oklch(0.6 0.1275 135)` | Info |
+| Green | `#31a773` | `oklch(0.65 0.13 160)` | `#379469` | `oklch(0.6 0.1105 160)` | — |
+| Teal | `#38a391` | `oklch(0.65 0.1 180)` | `#3c9182` | `oklch(0.6 0.085 180)` | Brand |
+| Cyan | `#2ba1a7` | `oklch(0.65 0.1 200)` | `#348f94` | `oklch(0.6 0.085 200)` | — |
+| Blue | `#3a93e6` | `oklch(0.65 0.15 250)` | `#3c84c9` | `oklch(0.6 0.1275 250)` | Success |
+| Indigo | `#6c88ea` | `oklch(0.65 0.15 270)` | `#637bcc` | `oklch(0.6 0.1275 270)` | — |
+| Purple | `#ab72d3` | `oklch(0.65 0.15 310)` | `#9769b9` | `oklch(0.6 0.1275 310)` | — |
+| Pink | `#c967ac` | `oklch(0.65 0.15 340)` | `#b15f98` | `oklch(0.6 0.1275 340)` | — |
+
+role が紐付く色相（Red/Orange/Lime/Teal/Blue）は、対応する role の base 値（上の表）と完全に一致する。Yellow のみ例外で、`--color-yellow`（`#ae8c00`、金〜オリーブ）は `lightnessOffset` を適用しない生の hue/chroma 値であり、Warning ロールの `#efcc36`（offset +0.2 適用後）とは見た目が異なる。これは [2.1](#21-layer-1-hue--chroma-primitives) で述べた Yellow の sRGB ガモット制約の説明と対応する。
 
 **hex は何のためにあるか**: `--color-{role}` は常に2つの値を持つ。`:root` 直下に hex フォールバックが、`@supports (color: oklch(0 0 0))` ブロック内に `oklch(var(--mi-l-base) var(--mi-chroma-{role}) var(--mi-hue-{role}))` のような **primitive var() を合成した oklch()** が出力される。`oklch()` 非対応ブラウザは hex のみを描画し、対応ブラウザは primitive 変数の変更がリアルタイムに反映される。
 
@@ -467,7 +485,7 @@ Border Radius: 4px
 --color-{role}              ロール色の base 段階
 --color-{role}-{step}       ロール色の各明度段階（surface/subtle/muted/emphasis/strong）
 --color-{role}-alpha        ロール色の80%透過版
---color-{baseColor}         ベース色（green/cyan/indigo/purple/pink。role を経由せず hue/chroma を直接公開）の base のみ
+--color-{hueName}           ベース色（全11色相 red/orange/yellow/lime/green/teal/cyan/blue/indigo/purple/pink。role を経由せず hue/chroma を直接公開）の base + alpha のみ
 --color-{neutral}           無彩色テーマトークン（text-primary/bg-primary/border 等）
 --color-base-{token}        無彩色ベースパレット（テーマ不変、white/gray/black 系）
 
