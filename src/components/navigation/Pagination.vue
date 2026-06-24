@@ -255,7 +255,7 @@ const onClick = (page: number | undefined) => {
             color: var(--color-theme-text-primary);
             pointer-events: none;
             .pagination-item-button {
-                color: red;
+                color: var(--color-theme-link);
             }
         }
         &.is-disabled {

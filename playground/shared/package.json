@@ -8,6 +8,7 @@
     "./pages/FormsPage.vue": "./pages/FormsPage.vue",
     "./pages/FeedbackPage.vue": "./pages/FeedbackPage.vue",
     "./pages/NavigationPage.vue": "./pages/NavigationPage.vue",
+    "./pages/TokensPage.vue": "./pages/TokensPage.vue",
     "./styles/playground.css": "./styles/playground.css",
     "./validate": "./validate.ts"
   },
