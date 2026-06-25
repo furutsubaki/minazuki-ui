@@ -218,7 +218,7 @@ const hasSlot = (name: string) => {
             width: 100vw;
             pointer-events: initial;
             content: '';
-            background-color: var(--color-theme-shadow-alpha);
+            background-color: var(--color-shadow-alpha);
         }
     }
     .dialog-frame {
@@ -240,9 +240,9 @@ const hasSlot = (name: string) => {
     max-height: var(--c-dialog-max-height);
     padding: 8px 0;
     margin: auto;
-    color: var(--color-theme-text-primary);
+    color: var(--color-text-primary);
     pointer-events: initial;
-    background-color: var(--color-theme-bg-primary);
+    background-color: var(--color-bg-primary);
     border: 1px solid;
     border-color: var(--c-dialog-border-color);
     border-radius: var(--c-dialog-border-radius);
@@ -261,7 +261,7 @@ const hasSlot = (name: string) => {
         height: calc(var(--font-size-medium) * 1.8);
         margin: 0 8px;
         margin-right: 0;
-        color: var(--color-theme-bg-primary);
+        color: var(--color-bg-primary);
         fill: var(--c-dialog-icon-color);
     }
     .box {
@@ -301,33 +301,33 @@ const hasSlot = (name: string) => {
 /* ▼ variant ▼ */
 
 .primary {
-    --c-dialog-icon-color: var(--color-status-brand);
-    --c-dialog-border-color: var(--color-status-brand);
+    --c-dialog-icon-color: var(--color-brand);
+    --c-dialog-border-color: var(--color-brand);
 }
 
 .secondary {
     --c-dialog-icon-color: transparent;
-    --c-dialog-border-color: var(--color-theme-border);
+    --c-dialog-border-color: var(--color-border);
 }
 
 .info {
-    --c-dialog-icon-color: var(--color-status-info);
-    --c-dialog-border-color: var(--color-status-info);
+    --c-dialog-icon-color: var(--color-info);
+    --c-dialog-border-color: var(--color-info);
 }
 
 .success {
-    --c-dialog-icon-color: var(--color-status-success);
-    --c-dialog-border-color: var(--color-status-success);
+    --c-dialog-icon-color: var(--color-success);
+    --c-dialog-border-color: var(--color-success);
 }
 
 .warning {
-    --c-dialog-icon-color: var(--color-status-warning);
-    --c-dialog-border-color: var(--color-status-warning);
+    --c-dialog-icon-color: var(--color-warning);
+    --c-dialog-border-color: var(--color-warning);
 }
 
 .danger {
-    --c-dialog-icon-color: var(--color-status-danger);
-    --c-dialog-border-color: var(--color-status-danger);
+    --c-dialog-icon-color: var(--color-danger);
+    --c-dialog-border-color: var(--color-danger);
 }
 
 /* ▲ variant ▲ */

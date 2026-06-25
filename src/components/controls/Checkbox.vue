@@ -153,7 +153,7 @@ if (fieldVal.value == null && model.value != null) {
     /* required(not label) */
     .text.required::after {
         left: -0.5em;
-        color: var(--color-status-danger);
+        color: var(--color-danger);
         content: '*';
     }
 
@@ -180,13 +180,13 @@ if (fieldVal.value == null && model.value != null) {
     height: 1em;
     font-size: var(--font-size-small);
     line-height: 1em;
-    color: var(--color-theme-text-primary);
+    color: var(--color-text-primary);
     pointer-events: none;
     transition: 0.2s;
     &.required {
         &::after {
             left: -0.5em;
-            color: var(--color-status-danger);
+            color: var(--color-danger);
             content: '*';
         }
     }
@@ -211,39 +211,39 @@ if (fieldVal.value == null && model.value != null) {
 
 .error {
     font-size: var(--font-size-small);
-    color: var(--color-status-danger);
+    color: var(--color-danger);
 }
 
 /* ▼ variant ▼ */
 
 .primary {
-    --c-checkbox-hover-color: var(--color-status-brand);
-    --c-checkbox-is-checked-lucide-color: var(--color-status-brand);
+    --c-checkbox-hover-color: var(--color-brand);
+    --c-checkbox-is-checked-lucide-color: var(--color-brand);
 }
 
 /* .secondary {
-    --c-checkbox-hover-color: var(--color-status-brand);
-    --c-checkbox-is-checked-lucide-color: var(--color-status-brand);
+    --c-checkbox-hover-color: var(--color-brand);
+    --c-checkbox-is-checked-lucide-color: var(--color-brand);
 } */
 
 .info {
-    --c-checkbox-hover-color: var(--color-status-info);
-    --c-checkbox-is-checked-lucide-color: var(--color-status-info);
+    --c-checkbox-hover-color: var(--color-info);
+    --c-checkbox-is-checked-lucide-color: var(--color-info);
 }
 
 .success {
-    --c-checkbox-hover-color: var(--color-status-success);
-    --c-checkbox-is-checked-lucide-color: var(--color-status-success);
+    --c-checkbox-hover-color: var(--color-success);
+    --c-checkbox-is-checked-lucide-color: var(--color-success);
 }
 
 .warning {
-    --c-checkbox-hover-color: var(--color-status-warning);
-    --c-checkbox-is-checked-lucide-color: var(--color-status-warning);
+    --c-checkbox-hover-color: var(--color-warning);
+    --c-checkbox-is-checked-lucide-color: var(--color-warning);
 }
 
 .danger {
-    --c-checkbox-hover-color: var(--color-status-danger);
-    --c-checkbox-is-checked-lucide-color: var(--color-status-danger);
+    --c-checkbox-hover-color: var(--color-danger);
+    --c-checkbox-is-checked-lucide-color: var(--color-danger);
 }
 
 /* ▲ variant ▲ */

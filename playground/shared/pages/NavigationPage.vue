@@ -78,7 +78,7 @@ const bottomNavItems = [
 
         <section class="pg-section">
             <h2>BottomNav（プレビュー）</h2>
-            <p style="margin-bottom: 12px; font-size: var(--font-size-medium); color: var(--color-theme-text-secondary);">
+            <p style="margin-bottom: 12px; font-size: var(--font-size-medium); color: var(--color-text-secondary);">
                 ※ 通常は画面下部に固定表示されます。ここでは no-shadow で表示しています。
             </p>
             <MiBottomNav :items="bottomNavItems" no-shadow />

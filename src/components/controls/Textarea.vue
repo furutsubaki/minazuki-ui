@@ -198,8 +198,15 @@ onMounted(() => {
 
         /* field-sizing: content; 後に登場予定。まだ未実装 */
         resize: none;
+        outline: none;
         background-color: transparent;
         border: 0;
+        box-shadow: none;
+    }
+    .textarea:focus,
+    .textarea:focus-visible {
+        outline: none;
+        box-shadow: none;
     }
 
     @media (hover: hover) {

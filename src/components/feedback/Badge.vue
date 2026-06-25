@@ -86,32 +86,32 @@ const formatedContent = computed(() => {
 
 .primary {
     --c-badge-color: var(--color-base-white);
-    --c-badge-background-color: var(--color-status-brand);
+    --c-badge-background-color: var(--color-brand);
 }
 
 .secondary {
-    --c-badge-color: var(--color-theme-text-primary);
-    --c-badge-background-color: var(--color-theme-border);
+    --c-badge-color: var(--color-text-primary);
+    --c-badge-background-color: var(--color-border);
 }
 
 .info {
-    --c-badge-color: var(--color-theme-text-primary);
-    --c-badge-background-color: var(--color-status-info);
+    --c-badge-color: var(--color-text-primary);
+    --c-badge-background-color: var(--color-info);
 }
 
 .success {
     --c-badge-color: var(--color-base-white);
-    --c-badge-background-color: var(--color-status-success);
+    --c-badge-background-color: var(--color-success);
 }
 
 .warning {
     --c-badge-color: var(--color-base-black);
-    --c-badge-background-color: var(--color-status-warning);
+    --c-badge-background-color: var(--color-warning);
 }
 
 .danger {
     --c-badge-color: var(--color-base-white);
-    --c-badge-background-color: var(--color-status-danger);
+    --c-badge-background-color: var(--color-danger);
 }
 
 /* ▲ variant ▲ */

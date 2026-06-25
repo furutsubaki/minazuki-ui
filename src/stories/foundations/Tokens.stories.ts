@@ -110,10 +110,10 @@ const TokensPage = defineComponent({
     template: `
         <div style="font-family: var(--font-sans); font-size: var(--font-size-medium); line-height: 1.5em;">
             <section style="margin-bottom: 40px;">
-                <h2 style="padding-bottom: 8px; margin-bottom: 16px; font-size: var(--font-size-large); font-weight: bold; border-bottom: 1px solid var(--color-theme-border);">Tokens</h2>
+                <h2 style="padding-bottom: 8px; margin-bottom: 16px; font-size: var(--font-size-large); font-weight: bold; border-bottom: 1px solid var(--color-border);">Tokens</h2>
                 <p style="margin-bottom: 16px; font-size: var(--font-size-medium);">
                     minazuki-ui が提供する CSS 変数の一覧とサンプルです。Storybook 上部のテーマ切り替えで Light / Dark
-                    双方の見た目を確認できます。詳細な命名規則・override 方法は <code style="padding: 2px 6px; font-size: var(--font-size-small); background-color: var(--color-theme-bg-secondary); border-radius: 4px;">docs/DESIGN.md</code> を参照してください。
+                    双方の見た目を確認できます。詳細な命名規則・override 方法は <code style="padding: 2px 6px; font-size: var(--font-size-small); background-color: var(--color-bg-secondary); border-radius: 4px;">docs/DESIGN.md</code> を参照してください。
                 </p>
             </section>
 
@@ -126,14 +126,14 @@ const TokensPage = defineComponent({
                 <table style="width: 100%; margin-bottom: 24px; font-size: var(--font-size-medium); border-collapse: collapse;">
                     <thead>
                         <tr>
-                            <th style="padding: 6px 12px; text-align: left; border: 1px solid var(--color-theme-border); background-color: var(--color-theme-bg-secondary);">段階</th>
-                            <th style="padding: 6px 12px; text-align: left; border: 1px solid var(--color-theme-border); background-color: var(--color-theme-bg-secondary);">用途</th>
+                            <th style="padding: 6px 12px; text-align: left; border: 1px solid var(--color-border); background-color: var(--color-bg-secondary);">段階</th>
+                            <th style="padding: 6px 12px; text-align: left; border: 1px solid var(--color-border); background-color: var(--color-bg-secondary);">用途</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="step in LADDER_USAGE" :key="step.suffix">
-                            <td style="padding: 6px 12px; border: 1px solid var(--color-theme-border);">{{ step.label }}</td>
-                            <td style="padding: 6px 12px; border: 1px solid var(--color-theme-border);">{{ step.usage }}</td>
+                            <td style="padding: 6px 12px; border: 1px solid var(--color-border);">{{ step.label }}</td>
+                            <td style="padding: 6px 12px; border: 1px solid var(--color-border);">{{ step.usage }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -143,10 +143,10 @@ const TokensPage = defineComponent({
                     <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 8px;">
                         <div v-for="step in LADDER_USAGE" :key="step.suffix" style="width: 120px;">
                             <div
-                                style="height: 56px; border: 1px solid var(--color-theme-border); border-radius: 4px;"
+                                style="height: 56px; border: 1px solid var(--color-border); border-radius: 4px;"
                                 :style="{ backgroundColor: \`var(\${varName(role.key, step.suffix)})\` }"
                             />
-                            <div style="margin-top: 4px; font-family: monospace; font-size: var(--font-size-small); color: var(--color-theme-text-secondary); overflow-wrap: anywhere;">
+                            <div style="margin-top: 4px; font-family: monospace; font-size: var(--font-size-small); color: var(--color-text-secondary); overflow-wrap: anywhere;">
                                 {{ step.label }}<br>
                                 {{ varName(role.key, step.suffix) }}
                             </div>
@@ -161,20 +161,20 @@ const TokensPage = defineComponent({
                     ロール色は role を経由して hue/chroma を間接参照しますが、ベース色は role の有無に関わらず全 11 色相の
                     プリミティブ（hue/chroma）をそのまま公開したものです。明度ラダーは展開されず Base / Alpha のみです。
                     role が紐付く色相（Teal / Lime / Blue / Yellow / Red / Orange）は対応する role の Base 値と基本的に
-                    同一になりますが、Warning（Yellow）のみ <code style="padding: 2px 6px; font-size: var(--font-size-small); background-color: var(--color-theme-bg-secondary); border-radius: 4px;">lightnessOffset</code> の分だけ見た目が異なります。
+                    同一になりますが、Warning（Yellow）のみ <code style="padding: 2px 6px; font-size: var(--font-size-small); background-color: var(--color-bg-secondary); border-radius: 4px;">lightnessOffset</code> の分だけ見た目が異なります。
                 </p>
                 <div v-for="color in BASE_COLORS" :key="color.key" style="margin-bottom: 24px;">
                     <h3 style="margin-bottom: 8px; font-size: var(--font-size-medium); font-weight: bold;">
                         {{ color.label }}
-                        <span v-if="color.role" style="font-weight: normal; font-size: var(--font-size-small); color: var(--color-theme-text-secondary);">（Role: {{ color.role }}）</span>
+                        <span v-if="color.role" style="font-weight: normal; font-size: var(--font-size-small); color: var(--color-text-secondary);">（Role: {{ color.role }}）</span>
                     </h3>
                     <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 8px;">
                         <div v-for="step in BASE_ALPHA_LADDER" :key="step.suffix" style="width: 120px;">
                             <div
-                                style="height: 56px; border: 1px solid var(--color-theme-border); border-radius: 4px;"
+                                style="height: 56px; border: 1px solid var(--color-border); border-radius: 4px;"
                                 :style="{ backgroundColor: \`var(\${varName(color.key, step.suffix)})\` }"
                             />
-                            <div style="margin-top: 4px; font-family: monospace; font-size: var(--font-size-small); color: var(--color-theme-text-secondary); overflow-wrap: anywhere;">
+                            <div style="margin-top: 4px; font-family: monospace; font-size: var(--font-size-small); color: var(--color-text-secondary); overflow-wrap: anywhere;">
                                 {{ step.label }}<br>
                                 {{ varName(color.key, step.suffix) }}
                             </div>
@@ -189,10 +189,10 @@ const TokensPage = defineComponent({
                     <template v-for="neutral in NEUTRALS" :key="neutral.key">
                         <div v-for="step in BASE_ALPHA_LADDER" :key="step.suffix" style="width: 120px;">
                             <div
-                                style="height: 56px; border: 1px solid var(--color-theme-border); border-radius: 4px;"
+                                style="height: 56px; border: 1px solid var(--color-border); border-radius: 4px;"
                                 :style="{ backgroundColor: \`var(\${varName(neutral.key, step.suffix)})\` }"
                             />
-                            <div style="margin-top: 4px; font-family: monospace; font-size: var(--font-size-small); color: var(--color-theme-text-secondary); overflow-wrap: anywhere;">
+                            <div style="margin-top: 4px; font-family: monospace; font-size: var(--font-size-small); color: var(--color-text-secondary); overflow-wrap: anywhere;">
                                 {{ neutral.label }} {{ step.label }}<br>
                                 {{ varName(neutral.key, step.suffix) }}
                             </div>
@@ -207,10 +207,10 @@ const TokensPage = defineComponent({
                     <template v-for="base in BASE_PALETTE" :key="base.key">
                         <div v-for="step in BASE_ALPHA_LADDER" :key="step.suffix" style="width: 120px;">
                             <div
-                                style="height: 56px; border: 1px solid var(--color-theme-border); border-radius: 4px;"
+                                style="height: 56px; border: 1px solid var(--color-border); border-radius: 4px;"
                                 :style="{ backgroundColor: \`var(\${varName(\`base-\${base.key}\`, step.suffix)})\` }"
                             />
-                            <div style="margin-top: 4px; font-family: monospace; font-size: var(--font-size-small); color: var(--color-theme-text-secondary); overflow-wrap: anywhere;">
+                            <div style="margin-top: 4px; font-family: monospace; font-size: var(--font-size-small); color: var(--color-text-secondary); overflow-wrap: anywhere;">
                                 {{ base.label }} {{ step.label }}<br>
                                 {{ varName(\`base-\${base.key}\`, step.suffix) }}
                             </div>
@@ -222,16 +222,16 @@ const TokensPage = defineComponent({
             <section style="margin-bottom: 40px;">
                 <h3 style="margin-bottom: 8px; font-size: var(--font-size-medium); font-weight: bold;">後方互換エイリアス</h3>
                 <p style="margin-bottom: 16px; font-size: var(--font-size-medium);">
-                    旧バージョン（1層構造）のトークン名です。<code style="padding: 2px 6px; font-size: var(--font-size-small); background-color: var(--color-theme-bg-secondary); border-radius: 4px;">var()</code> 経由で新トークンを参照するため、見た目は対応する新トークンと同一になります。
+                    旧バージョン（1層構造）のトークン名です。<code style="padding: 2px 6px; font-size: var(--font-size-small); background-color: var(--color-bg-secondary); border-radius: 4px;">var()</code> 経由で新トークンを参照するため、見た目は対応する新トークンと同一になります。
                 </p>
                 <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 8px;">
                     <template v-for="alias in BACKWARD_COMPAT_ALIASES" :key="alias.key">
                         <div v-for="step in BASE_ALPHA_LADDER" :key="step.suffix" style="width: 120px;">
                             <div
-                                style="height: 56px; border: 1px solid var(--color-theme-border); border-radius: 4px;"
+                                style="height: 56px; border: 1px solid var(--color-border); border-radius: 4px;"
                                 :style="{ backgroundColor: \`var(\${varName(alias.key, step.suffix)})\` }"
                             />
-                            <div style="margin-top: 4px; font-family: monospace; font-size: var(--font-size-small); color: var(--color-theme-text-secondary); overflow-wrap: anywhere;">
+                            <div style="margin-top: 4px; font-family: monospace; font-size: var(--font-size-small); color: var(--color-text-secondary); overflow-wrap: anywhere;">
                                 {{ alias.label }} {{ step.label }}<br>
                                 {{ varName(alias.key, step.suffix) }}
                             </div>
@@ -243,16 +243,16 @@ const TokensPage = defineComponent({
             <section>
                 <h3 style="margin-bottom: 8px; font-size: var(--font-size-medium); font-weight: bold;">Typography</h3>
                 <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px;">
-                    <div style="padding: 12px; background-color: var(--color-theme-bg-secondary); border-radius: 4px; font-size: var(--font-size-large);">
-                        <div style="margin-top: 4px; font-family: monospace; font-size: var(--font-size-small); color: var(--color-theme-text-secondary);">--font-size-large</div>
+                    <div style="padding: 12px; background-color: var(--color-bg-secondary); border-radius: 4px; font-size: var(--font-size-large);">
+                        <div style="margin-top: 4px; font-family: monospace; font-size: var(--font-size-small); color: var(--color-text-secondary);">--font-size-large</div>
                         あいうえお 0123456789
                     </div>
-                    <div style="padding: 12px; background-color: var(--color-theme-bg-secondary); border-radius: 4px; font-size: var(--font-size-medium);">
-                        <div style="margin-top: 4px; font-family: monospace; font-size: var(--font-size-small); color: var(--color-theme-text-secondary);">--font-size-medium</div>
+                    <div style="padding: 12px; background-color: var(--color-bg-secondary); border-radius: 4px; font-size: var(--font-size-medium);">
+                        <div style="margin-top: 4px; font-family: monospace; font-size: var(--font-size-small); color: var(--color-text-secondary);">--font-size-medium</div>
                         あいうえお 0123456789
                     </div>
-                    <div style="padding: 12px; background-color: var(--color-theme-bg-secondary); border-radius: 4px; font-size: var(--font-size-small);">
-                        <div style="margin-top: 4px; font-family: monospace; font-size: var(--font-size-small); color: var(--color-theme-text-secondary);">--font-size-small</div>
+                    <div style="padding: 12px; background-color: var(--color-bg-secondary); border-radius: 4px; font-size: var(--font-size-small);">
+                        <div style="margin-top: 4px; font-family: monospace; font-size: var(--font-size-small); color: var(--color-text-secondary);">--font-size-small</div>
                         あいうえお 0123456789
                     </div>
                 </div>

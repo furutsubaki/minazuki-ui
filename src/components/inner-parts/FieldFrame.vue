@@ -164,7 +164,7 @@ defineExpose({ frameRef });
         min-height: var(--c-field-frame-height);
         line-height: 1.5em;
         text-align: left;
-        background-color: var(--color-theme-bg-primary);
+        background-color: var(--color-bg-primary);
         border-color: var(--c-field-frame-border-color);
         border-radius: 4px;
         transition:
@@ -215,7 +215,6 @@ defineExpose({ frameRef });
             border-width: var(--c-field-frame-border-width);
             border-right: 0;
             border-left: 0;
-            transition: border-width 0.2s;
             &::before {
                 position: absolute;
                 top: -2px;
@@ -245,7 +244,7 @@ defineExpose({ frameRef });
                     height: 1em;
                     line-height: 1em;
                     vertical-align: baseline;
-                    color: var(--color-theme-text-secondary);
+                    color: var(--color-text-secondary);
                     transition: color 0.2s;
                 }
                 .placeholder {
@@ -253,7 +252,7 @@ defineExpose({ frameRef });
                     font-size: var(--font-size-small);
                     line-height: 1em;
                     vertical-align: baseline;
-                    color: var(--color-theme-text-secondary);
+                    color: var(--color-text-secondary);
                 }
             }
         }
@@ -261,9 +260,9 @@ defineExpose({ frameRef });
             flex-grow: 1;
         }
         .frame-counter {
-            border-top-color: transparent !important;
+            border-top-color: transparent;
             &::before {
-                border-top-color: transparent !important;
+                border-top-color: transparent;
             }
             .counter {
                 display: flex;
@@ -288,7 +287,7 @@ defineExpose({ frameRef });
     &.is-required > .frame > .frame-box > .frame-label > .label-box > .label {
         &::after {
             left: -0.5em;
-            color: var(--color-status-danger);
+            color: var(--color-danger);
             content: '*';
         }
     }
@@ -307,9 +306,7 @@ defineExpose({ frameRef });
             .frame-label,
             .frame-grow,
             .frame-counter {
-                &::before {
-                    border-color: var(--c-field-frame-border-color);
-                }
+                --c-field-frame-border-width: 2px;
             }
         }
     }
@@ -322,7 +319,7 @@ defineExpose({ frameRef });
             font-size: var(--font-size-small);
             transform: translateY(-50%);
             .label {
-                color: var(--color-theme-text-primary);
+                color: var(--color-text-primary);
             }
         }
     }
@@ -336,9 +333,7 @@ defineExpose({ frameRef });
                 .frame-label,
                 .frame-grow,
                 .frame-counter {
-                    &::before {
-                        border-color: var(--c-field-frame-border-color);
-                    }
+                    --c-field-frame-border-width: 2px;
                 }
             }
             &:is(.is-inputed, .is-focus) {
@@ -383,33 +378,33 @@ defineExpose({ frameRef });
 
 .error {
     font-size: var(--font-size-small);
-    color: var(--color-status-danger);
+    color: var(--color-danger);
 }
 
 /* ▼ variant ▼ */
 
 .primary {
-    --c-field-frame-border-color: var(--color-status-brand);
+    --c-field-frame-border-color: var(--color-brand);
 }
 
 .secondary {
-    --c-field-frame-border-color: var(--color-theme-border);
+    --c-field-frame-border-color: var(--color-border);
 }
 
 .info {
-    --c-field-frame-border-color: var(--color-status-info);
+    --c-field-frame-border-color: var(--color-info);
 }
 
 .success {
-    --c-field-frame-border-color: var(--color-status-success);
+    --c-field-frame-border-color: var(--color-success);
 }
 
 .warning {
-    --c-field-frame-border-color: var(--color-status-warning);
+    --c-field-frame-border-color: var(--color-warning);
 }
 
 .danger {
-    --c-field-frame-border-color: var(--color-status-danger);
+    --c-field-frame-border-color: var(--color-danger);
 }
 
 /* ▲ variant ▲ */

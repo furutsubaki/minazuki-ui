@@ -84,14 +84,14 @@ defineExpose({ onTransitionStart, onTransitionEnd });
     transform: translate(0, 0);
     transition:
         transform v-bind(duration) v-bind(easeFunction) v-bind(delay),
-        opacity v-bind(duration) v-bind(easeFunction) v-bind(delay) !important;
+        opacity v-bind(duration) v-bind(easeFunction) v-bind(delay);
 }
 
 /* from top-rebound */
 
 .top-rebound-enter-from,
 .top-rebound-leave-to {
-    opacity: 0 !important;
+    opacity: 0;
 
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
     transform: translateY(-100%);
@@ -101,7 +101,7 @@ defineExpose({ onTransitionStart, onTransitionEnd });
 
 .right-rebound-enter-from,
 .right-rebound-leave-to {
-    opacity: 0 !important;
+    opacity: 0;
 
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
     transform: translateX(100%);
@@ -111,7 +111,7 @@ defineExpose({ onTransitionStart, onTransitionEnd });
 
 .bottom-rebound-enter-from,
 .bottom-rebound-leave-to {
-    opacity: 0 !important;
+    opacity: 0;
 
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
     transform: translateY(100%);
@@ -121,7 +121,7 @@ defineExpose({ onTransitionStart, onTransitionEnd });
 
 .left-rebound-enter-from,
 .left-rebound-leave-to {
-    opacity: 0 !important;
+    opacity: 0;
 
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
     transform: translateX(-100vw);
@@ -132,7 +132,7 @@ defineExpose({ onTransitionStart, onTransitionEnd });
 .top-enter-from,
 .top-leave-to {
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
-    opacity: 0 !important;
+    opacity: 0;
 }
 
 .top-enter-from {
@@ -148,7 +148,7 @@ defineExpose({ onTransitionStart, onTransitionEnd });
 .right-enter-from,
 .right-leave-to {
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
-    opacity: 0 !important;
+    opacity: 0;
 }
 
 .right-enter-from {
@@ -164,7 +164,7 @@ defineExpose({ onTransitionStart, onTransitionEnd });
 .bottom-enter-from,
 .bottom-leave-to {
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
-    opacity: 0 !important;
+    opacity: 0;
 }
 
 .bottom-enter-from {
@@ -180,7 +180,7 @@ defineExpose({ onTransitionStart, onTransitionEnd });
 .left-enter-from,
 .left-leave-to {
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
-    opacity: 0 !important;
+    opacity: 0;
 }
 
 .left-enter-from {

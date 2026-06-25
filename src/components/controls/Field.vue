@@ -393,8 +393,15 @@ defineExpose({ onCloseDatePicker, isFocus, datePickerScrollObserver });
         height: var(--c-field-height);
         padding: 0;
         line-height: 1.5em;
+        outline: none;
         background-color: transparent;
         border: 0;
+        box-shadow: none;
+    }
+    .input:focus,
+    .input:focus-visible {
+        outline: none;
+        box-shadow: none;
     }
     [type='time'] {
         color: transparent;
@@ -409,10 +416,10 @@ defineExpose({ onCloseDatePicker, isFocus, datePickerScrollObserver });
     &.is-focus,
     &.is-value {
         [type='time'] {
-            color: var(--color-theme-text-primary);
+            color: var(--color-text-primary);
         }
         .prefix-suffix {
-            color: var(--color-theme-text-primary);
+            color: var(--color-text-primary);
         }
     }
     [type='search'] {
