@@ -14,6 +14,13 @@ import '@vuepic/vue-datepicker/dist/main.css';
 import useTheme from '../src/composables/useTheme';
 import { createHead } from '@unhead/vue';
 
+const { currentTheme, setTheme } = useTheme();
+
+const applyTheme = (themeId: string) => {
+    currentTheme.value = themeId;
+    setTheme(themeId);
+};
+
 Object.entries(all).forEach(([name, rule]) => {
     defineRule(name, rule);
 });
@@ -26,9 +33,8 @@ setup((app) => {
     const head = createHead();
     app.use(head);
     app.use(useTheme);
-    const { currentTheme, setTheme } = useTheme();
     // 初期style設定
-    setTheme(currentTheme.value);
+    applyTheme(currentTheme.value);
 })
 
 const preview: Preview = {
@@ -66,8 +72,8 @@ const preview: Preview = {
 
             // 背景色をcss変数と同期させる
             // Storybook 10: globals.backgrounds.value is the option key ('light' | 'dark')
-            const currentTheme = context.globals.backgrounds?.value || 'light';
-            document.documentElement.dataset.theme = currentTheme;
+            const selectedTheme = context.globals.backgrounds?.value || 'light';
+            applyTheme(selectedTheme);
             document.body.style.cssText = 'background-color: var(--color-theme-bg-primary) !important;';
 
             // Storybook 10: pass story function directly (do not call it)
