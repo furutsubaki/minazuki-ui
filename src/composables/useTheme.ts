@@ -168,7 +168,7 @@ const HUES: Record<string, number> = {
 };
 const CHROMAS: Record<string, number> = {
     red: 0.22,
-    orange: 0.15,
+    orange: 0.22,
     yellow: 0.16,
     lime: 0.15,
     green: 0.13,

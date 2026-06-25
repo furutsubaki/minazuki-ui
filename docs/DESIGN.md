@@ -37,7 +37,7 @@ Layer 3: Semantic（最終カラー。hex フォールバック + oklch() 合成
 | Name | Hue (deg) | Chroma | 用途 |
 |------|-----------|--------|------|
 | Red | 25 | 0.22 | Danger |
-| Orange | 55 | 0.15 | Link |
+| Orange | 55 | 0.22 | Link |
 | Yellow | 95 | 0.16 | Warning |
 | Lime | 135 | 0.15 | Info |
 | Green | 160 | 0.13 | ベース色 |
