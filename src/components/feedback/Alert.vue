@@ -145,38 +145,38 @@ const onClosed = async () => {
 
 .primary {
     --c-alert-color: var(--color-base-white);
-    --c-alert-background-color: var(--color-brand);
-    --c-alert-border-color: var(--color-brand);
+    --c-alert-background-color: var(--color-status-brand);
+    --c-alert-border-color: var(--color-status-brand);
 }
 
 .secondary {
-    --c-alert-color: var(--color-text-primary);
+    --c-alert-color: var(--color-theme-text-primary);
     --c-alert-background-color: transparent;
-    --c-alert-border-color: var(--color-border);
+    --c-alert-border-color: var(--color-theme-border);
 }
 
 .info {
-    --c-alert-color: var(--color-text-primary);
-    --c-alert-background-color: var(--color-info);
-    --c-alert-border-color: var(--color-info);
+    --c-alert-color: var(--color-theme-text-primary);
+    --c-alert-background-color: var(--color-status-info);
+    --c-alert-border-color: var(--color-status-info);
 }
 
 .success {
     --c-alert-color: var(--color-base-white);
-    --c-alert-background-color: var(--color-success);
-    --c-alert-border-color: var(--color-success);
+    --c-alert-background-color: var(--color-status-success);
+    --c-alert-border-color: var(--color-status-success);
 }
 
 .warning {
     --c-alert-color: var(--color-base-black);
-    --c-alert-background-color: var(--color-warning);
-    --c-alert-border-color: var(--color-warning);
+    --c-alert-background-color: var(--color-status-warning);
+    --c-alert-border-color: var(--color-status-warning);
 }
 
 .danger {
     --c-alert-color: var(--color-base-white);
-    --c-alert-background-color: var(--color-danger);
-    --c-alert-border-color: var(--color-danger);
+    --c-alert-background-color: var(--color-status-danger);
+    --c-alert-border-color: var(--color-status-danger);
 }
 
 /* ▼ shape ▼ */

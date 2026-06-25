@@ -50,8 +50,6 @@ withDefaults(
 <style scoped>
 .frame {
     --c-frame-padding: 8px;
-    --c-frame-border-color: var(--color-border);
-    --c-frame-shadow-color: var(--color-shadow);
 
     position: relative;
     border-radius: var(--c-frame-border-radius);
@@ -69,11 +67,11 @@ withDefaults(
     }
     &::before {
         background: rgb(0 0 0 / 2%);
-        box-shadow: 0 0 var(--c-frame-padding) var(--c-frame-shadow-color);
+        box-shadow: 0 0 var(--c-frame-padding) var(--color-theme-shadow);
     }
     &::after {
         padding: 0;
-        border: solid var(--c-frame-border-color);
+        border: solid var(--color-theme-border);
         border-width: 1px;
     }
     &.is-pading {

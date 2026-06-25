@@ -10,7 +10,7 @@ const meta: Meta<typeof Frame> = {
             return { args };
         },
         template:
-            '<Frame v-bind="args" style="width:250px; height: 250px;"><div style="width:100%; height: 100%;background-color: var(--color-bg-secondary); display: flex;align-items: center; justify-content: center;">Contents</div></Frame>'
+            '<Frame v-bind="args" style="width:250px; height: 250px;"><div style="width:100%; height: 100%;background-color: var(--color-theme-bg-secondary); display: flex;align-items: center; justify-content: center;">Contents</div></Frame>'
     }),
     args: {},
     argTypes: {}
@@ -51,7 +51,7 @@ export const PropsLayout: Story = {
             ])
         }),
         template:
-            '<Frame v-for="param in params" :key="param.layout" v-bind="{...args, ...param}" style="width:250px; height: 250px;"><div style="width:100%; height: 100%;background-color: var(--color-bg-secondary); display: flex;align-items: center; justify-content: center;">{{param.layout}}</div></Frame>'
+            '<Frame v-for="param in params" :key="param.layout" v-bind="{...args, ...param}" style="width:250px; height: 250px;"><div style="width:100%; height: 100%;background-color: var(--color-theme-bg-secondary); display: flex;align-items: center; justify-content: center;">{{param.layout}}</div></Frame>'
     }),
     args: { ...Default.args }
 };
@@ -71,7 +71,7 @@ export const PropsShape: Story = {
             ])
         }),
         template:
-            '<Frame v-for="param in params" :key="param.shape" v-bind="{...args, ...param}" style="width:250px; height: 250px;"><div style="width:100%; height: 100%;background-color: var(--color-bg-secondary); display: flex;align-items: center; justify-content: center;">{{param.shape}}</div></Frame>'
+            '<Frame v-for="param in params" :key="param.shape" v-bind="{...args, ...param}" style="width:250px; height: 250px;"><div style="width:100%; height: 100%;background-color: var(--color-theme-bg-secondary); display: flex;align-items: center; justify-content: center;">{{param.shape}}</div></Frame>'
     }),
     args: { ...Default.args }
 };

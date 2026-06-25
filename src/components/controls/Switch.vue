@@ -133,7 +133,7 @@ if (fieldVal.value == null && model.value != null) {
         position: relative;
         width: calc(var(--c-switch-font-size) * 2);
         height: var(--c-switch-font-size);
-        background-color: var(--color-border);
+        background-color: var(--color-theme-border);
         border-radius: 1em;
         transition: background-color 0.2s;
         .switch-icon {
@@ -144,7 +144,7 @@ if (fieldVal.value == null && model.value != null) {
             justify-content: center;
             width: var(--c-switch-font-size);
             height: var(--c-switch-font-size);
-            background-color: var(--color-text-secondary);
+            background-color: var(--color-theme-text-secondary);
             border-radius: 1em;
             transform: scale(1.5);
             transition: background-color 0.2s;
@@ -158,7 +158,7 @@ if (fieldVal.value == null && model.value != null) {
                 color: var(--c-switch-switch-icon-true-color);
             }
             .switch-icon-false {
-                color: var(--color-text-secondary);
+                color: var(--color-theme-text-secondary);
             }
         }
     }
@@ -179,7 +179,7 @@ if (fieldVal.value == null && model.value != null) {
     /* required(not label) */
     .text.required::after {
         left: -0.5em;
-        color: var(--color-danger);
+        color: var(--color-status-danger);
         content: '*';
     }
 
@@ -206,13 +206,13 @@ if (fieldVal.value == null && model.value != null) {
     height: 1em;
     font-size: var(--font-size-small);
     line-height: 1em;
-    color: var(--color-text-primary);
+    color: var(--color-theme-text-primary);
     pointer-events: none;
     transition: 0.2s;
     &.required {
         &::after {
             left: -0.5em;
-            color: var(--color-danger);
+            color: var(--color-status-danger);
             content: '*';
         }
     }
@@ -242,51 +242,51 @@ if (fieldVal.value == null && model.value != null) {
 
 .error {
     font-size: var(--font-size-small);
-    color: var(--color-danger);
+    color: var(--color-status-danger);
 }
 
 /* ▼ variant ▼ */
 
 .primary {
-    --c-switch-hover-color: var(--color-brand);
-    --c-switch-switch-icon-true-color: var(--color-brand);
-    --c-switch-switch-background-color: var(--color-brand-alpha);
-    --c-switch-switch-icon-background-color: var(--color-brand);
+    --c-switch-hover-color: var(--color-status-brand);
+    --c-switch-switch-icon-true-color: var(--color-status-brand);
+    --c-switch-switch-background-color: var(--color-status-brand-alpha);
+    --c-switch-switch-icon-background-color: var(--color-status-brand);
 }
 
 .secondary {
-    --c-switch-hover-color: var(--color-text-primary);
-    --c-switch-switch-icon-true-color: var(--color-text-primary);
-    --c-switch-switch-background-color: var(--color-border);
-    --c-switch-switch-icon-background-color: var(--color-text-primary);
+    --c-switch-hover-color: var(--color-theme-text-primary);
+    --c-switch-switch-icon-true-color: var(--color-theme-text-primary);
+    --c-switch-switch-background-color: var(--color-theme-border);
+    --c-switch-switch-icon-background-color: var(--color-theme-text-primary);
 }
 
 .info {
-    --c-switch-hover-color: var(--color-info);
-    --c-switch-switch-icon-true-color: var(--color-info);
-    --c-switch-switch-background-color: var(--color-info-alpha);
-    --c-switch-switch-icon-background-color: var(--color-info);
+    --c-switch-hover-color: var(--color-status-info);
+    --c-switch-switch-icon-true-color: var(--color-status-info);
+    --c-switch-switch-background-color: var(--color-status-info-alpha);
+    --c-switch-switch-icon-background-color: var(--color-status-info);
 }
 
 .success {
-    --c-switch-hover-color: var(--color-success);
-    --c-switch-switch-icon-true-color: var(--color-success);
-    --c-switch-switch-background-color: var(--color-success-alpha);
-    --c-switch-switch-icon-background-color: var(--color-success);
+    --c-switch-hover-color: var(--color-status-success);
+    --c-switch-switch-icon-true-color: var(--color-status-success);
+    --c-switch-switch-background-color: var(--color-status-success-alpha);
+    --c-switch-switch-icon-background-color: var(--color-status-success);
 }
 
 .warning {
-    --c-switch-hover-color: var(--color-warning);
-    --c-switch-switch-icon-true-color: var(--color-warning);
-    --c-switch-switch-background-color: var(--color-warning-alpha);
-    --c-switch-switch-icon-background-color: var(--color-warning);
+    --c-switch-hover-color: var(--color-status-warning);
+    --c-switch-switch-icon-true-color: var(--color-status-warning);
+    --c-switch-switch-background-color: var(--color-status-warning-alpha);
+    --c-switch-switch-icon-background-color: var(--color-status-warning);
 }
 
 .danger {
-    --c-switch-hover-color: var(--color-danger);
-    --c-switch-switch-icon-true-color: var(--color-danger);
-    --c-switch-switch-background-color: var(--color-danger-alpha);
-    --c-switch-switch-icon-background-color: var(--color-danger);
+    --c-switch-hover-color: var(--color-status-danger);
+    --c-switch-switch-icon-true-color: var(--color-status-danger);
+    --c-switch-switch-background-color: var(--color-status-danger-alpha);
+    --c-switch-switch-icon-background-color: var(--color-status-danger);
 }
 
 /* ▲ variant ▲ */

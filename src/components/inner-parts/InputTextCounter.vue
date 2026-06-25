@@ -21,7 +21,7 @@ const currentTextCount = computed(() => props.text?.length || 0);
 .component-counter {
     font-size: var(--font-size-small);
     &.is-error {
-        color: var(--color-danger);
+        color: var(--color-status-danger);
     }
 }
 </style>

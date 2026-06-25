@@ -52,12 +52,12 @@ defineExpose({ onTransitionStart, onTransitionEnd });
 .v-enter-active,
 .v-leave-active {
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
-    transition: opacity v-bind(duration) v-bind(easeFunction) v-bind(delay);
+    transition: opacity v-bind(duration) v-bind(easeFunction) v-bind(delay) !important;
 }
 
 .v-enter-from,
 .v-leave-to {
     /* 親側のopacityと競合する場合があるため、こちらを優先とする */
-    opacity: 0;
+    opacity: 0 !important;
 }
 </style>

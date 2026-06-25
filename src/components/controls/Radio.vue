@@ -152,7 +152,7 @@ if (fieldVal.value == null && model.value != null) {
     /* required(not label) */
     .text.required::after {
         left: -0.5em;
-        color: var(--color-danger);
+        color: var(--color-status-danger);
         content: '*';
     }
 
@@ -179,13 +179,13 @@ if (fieldVal.value == null && model.value != null) {
     height: 1em;
     font-size: var(--font-size-small);
     line-height: 1em;
-    color: var(--color-text-primary);
+    color: var(--color-theme-text-primary);
     pointer-events: none;
     transition: 0.2s;
     &.required {
         &::after {
             left: -0.5em;
-            color: var(--color-danger);
+            color: var(--color-status-danger);
             content: '*';
         }
     }
@@ -210,39 +210,39 @@ if (fieldVal.value == null && model.value != null) {
 
 .error {
     font-size: var(--font-size-small);
-    color: var(--color-danger);
+    color: var(--color-status-danger);
 }
 
 /* ▼ variant ▼ */
 
 .primary {
-    --c-radio-hover-color: var(--color-brand);
-    --c-radio-is-checked-lucide-color: var(--color-brand);
+    --c-radio-hover-color: var(--color-status-brand);
+    --c-radio-is-checked-lucide-color: var(--color-status-brand);
 }
 
 /* .secondary {
-    --c-radio-hover-color: var(--color-brand);
-    --c-radio-is-checked-lucide-color: var(--color-brand);
+    --c-radio-hover-color: var(--color-status-brand);
+    --c-radio-is-checked-lucide-color: var(--color-status-brand);
 } */
 
 .info {
-    --c-radio-hover-color: var(--color-info);
-    --c-radio-is-checked-lucide-color: var(--color-info);
+    --c-radio-hover-color: var(--color-status-info);
+    --c-radio-is-checked-lucide-color: var(--color-status-info);
 }
 
 .success {
-    --c-radio-hover-color: var(--color-success);
-    --c-radio-is-checked-lucide-color: var(--color-success);
+    --c-radio-hover-color: var(--color-status-success);
+    --c-radio-is-checked-lucide-color: var(--color-status-success);
 }
 
 .warning {
-    --c-radio-hover-color: var(--color-warning);
-    --c-radio-is-checked-lucide-color: var(--color-warning);
+    --c-radio-hover-color: var(--color-status-warning);
+    --c-radio-is-checked-lucide-color: var(--color-status-warning);
 }
 
 .danger {
-    --c-radio-hover-color: var(--color-danger);
-    --c-radio-is-checked-lucide-color: var(--color-danger);
+    --c-radio-hover-color: var(--color-status-danger);
+    --c-radio-is-checked-lucide-color: var(--color-status-danger);
 }
 
 /* ▲ variant ▲ */

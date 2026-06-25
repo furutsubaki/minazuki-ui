@@ -252,10 +252,10 @@ const onClick = (page: number | undefined) => {
             height: 100%;
         }
         &.is-current {
-            color: var(--color-text-primary);
+            color: var(--color-theme-text-primary);
             pointer-events: none;
             .pagination-item-button {
-                color: var(--color-link);
+                color: red;
             }
         }
         &.is-disabled {

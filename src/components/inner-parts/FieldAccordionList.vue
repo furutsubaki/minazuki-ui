@@ -109,7 +109,7 @@ const onOutsideClick = computed(() => ({
     font-size: var(--c-field-accordion-font-size);
     line-height: 1.5em;
     cursor: pointer;
-    background-color: var(--color-bg-primary);
+    background-color: var(--color-theme-bg-primary);
     border: 1px solid var(--c-field-accordion-border-color);
     border-radius: 4px;
     opacity: 0;
@@ -138,17 +138,17 @@ const onOutsideClick = computed(() => ({
 
             @media (hover: hover) {
                 &:hover {
-                    background-color: var(--color-bg-secondary);
+                    background-color: var(--color-theme-bg-secondary);
                 }
             }
 
             @media (hover: none) {
                 &:active {
-                    background-color: var(--color-bg-secondary);
+                    background-color: var(--color-theme-bg-secondary);
                 }
             }
             &.is-selected {
-                background-color: var(--color-bg-secondary);
+                background-color: var(--color-theme-bg-secondary);
             }
             &.is-disabled {
                 pointer-events: none;
@@ -173,33 +173,33 @@ const onOutsideClick = computed(() => ({
 /* ▼ variant ▼ */
 
 .primary {
-    --c-field-accordion-hover-border-color: var(--color-brand);
-    --c-field-accordion-border-color: var(--color-brand);
+    --c-field-accordion-hover-border-color: var(--color-status-brand);
+    --c-field-accordion-border-color: var(--color-status-brand);
 }
 
 .secondary {
-    --c-field-accordion-hover-border-color: var(--color-border);
-    --c-field-accordion-border-color: var(--color-border);
+    --c-field-accordion-hover-border-color: var(--color-theme-border);
+    --c-field-accordion-border-color: var(--color-theme-border);
 }
 
 .info {
-    --c-field-accordion-hover-border-color: var(--color-info);
-    --c-field-accordion-border-color: var(--color-info);
+    --c-field-accordion-hover-border-color: var(--color-status-info);
+    --c-field-accordion-border-color: var(--color-status-info);
 }
 
 .success {
-    --c-field-accordion-hover-border-color: var(--color-success);
-    --c-field-accordion-border-color: var(--color-success);
+    --c-field-accordion-hover-border-color: var(--color-status-success);
+    --c-field-accordion-border-color: var(--color-status-success);
 }
 
 .warning {
-    --c-field-accordion-hover-border-color: var(--color-warning);
-    --c-field-accordion-border-color: var(--color-warning);
+    --c-field-accordion-hover-border-color: var(--color-status-warning);
+    --c-field-accordion-border-color: var(--color-status-warning);
 }
 
 .danger {
-    --c-field-accordion-hover-border-color: var(--color-danger);
-    --c-field-accordion-border-color: var(--color-danger);
+    --c-field-accordion-hover-border-color: var(--color-status-danger);
+    --c-field-accordion-border-color: var(--color-status-danger);
 }
 
 /* ▲ variant ▲ */

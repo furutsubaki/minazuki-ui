@@ -45,8 +45,6 @@ withDefaults(
 <style scoped>
 .picture-frame {
     --c-picture-frame-padding: 8px;
-    --c-picture-frame-border-color: var(--color-border);
-    --c-picture-frame-shadow-color: var(--color-shadow);
 
     position: relative;
     padding: var(--c-picture-frame-padding);
@@ -60,7 +58,7 @@ withDefaults(
         pointer-events: none;
         content: '';
         background: rgb(0 0 0 / 2%);
-        box-shadow: 0 0 var(--c-picture-frame-padding) var(--c-picture-frame-shadow-color);
+        box-shadow: 0 0 var(--c-picture-frame-padding) var(--color-theme-shadow);
     }
     &::after {
         position: absolute;
@@ -73,7 +71,7 @@ withDefaults(
         margin: var(--c-picture-frame-padding);
         pointer-events: none;
         content: '';
-        border: solid var(--c-picture-frame-border-color);
+        border: solid var(--color-theme-border);
         border-width: 1px;
     }
     &.is-pading {

@@ -176,8 +176,8 @@ const hasSlot = (name: string) => {
                 width: var(--c-step-icon-size);
                 height: var(--c-step-icon-size);
                 padding: 4px;
-                color: var(--color-bg-secondary);
-                background-color: var(--color-text-secondary);
+                color: var(--color-theme-bg-secondary);
+                background-color: var(--color-theme-text-secondary);
                 border-radius: 50%;
                 transition: background-color 0.2s;
             }
@@ -194,15 +194,15 @@ const hasSlot = (name: string) => {
                 }
             }
             &.is-success {
-                color: var(--color-success);
+                color: var(--color-status-success);
                 .icon {
-                    background-color: var(--color-success);
+                    background-color: var(--color-status-success);
                 }
             }
         }
         .step-separator {
             position: relative;
-            background-color: var(--color-border);
+            background-color: var(--color-theme-border);
             &::before {
                 position: absolute;
                 inset: 0;
@@ -210,7 +210,7 @@ const hasSlot = (name: string) => {
                 height: 100%;
                 margin: auto;
                 content: '';
-                background-color: var(--color-success);
+                background-color: var(--color-status-success);
                 transform: scale(0);
                 transition: transform 0.2s;
             }
@@ -231,7 +231,7 @@ const hasSlot = (name: string) => {
         margin-top: 8px;
         &:not(.no-separator) {
             padding-top: 8px;
-            border-top: 1px solid var(--color-border);
+            border-top: 1px solid var(--color-theme-border);
         }
     }
 }
@@ -264,7 +264,7 @@ const hasSlot = (name: string) => {
         padding: 8px 24px;
         &:not(.no-separator) {
             margin-bottom: 8px;
-            border-bottom: 1px solid var(--color-border);
+            border-bottom: 1px solid var(--color-theme-border);
         }
         .step-separator {
             top: calc(var(--c-step-icon-size) / 2);
@@ -290,7 +290,7 @@ const hasSlot = (name: string) => {
         padding: 24px 8px;
         &:not(.no-separator) {
             margin-left: 8px;
-            border-left: 1px solid var(--color-border);
+            border-left: 1px solid var(--color-theme-border);
         }
         .step-separator {
             width: 2px;
@@ -315,7 +315,7 @@ const hasSlot = (name: string) => {
         padding: 8px 24px;
         &:not(.no-separator) {
             margin-top: 8px;
-            border-top: 1px solid var(--color-border);
+            border-top: 1px solid var(--color-theme-border);
         }
         .step-separator {
             top: calc(var(--c-step-icon-size) / 2);
@@ -341,7 +341,7 @@ const hasSlot = (name: string) => {
         padding: 24px 8px;
         &:not(.no-separator) {
             margin-right: 8px;
-            border-right: 1px solid var(--color-border);
+            border-right: 1px solid var(--color-theme-border);
         }
         .step-separator {
             width: 2px;

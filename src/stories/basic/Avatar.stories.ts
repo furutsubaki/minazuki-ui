@@ -68,7 +68,7 @@ export const PropsShape: Story = {
 
 export const PropsColor: Story = {
     args: {
-        color: 'var(--color-brand)'
+        color: 'var(--color-status-brand)'
     }
 };
 export const PropsIcon: Story = {
@@ -100,7 +100,7 @@ export const Overlapping: Story = {
             return { args };
         },
         template: `<div style="display: flex;">
-    <Avatar v-bind="args" v-for="i in [...Array(5).keys()]" :style="\`position: absolute; left: \${i * 24}px; outline-color: var(--color-bg-primary)\`" />
+    <Avatar v-bind="args" v-for="i in [...Array(5).keys()]" :style="\`position: absolute; left: \${i * 24}px; outline-color: var(--color-theme-bg-primary)\`" />
 </div>`
     }),
     args: {

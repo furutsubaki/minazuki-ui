@@ -167,10 +167,18 @@ watch(model, (v) => {
     }
 }
 
-.dynamic,
+.dynamic {
+    :deep(.icon) {
+        --c-rating-color: var(--color-base-orange) !important;
+        --c-rating-background-color: var(--color-base-orange) !important;
+    }
+}
+
 .flat {
-    --c-rating-color: var(--color-link);
-    --c-rating-background-color: var(--color-link);
+    :deep(.icon) {
+        --c-rating-color: var(--color-base-orange) !important;
+        --c-rating-background-color: var(--color-base-orange) !important;
+    }
 }
 
 /* ▼ size ▼ */

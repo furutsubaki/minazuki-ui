@@ -26,7 +26,7 @@ const props = withDefaults(
         shape?: 'circle' | 'square' | 'no-radius' | 'skeleton';
     }>(),
     {
-        color: 'var(--color-bg-secondary)',
+        color: 'var(--color-theme-bg-secondary)',
         icon: undefined,
         image: undefined,
         size: 'medium',

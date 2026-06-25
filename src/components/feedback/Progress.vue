@@ -105,27 +105,27 @@ const strokeDashoffset = computed(
 }
 
 .primary {
-    --c-progress-background-color: var(--color-brand);
+    --c-progress-background-color: var(--color-status-brand);
 }
 
 .secondary {
-    --c-progress-background-color: var(--color-text-secondary);
+    --c-progress-background-color: var(--color-theme-text-secondary);
 }
 
 .info {
-    --c-progress-background-color: var(--color-info);
+    --c-progress-background-color: var(--color-status-info);
 }
 
 .success {
-    --c-progress-background-color: var(--color-success);
+    --c-progress-background-color: var(--color-status-success);
 }
 
 .warning {
-    --c-progress-background-color: var(--color-warning);
+    --c-progress-background-color: var(--color-status-warning);
 }
 
 .danger {
-    --c-progress-background-color: var(--color-danger);
+    --c-progress-background-color: var(--color-status-danger);
 }
 
 /* ▼ size ▼ */
@@ -177,7 +177,7 @@ const strokeDashoffset = computed(
         position: relative;
         width: 100%;
         height: var(--c-progress-border-stroke-width);
-        background-color: var(--color-border);
+        background-color: var(--color-theme-border);
         border-radius: 1em;
         .progress-fill {
             height: 100%;
@@ -210,7 +210,7 @@ const strokeDashoffset = computed(
         width: 100%;
         height: 100%;
         .circle-underlay {
-            color: var(--color-border);
+            color: var(--color-theme-border);
         }
         .circle-overlay {
             color: var(--c-progress-background-color);
