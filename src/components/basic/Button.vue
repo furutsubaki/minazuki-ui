@@ -260,14 +260,12 @@ defineExpose({ buttonRef });
     min-width: initial;
     min-height: initial;
     padding: 0;
-    color: var(--color-theme-link);
     user-select: none;
-    background-color: transparent;
     border: 0;
 
     @media (hover: hover) {
         &:hover {
-            color: var(--color-theme-link-hover);
+            color: var(--color-theme-link);
             background-color: transparent;
             border-color: transparent;
         }
@@ -275,7 +273,7 @@ defineExpose({ buttonRef });
 
     @media (hover: none) {
         &:active {
-            color: var(--color-theme-link-hover);
+            color: var(--color-theme-link);
             background-color: transparent;
             border-color: transparent;
         }

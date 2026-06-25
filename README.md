@@ -11,7 +11,7 @@ reset cssとして[@acab/reset.css](https://github.com/mayank99/reset.css)を導
 そのため、本ライブラリ読み込みにおいて、上記のreset cssが読み込まれます。
 
 また、各種色やサイズはCSS変数にて管理されています。
-カラートークンの一覧・命名規則・テーマ override の詳細は[こちら](https://github.com/furutsubaki/minazuki-ui/blob/develop/docs/DESIGN.md)を参照してください。
+詳細は[こちら](https://github.com/furutsubaki/minazuki-ui/blob/develop/src/assets/css/variables.css)を参照してください。
 
 バリデーションに関しては[zod](https://zod.dev/)のスキーマを用いて[vee-validate(v4)](https://vee-validate.logaretm.com/v4/)にて行っています。
 
@@ -38,8 +38,7 @@ export default defineNuxtConfig({
         // テーマ上書き（省略可）
         themes: {
             light: {
-                // brand の色相・彩度を red に変更（base/emphasis/alpha 等は自動で追従）
-                roles: { brand: { hue: 'red', chroma: 'red' } }
+                status: { brand: '--color-base-red' }
             }
         }
     }
@@ -177,54 +176,37 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.use(MinazukiUi, {
         themes: {
             light: {
-                // 既存のライトテーマを一部上書き（brand / link の色相・彩度を red に変更）
-                roles: {
-                    brand: { hue: 'red', chroma: 'red' },
-                    link: { hue: 'red', chroma: 'red' }
+                // 既存のライトテーマを一部上書き
+                status: {
+                    brand: '--color-base-red'
+                },
+                theme: {
+                    link: '--color-base-red-alpha',
+                    linkHover: '--color-base-red'
                 }
             },
             dark: {
                 // 既存のダークテーマを一部上書き
-                roles: {
-                    brand: { hue: 'red', chroma: 'red' },
-                    link: { hue: 'red', chroma: 'red' }
+                status: {
+                    brand: '--color-base-red'
+                },
+                theme: {
+                    link: '--color-base-red-alpha',
+                    linkHover: '--color-base-red'
                 }
             },
             original: {
                 // 新規テーマを追加した場合は、設定されていない項目はライトテーマが適用されます
-                roles: {
-                    brand: { hue: 'red', chroma: 'red' },
-                    link: { hue: 'red', chroma: 'red' }
+                status: {
+                    brand: '--color-base-red'
+                },
+                theme: {
+                    link: '--color-base-red-alpha',
+                    linkHover: '--color-base-red'
                 }
             }
         }
     });
-});
-```
-
-`hue` / `chroma` には Primitives（`red` / `orange` / `yellow` / `lime` / `green` / `teal` / `cyan` / `blue` / `indigo` / `purple` / `pink`）のキーを指定します。base/emphasis/muted/subtle/surface/alpha などの派生バリエーションは指定した hue・chroma から自動で計算されるため、個別に指定する必要はありません。
-
-色相・彩度の数値自体を変えたい場合は `primitives` を上書きします。
-
-```ts
-nuxtApp.vueApp.use(MinazukiUi, {
-    themes: {
-        light: {
-            primitives: { hues: { teal: 200 } } // brand が使う teal 色相そのものを変更
-        }
-    }
-});
-```
-
-無彩色系（テキスト・背景・ボーダー等）を変える場合は `neutrals` を上書きします。
-
-```ts
-nuxtApp.vueApp.use(MinazukiUi, {
-    themes: {
-        light: {
-            neutrals: { bgPrimary: '#ffffff' }
-        }
-    }
 });
 ```
 
