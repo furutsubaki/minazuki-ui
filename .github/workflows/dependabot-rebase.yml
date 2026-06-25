@@ -22,5 +22,5 @@ jobs:
             sleep 5
           done
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.DEPENDABOT_AUTOMATION_TOKEN }}
           GH_REPO: ${{ github.repository }}
