@@ -53,7 +53,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
     "create-component-d": "node ./src/generate-component-index.js",
-    "generate-css-data": "node ./src/generate-css-data.js",
+    "generate-css-data": "jiti ./src/generate-css-data.ts",
     "eslint": "eslint .",
     "eslint:fix": "pnpm eslint --fix",
     "lint:es": "pnpm eslint",

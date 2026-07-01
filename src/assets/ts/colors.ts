@@ -185,7 +185,8 @@ export function computeStatusColor(
     const hueDef = hues[statusDef.hue];
     const chromaDef = hues[statusDef.chroma];
     const baseL = LIGHTNESS_SCALE[step];
-    const L = Math.min(1, Math.max(0, baseL + statusDef.lightnessOffset));
+    const scaledOffset = statusDef.lightnessOffset * (baseL / LIGHTNESS_SCALE[400]);
+    const L = Math.min(1, Math.max(0, baseL + scaledOffset));
     const C = chromaDef.chroma * CHROMA_SCALE[step];
     const H = hueDef.hue;
     return {

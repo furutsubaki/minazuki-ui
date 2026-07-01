@@ -39,6 +39,7 @@ export interface UITokenPair {
 export interface MiPrimitives {
     hues: Record<HueName, number>;
     chromas: Record<HueName, number>;
+    lightnessOffsets: Partial<Record<HueName, number>>;
     neutralHue?: number;
 }
 
@@ -72,6 +73,7 @@ export interface MiThemeOverride {
     primitives?: {
         hues?: Partial<Record<HueName, number>>;
         chromas?: Partial<Record<HueName, number>>;
+        lightnessOffsets?: Partial<Record<HueName, number>>;
         neutralHue?: number;
     };
     statuses?: Partial<Record<StatusName, Partial<StatusDefinition>>>;
@@ -83,11 +85,15 @@ export interface MiThemeOverride {
 function buildDefaultPrimitives(): MiPrimitives {
     const hues = {} as Record<HueName, number>;
     const chromas = {} as Record<HueName, number>;
+    const lightnessOffsets: Partial<Record<HueName, number>> = {};
     for (const name of HUE_NAMES) {
         hues[name] = DEFAULT_HUES[name].hue;
         chromas[name] = DEFAULT_HUES[name].chroma;
+        if (DEFAULT_HUES[name].lightnessOffset) {
+            lightnessOffsets[name] = DEFAULT_HUES[name].lightnessOffset;
+        }
     }
-    return { hues, chromas };
+    return { hues, chromas, lightnessOffsets };
 }
 
 const DEFAULT_UI: MiSemanticUI = {
@@ -121,7 +127,10 @@ function buildDefaultConfig(): MiThemeConfig {
 function buildHueDefs(p: MiPrimitives): Record<HueName, HueDefinition> {
     const defs = {} as Record<HueName, HueDefinition>;
     for (const name of HUE_NAMES) {
-        defs[name] = { hue: p.hues[name], chroma: p.chromas[name] };
+        const def: HueDefinition = { hue: p.hues[name], chroma: p.chromas[name] };
+        const offset = p.lightnessOffsets?.[name];
+        if (offset) def.lightnessOffset = offset;
+        defs[name] = def;
     }
     return defs;
 }
@@ -233,7 +242,6 @@ function genAliases(): string {
         ['--color-base-black', 'var(--mi-neutral-800)'],
         ['--color-base-black-true', 'var(--mi-neutral-900)'],
 
-        ['--color-base-orange-alpha', 'var(--color-link-alpha)'],
         ['--color-base-blue-alpha', 'var(--color-link-alpha)'],
 
         ['--color-theme-text-primary', 'var(--color-text-primary)'],
@@ -321,6 +329,9 @@ const overrideTheme = (overrides: MiThemeOverride) => {
         }
         if (raw.primitives.chromas) {
             Object.assign(config.primitives.chromas, raw.primitives.chromas);
+        }
+        if (raw.primitives.lightnessOffsets) {
+            Object.assign(config.primitives.lightnessOffsets, raw.primitives.lightnessOffsets);
         }
         if (raw.primitives.neutralHue !== undefined) {
             config.primitives.neutralHue = raw.primitives.neutralHue;
