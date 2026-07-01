@@ -13,10 +13,10 @@ export interface ModuleOptions {
     autoImport?: boolean;
     /** CSS 自動注入（default: true） */
     css?: boolean;
-    /** デフォルトテーマ（default: 'light'） */
-    theme?: string;
-    /** 追加テーマ定義 */
-    themes?: Record<string, unknown>;
+    /** デフォルトテーマ ID（default: 'light'） */
+    themeId?: string;
+    /** テーマ設定のオーバーライド */
+    theme?: Record<string, unknown>;
     /** テーマ用クッキー名（default: 'themeId'） */
     cookieName?: string;
     /** テーマクッキー maxAge 秒（default: 1年） */
@@ -46,7 +46,7 @@ const _module = defineNuxtModule<ModuleOptions>({
     defaults: {
         autoImport: true,
         css: true,
-        theme: 'light',
+        themeId: 'light',
         cookieName: 'themeId',
         cookieMaxAge: 60 * 60 * 24 * 365,
         install: false
@@ -104,11 +104,11 @@ const _module = defineNuxtModule<ModuleOptions>({
 
         // runtimeConfig に設定を流し込む
         (nuxt.options.runtimeConfig.public as Record<string, unknown>).minazukiUi = {
-            theme: options.theme ?? 'light',
+            themeId: options.themeId ?? 'light',
             cookieName: options.cookieName ?? 'themeId',
             cookieMaxAge: options.cookieMaxAge ?? 60 * 60 * 24 * 365,
             install: options.install ?? false,
-            themes: options.themes ?? {}
+            theme: options.theme ?? {}
         };
 
         // ランタイム plugin を追加

@@ -21,7 +21,7 @@ export default defineNuxtConfig({
     ssr: true,
     modules: ['@pinia/nuxt', ...(existsSync(minazukiNuxtModule) ? [minazukiNuxtModule] : [])],
     minazukiUi: {
-        theme: 'light'
+        themeId: 'light'
     },
     css: ['playground-shared/styles/playground.css'],
     build: {

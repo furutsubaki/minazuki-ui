@@ -6,7 +6,7 @@ import '@/assets/css/override.css';
 import type { App } from 'vue';
 import useFormData from '@/composables/useFormData';
 import useNotification from '@/composables/useNotification';
-import useTheme, { type MiTheme } from '@/composables/useTheme';
+import useTheme, { type MiThemeOverride, type ThemeId } from '@/composables/useTheme';
 import useOutsideClick from './directives/useOutsideClick';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
@@ -18,12 +18,8 @@ export * from '@/directives';
 export { default as initValidate } from '@/plugins/init-validate';
 export { useFormData, useNotification, useTheme };
 
-type RecursivePartial<T> = {
-    [P in keyof T]?: RecursivePartial<T[P]>;
-};
-
 export default {
-    install(app: App, options?: { themes?: { [key: string]: RecursivePartial<MiTheme> }; theme?: string }) {
+    install(app: App, options?: { theme?: MiThemeOverride; themeId?: ThemeId }) {
         for (const { name, component } of Object.values(componentNameMap)) {
             app.component(name, component);
         }
@@ -39,15 +35,13 @@ export default {
         // component
         app.component('VueDatePicker', VueDatePicker);
 
-        // themeのoverride
         const { currentTheme, overrideTheme, setTheme } = useTheme();
-        if (options?.themes) {
-            overrideTheme(options.themes);
-        }
         if (options?.theme) {
-            currentTheme.value = options.theme;
+            overrideTheme(options.theme);
         }
-        // 初期style設定
+        if (options?.themeId) {
+            currentTheme.value = options.themeId;
+        }
         setTheme(currentTheme.value);
     }
 };

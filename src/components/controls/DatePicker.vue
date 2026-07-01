@@ -161,10 +161,10 @@ defineExpose({ elementRef });
                 justify-content: center;
             }
             .saturday {
-                color: var(--color-base-blue);
+                color: var(--mi-blue);
             }
             .sunday {
-                color: var(--color-base-red);
+                color: var(--mi-red);
             }
         }
     }

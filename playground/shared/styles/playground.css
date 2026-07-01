@@ -1,8 +1,8 @@
 body {
     font-family: sans-serif;
-    color: var(--color-theme-text-primary);
+    color: var(--color-text-primary);
     letter-spacing: 0;
-    background-color: var(--color-theme-bg-primary);
+    background-color: var(--color-bg-primary);
     transition: background-color 0.2s, color 0.2s;
 }
 
@@ -17,8 +17,8 @@ body {
     gap: 24px;
     align-items: center;
     padding: 12px 24px;
-    background-color: var(--color-theme-bg-secondary);
-    border-bottom: 1px solid var(--color-theme-border);
+    background-color: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .pg-header-title {
@@ -35,14 +35,14 @@ body {
 .pg-nav a {
     padding: 4px 12px;
     font-size: 0.9rem;
-    color: var(--color-theme-text-primary);
+    color: var(--color-text-primary);
     text-decoration: none;
     border-radius: 4px;
 }
 
 .pg-nav a:hover,
 .pg-nav a.router-link-active {
-    background-color: var(--color-theme-bg-select);
+    background-color: var(--color-bg-select);
 }
 
 .pg-main {
@@ -61,7 +61,7 @@ body {
     margin-bottom: 16px;
     font-size: 1rem;
     font-weight: bold;
-    border-bottom: 1px solid var(--color-theme-border);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .pg-row {
@@ -80,7 +80,7 @@ body {
 .pg-override-label code {
     padding: 2px 6px;
     font-size: 0.85rem;
-    background-color: var(--color-theme-bg-secondary);
+    background-color: var(--color-bg-secondary);
     border-radius: 4px;
 }
 
@@ -98,7 +98,7 @@ body {
 
 .pg-override-card {
     padding: 16px;
-    border: 1px solid var(--color-theme-border);
+    border: 1px solid var(--color-border);
     border-radius: 8px;
 }
 
@@ -106,7 +106,7 @@ body {
     margin-bottom: 8px;
     font-size: 0.85rem;
     font-weight: bold;
-    color: var(--color-theme-text-secondary, #888);
+    color: var(--color-text-secondary, #888);
 }
 
 .pg-override-app {
@@ -125,6 +125,6 @@ body {
 .pg-override-sample {
     padding: 12px;
     font-size: 1.1rem;
-    background-color: var(--color-theme-bg-secondary);
+    background-color: var(--color-bg-secondary);
     border-radius: 4px;
 }

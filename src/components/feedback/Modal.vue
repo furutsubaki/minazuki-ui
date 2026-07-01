@@ -192,7 +192,7 @@ const onOutsideClick = computed(() => ({
         z-index: -1;
         pointer-events: initial;
         content: '';
-        background-color: var(--color-theme-shadow-alpha);
+        background-color: var(--color-shadow-alpha);
     }
     .modal-frame {
         position: fixed;
@@ -215,11 +215,11 @@ const onOutsideClick = computed(() => ({
     max-height: var(--c-modal-max-height);
     padding: 8px 0;
     margin: auto;
-    color: var(--color-theme-text-primary);
+    color: var(--color-text-primary);
     pointer-events: initial;
-    background-color: var(--color-theme-bg-primary);
+    background-color: var(--color-bg-primary);
     border: 1px solid;
-    border-color: var(--color-theme-border);
+    border-color: var(--color-border);
     border-radius: var(--c-modal-border-radius);
     transition:
         border-color 0.2s,

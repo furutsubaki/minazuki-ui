@@ -137,7 +137,7 @@ const onClick = (item: MiBottomNavItem) => {
             transition: bottom 0.2s;
         }
         &.is-current {
-            color: var(--color-theme-text-primary);
+            color: var(--color-text-primary);
             pointer-events: none;
             .icon {
                 width: calc(var(--c-bottom-nav-font-size) * 1.5);

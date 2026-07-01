@@ -127,7 +127,7 @@ if (value.value == null && model.value != null) {
     &.required {
         &::after {
             left: -0.5em;
-            color: var(--color-status-danger);
+            color: var(--color-danger);
             content: '*';
         }
     }
@@ -140,6 +140,6 @@ if (value.value == null && model.value != null) {
 
 .error {
     font-size: var(--font-size-small);
-    color: var(--color-status-danger);
+    color: var(--color-danger);
 }
 </style>

@@ -184,7 +184,7 @@ defineExpose({ transitionFrom });
             z-index: -1;
             pointer-events: initial;
             content: '';
-            background-color: var(--color-theme-shadow-alpha);
+            background-color: var(--color-shadow-alpha);
         }
     }
 }
@@ -198,9 +198,9 @@ defineExpose({ transitionFrom });
     padding: 8px;
     margin: auto;
     pointer-events: initial;
-    background-color: var(--color-theme-bg-primary);
+    background-color: var(--color-bg-primary);
     border: 1px solid;
-    border-color: var(--color-theme-border);
+    border-color: var(--color-border);
     border-radius: 0;
     transition:
         border-color 0.2s,

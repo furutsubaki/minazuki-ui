@@ -26,7 +26,7 @@
         font-family: var(--font-sans);
         font-size: var(--font-size-medium);
         font-feature-settings: 'palt';
-        color: var(--color-theme-text-primary);
+        color: var(--color-text-primary);
         letter-spacing: 0.05em;
         word-break: break-all;
         text-size-adjust: 100%;
@@ -54,20 +54,20 @@
         transition: opacity 0.2s;
     }
     a {
-        color: var(--color-theme-link);
+        color: var(--color-link);
         transition: color 0.2s;
 
         @media (hover: hover) {
             /* PC */
             &:hover {
-                color: var(--color-theme-link-hover);
+                color: var(--color-link-hover);
             }
         }
 
         @media (hover: none) {
             /* mobile */
             &:active {
-                color: var(--color-theme-link-hover);
+                color: var(--color-link-hover);
             }
         }
     }
