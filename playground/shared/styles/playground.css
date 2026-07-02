@@ -1,7 +1,21 @@
 body {
-    font-family: sans-serif;
+    font-family:
+        Roboto,
+        'Noto Sans JP',
+        '游ゴシック Medium',
+        'Yu Gothic Medium',
+        '游ゴシック体',
+        yugothic,
+        'Yu Gothic',
+        'Hiragino Kaku Gothic Pro',
+        'ヒラギノ角ゴ Pro',
+        meiryo,
+        'メイリオ',
+        sans-serif;
+    font-size: var(--font-size-medium);
+    line-height: 1.5;
     color: var(--color-theme-text-primary);
-    letter-spacing: 0;
+    letter-spacing: 0.05em;
     background-color: var(--color-theme-bg-primary);
     transition: background-color 0.2s, color 0.2s;
 }
@@ -14,27 +28,29 @@ body {
 
 .pg-header {
     display: flex;
-    gap: 24px;
+    flex-wrap: wrap;
+    gap: 16px 24px;
     align-items: center;
-    padding: 12px 24px;
+    padding: 16px 24px;
     background-color: var(--color-theme-bg-secondary);
     border-bottom: 1px solid var(--color-theme-border);
 }
 
 .pg-header-title {
     margin-right: auto;
-    font-size: 1.1rem;
+    font-size: var(--font-size-large);
     font-weight: bold;
 }
 
 .pg-nav {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
 }
 
 .pg-nav a {
-    padding: 4px 12px;
-    font-size: 0.9rem;
+    padding: 8px 12px;
+    font-size: var(--font-size-medium);
     color: var(--color-theme-text-primary);
     text-decoration: none;
     border-radius: 4px;
@@ -47,8 +63,8 @@ body {
 
 .pg-main {
     width: 100%;
-    max-width: 960px;
-    padding: 24px;
+    max-width: 1040px;
+    padding: 32px 24px 40px;
     margin: 0 auto;
 }
 
@@ -56,12 +72,22 @@ body {
     margin-bottom: 40px;
 }
 
+.pg-section-heading {
+    margin-bottom: 16px;
+}
+
+.pg-section-heading h2,
 .pg-section h2 {
     padding-bottom: 8px;
-    margin-bottom: 16px;
-    font-size: 1rem;
+    margin: 0 0 8px;
+    font-size: var(--font-size-large);
     font-weight: bold;
     border-bottom: 1px solid var(--color-theme-border);
+}
+
+.pg-section-heading p {
+    margin: 0;
+    color: var(--color-theme-text-secondary);
 }
 
 .pg-row {
@@ -71,15 +97,31 @@ body {
     align-items: flex-start;
 }
 
+.pg-row-column {
+    flex-direction: column;
+}
+
+.pg-muted {
+    color: var(--color-theme-text-secondary);
+}
+
+.pg-navigation-tab {
+    min-height: 180px;
+}
+
+.pg-navigation-panel {
+    padding: 16px;
+}
+
 .pg-override-desc {
     margin-bottom: 16px;
-    font-size: 0.9rem;
+    font-size: var(--font-size-medium);
 }
 
 .pg-override-desc code,
 .pg-override-label code {
     padding: 2px 6px;
-    font-size: 0.85rem;
+    font-size: var(--font-size-medium);
     background-color: var(--color-theme-bg-secondary);
     border-radius: 4px;
 }
@@ -104,7 +146,7 @@ body {
 
 .pg-override-card h3 {
     margin-bottom: 8px;
-    font-size: 0.85rem;
+    font-size: var(--font-size-medium);
     font-weight: bold;
     color: var(--color-theme-text-secondary, #888);
 }
@@ -124,7 +166,7 @@ body {
 
 .pg-override-sample {
     padding: 12px;
-    font-size: 1.1rem;
+    font-size: var(--font-size-medium);
     background-color: var(--color-theme-bg-secondary);
     border-radius: 4px;
 }

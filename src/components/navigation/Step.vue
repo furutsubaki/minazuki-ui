@@ -59,6 +59,7 @@ const onChangeTab = (id: string) => {
     transitionFrom.value = ['top', 'bottom'].includes(props.position)
         ? transitionFromX
         : transitionFromY;
+    currentStep.value = id;
 
     if (isPrev) {
         emit('prev', id);
