@@ -5,6 +5,8 @@ vue/nuxt用のUIコンポーネントライブラリ
 ※nuxt ^3
 ※vue ^3.5
 
+v1 からのアップグレードでテーマ設定オプションが変更されています。詳細は [docs/MIGRATION.md](./docs/MIGRATION.md) を参照してください。
+
 ## リソース
 
 reset cssとして[@acab/reset.css](https://github.com/mayank99/reset.css)を導入しています。
@@ -33,13 +35,12 @@ pnpm i -D minazuki-ui zod
 export default defineNuxtConfig({
     modules: ['minazuki-ui/nuxt'],
     minazukiUi: {
-        // デフォルトテーマ（省略可。default: 'light'）
-        theme: 'light',
+        // デフォルトテーマ ID（省略可。default: 'light'）
+        themeId: 'light',
         // テーマ上書き（省略可）
-        themes: {
-            light: {
-                status: { brand: '--color-base-red' }
-            }
+        theme: {
+            // Brand を Blue に変更する例
+            statuses: { brand: { hue: 'blue', chroma: 'blue' } }
         }
     }
 });
@@ -51,8 +52,8 @@ export default defineNuxtConfig({
 |---|---|---|---|
 | `autoImport` | `boolean` | `true` | コンポーネント・コンポーザブルの auto-import |
 | `css` | `boolean` | `true` | `minazuki-ui/dist/style.css` の自動注入 |
-| `theme` | `string` | `'light'` | デフォルトテーマ |
-| `themes` | `Record<string, unknown>` | `{}` | テーマ上書き定義 |
+| `themeId` | `string` | `'light'` | デフォルトテーマ ID（`'light'` or `'dark'`） |
+| `theme` | `Record<string, unknown>` | `{}` | テーマ上書き定義（`MiThemeOverride` 形式） |
 | `cookieName` | `string` | `'themeId'` | テーマ保持用クッキー名 |
 | `cookieMaxAge` | `number` | `31536000` | クッキーの有効期限（秒） |
 | `install` | `boolean` | `false` | `app.use()` で全コンポーネントをグローバル登録（Tree Shaking 無効） |
@@ -162,9 +163,9 @@ export default defineNuxtPlugin(() => {
 
 ## テーマ設定
 
-Nuxt Module を使う場合は `nuxt.config.ts` の `minazukiUi.themes` に設定します（上記参照）。
+Nuxt Module を使う場合は `nuxt.config.ts` の `minazukiUi.theme` に設定します（上記参照）。
 
-手動 Plugin の場合は `app.use()` の第2引数にテーマを渡します。
+手動 Plugin の場合は `app.use()` の第2引数に `MiThemeOverride` を渡します。
 
 `plugins/minazuki-ui.ts`
 
@@ -174,36 +175,20 @@ import 'minazuki-ui/dist/style.css';
 
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.use(MinazukiUi, {
-        themes: {
-            light: {
-                // 既存のライトテーマを一部上書き
-                status: {
-                    brand: '--color-base-red'
-                },
-                theme: {
-                    link: '--color-base-red-alpha',
-                    linkHover: '--color-base-red'
-                }
+        themeId: 'light',
+        theme: {
+            // Primitive: 色相角度やベース彩度を変更すると全段階に影響
+            primitives: {
+                hues: { teal: 200 },
+                chromas: { teal: 0.12 }
             },
-            dark: {
-                // 既存のダークテーマを一部上書き
-                status: {
-                    brand: '--color-base-red'
-                },
-                theme: {
-                    link: '--color-base-red-alpha',
-                    linkHover: '--color-base-red'
-                }
+            // Status: 役割の紐付け先を変更
+            statuses: {
+                brand: { hue: 'blue', chroma: 'blue' }
             },
-            original: {
-                // 新規テーマを追加した場合は、設定されていない項目はライトテーマが適用されます
-                status: {
-                    brand: '--color-base-red'
-                },
-                theme: {
-                    link: '--color-base-red-alpha',
-                    linkHover: '--color-base-red'
-                }
+            // UI: 個別トークンを上書き（文字列で light/dark 共通、ペアで個別指定）
+            ui: {
+                link: { light: '#cc3300', dark: '#ff6644' }
             }
         }
     });
@@ -220,15 +205,16 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 ```ts
 import MinazukiUi, { useTheme } from 'minazuki-ui';
+import type { ThemeId } from 'minazuki-ui';
 import { watch } from 'vue';
 import 'minazuki-ui/dist/style.css';
 
 export default defineNuxtPlugin((nuxtApp) => {
-    const themeCookie = useCookie<string>('themeId', { default: () => 'light' });
+    const themeCookie = useCookie<ThemeId>('themeId', { default: () => 'light' });
     const { currentTheme } = useTheme();
 
     // app.use の前に設定することで install 内の setTheme がクッキー値を使って SSR を描画する
-    currentTheme.value = themeCookie.value;
+    currentTheme.value = themeCookie.value === 'dark' ? 'dark' : 'light';
 
     nuxtApp.vueApp.use(MinazukiUi);
 

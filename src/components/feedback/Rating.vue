@@ -169,15 +169,15 @@ watch(model, (v) => {
 
 .dynamic {
     :deep(.icon) {
-        --c-rating-color: var(--color-base-orange) !important;
-        --c-rating-background-color: var(--color-base-orange) !important;
+        --c-rating-color: var(--mi-orange) !important;
+        --c-rating-background-color: var(--mi-orange) !important;
     }
 }
 
 .flat {
     :deep(.icon) {
-        --c-rating-color: var(--color-base-orange) !important;
-        --c-rating-background-color: var(--color-base-orange) !important;
+        --c-rating-color: var(--mi-orange) !important;
+        --c-rating-background-color: var(--mi-orange) !important;
     }
 }
 

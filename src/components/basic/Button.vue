@@ -115,57 +115,57 @@ defineExpose({ buttonRef });
 /* ▼ variable ▼ */
 
 .primary {
-    --c-button-hover-color: var(--color-status-brand);
+    --c-button-hover-color: var(--color-brand);
     --c-button-hover-background-color: transparent;
-    --c-button-hover-border-color: var(--color-status-brand);
-    --c-button-color: var(--color-base-white);
-    --c-button-background-color: var(--color-status-brand-alpha);
-    --c-button-border-color: var(--color-status-brand);
+    --c-button-hover-border-color: var(--color-brand);
+    --c-button-color: var(--mi-neutral-50);
+    --c-button-background-color: var(--color-brand-alpha);
+    --c-button-border-color: var(--color-brand);
 }
 
 .secondary {
-    --c-button-hover-color: var(--color-base-white);
-    --c-button-hover-background-color: var(--color-status-brand-alpha);
-    --c-button-hover-border-color: var(--color-status-brand);
-    --c-button-color: var(--color-theme-text-primary);
+    --c-button-hover-color: var(--mi-neutral-50);
+    --c-button-hover-background-color: var(--color-brand-alpha);
+    --c-button-hover-border-color: var(--color-brand);
+    --c-button-color: var(--color-text-primary);
     --c-button-background-color: transparent;
-    --c-button-border-color: var(--color-theme-border);
+    --c-button-border-color: var(--color-border);
 }
 
 .info {
-    --c-button-hover-color: var(--color-status-info);
+    --c-button-hover-color: var(--color-info);
     --c-button-hover-background-color: transparent;
-    --c-button-hover-border-color: var(--color-status-info);
-    --c-button-color: var(--color-theme-text-primary);
-    --c-button-background-color: var(--color-status-info-alpha);
-    --c-button-border-color: var(--color-status-info);
+    --c-button-hover-border-color: var(--color-info);
+    --c-button-color: var(--color-text-primary);
+    --c-button-background-color: var(--color-info-alpha);
+    --c-button-border-color: var(--color-info);
 }
 
 .success {
-    --c-button-hover-color: var(--color-status-success);
+    --c-button-hover-color: var(--color-success);
     --c-button-hover-background-color: transparent;
-    --c-button-hover-border-color: var(--color-status-success);
-    --c-button-color: var(--color-base-white);
-    --c-button-background-color: var(--color-status-success-alpha);
-    --c-button-border-color: var(--color-status-success);
+    --c-button-hover-border-color: var(--color-success);
+    --c-button-color: var(--mi-neutral-50);
+    --c-button-background-color: var(--color-success-alpha);
+    --c-button-border-color: var(--color-success);
 }
 
 .warning {
-    --c-button-hover-color: var(--color-status-warning);
+    --c-button-hover-color: var(--color-warning);
     --c-button-hover-background-color: transparent;
-    --c-button-hover-border-color: var(--color-status-warning);
-    --c-button-color: var(--color-base-black);
-    --c-button-background-color: var(--color-status-warning-alpha);
-    --c-button-border-color: var(--color-status-warning);
+    --c-button-hover-border-color: var(--color-warning);
+    --c-button-color: var(--mi-neutral-800);
+    --c-button-background-color: var(--color-warning-alpha);
+    --c-button-border-color: var(--color-warning);
 }
 
 .danger {
-    --c-button-hover-color: var(--color-status-danger);
+    --c-button-hover-color: var(--color-danger);
     --c-button-hover-background-color: transparent;
-    --c-button-hover-border-color: var(--color-status-danger);
-    --c-button-color: var(--color-base-white);
-    --c-button-background-color: var(--color-status-danger-alpha);
-    --c-button-border-color: var(--color-status-danger);
+    --c-button-hover-border-color: var(--color-danger);
+    --c-button-color: var(--mi-neutral-50);
+    --c-button-background-color: var(--color-danger-alpha);
+    --c-button-border-color: var(--color-danger);
 }
 
 /* ▲ variable ▲ */
@@ -233,7 +233,7 @@ defineExpose({ buttonRef });
     @media (hover: hover) {
         &:hover {
             &.secondary {
-                color: var(--color-theme-link);
+                color: var(--color-link);
             }
 
             color: var(--c-button-color);
@@ -245,7 +245,7 @@ defineExpose({ buttonRef });
     @media (hover: none) {
         &:active {
             &.secondary {
-                color: var(--color-theme-link);
+                color: var(--color-link);
             }
 
             color: var(--c-button-color);
@@ -265,7 +265,7 @@ defineExpose({ buttonRef });
 
     @media (hover: hover) {
         &:hover {
-            color: var(--color-theme-link);
+            color: var(--color-link);
             background-color: transparent;
             border-color: transparent;
         }
@@ -273,7 +273,7 @@ defineExpose({ buttonRef });
 
     @media (hover: none) {
         &:active {
-            color: var(--color-theme-link);
+            color: var(--color-link);
             background-color: transparent;
             border-color: transparent;
         }

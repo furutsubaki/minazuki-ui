@@ -102,7 +102,7 @@ const onClick = (item: MiBreadcrumbItem) => {
         font-size: var(--font-size-small);
     }
     .link {
-        color: var(--color-theme-link);
+        color: var(--color-link);
         text-decoration: none;
         cursor: pointer;
         transition: color 0.2s;
@@ -110,18 +110,18 @@ const onClick = (item: MiBreadcrumbItem) => {
         @media (hover: hover) {
             /* PC */
             &:hover {
-                color: var(--color-theme-link-hover);
+                color: var(--color-link-hover);
             }
         }
 
         @media (hover: none) {
             /* mobile */
             &:active {
-                color: var(--color-theme-link-hover);
+                color: var(--color-link-hover);
             }
         }
         &.is-disabled {
-            color: var(--color-theme-text-primary);
+            color: var(--color-text-primary);
             pointer-events: none;
             opacity: 0.5;
         }

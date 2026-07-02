@@ -189,12 +189,12 @@ defineExpose({ flg, transitioning, isShowing, onClosed, transitionFrom });
         align-items: flex-start;
         justify-content: center;
         padding: 8px;
-        background-color: var(--color-theme-bg-primary);
+        background-color: var(--color-bg-primary);
         .icon {
             flex-shrink: 0;
             width: calc(var(--font-size-medium) * 1.8);
             height: calc(var(--font-size-medium) * 1.8);
-            color: var(--color-theme-bg-primary);
+            color: var(--color-bg-primary);
             fill: var(--c-notification-item-icon-color);
         }
         .box {
@@ -226,43 +226,43 @@ defineExpose({ flg, transitioning, isShowing, onClosed, transitionFrom });
 /* ▼ variant ▼ */
 
 .primary {
-    --c-notification-item-border-color: var(--color-status-brand);
-    --c-notification-item-icon-color: var(--color-status-brand);
-    --color-theme-border: var(--c-notification-item-border-color);
-    --color-theme-shadow: var(--color-status-brand-alpha);
+    --c-notification-item-border-color: var(--color-brand);
+    --c-notification-item-icon-color: var(--color-brand);
+    --color-border: var(--c-notification-item-border-color);
+    --color-shadow: var(--color-brand-alpha);
 }
 
 .secondary {
-    --c-notification-item-border-color: var(--color-theme-border);
-    --c-notification-item-icon-color: var(--color-theme-border);
+    --c-notification-item-border-color: var(--color-border);
+    --c-notification-item-icon-color: var(--color-border);
 }
 
 .info {
-    --c-notification-item-border-color: var(--color-status-info);
-    --c-notification-item-icon-color: var(--color-status-info);
-    --color-theme-border: var(--c-notification-item-border-color);
-    --color-theme-shadow: var(--color-status-info-alpha);
+    --c-notification-item-border-color: var(--color-info);
+    --c-notification-item-icon-color: var(--color-info);
+    --color-border: var(--c-notification-item-border-color);
+    --color-shadow: var(--color-info-alpha);
 }
 
 .success {
-    --c-notification-item-border-color: var(--color-status-success);
-    --c-notification-item-icon-color: var(--color-status-success);
-    --color-theme-border: var(--c-notification-item-border-color);
-    --color-theme-shadow: var(--color-status-success-alpha);
+    --c-notification-item-border-color: var(--color-success);
+    --c-notification-item-icon-color: var(--color-success);
+    --color-border: var(--c-notification-item-border-color);
+    --color-shadow: var(--color-success-alpha);
 }
 
 .warning {
-    --c-notification-item-border-color: var(--color-status-warning);
-    --c-notification-item-icon-color: var(--color-status-warning);
-    --color-theme-border: var(--c-notification-item-border-color);
-    --color-theme-shadow: var(--color-status-warning-alpha);
+    --c-notification-item-border-color: var(--color-warning);
+    --c-notification-item-icon-color: var(--color-warning);
+    --color-border: var(--c-notification-item-border-color);
+    --color-shadow: var(--color-warning-alpha);
 }
 
 .danger {
-    --c-notification-item-border-color: var(--color-status-danger);
-    --c-notification-item-icon-color: var(--color-status-danger);
-    --color-theme-border: var(--c-notification-item-border-color);
-    --color-theme-shadow: var(--color-status-danger-alpha);
+    --c-notification-item-border-color: var(--color-danger);
+    --c-notification-item-icon-color: var(--color-danger);
+    --color-border: var(--c-notification-item-border-color);
+    --color-shadow: var(--color-danger-alpha);
 }
 
 /* ▲ variant ▲ */

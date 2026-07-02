@@ -143,14 +143,15 @@ defineExpose({ tabAlignProperty, tabButtonRef, currentTabClientRects });
             position: absolute;
             pointer-events: none;
             content: '';
-            background-color: var(--color-theme-border);
+            background-color: var(--color-border);
         }
         :deep(.component-button) {
             height: var(--c-tab-button-height);
             padding: 0 1em;
         }
         :deep(.component-button.is-current) {
-            color: var(--color-status-brand);
+            /* Buttonコンポーネント自身がこの変数でcolorを確定するため、継承ではなく直接上書きする */
+            --c-button-color: var(--color-brand);
         }
         .active-border {
             position: absolute;
@@ -161,7 +162,7 @@ defineExpose({ tabAlignProperty, tabButtonRef, currentTabClientRects });
                 v-bind('`${currentTabClientRects?.left}px`');
             z-index: 1;
             pointer-events: none;
-            background-color: var(--color-status-brand);
+            background-color: var(--color-brand);
             transition:
                 width 0.2s,
                 height 0.2s,

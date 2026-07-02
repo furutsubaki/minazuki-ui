@@ -409,10 +409,10 @@ defineExpose({ onCloseDatePicker, isFocus, datePickerScrollObserver });
     &.is-focus,
     &.is-value {
         [type='time'] {
-            color: var(--color-theme-text-primary);
+            color: var(--color-text-primary);
         }
         .prefix-suffix {
-            color: var(--color-theme-text-primary);
+            color: var(--color-text-primary);
         }
     }
     [type='search'] {

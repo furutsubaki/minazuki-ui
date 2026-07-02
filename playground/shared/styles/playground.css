@@ -14,9 +14,9 @@ body {
         sans-serif;
     font-size: var(--font-size-medium);
     line-height: 1.5;
-    color: var(--color-theme-text-primary);
+    color: var(--color-text-primary);
     letter-spacing: 0.05em;
-    background-color: var(--color-theme-bg-primary);
+    background-color: var(--color-bg-primary);
     transition: background-color 0.2s, color 0.2s;
 }
 
@@ -32,8 +32,8 @@ body {
     gap: 16px 24px;
     align-items: center;
     padding: 16px 24px;
-    background-color: var(--color-theme-bg-secondary);
-    border-bottom: 1px solid var(--color-theme-border);
+    background-color: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .pg-header-title {
@@ -51,14 +51,14 @@ body {
 .pg-nav a {
     padding: 8px 12px;
     font-size: var(--font-size-medium);
-    color: var(--color-theme-text-primary);
+    color: var(--color-text-primary);
     text-decoration: none;
     border-radius: 4px;
 }
 
 .pg-nav a:hover,
 .pg-nav a.router-link-active {
-    background-color: var(--color-theme-bg-select);
+    background-color: var(--color-bg-select);
 }
 
 .pg-main {
@@ -82,12 +82,12 @@ body {
     margin: 0 0 8px;
     font-size: var(--font-size-large);
     font-weight: bold;
-    border-bottom: 1px solid var(--color-theme-border);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .pg-section-heading p {
     margin: 0;
-    color: var(--color-theme-text-secondary);
+    color: var(--color-text-secondary);
 }
 
 .pg-row {
@@ -102,7 +102,7 @@ body {
 }
 
 .pg-muted {
-    color: var(--color-theme-text-secondary);
+    color: var(--color-text-secondary);
 }
 
 .pg-navigation-tab {
@@ -122,7 +122,7 @@ body {
 .pg-override-label code {
     padding: 2px 6px;
     font-size: var(--font-size-medium);
-    background-color: var(--color-theme-bg-secondary);
+    background-color: var(--color-bg-secondary);
     border-radius: 4px;
 }
 
@@ -140,7 +140,7 @@ body {
 
 .pg-override-card {
     padding: 16px;
-    border: 1px solid var(--color-theme-border);
+    border: 1px solid var(--color-border);
     border-radius: 8px;
 }
 
@@ -148,7 +148,7 @@ body {
     margin-bottom: 8px;
     font-size: var(--font-size-medium);
     font-weight: bold;
-    color: var(--color-theme-text-secondary, #888);
+    color: var(--color-text-secondary, #888);
 }
 
 .pg-override-app {
@@ -167,6 +167,6 @@ body {
 .pg-override-sample {
     padding: 12px;
     font-size: var(--font-size-medium);
-    background-color: var(--color-theme-bg-secondary);
+    background-color: var(--color-bg-secondary);
     border-radius: 4px;
 }

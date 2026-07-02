@@ -144,39 +144,39 @@ const onClosed = async () => {
 }
 
 .primary {
-    --c-alert-color: var(--color-base-white);
-    --c-alert-background-color: var(--color-status-brand);
-    --c-alert-border-color: var(--color-status-brand);
+    --c-alert-color: var(--mi-neutral-50);
+    --c-alert-background-color: var(--color-brand);
+    --c-alert-border-color: var(--color-brand);
 }
 
 .secondary {
-    --c-alert-color: var(--color-theme-text-primary);
+    --c-alert-color: var(--color-text-primary);
     --c-alert-background-color: transparent;
-    --c-alert-border-color: var(--color-theme-border);
+    --c-alert-border-color: var(--color-border);
 }
 
 .info {
-    --c-alert-color: var(--color-theme-text-primary);
-    --c-alert-background-color: var(--color-status-info);
-    --c-alert-border-color: var(--color-status-info);
+    --c-alert-color: var(--color-text-primary);
+    --c-alert-background-color: var(--color-info);
+    --c-alert-border-color: var(--color-info);
 }
 
 .success {
-    --c-alert-color: var(--color-base-white);
-    --c-alert-background-color: var(--color-status-success);
-    --c-alert-border-color: var(--color-status-success);
+    --c-alert-color: var(--mi-neutral-50);
+    --c-alert-background-color: var(--color-success);
+    --c-alert-border-color: var(--color-success);
 }
 
 .warning {
-    --c-alert-color: var(--color-base-black);
-    --c-alert-background-color: var(--color-status-warning);
-    --c-alert-border-color: var(--color-status-warning);
+    --c-alert-color: var(--mi-neutral-800);
+    --c-alert-background-color: var(--color-warning);
+    --c-alert-border-color: var(--color-warning);
 }
 
 .danger {
-    --c-alert-color: var(--color-base-white);
-    --c-alert-background-color: var(--color-status-danger);
-    --c-alert-border-color: var(--color-status-danger);
+    --c-alert-color: var(--mi-neutral-50);
+    --c-alert-background-color: var(--color-danger);
+    --c-alert-border-color: var(--color-danger);
 }
 
 /* ▼ shape ▼ */

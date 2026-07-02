@@ -67,11 +67,11 @@ withDefaults(
     }
     &::before {
         background: rgb(0 0 0 / 2%);
-        box-shadow: 0 0 var(--c-frame-padding) var(--color-theme-shadow);
+        box-shadow: 0 0 var(--c-frame-padding) var(--color-shadow);
     }
     &::after {
         padding: 0;
-        border: solid var(--color-theme-border);
+        border: solid var(--color-border);
         border-width: 1px;
     }
     &.is-pading {

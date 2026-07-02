@@ -318,7 +318,7 @@ defineExpose({ onBlur, debouncedSearchValue, value });
         height: var(--c-autocomplete-height);
         padding: 0;
         line-height: 1.5em;
-        color: var(--color-theme-text-primary);
+        color: var(--color-text-primary);
         background-color: transparent;
         border: 0;
     }
@@ -353,7 +353,7 @@ defineExpose({ onBlur, debouncedSearchValue, value });
     &.is-focus,
     &.is-value {
         .prefix-suffix {
-            color: var(--color-theme-text-primary);
+            color: var(--color-text-primary);
         }
     }
     .clearable-box {

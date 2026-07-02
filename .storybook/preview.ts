@@ -74,7 +74,7 @@ const preview: Preview = {
             // Storybook 10: globals.backgrounds.value is the option key ('light' | 'dark')
             const selectedTheme = context.globals.backgrounds?.value || 'light';
             applyTheme(selectedTheme);
-            document.body.style.cssText = 'background-color: var(--color-theme-bg-primary) !important;';
+            document.body.style.cssText = 'background-color: var(--color-bg-primary) !important;';
 
             // Storybook 10: pass story function directly (do not call it)
             return {

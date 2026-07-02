@@ -177,8 +177,8 @@ const hasSlot = (name: string) => {
                 width: var(--c-step-icon-size);
                 height: var(--c-step-icon-size);
                 padding: 4px;
-                color: var(--color-theme-bg-secondary);
-                background-color: var(--color-theme-text-secondary);
+                color: var(--color-bg-secondary);
+                background-color: var(--color-text-secondary);
                 border-radius: 50%;
                 transition: background-color 0.2s;
             }
@@ -190,24 +190,25 @@ const hasSlot = (name: string) => {
                 transition: transform 0.2s;
             }
             &.is-current {
-                color: var(--color-status-brand);
+                /* Buttonコンポーネント自身がこの変数でcolorを確定するため、継承ではなく直接上書きする */
+                --c-button-color: var(--color-brand);
                 .icon {
-                    background-color: var(--color-status-brand);
+                    background-color: var(--color-brand);
                 }
                 .text {
                     transform: scale(1);
                 }
             }
             &.is-success {
-                color: var(--color-status-success);
+                color: var(--color-success);
                 .icon {
-                    background-color: var(--color-status-success);
+                    background-color: var(--color-success);
                 }
             }
         }
         .step-separator {
             position: relative;
-            background-color: var(--color-theme-border);
+            background-color: var(--color-border);
             &::before {
                 position: absolute;
                 inset: 0;
@@ -215,7 +216,7 @@ const hasSlot = (name: string) => {
                 height: 100%;
                 margin: auto;
                 content: '';
-                background-color: var(--color-status-success);
+                background-color: var(--color-success);
                 transform: scale(0);
                 transition: transform 0.2s;
             }
@@ -236,7 +237,7 @@ const hasSlot = (name: string) => {
         margin-top: 8px;
         &:not(.no-separator) {
             padding-top: 8px;
-            border-top: 1px solid var(--color-theme-border);
+            border-top: 1px solid var(--color-border);
         }
     }
 }
@@ -269,7 +270,7 @@ const hasSlot = (name: string) => {
         padding: 8px 24px;
         &:not(.no-separator) {
             margin-bottom: 8px;
-            border-bottom: 1px solid var(--color-theme-border);
+            border-bottom: 1px solid var(--color-border);
         }
         .step-separator {
             top: calc(var(--c-step-icon-size) / 2);
@@ -295,7 +296,7 @@ const hasSlot = (name: string) => {
         padding: 24px 8px;
         &:not(.no-separator) {
             margin-left: 8px;
-            border-left: 1px solid var(--color-theme-border);
+            border-left: 1px solid var(--color-border);
         }
         .step-separator {
             width: 2px;
@@ -320,7 +321,7 @@ const hasSlot = (name: string) => {
         padding: 8px 24px;
         &:not(.no-separator) {
             margin-top: 8px;
-            border-top: 1px solid var(--color-theme-border);
+            border-top: 1px solid var(--color-border);
         }
         .step-separator {
             top: calc(var(--c-step-icon-size) / 2);
@@ -346,7 +347,7 @@ const hasSlot = (name: string) => {
         padding: 24px 8px;
         &:not(.no-separator) {
             margin-right: 8px;
-            border-right: 1px solid var(--color-theme-border);
+            border-right: 1px solid var(--color-border);
         }
         .step-separator {
             width: 2px;
