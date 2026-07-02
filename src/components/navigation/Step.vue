@@ -190,9 +190,10 @@ const hasSlot = (name: string) => {
                 transition: transform 0.2s;
             }
             &.is-current {
-                color: var(--color-status-brand);
+                /* Buttonコンポーネント自身がこの変数でcolorを確定するため、継承ではなく直接上書きする */
+                --c-button-color: var(--color-brand);
                 .icon {
-                    background-color: var(--color-status-brand);
+                    background-color: var(--color-brand);
                 }
                 .text {
                     transform: scale(1);

@@ -150,7 +150,8 @@ defineExpose({ tabAlignProperty, tabButtonRef, currentTabClientRects });
             padding: 0 1em;
         }
         :deep(.component-button.is-current) {
-            color: var(--color-status-brand);
+            /* Buttonコンポーネント自身がこの変数でcolorを確定するため、継承ではなく直接上書きする */
+            --c-button-color: var(--color-brand);
         }
         .active-border {
             position: absolute;
