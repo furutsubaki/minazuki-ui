@@ -6,7 +6,7 @@ vi.mock('@unhead/vue', () => ({
 }));
 
 import { useHead } from '@unhead/vue';
-import useTheme from '@/composables/useTheme';
+import useTheme, { detectLegacyThemeOptions, LEGACY_THEME_OPTIONS_MESSAGE } from '@/composables/useTheme';
 
 const THEME_STYLE_ID = 'minazuki-theme-vars';
 
@@ -211,5 +211,39 @@ describe('useTheme', () => {
         ).toBeTruthy();
 
         (globalThis as unknown as Record<string, unknown>).document = savedDocument;
+    });
+});
+
+describe('detectLegacyThemeOptions', () => {
+    it('options が undefined の場合は null を返す', () => {
+        expect(detectLegacyThemeOptions(undefined)).toBeNull();
+    });
+
+    it('options が null の場合は null を返す', () => {
+        expect(detectLegacyThemeOptions(null)).toBeNull();
+    });
+
+    it('themes キーが存在する場合は警告メッセージを返す', () => {
+        expect(
+            detectLegacyThemeOptions({ themes: { brand: { hue: 'blue', chroma: 'blue' } } })
+        ).toBe(LEGACY_THEME_OPTIONS_MESSAGE);
+    });
+
+    it('theme が文字列の場合は警告メッセージを返す', () => {
+        expect(detectLegacyThemeOptions({ theme: 'dark' })).toBe(LEGACY_THEME_OPTIONS_MESSAGE);
+    });
+
+    it('v2 形式（theme がオブジェクト）の場合は null を返す', () => {
+        expect(
+            detectLegacyThemeOptions({ theme: { statuses: { brand: { hue: 'blue', chroma: 'blue' } } } })
+        ).toBeNull();
+    });
+
+    it('themeId のみ指定された場合は null を返す', () => {
+        expect(detectLegacyThemeOptions({ themeId: 'dark' } as never)).toBeNull();
+    });
+
+    it('themes キーが存在しても値が undefined の場合は null を返す', () => {
+        expect(detectLegacyThemeOptions({ themes: undefined })).toBeNull();
     });
 });

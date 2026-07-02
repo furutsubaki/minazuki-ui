@@ -3,10 +3,12 @@ import {
     addComponent,
     addImports,
     addPlugin,
-    createResolver
+    createResolver,
+    useLogger
 } from '@nuxt/kit';
 import { miComponentList } from '../components/nuxt-map';
 import { miComposableList } from './composable-map';
+import { detectLegacyThemeOptions } from '../composables/useTheme';
 
 export interface ModuleOptions {
     /** components / composables の auto-import を有効化（default: true） */
@@ -52,6 +54,11 @@ const _module = defineNuxtModule<ModuleOptions>({
         install: false
     },
     setup(options, nuxt) {
+        const legacyThemeMessage = detectLegacyThemeOptions(options);
+        if (legacyThemeMessage) {
+            useLogger('minazuki-ui').error(legacyThemeMessage);
+        }
+
         const resolver = createResolver(import.meta.url);
 
         // CSS 自動注入

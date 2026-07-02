@@ -31,6 +31,25 @@ import {
 
 export type ThemeId = 'light' | 'dark';
 
+// v1 → v2 のテーマ設定オプション互換チェック用
+export interface LegacyThemeOptionsShape {
+    theme?: unknown;
+    themes?: unknown;
+}
+
+export const LEGACY_THEME_OPTIONS_MESSAGE =
+    '[minazuki-ui] テーマ設定オプションが v1 形式のままです。' +
+    ' `theme: string` → `themeId: string`、`themes: object` → `theme: object` に読み替えが必要です。' +
+    ' 詳細: https://github.com/furutsubaki/minazuki-ui/blob/develop/docs/MIGRATION.md';
+
+// options に v1 形式（theme が文字列 / themes キーが存在）が混在していないか検知する
+export const detectLegacyThemeOptions = (options?: LegacyThemeOptionsShape | null): string | null => {
+    if (!options) return null;
+    const hasLegacyThemesKey = 'themes' in options && options.themes !== undefined;
+    const hasLegacyThemeString = typeof options.theme === 'string';
+    return hasLegacyThemesKey || hasLegacyThemeString ? LEGACY_THEME_OPTIONS_MESSAGE : null;
+};
+
 export interface UITokenPair {
     light: string;
     dark: string;

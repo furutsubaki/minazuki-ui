@@ -6,7 +6,11 @@ import '@/assets/css/override.css';
 import type { App } from 'vue';
 import useFormData from '@/composables/useFormData';
 import useNotification from '@/composables/useNotification';
-import useTheme, { type MiThemeOverride, type ThemeId } from '@/composables/useTheme';
+import useTheme, {
+    type MiThemeOverride,
+    type ThemeId,
+    detectLegacyThemeOptions
+} from '@/composables/useTheme';
 import useOutsideClick from './directives/useOutsideClick';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
@@ -20,6 +24,12 @@ export { useFormData, useNotification, useTheme };
 
 export default {
     install(app: App, options?: { theme?: MiThemeOverride; themeId?: ThemeId }) {
+        const legacyThemeMessage = detectLegacyThemeOptions(options);
+        if (legacyThemeMessage) {
+            // eslint-disable-next-line no-console
+            console.error(legacyThemeMessage);
+        }
+
         for (const { name, component } of Object.values(componentNameMap)) {
             app.component(name, component);
         }
