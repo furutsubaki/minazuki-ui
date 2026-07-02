@@ -5,6 +5,8 @@ vue/nuxt用のUIコンポーネントライブラリ
 ※nuxt ^3
 ※vue ^3.5
 
+v1 からのアップグレードでテーマ設定オプションが変更されています。詳細は [docs/MIGRATION.md](./docs/MIGRATION.md) を参照してください。
+
 ## リソース
 
 reset cssとして[@acab/reset.css](https://github.com/mayank99/reset.css)を導入しています。
