@@ -153,6 +153,21 @@ defineExpose({ elementRef });
     :where(.datepicker) {
         /* stylelint-disable-next-line selector-class-pattern */
         :deep(.dp__menu) {
+            /* vue-datepicker独自のCSS変数をminazuki-uiのSemanticトークンにブリッジする */
+            --dp-background-color: var(--color-bg-surface);
+            --dp-text-color: var(--color-text-primary);
+            --dp-secondary-color: var(--color-text-disabled);
+            --dp-primary-color: var(--color-brand);
+            --dp-primary-text-color: var(--mi-neutral-50);
+            --dp-primary-disabled-color: var(--color-brand-alpha);
+            --dp-hover-color: var(--color-bg-secondary);
+            --dp-hover-text-color: var(--color-text-primary);
+            --dp-hover-icon-color: var(--color-text-primary);
+            --dp-icon-color: var(--color-text-secondary);
+            --dp-border-color: var(--color-border);
+            --dp-disabled-color: var(--color-bg-tertiary);
+            --dp-disabled-color-text: var(--color-text-disabled);
+
             background-color: transparent;
             border: none;
             /* stylelint-disable-next-line selector-class-pattern */

@@ -252,8 +252,11 @@ const onClick = (page: number | undefined) => {
             height: 100%;
         }
         &.is-current {
-            color: var(--color-text-primary);
             pointer-events: none;
+            .pagination-item-button {
+                /* Buttonコンポーネント自身がこの変数でcolorを確定するため、継承ではなく直接上書きする */
+                --c-button-color: var(--color-brand);
+            }
         }
         &.is-disabled {
             visibility: hidden;
