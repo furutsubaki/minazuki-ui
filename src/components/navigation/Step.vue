@@ -189,6 +189,10 @@ const hasSlot = (name: string) => {
                 transition: transform 0.2s;
             }
             &.is-current {
+                color: var(--color-status-brand);
+                .icon {
+                    background-color: var(--color-status-brand);
+                }
                 .text {
                     transform: scale(1);
                 }

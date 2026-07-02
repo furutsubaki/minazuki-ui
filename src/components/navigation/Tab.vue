@@ -111,6 +111,7 @@ defineExpose({ tabAlignProperty, tabButtonRef, currentTabClientRects });
                 :data-tab-button="tab.id"
                 :size="size"
                 shape="skeleton"
+                :class="{ 'is-current': currentTab === tab.id }"
                 :readonly="currentTab === tab.id"
                 v-for="tab in tabs"
                 :key="tab.id"
@@ -147,6 +148,9 @@ defineExpose({ tabAlignProperty, tabButtonRef, currentTabClientRects });
         :deep(.component-button) {
             height: var(--c-tab-button-height);
             padding: 0 1em;
+        }
+        :deep(.component-button.is-current) {
+            color: var(--color-status-brand);
         }
         .active-border {
             position: absolute;
