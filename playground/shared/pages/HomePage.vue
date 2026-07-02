@@ -1,9 +1,22 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useTheme } from 'minazuki-ui';
 
 const progress = ref(60);
 const rating = ref(3);
 const showBadge = ref(true);
+
+const { overrideTheme } = useTheme();
+const isBrandOverridden = ref(false);
+
+const applyBrandOverride = () => {
+    overrideTheme({ statuses: { brand: { hue: 'purple', chroma: 'purple' } } });
+    isBrandOverridden.value = true;
+};
+const resetBrandOverride = () => {
+    overrideTheme({ statuses: { brand: { hue: 'teal', chroma: 'teal' } } });
+    isBrandOverridden.value = false;
+};
 </script>
 
 <template>
@@ -34,6 +47,31 @@ const showBadge = ref(true);
                     </p>
                 </div>
             </div>
+        </section>
+
+        <section class="pg-section">
+            <h2>Theme Override（useTheme 実行時 API）</h2>
+            <p class="pg-override-desc">
+                <code>overrideTheme()</code> で <code>brand</code> の参照色相を Teal から Purple
+                に切り替えます。下の Primary ボタンの色が変われば、実行時オーバーライドが実際の DOM
+                に反映されていることの確認になります。
+            </p>
+            <div class="pg-row">
+                <MiButton variant="primary" :disabled="isBrandOverridden" @click="applyBrandOverride">
+                    Brand を Purple に上書き
+                </MiButton>
+                <MiButton variant="secondary" :disabled="!isBrandOverridden" @click="resetBrandOverride">
+                    デフォルト（Teal）に戻す
+                </MiButton>
+                <MiButton variant="primary">Primary（brand 確認用）</MiButton>
+            </div>
+            <p class="pg-override-desc">
+                なお Vue 環境は <code>app.use(MinazukiUi, {'{'} theme {'}'})</code>（warning を Lime
+                に上書き）、Nuxt3 環境は <code>nuxt.config.ts</code> の <code>minazukiUi.theme</code>
+                オプション（info を Pink に上書き）、Nuxt4 環境は無上書きの既定値で、それぞれ別経路の
+                オーバーライドが適用された状態で起動しています。Warning / Info ボタンの色が環境ごとに
+                異なっていれば、各消費者環境での設定時オーバーライドも機能しています。
+            </p>
         </section>
 
         <section class="pg-section">
