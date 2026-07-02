@@ -254,9 +254,6 @@ const onClick = (page: number | undefined) => {
         &.is-current {
             color: var(--color-text-primary);
             pointer-events: none;
-            .pagination-item-button {
-                color: red;
-            }
         }
         &.is-disabled {
             visibility: hidden;

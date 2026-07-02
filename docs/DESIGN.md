@@ -99,7 +99,7 @@ CSS 変数名: `--mi-neutral-{step}`（例: `--mi-neutral-700`）。Chroma は 0
 | brand | Teal | 0 | CTA・主要アクション |
 | info | Blue | 0 | 情報通知 |
 | success | Green | 0 | 成功・完了 |
-| warning | Yellow | +0.20 | 警告・注意喚起 |
+| warning | Yellow | +0.15 | 警告・注意喚起 |
 | danger | Red | 0 | エラー・破壊的操作 |
 
 各 status は以下の8段階トークンを持つ:
