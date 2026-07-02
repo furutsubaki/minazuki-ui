@@ -63,7 +63,6 @@ const resetBrandOverride = () => {
                 <MiButton variant="secondary" :disabled="!isBrandOverridden" @click="resetBrandOverride">
                     デフォルト（Teal）に戻す
                 </MiButton>
-                <MiButton variant="primary">Primary（brand 確認用）</MiButton>
             </div>
             <p class="pg-override-desc">
                 なお Vue 環境は <code>app.use(MinazukiUi, {'{'} theme {'}'})</code>（warning を Lime
