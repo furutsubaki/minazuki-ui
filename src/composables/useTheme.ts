@@ -162,34 +162,32 @@ function genStatuses(statuses: MiSemanticStatuses, p: MiPrimitives): string {
     const out: string[] = [];
     const defs = buildHueDefs(p);
 
+    const ALPHA_HEX: Partial<Record<string, string>> = {
+        alpha: 'cc',
+        'surface-alpha': '80'
+    };
+
     for (const name of STATUS_NAMES) {
         const def = statuses[name];
         const hasOffset = def.lightnessOffset !== 0;
         const hue = def.hue;
 
-        if (hasOffset) {
-            const base = computeStatusColor(def, defs, 400);
-            out.push(`--color-${name}:${base.hex}`);
-            for (const suffix of SEMANTIC_SUFFIXES) {
-                if (suffix === 'alpha') continue;
-                const step = SEMANTIC_STEP_MAP[suffix];
-                const { hex } = computeStatusColor(def, defs, step);
+        const base = computeStatusColor(def, defs, 400);
+        out.push(hasOffset ? `--color-${name}:${base.hex}` : `--color-${name}:var(--mi-${hue}-400)`);
+
+        for (const suffix of SEMANTIC_SUFFIXES) {
+            const step = SEMANTIC_STEP_MAP[suffix];
+            const alphaHex = ALPHA_HEX[suffix];
+            const { hex } = computeStatusColor(def, defs, step);
+
+            if (alphaHex) {
+                out.push(`--color-${name}-${suffix}:${hex}${alphaHex}`);
+            } else if (hasOffset) {
                 out.push(`--color-${name}-${suffix}:${hex}`);
-            }
-        } else {
-            out.push(`--color-${name}:var(--mi-${hue}-400)`);
-            for (const suffix of SEMANTIC_SUFFIXES) {
-                if (suffix === 'alpha') continue;
-                const step = SEMANTIC_STEP_MAP[suffix];
+            } else {
                 out.push(`--color-${name}-${suffix}:var(--mi-${hue}-${step})`);
             }
         }
-
-        const base400 = computeStatusColor(def, defs, 400);
-        out.push(`--color-${name}-alpha:${base400.hex}cc`);
-
-        const surface = computeStatusColor(def, defs, 100);
-        out.push(`--color-${name}-surface-alpha:${surface.hex}80`);
     }
 
     return out.join(';');
@@ -227,7 +225,9 @@ function genAliases(): string {
     const m: [string, string][] = [
         ...STATUS_NAMES.flatMap((s) => [
             [`--color-status-${s}`, `var(--color-${s})`],
-            [`--color-status-${s}-alpha`, `var(--color-${s}-alpha)`]
+            ...SEMANTIC_SUFFIXES.map((suffix) =>
+                [`--color-status-${s}-${suffix}`, `var(--color-${s}-${suffix})`]
+            )
         ] as [string, string][]),
 
         ...HUE_NAMES.map((h) => [`--color-base-${h}`, `var(--mi-${h})`] as [string, string]),

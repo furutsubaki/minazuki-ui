@@ -21,7 +21,7 @@ export type NeutralStep = (typeof NEUTRAL_STEPS)[number];
 export const STATUS_NAMES = ['brand', 'info', 'success', 'warning', 'danger'] as const;
 export type StatusName = (typeof STATUS_NAMES)[number];
 
-export const SEMANTIC_SUFFIXES = ['surface', 'subtle', 'muted', 'emphasis', 'strong', 'alpha'] as const;
+export const SEMANTIC_SUFFIXES = ['surface', 'subtle', 'muted', 'emphasis', 'strong', 'alpha', 'surface-alpha'] as const;
 export type SemanticSuffix = (typeof SEMANTIC_SUFFIXES)[number];
 
 export interface HueDefinition {
@@ -96,7 +96,8 @@ export const SEMANTIC_STEP_MAP: Record<SemanticSuffix, ColorStep> = {
     muted: 300,
     emphasis: 500,
     strong: 600,
-    alpha: 400
+    alpha: 400,
+    'surface-alpha': 100
 };
 
 // --- OKLCH → sRGB conversion ---

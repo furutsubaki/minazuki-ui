@@ -78,15 +78,13 @@ for (const step of NEUTRAL_STEPS) {
     });
 }
 
-const allSuffixes = [...SEMANTIC_SUFFIXES, 'surface-alpha'] as const;
-
 for (const status of STATUS_NAMES) {
     const hue = STATUS_MAP[status];
     properties.push({
         name: `--color-${status}`,
         description: `${status} base color (mapped from ${hue})`
     });
-    for (const suffix of allSuffixes) {
+    for (const suffix of SEMANTIC_SUFFIXES) {
         properties.push({
             name: `--color-${status}-${suffix}`,
             description: `${status} ${suffix} variant`

@@ -42,7 +42,7 @@ const headerStyle: Record<string, string> = {
     textTransform: 'capitalize'
 };
 
-const suffixLabels = ['(base)', ...SEMANTIC_SUFFIXES, 'surface-alpha'] as const;
+const suffixLabels = ['(base)', ...SEMANTIC_SUFFIXES] as const;
 
 const DEFAULT_UI_PAIRS: { key: keyof MiSemanticUI; label: string; pair: UITokenPair }[] = [
     { key: 'textPrimary', label: 'text-primary', pair: { light: 'var(--mi-neutral-700)', dark: 'var(--mi-neutral-50)' } },
@@ -85,6 +85,11 @@ function resolveVarToHex(ref: string): string {
 const SemanticGrid = defineComponent({
     name: 'SemanticGrid',
     setup() {
+        const ALPHA_HEX: Partial<Record<string, string>> = {
+            alpha: 'cc',
+            'surface-alpha': '80'
+        };
+
         const statusData = computed(() =>
             STATUS_NAMES.map((name) => {
                 const def = DEFAULT_STATUSES[name];
@@ -92,23 +97,19 @@ const SemanticGrid = defineComponent({
                 const suffixes = SEMANTIC_SUFFIXES.map((suffix) => {
                     const step = SEMANTIC_STEP_MAP[suffix];
                     const color = computeStatusColor(def, DEFAULT_HUES, step);
-                    const varName = suffix === 'alpha'
-                        ? `--color-${name}-alpha`
-                        : `--color-${name}-${suffix}`;
-                    const hex = suffix === 'alpha' ? `${color.hex}cc` : color.hex;
-                    return { suffix, hex, varName, L: color.L };
+                    const alphaHex = ALPHA_HEX[suffix];
+                    const hex = alphaHex ? `${color.hex}${alphaHex}` : color.hex;
+                    return {
+                        suffix,
+                        hex,
+                        varName: `--color-${name}-${suffix}`,
+                        L: color.L
+                    };
                 });
-                const surfaceColor = computeStatusColor(def, DEFAULT_HUES, 100);
-                const surfaceAlpha = {
-                    suffix: 'surface-alpha' as const,
-                    hex: `${surfaceColor.hex}80`,
-                    varName: `--color-${name}-surface-alpha`,
-                    L: surfaceColor.L
-                };
                 return {
                     name,
                     base: { hex: base.hex, varName: `--color-${name}`, L: base.L },
-                    suffixes: [...suffixes, surfaceAlpha]
+                    suffixes
                 };
             })
         );
