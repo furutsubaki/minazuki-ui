@@ -59,6 +59,7 @@ const onChangeTab = (id: string) => {
     transitionFrom.value = ['top', 'bottom'].includes(props.position)
         ? transitionFromX
         : transitionFromY;
+    currentStep.value = id;
 
     if (isPrev) {
         emit('prev', id);
@@ -189,6 +190,10 @@ const hasSlot = (name: string) => {
                 transition: transform 0.2s;
             }
             &.is-current {
+                color: var(--color-status-brand);
+                .icon {
+                    background-color: var(--color-status-brand);
+                }
                 .text {
                     transform: scale(1);
                 }
