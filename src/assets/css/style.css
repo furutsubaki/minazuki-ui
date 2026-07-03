@@ -23,7 +23,6 @@
         min-height: var(--height-vh);
         overflow-y: auto;
         scrollbar-gutter: auto;
-        font-family: var(--font-sans);
         font-size: var(--font-size-medium);
         font-feature-settings: 'palt';
         color: var(--color-text-primary);

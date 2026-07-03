@@ -220,47 +220,24 @@ overrideTheme({ ui: { textPrimary: { light: '#111', dark: '#eee' } } });
 
 <!-- 日本語タイポグラフィの核心セクション。variables.css / style.css に基づいて記述 -->
 
-### 3.1 和文フォント
+### 3.1 font-family 方針
 
-<!-- 使用している和文フォントを優先度順に列挙 -->
+<!-- ライブラリは font-family を指定しない。消費者側のCSSに委ねる -->
 
-- **ゴシック体**: Roboto, Noto Sans JP, 游ゴシック, ヒラギノ角ゴ Pro
-- **明朝体**: Roboto Slab, Noto Serif JP, 游明朝, ヒラギノ明朝 Pro
-- **アクセント**: Kosugi
+minazuki-ui は `font-family` を指定しない。Webフォントの読み込みコストや、消費者ごとに異なるフォント戦略を尊重するため、`--font-sans` / `--font-serif` / `--font-accent` のようなフォントファミリー変数は提供せず、`body` にも `font-family` を宣言しない。
 
-### 3.2 欧文フォント
-
-<!-- 和文と組み合わせる欧文フォント -->
-
-- **サンセリフ**: Roboto（和文ゴシック系の先頭に配置）
-- **セリフ**: Roboto Slab（和文明朝系の先頭に配置）
-- **等幅**: monospace（generic family のみ）
-
-### 3.3 font-family 指定
-
-<!-- 実際のCSS宣言をそのまま記述。フォールバックチェーンの順序が重要 -->
+フォント指定は消費者側のグローバルCSSで行う。
 
 ```css
-/* 本文（--font-sans） */
-font-family: 'Roboto', 'Noto Sans JP', '游ゴシック Medium', 'Yu Gothic Medium', '游ゴシック体', 'YuGothic', '游ゴシック', 'Yu Gothic', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro', meiryo, 'メイリオ', sans-serif;
-
-/* 明朝（--font-serif） */
-font-family: 'Roboto Slab', 'Noto Serif JP', '游明朝体', '游明朝', yumincho, 'Yu Mincho', 'Hiragino Mincho Pro', 'ヒラギノ明朝 Pro', serif;
-
-/* アクセント（--font-accent） */
-font-family: 'Kosugi', sans-serif;
-
-/* 等幅 */
-font-family: monospace;
+/* 消費者側で任意に指定 */
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+}
 ```
 
-**フォールバックの考え方**:
+- **等幅**: monospace（generic family のみ。コード表示等の一部コンポーネントで使用する場合がある）
 
-- 欧文フォント（Roboto / Roboto Slab）を先に指定し、和文グリフは後続の和文フォントで表示
-- 和文フォントは複数のOS環境をカバーするようにフォールバック
-- 最後に generic family（sans-serif / serif）を指定
-
-### 3.4 文字サイズ・ウェイト階層
+### 3.2 文字サイズ・ウェイト階層
 
 <!-- variables.css のフォントサイズ定義に基づく。html font-size: 62.5%（1rem = 10px） -->
 
@@ -272,7 +249,7 @@ font-family: monospace;
 
 **ベースサイズ**: `html { font-size: 62.5%; }` により `1rem = 10px` で計算
 
-### 3.5 行間・字間
+### 3.3 行間・字間
 
 - **本文の行間 (line-height)**: 1.5em
 - **見出しの行間**: 1.5em（本文と同一）
@@ -285,7 +262,7 @@ font-family: monospace;
 - `letter-spacing` は全角文字の場合 `0.04em〜0.05em` 程度で可読性が向上する
 - 欧文混じりの場合は `letter-spacing` が欧文に影響する点に注意
 
-### 3.6 禁則処理・改行ルール
+### 3.4 禁則処理・改行ルール
 
 ```css
 /* 実際の設定（style.css） */
@@ -298,7 +275,7 @@ overflow-wrap: break-word;     /* 長いURLや英単語の折り返し */
 - 行頭禁止: `）」』】〕〉》」】、。，．・：；？！`
 - 行末禁止: `（「『【〔〈《「【`
 
-### 3.7 OpenType 機能
+### 3.5 OpenType 機能
 
 ```css
 /* 実際の設定（style.css の body） */
@@ -309,7 +286,7 @@ font-feature-settings: 'palt';
 - **kern**: 欧文のカーニング。和欧混植時に有効
 - 本文には `palt` を適用しない方が可読性が高い場合がある
 
-### 3.8 縦書き
+### 3.6 縦書き
 
 該当なし（縦書きには非対応）
 
@@ -531,9 +508,7 @@ Border Radius: --radius-none / --radius-sm / --radius-pill / --radius-circle
 --color-link                リンク色
 
 # フォント
---font-sans                 ゴシック体フォントスタック
---font-serif                明朝体フォントスタック
---font-accent               アクセントフォント
+# font-family は本ライブラリでは指定しない（消費者側のCSSに委ねる）
 --font-size-large            大サイズ（2rem）
 --font-size-medium           標準サイズ（1.4rem / 1.6rem）
 --font-size-small            小サイズ（1.2rem）
@@ -548,7 +523,6 @@ Border Radius: --radius-none / --radius-sm / --radius-pill / --radius-circle
 ```
 このサービスのデザインシステムに従って、ユーザー一覧テーブルを作成してください。
 - プライマリカラー: var(--color-brand)
-- フォント: var(--font-sans) を使用
 - 行間: 本文は line-height: 1.5em を使用
 - テーブルヘッダーの背景: var(--color-bg-secondary)
 - ボーダー: var(--color-border)
