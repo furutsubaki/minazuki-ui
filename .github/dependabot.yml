@@ -17,6 +17,15 @@ updates:
     cooldown:
       default-days: 7
     groups:
+      vitest-ecosystem:
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
+      storybook-ecosystem:
+        patterns:
+          - 'storybook'
+          - '@storybook/*'
+          - 'eslint-plugin-storybook'
       npm-minor-patch:
         update-types:
           - 'minor'
