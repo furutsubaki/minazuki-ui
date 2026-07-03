@@ -338,19 +338,28 @@ watch(currentTheme, (newTheme) => {
     setTheme(newTheme);
 });
 
+// undefined 値のキーを無視してマージする（structuredClone は JSON.stringify と異なり undefined キーを保持するため必須）
+function assignDefined<T extends object>(target: T, source: Partial<T>): void {
+    for (const key of Object.keys(source) as Array<keyof T>) {
+        const val = source[key];
+        if (val === undefined) continue;
+        target[key] = val as T[keyof T];
+    }
+}
+
 const overrideTheme = (overrides: MiThemeOverride) => {
-    const raw: MiThemeOverride = JSON.parse(JSON.stringify(overrides));
+    const raw: MiThemeOverride = structuredClone(overrides);
     const config = structuredClone(themeConfig.value);
 
     if (raw.primitives) {
         if (raw.primitives.hues) {
-            Object.assign(config.primitives.hues, raw.primitives.hues);
+            assignDefined(config.primitives.hues, raw.primitives.hues);
         }
         if (raw.primitives.chromas) {
-            Object.assign(config.primitives.chromas, raw.primitives.chromas);
+            assignDefined(config.primitives.chromas, raw.primitives.chromas);
         }
         if (raw.primitives.lightnessOffsets) {
-            Object.assign(config.primitives.lightnessOffsets, raw.primitives.lightnessOffsets);
+            assignDefined(config.primitives.lightnessOffsets, raw.primitives.lightnessOffsets);
         }
         if (raw.primitives.neutralHue !== undefined) {
             config.primitives.neutralHue = raw.primitives.neutralHue;
@@ -360,7 +369,7 @@ const overrideTheme = (overrides: MiThemeOverride) => {
     if (raw.statuses) {
         for (const [name, partial] of Object.entries(raw.statuses)) {
             if (partial && config.statuses[name as StatusName]) {
-                Object.assign(config.statuses[name as StatusName], partial);
+                assignDefined(config.statuses[name as StatusName], partial);
             }
         }
     }
