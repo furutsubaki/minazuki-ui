@@ -22,6 +22,7 @@ export default defineConfig({
                 'src/stories/**',
                 'src/index.ts',
                 'src/generate-component-index.js',
+                'src/generate-css-data.ts',
                 'src/components/index.ts',
                 'src/components/nuxt-map.ts',
                 'src/nuxt/**',

@@ -7,6 +7,7 @@ vi.mock('@unhead/vue', () => ({
 
 import { useHead } from '@unhead/vue';
 import useTheme, { detectLegacyThemeOptions, LEGACY_THEME_OPTIONS_MESSAGE } from '@/composables/useTheme';
+import type { MiThemeOverride } from '@/composables/useTheme';
 
 const THEME_STYLE_ID = 'minazuki-theme-vars';
 
@@ -30,6 +31,45 @@ describe('useTheme', () => {
         expect(themeConfig.value.primitives.hues.red).toBe(20);
     });
 
+    it('overrideTheme で primitives.chromas が上書きされる', () => {
+        const { themeConfig, overrideTheme } = useTheme();
+        overrideTheme({
+            primitives: { chromas: { red: 0.5 } }
+        });
+        expect(themeConfig.value.primitives.chromas.red).toBe(0.5);
+    });
+
+    it('overrideTheme で primitives.lightnessOffsets が上書きされる', () => {
+        const { themeConfig, overrideTheme } = useTheme();
+        overrideTheme({
+            primitives: { lightnessOffsets: { red: 0.1 } }
+        });
+        expect(themeConfig.value.primitives.lightnessOffsets.red).toBe(0.1);
+    });
+
+    it('overrideTheme で primitives.neutralHue が上書きされる', () => {
+        const { themeConfig, overrideTheme } = useTheme();
+        overrideTheme({
+            primitives: { neutralHue: 100 }
+        });
+        expect(themeConfig.value.primitives.neutralHue).toBe(100);
+    });
+
+    it('overrideTheme で primitives 内の値が undefined のキーは既存値を維持する', () => {
+        const { themeConfig, overrideTheme } = useTheme();
+        overrideTheme({
+            primitives: { hues: { red: 20 } }
+        });
+        const before = themeConfig.value.primitives.hues.red;
+
+        overrideTheme({
+            primitives: { hues: { red: undefined, blue: 200 } }
+        } as MiThemeOverride);
+
+        expect(themeConfig.value.primitives.hues.red).toBe(before);
+        expect(themeConfig.value.primitives.hues.blue).toBe(200);
+    });
+
     it('overrideTheme で status の紐付けが変更される', () => {
         const { themeConfig, overrideTheme } = useTheme();
         overrideTheme({
@@ -37,6 +77,15 @@ describe('useTheme', () => {
         });
         expect(themeConfig.value.statuses.brand.hue).toBe('blue');
         expect(themeConfig.value.statuses.brand.chroma).toBe('blue');
+    });
+
+    it('overrideTheme で未知の status キーは無視される', () => {
+        const { themeConfig, overrideTheme } = useTheme();
+        const before = structuredClone(themeConfig.value.statuses);
+        overrideTheme({
+            statuses: { unknown: { hue: 'blue' } }
+        } as MiThemeOverride);
+        expect(themeConfig.value.statuses).toEqual(before);
     });
 
     it('overrideTheme で UI トークンが文字列で上書きされる', () => {
@@ -55,6 +104,15 @@ describe('useTheme', () => {
         });
         expect(themeConfig.value.ui.textPrimary.light).toBe('#111');
         expect(themeConfig.value.ui.textPrimary.dark).toBe('#eee');
+    });
+
+    it('overrideTheme で UI トークンの値が undefined のキーはスキップされる', () => {
+        const { themeConfig, overrideTheme } = useTheme();
+        const before = structuredClone(themeConfig.value.ui.textPrimary);
+        overrideTheme({
+            ui: { textPrimary: undefined }
+        });
+        expect(themeConfig.value.ui.textPrimary).toEqual(before);
     });
 
     it('setTheme("dark") で data-theme と CSS が設定される', () => {
