@@ -18,7 +18,7 @@ const meta: Meta<MiNotificationOption> = {
             };
         },
         template: `
-<Button @click="onSetNotification">Open Notifications</Button>
+<Button label="Open Notifications" @click="onSetNotification" />
 <Notifications />`
     }),
     args: {
@@ -111,7 +111,7 @@ export const ParamsVariant: Story = {
         },
         template: `
 <div v-for="param in params" :key="param.variant">
-    <Button :variant="param.variant" @click="onSetNotification(param)">Open Notifications({{param.variant}})</Button>
+    <Button :variant="param.variant" :label="'Open Notifications(' + param.variant + ')'" @click="onSetNotification(param)" />
 </div>
 <Notifications />`
     })
@@ -146,7 +146,7 @@ export const ParamsSize: Story = {
         },
         template: `
 <div v-for="param in params" :key="param.size">
-    <Button @click="onSetNotification(param)">Open Notifications({{param.size}})</Button>
+    <Button :label="'Open Notifications(' + param.size + ')'" @click="onSetNotification(param)" />
 </div>
 <Notifications />`
     })
@@ -181,7 +181,7 @@ export const ParamsShape: Story = {
         },
         template: `
 <div v-for="param in params" :key="param.shape">
-    <Button @click="onSetNotification(param)">Open Notifications({{param.shape}})</Button>
+    <Button :label="'Open Notifications(' + param.shape + ')'" @click="onSetNotification(param)" />
 </div>
 <Notifications />`
     })
@@ -219,7 +219,7 @@ export const ParamsPosition: Story = {
         },
         template: `
 <div v-for="param in params" :key="param.position">
-    <Button @click="onSetNotification(param)">Open Notifications({{param.position}})</Button>
+    <Button :label="'Open Notifications(' + param.position + ')'" @click="onSetNotification(param)" />
 </div>
 <Notifications />`
     })

@@ -123,7 +123,7 @@ CSS 変数名: `--color-{status}[-suffix]`（例: `--color-brand`, `--color-dang
 
 | 状態 | 背景色 | テキスト色 | ボーダー色 |
 |------|--------|-----------|-----------|
-| Default（通常） | `-surface` or `(base)-alpha` | `(base)` | `(base)` |
+| Default（通常） | `-surface` or `(base)` | `(base)` | `(base)` or `-emphasis` |
 | Hover | `-alpha` | `(base)` | `-emphasis` |
 | Active / Press | `-emphasis` | `neutral-50` | `-strong` |
 | Focus | — | — | `-emphasis`（ring） |
@@ -131,7 +131,7 @@ CSS 変数名: `--color-{status}[-suffix]`（例: `--color-brand`, `--color-dang
 | Selected | `-alpha` | `(base)` | `(base)` |
 | 半透明背景 | `-surface-alpha` | `(base)` | `(base)` |
 
-> **Note**: ここでの `(base)` は suffix なし（`--color-{status}`）を指す。上記は推奨の組み合わせであり、コンポーネントの文脈に応じて調整して構わない
+> **Note**: ここでの `(base)` は suffix なし（`--color-{status}`）を指す。上記は推奨の組み合わせであり、コンポーネントの文脈に応じて調整して構わない。Button の塗りつぶし系バリアント（primary/info/success/warning/danger）は背景に `(base)` 不透明色、ボーダーに `-emphasis`（明度を下げた色）を使う。status バリアント（info/success/warning/danger）にはデフォルトでアイコンが自動付与され、brand カラーの上書きによってステータス間の色が衝突した場合でもアイコンの形状差で視覚的に区別できるようにしている
 
 `lightnessOffset` が 0 の status は `var(--mi-{hue}-{step})` への参照で実装される（Primitive 変更に自動追従）。Warning のみ offset 適用後の hex 値を直接出力する。
 
@@ -343,12 +343,32 @@ font-feature-settings: 'palt';
 | Medium | 32px | `--font-size-medium` |
 | Small | 24px | `--font-size-small` |
 
-**Primary バリアント**
+**API**
 
-- Background: `var(--color-brand-alpha)`
-- Text: `var(--mi-neutral-50)`
-- Border Color: `var(--color-brand)`
-- Hover: テキスト・ボーダーが brand、背景が transparent に反転
+- `label` prop: ボタンのテキストコンテンツ
+- `prefixIcon` / `suffixIcon` prop: テキスト前後のアイコン（Vue コンポーネント）。status バリアント（info/success/warning/danger）では `prefixIcon` 未指定時にデフォルトアイコンが自動付与される
+- icon-only ボタン（`label` なし）では `aria-label` 属性を必ず付与すること
+- 記号的な `label`（`≪`、`≫` 等）を使用する場合も `aria-label` で目的を補足すること
+
+**Status アイコン自動付与**
+
+| Variant | デフォルトアイコン |
+|---------|------------------|
+| info | `Info` |
+| success | `CheckCircle2` |
+| warning | `AlertTriangle` |
+| danger | `XOctagon` |
+
+`prefixIcon` を明示指定した場合はデフォルトアイコンをオーバーライドする。primary / secondary にはデフォルトアイコンは付与されない。
+
+brand カラーの上書き（`overrideTheme`）により任意の status 間で色が衝突し得るが、アイコンの形状差によって区別が維持される。
+
+**Primary / Info / Success / Warning / Danger バリアント（塗りつぶし）**
+
+- Background: `var(--color-{status})`（不透明）
+- Text: `var(--mi-neutral-50)`（warning のみ `var(--mi-neutral-800)`）
+- Border Color: `var(--color-{status}-emphasis)`（明度を下げた色）
+- Hover: テキスト・ボーダーが `{status}` 色、背景が transparent に反転
 
 **Secondary バリアント**
 
@@ -356,6 +376,11 @@ font-feature-settings: 'palt';
 - Text: `var(--color-text-primary)`
 - Border Color: `var(--color-border)`
 - Hover: brand カラーの背景付きに反転
+
+**Link / Skeleton シェイプ**
+
+- `shape="link"` / `shape="skeleton"` は variant に関わらず背景・ボーダーが常に transparent
+- `shape="link"` は variant に関わらずテキスト色が `var(--color-link)` 固定（hover は `var(--color-link-hover)`）。a タグ相当の見た目にするため
 
 ### Inputs (`MiField` / `FieldFrame`)
 

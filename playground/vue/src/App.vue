@@ -22,9 +22,7 @@ const toggleTheme = () => {
                 <RouterLink to="/feedback">Feedback</RouterLink>
                 <RouterLink to="/navigation">Navigation</RouterLink>
             </nav>
-            <MiButton :variant="currentTheme === 'dark' ? 'primary' : 'secondary'" size="small" @click="toggleTheme">
-                {{ currentTheme === 'dark' ? 'Light' : 'Dark' }} Mode
-            </MiButton>
+            <MiButton :variant="currentTheme === 'dark' ? 'primary' : 'secondary'" size="small" :label="currentTheme === 'dark' ? 'Light Mode' : 'Dark Mode'" @click="toggleTheme" />
         </header>
 
         <main class="pg-main">

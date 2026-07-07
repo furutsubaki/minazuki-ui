@@ -106,15 +106,15 @@ watch(model, (v) => {
                 :size="size"
                 shape="link"
                 :readonly="readonly"
+                :prefix-icon="IconStar"
+                :aria-label="`${r.value}点`"
                 :style="`opacity: ${variant === 'dynamic' ? dynamicColors[i] : '100%'}`"
                 @mouseover="onHover(r.value)"
                 @mouseleave="onLeave"
                 @click="onClick(r.value)"
                 v-for="r in rate"
                 :key="r.value"
-            >
-                <IconStar class="icon" />
-            </Button>
+            />
         </div>
     </div>
 </template>
@@ -135,7 +135,7 @@ watch(model, (v) => {
         position: relative;
         display: flex;
         .button {
-            .icon {
+            :deep(.button-icon) {
                 width: var(--c-rating-height);
                 height: var(--c-rating-height);
                 color: var(--c-rating-color);
@@ -146,7 +146,7 @@ watch(model, (v) => {
             }
             &.is-over {
                 background-color: transparent;
-                .icon {
+                :deep(.button-icon) {
                     fill: var(--c-rating-background-color);
                 }
             }
@@ -156,7 +156,7 @@ watch(model, (v) => {
                 width: calc(var(--c-rating-height) / 2);
                 height: var(--c-rating-height);
                 overflow: hidden;
-                .icon {
+                :deep(.button-icon) {
                     position: absolute;
                     top: 0;
                     left: 0;
@@ -168,14 +168,14 @@ watch(model, (v) => {
 }
 
 .dynamic {
-    :deep(.icon) {
+    :deep(.button-icon) {
         --c-rating-color: var(--mi-orange) !important;
         --c-rating-background-color: var(--mi-orange) !important;
     }
 }
 
 .flat {
-    :deep(.icon) {
+    :deep(.button-icon) {
         --c-rating-color: var(--mi-orange) !important;
         --c-rating-background-color: var(--mi-orange) !important;
     }

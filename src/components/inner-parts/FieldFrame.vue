@@ -100,7 +100,8 @@ defineExpose({ frameRef });
                 'is-focus': isFocus,
                 'is-required': required,
                 'is-inputed': forceInputed || (value != null && value !== ''),
-                'is-disabled': disabled
+                'is-disabled': disabled,
+                'is-error': errors.length > 0
             }
         ]"
     >
@@ -413,6 +414,12 @@ defineExpose({ frameRef });
 }
 
 /* ▲ variant ▲ */
+
+/* variant より詳細度を上げてオーバーライドする */
+
+.component-input-frame.is-error {
+    --c-field-frame-border-color: var(--color-danger);
+}
 
 /* ▼ size ▼ */
 

@@ -113,11 +113,12 @@ defineExpose({ tabAlignProperty, tabButtonRef, currentTabClientRects });
                 shape="skeleton"
                 :class="{ 'is-current': currentTab === tab.id }"
                 :readonly="currentTab === tab.id"
+                :prefix-icon="tab.icon"
+                :label="tab.label"
                 v-for="tab in tabs"
                 :key="tab.id"
                 @click="onChangeTab(tab.id)"
-                ><component :is="tab.icon" v-if="tab.icon" />{{ tab.label }}</Button
-            >
+            />
             <span class="active-border" />
         </div>
         <component :is="TransitionComponent" :from="transitionFrom">

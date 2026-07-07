@@ -161,9 +161,7 @@ const onOutsideClick = computed(() => ({
                         class="modal"
                         :class="[size, shape, { 'is-center': center, 'is-full-size-by-sp': isFullSizeBySp }]"
                     >
-                        <Button size="large" shape="skeleton" class="closeable-box" @click="onClose">
-                            <IconX class="closeable-icon" />
-                        </Button>
+                        <Button size="large" shape="skeleton" class="closeable-box" :prefix-icon="IconX" aria-label="閉じる" @click="onClose" />
                         <div class="inner">
                             <div class="box">
                                 <div v-if="title" class="title">{{ title }}</div>
@@ -230,7 +228,7 @@ const onOutsideClick = computed(() => ({
         right: 0;
         z-index: 1;
         padding: 8px;
-        .closeable-icon {
+        :deep(.button-icon) {
             width: var(--font-size-large);
             height: var(--font-size-large);
         }

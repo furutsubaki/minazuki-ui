@@ -12,7 +12,7 @@ const meta: Meta<typeof Modal> = {
             return { args };
         },
         template: `
-<Button @click="args.modelValue = true">Open Modal</Button>
+<Button label="Open Modal" @click="args.modelValue = true" />
 <Modal v-bind="args">
     'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
 </Modal>`
@@ -57,7 +57,7 @@ export const PropsSize: Story = {
         }),
         template: `
 <template v-for="param in params" :key="param.size">
-    <Button @click="param.modelValue = true">Open Modal({{param.size}})</Button>
+    <Button :label="'Open Modal(' + param.size + ')'" @click="param.modelValue = true" />
     <Modal v-bind="{...args, ...param}" v-model="param.modelValue">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </Modal>
@@ -95,7 +95,7 @@ export const PropsIsFullSizeBySP: Story = {
         }),
         template: `
 <template v-for="param in params" :key="param.size">
-    <Button @click="param.modelValue = true">Open Modal({{param.size}})</Button>
+    <Button :label="'Open Modal(' + param.size + ')'" @click="param.modelValue = true" />
     <Modal v-bind="{...args, ...param}" v-model="param.modelValue">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </Modal>
@@ -121,7 +121,7 @@ export const PropsShape: Story = {
         }),
         template: `
 <template v-for="param in params" :key="param.shape">
-    <Button @click="param.modelValue = true">Open Modal({{param.shape}})</Button>
+    <Button :label="'Open Modal(' + param.shape + ')'" @click="param.modelValue = true" />
     <Modal v-bind="{...args, ...param}" v-model="param.modelValue">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </Modal>
@@ -159,7 +159,7 @@ export const PropsTransitionFrom: Story = {
         }),
         template: `
 <template v-for="param in params" :key="param.transitionFrom">
-    <Button @click="param.modelValue = true">Open Modal({{param.transitionFrom}})</Button>
+    <Button :label="'Open Modal(' + param.transitionFrom + ')'" @click="param.modelValue = true" />
     <Modal v-bind="{...args, ...param}" v-model="param.modelValue">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </Modal>
@@ -203,7 +203,7 @@ export const PropsFrameComponent: Story = {
         }),
         template: `
 <template v-for="param in params" :key="param.frameComponent">
-    <Button @click="param.modelValue.value = true">Open Modal{{param.frameComponent ? ' by frame' : ''}}</Button>
+    <Button :label="'Open Modal' + (param.frameComponent ? ' by frame' : '')" @click="param.modelValue.value = true" />
     <Modal v-bind="{...args, ...param}" v-model="param.modelValue.value">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </Modal>

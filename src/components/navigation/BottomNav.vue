@@ -73,21 +73,16 @@ const onClick = (item: MiBottomNavItem) => {
     >
         <div class="component-bottom-nav-inner" :class="{ 'is-center': center }">
             <Button
-                v-for="(item, i) in items"
+                v-for="item in items"
                 :key="item.to"
                 class="item"
                 :class="{ 'is-current': item.isCurrent }"
                 :size="size"
                 shape="skeleton"
-            >
-                <component :is="item.icon" class="icon" />
-                <span
-                    class="label"
-                    :class="{ 'is-disabled': items.length === i + 1 }"
-                    @click="onClick(item)"
-                    >{{ item.label }}</span
-                >
-            </Button>
+                :prefix-icon="item.icon"
+                :label="item.label"
+                @click="onClick(item)"
+            />
         </div>
     </component>
 </template>
@@ -122,14 +117,14 @@ const onClick = (item: MiBottomNavItem) => {
         justify-content: flex-start;
         width: 100%;
         height: var(--c-bottom-nav-height);
-        .icon {
+        :deep(.button-icon) {
             width: calc(var(--c-bottom-nav-font-size) * 2);
             height: 100%;
             transition:
                 width 0.2s,
                 height 0.2s;
         }
-        .label {
+        :deep(.button-label) {
             position: absolute;
             bottom: -1.5em;
             font-size: var(--font-size-small);
@@ -139,11 +134,11 @@ const onClick = (item: MiBottomNavItem) => {
         &.is-current {
             color: var(--color-text-primary);
             pointer-events: none;
-            .icon {
+            :deep(.button-icon) {
                 width: calc(var(--c-bottom-nav-font-size) * 1.5);
                 height: calc(var(--c-bottom-nav-font-size) * 2.2);
             }
-            .label {
+            :deep(.button-label) {
                 bottom: calc(var(--c-bottom-nav-font-size) * 0.25);
             }
         }
@@ -151,11 +146,11 @@ const onClick = (item: MiBottomNavItem) => {
         /* hover */
         @media (hover: hover) {
             &:hover {
-                .icon {
+                :deep(.button-icon) {
                     width: calc(var(--c-bottom-nav-font-size) * 1.5);
                     height: calc(var(--c-bottom-nav-font-size) * 2.2);
                 }
-                .label {
+                :deep(.button-label) {
                     bottom: calc(var(--c-bottom-nav-font-size) * 0.25);
                 }
             }
@@ -163,11 +158,11 @@ const onClick = (item: MiBottomNavItem) => {
 
         @media (hover: none) {
             &:active {
-                .icon {
+                :deep(.button-icon) {
                     width: calc(var(--c-bottom-nav-font-size) * 1.5);
                     height: calc(var(--c-bottom-nav-font-size) * 2.2);
                 }
-                .label {
+                :deep(.button-label) {
                     bottom: calc(var(--c-bottom-nav-font-size) * 0.25);
                 }
             }

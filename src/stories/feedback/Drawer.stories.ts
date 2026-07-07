@@ -11,7 +11,7 @@ const meta: Meta<typeof Drawer> = {
             return { args };
         },
         template: `
-<Button @click="args.modelValue = true">Open Drawer</Button>
+<Button label="Open Drawer" @click="args.modelValue = true" />
 <Drawer v-bind="args">
     'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
 </Drawer>`
@@ -53,7 +53,7 @@ export const PropsSize: Story = {
         }),
         template: `
 <div v-for="param in params" :key="param.size">
-    <Button @click="param.modelValue = true">Open Drawer({{param.size}})</Button>
+    <Button :label="'Open Drawer(' + param.size + ')'" @click="param.modelValue = true" />
     <Drawer v-bind="{...args, ...param}" v-model="param.modelValue">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </Drawer>
@@ -87,7 +87,7 @@ export const PropsPosition: Story = {
         }),
         template: `
 <div v-for="param in params" :key="param.position">
-    <Button @click="param.modelValue = true">Open Drawer({{param.position}})</Button>
+    <Button :label="'Open Drawer(' + param.position + ')'" @click="param.modelValue = true" />
     <Drawer v-bind="{...args, ...param}" v-model="param.modelValue">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </Drawer>
@@ -102,7 +102,7 @@ export const PropsCenter: Story = {
             return { args };
         },
         template: `
-<Button @click="args.modelValue = true">Open Drawer</Button>
+<Button label="Open Drawer" @click="args.modelValue = true" />
 <Drawer v-bind="args">
     <template #header>center is header</template>
     <template #footer>center is footer</template>

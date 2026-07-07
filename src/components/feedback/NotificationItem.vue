@@ -160,10 +160,10 @@ defineExpose({ flg, transitioning, isShowing, onClosed, transitionFrom });
                             v-if="notification.closeable"
                             shape="skeleton"
                             class="closeable-box"
+                            :prefix-icon="IconX"
+                            aria-label="閉じる"
                             @click="onClose"
-                        >
-                            <IconX />
-                        </Button>
+                        />
                     </div>
                 </component>
             </TranslateTransition>

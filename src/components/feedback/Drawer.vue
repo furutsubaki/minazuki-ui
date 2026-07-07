@@ -147,10 +147,10 @@ defineExpose({ transitionFrom });
                         size="large"
                         shape="skeleton"
                         class="closeable-box"
+                        :prefix-icon="IconX"
+                        aria-label="閉じる"
                         @click="onClose"
-                    >
-                        <IconX class="closeable-icon" />
-                    </Button>
+                    />
                     <div
                         v-if="hasSlot('header')"
                         class="header"
@@ -211,7 +211,7 @@ defineExpose({ transitionFrom });
         right: 0;
         z-index: 1;
         padding: 8px;
-        .closeable-icon {
+        :deep(.button-icon) {
             width: var(--font-size-large);
             height: var(--font-size-large);
         }
