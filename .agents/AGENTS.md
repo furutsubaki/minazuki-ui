@@ -36,8 +36,9 @@ src/
 │   ├── css/
 │   │   ├── variables.css   # CSS 変数・テーマ定義
 │   │   ├── style.css       # ベーススタイル
+│   │   ├── reset.css       # リセット CSS
 │   │   └── override.css
-│   └── ts/
+│   └── ts/                 # colors / const / formatter / schema / url など汎用ユーティリティ
 ├── components/
 │   ├── index.ts            # 自動生成ファイル（直接編集禁止。pnpm create-component-d で再生成）
 │   ├── nuxt-map.ts         # Nuxt Module の auto-import 用コンポーネントマップ（直接編集禁止）
@@ -47,19 +48,23 @@ src/
 │   ├── frame/
 │   ├── inner-parts/
 │   └── navigation/
-├── composables/            # useFormData / useNotification / useTheme
+├── composables/            # useCheckableField / useFormData / useNotification / useTheme
 ├── directives/             # useOutsideClick など
 ├── nuxt/                   # Nuxt Module 実装（minazuki-ui/nuxt エントリーポイント）
 │   ├── module.ts           # defineNuxtModule 本体（auto-import / CSS / テーマ設定）
 │   ├── composable-map.ts   # Nuxt auto-import 対象のコンポーザブル一覧
-│   ├── env.d.ts            # Nuxt ランタイム型補完
 │   └── runtime/
+│       ├── env.d.ts        # Nuxt ランタイム型補完
 │       └── plugin.ts       # Nuxt runtime plugin（SSR フラッシュ防止・テーマ初期化）
 ├── plugins/                # init-validate など
-├── stores/
-├── utils/                  # formatter / url / const など汎用ユーティリティ
+├── generate-component-index.js  # components/index.ts 自動生成スクリプト
+├── generate-css-data.ts    # CSS データ生成スクリプト
 ├── stories/                # Storybook ストーリー（components/ と同じカテゴリ構成）
-└── test/                   # ユニットテスト（components/ composables/ directives/ utils/ と同じカテゴリ構成）
+└── test/                   # ユニットテスト（components/ composables/ directives/ と同じカテゴリ構成）
+
+docs/
+├── DESIGN.md               # デザインガイド
+└── MIGRATION.md            # マイグレーションガイド
 
 playground/
 ├── README.md               # 概要・使い方
@@ -74,12 +79,14 @@ playground/
 │   │   └── main.ts
 │   └── dist/               # ビルド出力（lint 除外対象）
 ├── nuxt3/                  # Nuxt 3 動作確認環境（SSR 対応確認用）
+│   ├── app.vue
 │   ├── pages/              # shared/pages/ への薄いラッパー（直接編集禁止）
 │   ├── plugins/
 │   ├── .nuxt/              # 開発ビルドキャッシュ（lint 除外対象）
 │   └── .output/            # SSR ビルド出力（lint 除外対象）
 └── nuxt4/                  # Nuxt 4 動作確認環境（SSR 対応確認用）
     ├── app/
+    │   ├── app.vue
     │   ├── pages/          # shared/pages/ への薄いラッパー（直接編集禁止）
     │   └── plugins/
     ├── .nuxt/              # 開発ビルドキャッシュ（lint 除外対象）
