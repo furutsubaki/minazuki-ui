@@ -104,12 +104,8 @@ const radioGroupItems = [
                     placeholder="https://example.com"
                 />
                 <div class="pg-row">
-                    <MiButton variant="primary" :disabled="!canSubmit" @click="onSubmit">
-                        送信
-                    </MiButton>
-                    <MiButton variant="secondary" @click="onReset">
-                        リセット
-                    </MiButton>
+                    <MiButton variant="primary" :disabled="!canSubmit" label="送信" @click="onSubmit" />
+                    <MiButton variant="secondary" label="リセット" @click="onReset" />
                 </div>
             </div>
         </section>

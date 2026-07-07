@@ -93,9 +93,7 @@ const onClosed = async () => {
                 <div v-if="title" class="title">{{ title }}</div>
                 <div>{{ text }}</div>
             </div>
-            <Button v-if="closeable" shape="skeleton" class="closeable-box" @click="onClose">
-                <IconX />
-            </Button>
+            <Button v-if="closeable" shape="skeleton" class="closeable-box" :prefix-icon="IconX" aria-label="閉じる" @click="onClose" />
         </div>
     </OpacityTransition>
 </template>

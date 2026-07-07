@@ -51,6 +51,7 @@ const TransitionComponent = markRaw(
 const transitionFrom = ref('right');
 
 const onChangeTab = (id: string) => {
+    if (id === currentStep.value) return;
     const currentIndex = props.steps.findIndex((step) => step.id === currentStep.value);
     const newIndex = props.steps.findIndex((step) => step.id === id);
     const isPrev = currentIndex > newIndex;
@@ -90,15 +91,14 @@ const hasSlot = (name: string) => {
     <div class="component-step" :class="[size, position]">
         <div class="step-header" :class="{ 'no-separator': noSeparator }">
             <template v-for="(step, i) in steps" :key="step.id">
-                <Button
-                    :size="size"
-                    shape="skeleton"
-                    :readonly="currentStep === step.id"
+                <button
+                    type="button"
                     :disabled="currentStepIndex < i"
                     class="step-button"
                     :class="{
                         'is-success': currentStepIndex > i,
-                        'is-current': currentStepIndex === i
+                        'is-current': currentStepIndex === i,
+                        'is-readonly': currentStep === step.id
                     }"
                     @click="onChangeTab(step.id)"
                 >
@@ -108,7 +108,7 @@ const hasSlot = (name: string) => {
                         </component>
                     </div>
                     <div class="text">{{ step.label }}</div>
-                </Button>
+                </button>
                 <div
                     class="step-separator"
                     :class="{
@@ -131,16 +131,14 @@ const hasSlot = (name: string) => {
                 class="step-footer"
                 :class="{ 'no-separator': noSeparator }"
             >
-                <Button :size="size" :disabled="currentStepIndex === 0" @click="onPrev"
-                    >Prev</Button
-                >
+                <Button :size="size" :disabled="currentStepIndex === 0" label="Prev" @click="onPrev" />
                 <Button
                     variant="success"
                     :size="size"
                     :disabled="currentStepIndex + 1 === steps.length"
+                    label="Next"
                     @click="onNext"
-                    >Next</Button
-                >
+                />
             </div>
         </div>
     </div>
@@ -165,11 +163,22 @@ const hasSlot = (name: string) => {
             display: flex;
             flex-direction: column;
             gap: 0;
+            align-items: center;
             width: var(--c-step-button-height);
             padding: 0;
+            font-size: var(--c-step-font-size, var(--font-size-medium));
+            color: inherit;
+            cursor: pointer;
+            background: transparent;
+            border: 0;
             transition:
                 opacity 0.2s,
                 color 0.2s;
+            &:disabled,
+            &.is-readonly {
+                cursor: not-allowed;
+                opacity: 0.5;
+            }
             .icon {
                 display: flex;
                 align-items: center;

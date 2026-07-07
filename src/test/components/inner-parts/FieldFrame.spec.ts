@@ -45,4 +45,14 @@ describe('FieldFrame', () => {
         const wrapper = mount(FieldFrame, { props: { value: 'テスト入力' } });
         expect(wrapper.find('.component-input-frame').classes()).toContain('is-inputed');
     });
+
+    it('errors があるとき is-error クラスが付く', () => {
+        const wrapper = mount(FieldFrame, { props: { errors: ['入力が必要です'] } });
+        expect(wrapper.find('.component-input-frame').classes()).toContain('is-error');
+    });
+
+    it('errors が空のとき is-error クラスが付かない', () => {
+        const wrapper = mount(FieldFrame, { props: { errors: [] } });
+        expect(wrapper.find('.component-input-frame').classes()).not.toContain('is-error');
+    });
 });

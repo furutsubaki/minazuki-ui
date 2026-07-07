@@ -1,12 +1,27 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { type Component, computed, markRaw, ref } from 'vue';
+import {
+    Info as IconInfo,
+    CheckCircle2 as IconCheckCircle2,
+    AlertTriangle as IconAlertTriangle,
+    XOctagon as IconXOctagon
+} from 'lucide-vue-next';
+
+type Variant = 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger';
+
+const STATUS_ICON_MAP: Partial<Record<Variant, Component>> = {
+    info: markRaw(IconInfo),
+    success: markRaw(IconCheckCircle2),
+    warning: markRaw(IconAlertTriangle),
+    danger: markRaw(IconXOctagon)
+};
 
 const props = withDefaults(
     defineProps<{
         /**
          * 表示色
          */
-        variant?: 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger';
+        variant?: Variant;
         /**
          * サイズ
          */
@@ -23,13 +38,28 @@ const props = withDefaults(
          * 無効か
          */
         disabled?: boolean;
+        /**
+         * テキスト前アイコン
+         */
+        prefixIcon?: Component;
+        /**
+         * テキスト後アイコン
+         */
+        suffixIcon?: Component;
+        /**
+         * ボタンラベル
+         */
+        label?: string;
     }>(),
     {
         variant: 'secondary',
         size: 'medium',
         shape: 'normal',
         readonly: false,
-        disabled: false
+        disabled: false,
+        prefixIcon: undefined,
+        suffixIcon: undefined,
+        label: undefined
     }
 );
 const emit = defineEmits<{
@@ -46,6 +76,16 @@ const onClick = () => {
     emit('click');
 };
 
+const resolvedPrefixIcon = computed(() => {
+    if (props.prefixIcon) return markRaw(props.prefixIcon);
+    return STATUS_ICON_MAP[props.variant] ?? null;
+});
+
+const resolvedSuffixIcon = computed(() => {
+    if (props.suffixIcon) return markRaw(props.suffixIcon);
+    return null;
+});
+
 const buttonRef = ref();
 defineExpose({ buttonRef });
 </script>
@@ -59,7 +99,9 @@ defineExpose({ buttonRef });
         :class="[variant, size, shape, { 'is-readonly': readonly }]"
         @click="onClick"
     >
-        <slot />
+        <component v-if="resolvedPrefixIcon" :is="resolvedPrefixIcon" class="button-icon" />
+        <span v-if="label" class="button-label">{{ label }}</span>
+        <component v-if="resolvedSuffixIcon" :is="resolvedSuffixIcon" class="button-icon" />
     </button>
 </template>
 
@@ -82,21 +124,10 @@ defineExpose({ buttonRef });
     transition:
         color 0.2s,
         background-color 0.2s,
-        border-color 0.2s,
-        opacity 0.2s,
-        filter 0.2s;
-    &.is-readonly {
-        pointer-events: none;
-    }
-    &:disabled {
-        pointer-events: none;
-        opacity: 0.5;
-        filter: grayscale(1);
-    }
+        border-color 0.2s;
 
-    /* hover */
     @media (hover: hover) {
-        &:hover {
+        &:hover:not(:disabled, .is-readonly) {
             color: var(--c-button-hover-color);
             background-color: var(--c-button-hover-background-color);
             border-color: var(--c-button-hover-border-color);
@@ -104,12 +135,23 @@ defineExpose({ buttonRef });
     }
 
     @media (hover: none) {
-        &:active {
+        &:active:not(:disabled, .is-readonly) {
             color: var(--c-button-hover-color);
             background-color: var(--c-button-hover-background-color);
             border-color: var(--c-button-hover-border-color);
         }
     }
+    &:disabled,
+    &.is-readonly {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+}
+
+.button-icon {
+    flex-shrink: 0;
+    width: 1em;
+    height: 1em;
 }
 
 /* ▼ variable ▼ */
@@ -119,8 +161,8 @@ defineExpose({ buttonRef });
     --c-button-hover-background-color: transparent;
     --c-button-hover-border-color: var(--color-brand);
     --c-button-color: var(--mi-neutral-50);
-    --c-button-background-color: var(--color-brand-alpha);
-    --c-button-border-color: var(--color-brand);
+    --c-button-background-color: var(--color-brand);
+    --c-button-border-color: var(--color-brand-emphasis);
 }
 
 .secondary {
@@ -136,9 +178,9 @@ defineExpose({ buttonRef });
     --c-button-hover-color: var(--color-info);
     --c-button-hover-background-color: transparent;
     --c-button-hover-border-color: var(--color-info);
-    --c-button-color: var(--color-text-primary);
-    --c-button-background-color: var(--color-info-alpha);
-    --c-button-border-color: var(--color-info);
+    --c-button-color: var(--mi-neutral-50);
+    --c-button-background-color: var(--color-info);
+    --c-button-border-color: var(--color-info-emphasis);
 }
 
 .success {
@@ -146,8 +188,8 @@ defineExpose({ buttonRef });
     --c-button-hover-background-color: transparent;
     --c-button-hover-border-color: var(--color-success);
     --c-button-color: var(--mi-neutral-50);
-    --c-button-background-color: var(--color-success-alpha);
-    --c-button-border-color: var(--color-success);
+    --c-button-background-color: var(--color-success);
+    --c-button-border-color: var(--color-success-emphasis);
 }
 
 .warning {
@@ -155,8 +197,8 @@ defineExpose({ buttonRef });
     --c-button-hover-background-color: transparent;
     --c-button-hover-border-color: var(--color-warning);
     --c-button-color: var(--mi-neutral-800);
-    --c-button-background-color: var(--color-warning-alpha);
-    --c-button-border-color: var(--color-warning);
+    --c-button-background-color: var(--color-warning);
+    --c-button-border-color: var(--color-warning-emphasis);
 }
 
 .danger {
@@ -164,8 +206,8 @@ defineExpose({ buttonRef });
     --c-button-hover-background-color: transparent;
     --c-button-hover-border-color: var(--color-danger);
     --c-button-color: var(--mi-neutral-50);
-    --c-button-background-color: var(--color-danger-alpha);
-    --c-button-border-color: var(--color-danger);
+    --c-button-background-color: var(--color-danger);
+    --c-button-border-color: var(--color-danger-emphasis);
 }
 
 /* ▲ variable ▲ */
@@ -206,7 +248,7 @@ defineExpose({ buttonRef });
     min-width: auto;
     word-break: keep-all;
     border-radius: 50%;
-    > :deep(.lucide) {
+    > .button-icon {
         width: 100%;
         height: 100%;
     }
@@ -218,13 +260,16 @@ defineExpose({ buttonRef });
     width: var(--c-button-height);
     min-width: auto;
     word-break: keep-all;
-    > :deep(.lucide) {
+    > .button-icon {
         width: 100%;
         height: 100%;
     }
 }
 
 .skeleton {
+    --c-button-background-color: transparent;
+    --c-button-border-color: transparent;
+
     min-width: initial;
     min-height: initial;
     padding: 0;
@@ -256,28 +301,19 @@ defineExpose({ buttonRef });
 }
 
 .link {
+    --c-button-color: var(--color-link);
+    --c-button-background-color: transparent;
+    --c-button-border-color: transparent;
+    --c-button-hover-color: var(--color-link-hover);
+    --c-button-hover-background-color: transparent;
+    --c-button-hover-border-color: transparent;
+
     display: inline-block;
     min-width: initial;
     min-height: initial;
     padding: 0;
     user-select: none;
     border: 0;
-
-    @media (hover: hover) {
-        &:hover {
-            color: var(--color-link);
-            background-color: transparent;
-            border-color: transparent;
-        }
-    }
-
-    @media (hover: none) {
-        &:active {
-            color: var(--color-link);
-            background-color: transparent;
-            border-color: transparent;
-        }
-    }
 }
 
 /* ▲ shape ▲ */

@@ -150,6 +150,20 @@ describe('Step', () => {
         expect(wrapper.emitted('prev')).toBeTruthy();
     });
 
+    it('現在のステップのヘッダーをクリックしても next/prev イベントが発火しない', async () => {
+        const wrapper = mount(Step, {
+            props: {
+                steps,
+                modelValue: 'step2',
+                'onUpdate:modelValue': (v: string | undefined) => wrapper.setProps({ modelValue: v })
+            }
+        });
+        const buttons = wrapper.findAll('.step-button');
+        await buttons[1].trigger('click');
+        expect(wrapper.emitted('next')).toBeUndefined();
+        expect(wrapper.emitted('prev')).toBeUndefined();
+    });
+
     it('Next ボタンをクリックすると v-model が次の step に更新される', async () => {
         const wrapper = mount(Step, {
             props: {

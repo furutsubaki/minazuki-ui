@@ -20,9 +20,7 @@ const toggleTheme = () => {
                 <NuxtLink to="/feedback">Feedback</NuxtLink>
                 <NuxtLink to="/navigation">Navigation</NuxtLink>
             </nav>
-            <MiButton :variant="currentTheme === 'dark' ? 'primary' : 'secondary'" size="small" @click="toggleTheme">
-                {{ currentTheme === 'dark' ? 'Light' : 'Dark' }} Mode
-            </MiButton>
+            <MiButton :variant="currentTheme === 'dark' ? 'primary' : 'secondary'" size="small" :label="currentTheme === 'dark' ? 'Light Mode' : 'Dark Mode'" @click="toggleTheme" />
         </header>
 
         <main class="pg-main">
