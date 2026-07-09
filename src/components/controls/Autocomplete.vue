@@ -321,6 +321,9 @@ defineExpose({ onBlur, debouncedSearchValue, value });
         color: var(--color-text-primary);
         background-color: transparent;
         border: 0;
+        &:focus-visible {
+            outline: none;
+        }
     }
 
     @media (hover: hover) {

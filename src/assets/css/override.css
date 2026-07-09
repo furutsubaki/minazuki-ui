@@ -7,3 +7,11 @@
         height: var(--font-size-medium);
     }
 }
+
+/* reset.css がレイヤー外に展開されるため、レイヤー外で上書き */
+
+:where(:focus-visible) {
+    outline: 2px solid var(--color-brand-emphasis);
+    outline-offset: 2px;
+    box-shadow: none;
+}

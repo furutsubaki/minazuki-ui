@@ -395,6 +395,9 @@ defineExpose({ onCloseDatePicker, isFocus, datePickerScrollObserver });
         line-height: 1.5em;
         background-color: transparent;
         border: 0;
+        &:focus-visible {
+            outline: none;
+        }
     }
     [type='time'] {
         color: transparent;
