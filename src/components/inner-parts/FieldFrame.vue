@@ -283,6 +283,10 @@ defineExpose({ frameRef });
         height: 100%;
         padding-right: calc(var(--c-field-frame-start-end-padding) / 2);
         padding-left: calc(var(--c-field-frame-start-end-padding) / 2);
+        :deep(input:focus-visible),
+        :deep(textarea:focus-visible) {
+            outline: none;
+        }
     }
 
     /* required */

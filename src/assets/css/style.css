@@ -81,10 +81,8 @@
     form li {
         list-style: none;
     }
-    :focus-visible {
-        outline: none;
-        box-shadow: none;
-    }
+
+    /* :focus-visible は override.css でレイヤー外から上書き */
     button,
     ::file-selector-button {
         touch-action: manipulation;
