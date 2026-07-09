@@ -200,9 +200,6 @@ onMounted(() => {
         resize: none;
         background-color: transparent;
         border: 0;
-        &:focus-visible {
-            outline: none;
-        }
     }
 
     @media (hover: hover) {
