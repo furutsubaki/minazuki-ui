@@ -41,7 +41,7 @@ CSS リセットには `@acab/reset.css` を使用し、同じ `@layer minazuki`
 | `text-size-adjust` | `100%` | モバイルでのテキスト自動拡大の抑制 |
 | `touch-action: manipulation` | button / file-selector-button | ダブルタップズームの無効化 |
 | `min-inline-size: 0` | 全要素 | flex/grid でのオーバーフロー防止 |
-| `:focus-visible` outline | `2px solid var(--color-brand-emphasis)`, `offset: 2px` | キーボード操作時のフォーカスリング。FieldFrame 系コントロールはボーダー変色で代替するため抑制 |
+| `:focus-visible` outline | `var(--focus-ring-width) solid var(--focus-ring-color)`, `offset: var(--focus-ring-offset)` | キーボード操作時のフォーカスリング（トークン定義は §4 Focus Ring 参照）。FieldFrame 系コントロールはボーダー変色で代替するため抑制 |
 
 ---
 
@@ -350,6 +350,16 @@ font-feature-settings: 'palt';
 | `--radius-sm` | 4px | 標準の角丸 |
 | `--radius-pill` | 2em | ボタン・入力など横長要素の pill 形状 |
 | `--radius-circle` | 50% | 正方形要素の円形表示 |
+
+### Focus Ring
+
+| Token | Value | 用途 |
+|-------|-------|------|
+| `--focus-ring-color` | `var(--color-brand-emphasis)` | フォーカスリングの色 |
+| `--focus-ring-width` | `2px` | フォーカスリングの太さ |
+| `--focus-ring-offset` | `2px` | フォーカスリングと要素の間隔 |
+
+`:focus-visible` outline: `var(--focus-ring-width) solid var(--focus-ring-color)`, `offset: var(--focus-ring-offset)` — キーボード操作時のフォーカスリング。FieldFrame 系コントロールはボーダー色変化で代替するため outline を抑制する。
 
 ### Viewport ユーティリティ変数
 

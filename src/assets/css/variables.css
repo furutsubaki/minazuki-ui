@@ -16,6 +16,11 @@
         --font-size-small: 1.2rem;
         --scroll-bar-width: calc(100vw - 100%);
         --omit-scroll-vw: calc(100vw - var(--scroll-bar-width));
+
+        /* フォーカスリング */
+        --focus-ring-color: var(--color-brand-emphasis);
+        --focus-ring-width: 2px;
+        --focus-ring-offset: 2px;
     }
 
     @media (600px <= width) {

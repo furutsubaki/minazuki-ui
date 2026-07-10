@@ -11,7 +11,7 @@
 /* reset.css がレイヤー外に展開されるため、レイヤー外で上書き */
 
 :where(:focus-visible) {
-    outline: 2px solid var(--color-brand-emphasis);
-    outline-offset: 2px;
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
     box-shadow: none;
 }
