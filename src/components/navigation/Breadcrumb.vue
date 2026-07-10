@@ -39,6 +39,10 @@ withDefaults(
 
 const instance = getCurrentInstance()!;
 const router = instance.appContext.config.globalProperties.$router as Router;
+const safeHref = (item: MiBreadcrumbItem) => {
+    const url = item.href ?? item.to ?? '#';
+    return isSafeNavigationUrl(url) ? url : '#';
+};
 const onClick = (item: MiBreadcrumbItem) => {
     if (!item.href && !item.to) return;
 
@@ -86,7 +90,7 @@ const onClick = (item: MiBreadcrumbItem) => {
             <a
                 v-else
                 class="link"
-                :href="item.href ?? item.to ?? '#'"
+                :href="safeHref(item)"
                 :target="item.blank ? '_blank' : undefined"
                 :rel="item.blank ? 'noopener noreferrer' : undefined"
                 @click.prevent="onClick(item)"

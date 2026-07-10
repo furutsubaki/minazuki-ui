@@ -171,6 +171,13 @@ describe('Breadcrumb', () => {
         hrefSpy.mockRestore();
     });
 
+    it('不正な URL の href 属性はサニタイズされる', () => {
+        const wrapper = mount(Breadcrumb, {
+            props: { items: withCurrent({ label: 'XSS', to: 'javascript:alert(1)' }) }
+        });
+        expect(wrapper.find('a.link').attributes('href')).toBe('#');
+    });
+
     it('不正な URL（javascript:）で blank=true の場合は window.open が呼ばれない', async () => {
         const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null as any);
         const wrapper = mount(Breadcrumb, {
