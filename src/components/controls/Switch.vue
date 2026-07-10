@@ -127,7 +127,19 @@ if (fieldVal.value == null && model.value != null) {
     font-size: var(--c-switch-font-size);
     text-align: left;
     :where(.checkbox) {
-        display: none;
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        white-space: nowrap;
+        border: 0;
+        clip-path: inset(50%);
+    }
+    :where(.checkbox:focus-visible ~ .switch) {
+        outline: var(--focus-ring-width) solid var(--focus-ring-color);
+        outline-offset: var(--focus-ring-offset);
     }
     :where(.switch) {
         position: relative;
