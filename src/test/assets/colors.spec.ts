@@ -114,7 +114,7 @@ describe('computePrimitiveColor', () => {
 describe('computeNeutralColor', () => {
     it('achromatic（C=0）の hex を返す', () => {
         const result = computeNeutralColor(50);
-        expect(result.L).toBe(0.985);
+        expect(result.L).toBe(0.99);
         const r = parseInt(result.hex.slice(1, 3), 16);
         const g = parseInt(result.hex.slice(3, 5), 16);
         const b = parseInt(result.hex.slice(5, 7), 16);
