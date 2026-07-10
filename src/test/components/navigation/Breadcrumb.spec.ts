@@ -10,6 +10,11 @@ const items = [
     { label: '詳細', to: '/category/detail' }
 ];
 
+const withCurrent = (testItem: Record<string, unknown>) => [
+    testItem,
+    { label: '現在のページ', to: '/current' }
+];
+
 describe('Breadcrumb', () => {
     it('items の数だけリンクがレンダリングされる', () => {
         const wrapper = mount(Breadcrumb, { props: { items } });
@@ -37,7 +42,10 @@ describe('Breadcrumb', () => {
     });
 
     it('icon を持つアイテムにアイコンが表示される', () => {
-        const iconItems = [{ label: 'ホーム', to: '/', icon: ChevronRight }];
+        const iconItems = [
+            { label: 'ホーム', to: '/', icon: ChevronRight },
+            { label: '詳細', to: '/detail' }
+        ];
         const wrapper = mount(Breadcrumb, { props: { items: iconItems } });
         expect(wrapper.find('svg').exists()).toBe(true);
     });
@@ -55,27 +63,37 @@ describe('Breadcrumb', () => {
 
     it('blank が true のとき window.open が呼ばれる', async () => {
         const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null as any);
-        const blankItems = [{ label: 'リンク', to: '/test', blank: true }];
-        const wrapper = mount(Breadcrumb, { props: { items: blankItems } });
-        await wrapper.find('.link').trigger('click');
+        const wrapper = mount(Breadcrumb, {
+            props: { items: withCurrent({ label: 'リンク', to: '/test', blank: true }) }
+        });
+        await wrapper.find('a.link').trigger('click');
         expect(openSpy).toHaveBeenCalledWith('/test', '_blank', 'noopener,noreferrer');
         openSpy.mockRestore();
     });
 
     it('href が設定されているとき window.open が呼ばれる（blank: true）', async () => {
         const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null as any);
-        const hrefItems = [{ label: 'リンク', to: '/test', href: 'https://example.com', blank: true }];
-        const wrapper = mount(Breadcrumb, { props: { items: hrefItems } });
-        await wrapper.find('.link').trigger('click');
+        const wrapper = mount(Breadcrumb, {
+            props: {
+                items: withCurrent({
+                    label: 'リンク',
+                    to: '/test',
+                    href: 'https://example.com',
+                    blank: true
+                })
+            }
+        });
+        await wrapper.find('a.link').trigger('click');
         expect(openSpy).toHaveBeenCalledWith('https://example.com', '_blank', 'noopener,noreferrer');
         openSpy.mockRestore();
     });
 
     it('replace が true のとき location.replace が呼ばれる', async () => {
         const replaceSpy = vi.spyOn(window.location, 'replace').mockImplementation(() => {});
-        const replaceItems = [{ label: 'リンク', to: '/test', replace: true }];
-        const wrapper = mount(Breadcrumb, { props: { items: replaceItems } });
-        await wrapper.find('.link').trigger('click');
+        const wrapper = mount(Breadcrumb, {
+            props: { items: withCurrent({ label: 'リンク', to: '/test', replace: true }) }
+        });
+        await wrapper.find('a.link').trigger('click');
         expect(replaceSpy).toHaveBeenCalledWith('/test');
         replaceSpy.mockRestore();
     });
@@ -90,9 +108,10 @@ describe('Breadcrumb', () => {
 
     it('通常リンクをクリックすると遷移する', async () => {
         const hrefSpy = vi.spyOn(window.location, 'href', 'set');
-        const normalItems = [{ label: 'テスト', to: '/test' }];
-        const wrapper = mount(Breadcrumb, { props: { items: normalItems } });
-        await wrapper.find('.link').trigger('click');
+        const wrapper = mount(Breadcrumb, {
+            props: { items: withCurrent({ label: 'テスト', to: '/test' }) }
+        });
+        await wrapper.find('a.link').trigger('click');
         expect(hrefSpy).toHaveBeenCalledWith('/test');
         hrefSpy.mockRestore();
     });
@@ -104,11 +123,11 @@ describe('Breadcrumb', () => {
         });
         const pushSpy = vi.spyOn(router, 'push').mockResolvedValue(undefined as any);
         const wrapper = mount(Breadcrumb, {
-            props: { items: [{ label: 'テスト', to: '/' }] },
+            props: { items: withCurrent({ label: 'テスト', to: '/' }) },
             global: { plugins: [router] }
         });
         await router.isReady();
-        await wrapper.find('.link').trigger('click');
+        await wrapper.find('a.link').trigger('click');
         expect(pushSpy).toHaveBeenCalledWith('/');
         pushSpy.mockRestore();
     });
@@ -120,19 +139,20 @@ describe('Breadcrumb', () => {
         });
         const replaceSpy = vi.spyOn(router, 'replace').mockResolvedValue(undefined as any);
         const wrapper = mount(Breadcrumb, {
-            props: { items: [{ label: 'テスト', to: '/', replace: true }] },
+            props: { items: withCurrent({ label: 'テスト', to: '/', replace: true }) },
             global: { plugins: [router] }
         });
         await router.isReady();
-        await wrapper.find('.link').trigger('click');
+        await wrapper.find('a.link').trigger('click');
         expect(replaceSpy).toHaveBeenCalledWith('/');
         replaceSpy.mockRestore();
     });
 
     it('to も href もないアイテムをクリックすると何もしない', async () => {
-        const noLinkItems = [{ label: 'テスト' }];
-        const wrapper = mount(Breadcrumb, { props: { items: noLinkItems } });
-        await wrapper.find('.link').trigger('click');
+        const wrapper = mount(Breadcrumb, {
+            props: { items: withCurrent({ label: 'テスト' }) }
+        });
+        await wrapper.find('a.link').trigger('click');
         expect(wrapper.find('.component-breadcrumb').exists()).toBe(true);
     });
 
@@ -143,19 +163,60 @@ describe('Breadcrumb', () => {
 
     it('不正な URL（javascript:）を渡した場合は遷移しない', async () => {
         const hrefSpy = vi.spyOn(window.location, 'href', 'set');
-        const maliciousItems = [{ label: 'XSS', to: 'javascript:alert(1)' }];
-        const wrapper = mount(Breadcrumb, { props: { items: maliciousItems } });
-        await wrapper.find('.link').trigger('click');
+        const wrapper = mount(Breadcrumb, {
+            props: { items: withCurrent({ label: 'XSS', to: 'javascript:alert(1)' }) }
+        });
+        await wrapper.find('a.link').trigger('click');
         expect(hrefSpy).not.toHaveBeenCalled();
         hrefSpy.mockRestore();
     });
 
     it('不正な URL（javascript:）で blank=true の場合は window.open が呼ばれない', async () => {
         const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null as any);
-        const maliciousItems = [{ label: 'XSS', to: 'javascript:alert(1)', blank: true }];
-        const wrapper = mount(Breadcrumb, { props: { items: maliciousItems } });
-        await wrapper.find('.link').trigger('click');
+        const wrapper = mount(Breadcrumb, {
+            props: {
+                items: withCurrent({ label: 'XSS', to: 'javascript:alert(1)', blank: true })
+            }
+        });
+        await wrapper.find('a.link').trigger('click');
         expect(openSpy).not.toHaveBeenCalled();
         openSpy.mockRestore();
+    });
+
+    it('nav 要素に aria-label が設定される', () => {
+        const wrapper = mount(Breadcrumb, { props: { items } });
+        const nav = wrapper.find('nav.component-breadcrumb');
+        expect(nav.exists()).toBe(true);
+        expect(nav.attributes('aria-label')).toBe('パンくずリスト');
+    });
+
+    it('最後のアイテムは span 要素で aria-current="page" が付く', () => {
+        const wrapper = mount(Breadcrumb, { props: { items } });
+        const links = wrapper.findAll('.link');
+        const lastLink = links[links.length - 1];
+        expect(lastLink.element.tagName).toBe('SPAN');
+        expect(lastLink.attributes('aria-current')).toBe('page');
+    });
+
+    it('最後以外のアイテムは a 要素である', () => {
+        const wrapper = mount(Breadcrumb, { props: { items } });
+        const links = wrapper.findAll('.link');
+        expect(links[0].element.tagName).toBe('A');
+        expect(links[1].element.tagName).toBe('A');
+    });
+
+    it('a 要素に href が設定される', () => {
+        const wrapper = mount(Breadcrumb, { props: { items } });
+        const firstLink = wrapper.find('a.link');
+        expect(firstLink.attributes('href')).toBe('/');
+    });
+
+    it('blank のとき a 要素に target と rel が設定される', () => {
+        const wrapper = mount(Breadcrumb, {
+            props: { items: withCurrent({ label: 'リンク', href: 'https://example.com', blank: true }) }
+        });
+        const link = wrapper.find('a.link');
+        expect(link.attributes('target')).toBe('_blank');
+        expect(link.attributes('rel')).toBe('noopener noreferrer');
     });
 });

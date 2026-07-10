@@ -69,7 +69,7 @@ const onClick = (item: MiBreadcrumbItem) => {
 </script>
 
 <template>
-    <div class="component-breadcrumb" :class="[size]">
+    <nav class="component-breadcrumb" :class="[size]" aria-label="パンくずリスト">
         <slot name="prefix" />
         <template v-if="title">{{ title }}</template>
         <template v-for="(item, i) in items" :key="(item.to ?? '') + (item.href ?? '')">
@@ -78,14 +78,23 @@ const onClick = (item: MiBreadcrumbItem) => {
                 ><component v-else :is="separator as any"
             /></span>
             <span
-                class="link"
-                :class="{ 'is-disabled': items.length === i + 1 }"
-                @click="onClick(item)"
+                v-if="items.length === i + 1"
+                class="link is-disabled"
+                aria-current="page"
                 ><component :is="item.icon" v-if="item.icon" />{{ item.label }}</span
+            >
+            <a
+                v-else
+                class="link"
+                :href="item.href ?? item.to ?? '#'"
+                :target="item.blank ? '_blank' : undefined"
+                :rel="item.blank ? 'noopener noreferrer' : undefined"
+                @click.prevent="onClick(item)"
+                ><component :is="item.icon" v-if="item.icon" />{{ item.label }}</a
             >
         </template>
         <slot name="suffix" />
-    </div>
+    </nav>
 </template>
 
 <style scoped>
