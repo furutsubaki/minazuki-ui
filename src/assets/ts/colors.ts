@@ -57,10 +57,10 @@ export const CHROMA_SCALE: Record<ColorStep, number> = {
 };
 
 export const NEUTRAL_LIGHTNESS: Record<NeutralStep, number> = {
-    50: 0.985,
-    100: 0.95,
-    200: 0.90,
-    300: 0.82,
+    50: 0.99,
+    100: 0.976,
+    200: 0.92,
+    300: 0.83,
     400: 0.70,
     500: 0.55,
     600: 0.40,
