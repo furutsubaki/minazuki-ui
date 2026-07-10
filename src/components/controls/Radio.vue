@@ -137,7 +137,19 @@ if (fieldVal.value == null && model.value != null) {
     font-size: var(--c-radio-font-size);
     text-align: left;
     :where(.radio) {
-        display: none;
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        white-space: nowrap;
+        border: 0;
+        clip-path: inset(50%);
+    }
+    :where(.input:has(.radio:focus-visible)) {
+        outline: var(--focus-ring-width) solid var(--focus-ring-color);
+        outline-offset: var(--focus-ring-offset);
     }
     &.is-disabled {
         pointer-events: none;
