@@ -99,6 +99,36 @@ for (const token of UI_TOKENS) {
     });
 }
 
+const SPACING_TOKENS = [
+    { name: 'xs', value: '4px', desc: 'Minimum spacing for dense UI' },
+    { name: 'sm', value: '8px', desc: 'Button inner padding, list gap' },
+    { name: 'md', value: '16px', desc: 'Form field start/end padding, frame content padding' },
+    { name: 'lg', value: '24px', desc: 'Section spacing' },
+    { name: 'xl', value: '32px', desc: 'Large section spacing' },
+    { name: '2xl', value: '40px', desc: 'Page-level spacing' }
+];
+
+const RADIUS_TOKENS = [
+    { name: 'none', value: '0', desc: 'No border radius' },
+    { name: 'sm', value: '4px', desc: 'Standard corner radius' },
+    { name: 'pill', value: '2em', desc: 'Pill shape for buttons and inputs' },
+    { name: 'circle', value: '50%', desc: 'Circular display' }
+];
+
+for (const token of SPACING_TOKENS) {
+    properties.push({
+        name: `--space-${token.name}`,
+        description: `${token.desc} (${token.value})`
+    });
+}
+
+for (const token of RADIUS_TOKENS) {
+    properties.push({
+        name: `--radius-${token.name}`,
+        description: `${token.desc} (${token.value})`
+    });
+}
+
 const cssData = {
     version: 1.1,
     properties

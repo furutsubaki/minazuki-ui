@@ -168,7 +168,7 @@ const onDelete = () => {
     font-size: var(--c-select-font-size);
     :where(.select) {
         display: flex;
-        gap: 16px;
+        gap: var(--space-md);
         align-items: center;
         justify-content: space-between;
         width: 100%;
@@ -247,7 +247,7 @@ const onDelete = () => {
 /* ▼ shape ▼ */
 
 .rounded {
-    border-radius: 2em;
+    border-radius: var(--radius-pill);
 }
 
 /* ▲ shape ▲ */

@@ -233,12 +233,12 @@ const hasSlot = (name: string) => {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-sm);
     width: var(--c-dialog-width);
     max-width: 80vw;
     min-height: var(--c-dialog-min-height);
     max-height: var(--c-dialog-max-height);
-    padding: 8px 0;
+    padding: var(--space-sm) 0;
     margin: auto;
     color: var(--color-text-primary);
     pointer-events: initial;
@@ -259,7 +259,7 @@ const hasSlot = (name: string) => {
         flex-shrink: 0;
         width: calc(var(--font-size-medium) * 1.8);
         height: calc(var(--font-size-medium) * 1.8);
-        margin: 0 8px;
+        margin: 0 var(--space-sm);
         margin-right: 0;
         color: var(--color-bg-primary);
         fill: var(--c-dialog-icon-color);
@@ -267,27 +267,27 @@ const hasSlot = (name: string) => {
     .box {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: var(--space-sm);
         width: 100%;
         height: 100%;
         .title {
-            padding: 0 8px;
+            padding: 0 var(--space-sm);
             font-size: calc(var(--font-size-medium) * 1.2);
             font-weight: bold;
         }
         .slot {
             flex-grow: 1;
             height: 100%;
-            padding: 0 8px;
+            padding: 0 var(--space-sm);
             overflow-y: auto;
         }
     }
     .footer {
         display: flex;
         flex-shrink: 0;
-        gap: 8px;
+        gap: var(--space-sm);
         justify-content: flex-end;
-        padding: 0 8px;
+        padding: 0 var(--space-sm);
     }
     &.is-center {
         .title,
@@ -338,7 +338,7 @@ const hasSlot = (name: string) => {
     max-width: initial;
     max-height: initial;
     border: 0;
-    border-radius: 0;
+    border-radius: var(--radius-none);
 
     --c-dialog-width: 100vw;
     --c-dialog-max-height: 100vh;
@@ -368,11 +368,11 @@ const hasSlot = (name: string) => {
 /* ▼ shape ▼ */
 
 .normal {
-    --c-dialog-border-radius: 4px;
+    --c-dialog-border-radius: var(--radius-sm);
 }
 
 .no-radius {
-    --c-dialog-border-radius: 0;
+    --c-dialog-border-radius: var(--radius-none);
 }
 
 /* ▲ shape ▲ */

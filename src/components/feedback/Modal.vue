@@ -205,13 +205,13 @@ const onOutsideClick = computed(() => ({
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-sm);
     width: var(--c-modal-width);
     max-width: 80vw;
     height: 100%;
     min-height: var(--c-modal-min-height);
     max-height: var(--c-modal-max-height);
-    padding: 8px 0;
+    padding: var(--space-sm) 0;
     margin: auto;
     color: var(--color-text-primary);
     pointer-events: initial;
@@ -227,7 +227,7 @@ const onOutsideClick = computed(() => ({
         top: 0;
         right: 0;
         z-index: 1;
-        padding: 8px;
+        padding: var(--space-sm);
         :deep(.button-icon) {
             width: var(--font-size-large);
             height: var(--font-size-large);
@@ -236,25 +236,25 @@ const onOutsideClick = computed(() => ({
     .inner {
         display: flex;
         flex-grow: 1;
-        gap: 8px;
+        gap: var(--space-sm);
         align-items: flex-start;
         overflow: hidden;
     }
     .box {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: var(--space-sm);
         width: 100%;
         height: 100%;
         .title {
-            padding: 0 8px;
+            padding: 0 var(--space-sm);
             font-size: calc(var(--font-size-medium) * 1.2);
             font-weight: bold;
         }
         .slot {
             flex-grow: 1;
             height: 100%;
-            padding: 0 8px;
+            padding: 0 var(--space-sm);
             overflow-y: auto;
         }
     }
@@ -272,7 +272,7 @@ const onOutsideClick = computed(() => ({
     max-width: initial;
     max-height: initial;
     border: 0;
-    border-radius: 0;
+    border-radius: var(--radius-none);
 
     --c-modal-width: 100vw;
     --c-modal-max-height: 100vh;
@@ -302,7 +302,7 @@ const onOutsideClick = computed(() => ({
         max-width: initial;
         max-height: initial;
         border: 0;
-        border-radius: 0;
+        border-radius: var(--radius-none);
 
         --c-modal-width: 100vw;
         --c-modal-max-height: 100vh;
@@ -315,11 +315,11 @@ const onOutsideClick = computed(() => ({
 /* ▼ shape ▼ */
 
 .normal {
-    --c-modal-border-radius: 4px;
+    --c-modal-border-radius: var(--radius-sm);
 }
 
 .no-radius {
-    --c-modal-border-radius: 0;
+    --c-modal-border-radius: var(--radius-none);
 }
 
 /* ▲ shape ▲ */

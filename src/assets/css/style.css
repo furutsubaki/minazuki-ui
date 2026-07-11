@@ -73,9 +73,9 @@
     ul {
         display: flex;
         flex-direction: column;
-        gap: 8px;
-        padding-left: 40px;
-        margin: 8px 0;
+        gap: var(--space-sm);
+        padding-left: var(--space-2xl);
+        margin: var(--space-sm) 0;
         list-style: initial;
     }
     form li {

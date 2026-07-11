@@ -387,7 +387,7 @@ defineExpose({ onBlur, debouncedSearchValue, value });
 /* ▼ shape ▼ */
 
 .rounded {
-    border-radius: 2em;
+    border-radius: var(--radius-pill);
 }
 
 /* ▲ shape ▲ */

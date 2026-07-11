@@ -144,7 +144,7 @@ defineExpose({ frameRef });
 
 <style scoped>
 .component-input-frame {
-    --c-field-frame-start-end-padding: 16px;
+    --c-field-frame-start-end-padding: var(--space-md);
     --c-field-frame-border-width: 1px;
 
     position: relative;
@@ -167,7 +167,7 @@ defineExpose({ frameRef });
         text-align: left;
         background-color: var(--color-bg-primary);
         border-color: var(--c-field-frame-border-color);
-        border-radius: 4px;
+        border-radius: var(--radius-sm);
         transition:
             height 0.2s,
             background-color 0.2s;
@@ -190,20 +190,20 @@ defineExpose({ frameRef });
         }
         .frame-start {
             border-right: 0;
-            border-radius: 4px 0 0 4px;
+            border-radius: var(--radius-sm) 0 0 var(--radius-sm);
             &::before {
                 left: -2px;
                 border-right: 0;
-                border-radius: 4px 0 0 4px;
+                border-radius: var(--radius-sm) 0 0 var(--radius-sm);
             }
         }
         .frame-end {
             border-left: 0;
-            border-radius: 0 4px 4px 0;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
             &::before {
                 right: -2px;
                 border-left: 0;
-                border-radius: 0 4px 4px 0;
+                border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
             }
         }
         .frame-label,
@@ -277,7 +277,7 @@ defineExpose({ frameRef });
     .frame-body {
         position: relative;
         display: flex;
-        gap: 8px;
+        gap: var(--space-sm);
         align-items: center;
         width: 100%;
         height: 100%;
@@ -467,13 +467,13 @@ defineExpose({ frameRef });
 
 .no-radius {
     .frame-box {
-        border-radius: 0;
+        border-radius: var(--radius-none);
         .frame-start,
         .frame-end {
-            border-radius: 0;
+            border-radius: var(--radius-none);
             &::before,
             &::after {
-                border-radius: 0;
+                border-radius: var(--radius-none);
             }
         }
     }

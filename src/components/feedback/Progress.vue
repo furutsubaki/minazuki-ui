@@ -178,11 +178,11 @@ const strokeDashoffset = computed(
         width: 100%;
         height: var(--c-progress-border-stroke-width);
         background-color: var(--color-border);
-        border-radius: 1em;
+        border-radius: var(--radius-pill);
         .progress-fill {
             height: 100%;
             background-color: var(--c-progress-background-color);
-            border-radius: 1em;
+            border-radius: var(--radius-pill);
             transition: width 0.2s;
         }
     }

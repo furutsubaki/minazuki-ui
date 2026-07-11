@@ -49,7 +49,7 @@ withDefaults(
 
 <style scoped>
 .frame {
-    --c-frame-padding: 8px;
+    --c-frame-padding: var(--space-sm);
 
     position: relative;
     border-radius: var(--c-frame-border-radius);
@@ -156,15 +156,15 @@ withDefaults(
 /* ▼ shape ▼ */
 
 .normal {
-    --c-frame-border-radius: 4px;
+    --c-frame-border-radius: var(--radius-sm);
 }
 
 .no-radius {
-    --c-frame-border-radius: 0;
+    --c-frame-border-radius: var(--radius-none);
 }
 
 .circle {
-    --c-frame-border-radius: 50%;
+    --c-frame-border-radius: var(--radius-circle);
 }
 
 /* ▲ shape ▲ */

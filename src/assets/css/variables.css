@@ -17,6 +17,20 @@
         --scroll-bar-width: calc(100vw - 100%);
         --omit-scroll-vw: calc(100vw - var(--scroll-bar-width));
 
+        /* Spacing */
+        --space-xs: 4px;
+        --space-sm: 8px;
+        --space-md: 16px;
+        --space-lg: 24px;
+        --space-xl: 32px;
+        --space-2xl: 40px;
+
+        /* Radius */
+        --radius-none: 0;
+        --radius-sm: 4px;
+        --radius-pill: 2em;
+        --radius-circle: 50%;
+
         /* フォーカスリング */
         --focus-ring-color: var(--color-brand-emphasis);
         --focus-ring-width: 2px;

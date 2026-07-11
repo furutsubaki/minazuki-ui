@@ -101,13 +101,13 @@ const onClosed = async () => {
 <style scoped>
 .component-alert {
     display: flex;
-    gap: 8px;
+    gap: var(--space-sm);
     align-items: flex-start;
     justify-content: center;
     width: 100%;
     min-width: 100px;
     min-height: 32px;
-    padding: 8px;
+    padding: var(--space-sm);
     color: var(--c-alert-color);
     word-break: keep-all;
     background-color: var(--c-alert-background-color);
@@ -130,7 +130,7 @@ const onClosed = async () => {
         display: flex;
         flex-grow: 1;
         flex-direction: column;
-        gap: 8px;
+        gap: var(--space-sm);
         .title {
             font-size: calc(var(--font-size-medium) * 1.2);
             font-weight: bold;
@@ -180,11 +180,11 @@ const onClosed = async () => {
 /* ▼ shape ▼ */
 
 .normal {
-    --c-alert-border-radius: 4px;
+    --c-alert-border-radius: var(--radius-sm);
 }
 
 .no-radius {
-    --c-alert-border-radius: 0;
+    --c-alert-border-radius: var(--radius-none);
 }
 
 /* ▲ shape ▲ */

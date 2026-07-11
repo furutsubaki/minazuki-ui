@@ -146,7 +146,7 @@ if (fieldVal.value == null && model.value != null) {
         width: calc(var(--c-switch-font-size) * 2);
         height: var(--c-switch-font-size);
         background-color: var(--color-border);
-        border-radius: 1em;
+        border-radius: var(--radius-pill);
         transition: background-color 0.2s;
         .switch-icon {
             position: absolute;
@@ -157,7 +157,7 @@ if (fieldVal.value == null && model.value != null) {
             width: var(--c-switch-font-size);
             height: var(--c-switch-font-size);
             background-color: var(--color-text-secondary);
-            border-radius: 1em;
+            border-radius: var(--radius-circle);
             transform: scale(1.5);
             transition: background-color 0.2s;
             .switch-icon-true,
@@ -239,7 +239,7 @@ if (fieldVal.value == null && model.value != null) {
     white-space: nowrap;
     :where(.input) {
         display: flex;
-        gap: 8px;
+        gap: var(--space-sm);
         align-items: center;
         justify-content: flex-start;
         min-height: var(--c-switch-height);

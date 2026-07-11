@@ -188,7 +188,7 @@ defineExpose({ elementRef });
 /* ▼ shape ▼ */
 
 .rounded {
-    border-radius: 2em;
+    border-radius: var(--radius-pill);
 }
 
 /* ▲ shape ▲ */

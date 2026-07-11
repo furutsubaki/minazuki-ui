@@ -135,7 +135,7 @@ if (value.value == null && model.value != null) {
 
 .items {
     display: flex;
-    gap: 16px;
+    gap: var(--space-md);
 }
 
 .error {
