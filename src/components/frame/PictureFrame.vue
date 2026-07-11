@@ -44,7 +44,7 @@ withDefaults(
 
 <style scoped>
 .picture-frame {
-    --c-picture-frame-padding: 8px;
+    --c-picture-frame-padding: var(--space-sm);
 
     position: relative;
     padding: var(--c-picture-frame-padding);
@@ -172,11 +172,11 @@ withDefaults(
 /* ▼ shape ▼ */
 
 .circle {
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     &::before,
     &::after,
     .picture-frame-inner {
-        border-radius: 50%;
+        border-radius: var(--radius-circle);
     }
 }
 

@@ -108,19 +108,19 @@ defineExpose({ buttonRef });
 <style scoped>
 .component-button {
     display: flex;
-    gap: 8px;
+    gap: var(--space-sm);
     align-items: center;
     justify-content: center;
     min-width: 100px;
     min-height: var(--c-button-height);
-    padding: 0 8px;
+    padding: 0 var(--space-sm);
     font-size: var(--c-button-font-size);
     color: var(--c-button-color);
     word-break: keep-all;
     background-color: var(--c-button-background-color);
     border: 1px solid;
     border-color: var(--c-button-border-color);
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     transition:
         color 0.2s,
         background-color 0.2s,
@@ -234,11 +234,11 @@ defineExpose({ buttonRef });
 /* ▼ shape ▼ */
 
 .rounded {
-    border-radius: 2em;
+    border-radius: var(--radius-pill);
 }
 
 .no-radius {
-    border-radius: 0;
+    border-radius: var(--radius-none);
 }
 
 .circle {
@@ -247,7 +247,7 @@ defineExpose({ buttonRef });
     width: var(--c-button-height);
     min-width: auto;
     word-break: keep-all;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     > .button-icon {
         width: 100%;
         height: 100%;

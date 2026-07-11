@@ -122,7 +122,7 @@ watch(model, (v) => {
 <style scoped>
 .component-rating {
     display: flex;
-    gap: 8px;
+    gap: var(--space-sm);
     justify-content: center;
     min-width: 100px;
     min-height: var(--c-rating-height);

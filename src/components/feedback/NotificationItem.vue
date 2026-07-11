@@ -185,10 +185,10 @@ defineExpose({ flg, transitioning, isShowing, onClosed, transitionFrom });
         opacity 0.2s;
     .notification-inner {
         display: flex;
-        gap: 8px;
+        gap: var(--space-sm);
         align-items: flex-start;
         justify-content: center;
-        padding: 8px;
+        padding: var(--space-sm);
         background-color: var(--color-bg-primary);
         .icon {
             flex-shrink: 0;
@@ -202,7 +202,7 @@ defineExpose({ flg, transitioning, isShowing, onClosed, transitionFrom });
             display: flex;
             flex-grow: 1;
             flex-direction: column;
-            gap: 8px;
+            gap: var(--space-sm);
             > div:first-child {
                 display: flex;
                 align-items: center;

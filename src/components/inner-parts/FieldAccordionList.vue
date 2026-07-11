@@ -111,7 +111,7 @@ const onOutsideClick = computed(() => ({
     cursor: pointer;
     background-color: var(--color-bg-primary);
     border: 1px solid var(--c-field-accordion-border-color);
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     opacity: 0;
     transition:
         background-color 0.2s,
@@ -133,7 +133,7 @@ const onOutsideClick = computed(() => ({
             display: flex;
             align-items: center;
             min-height: var(--c-field-accordion-height);
-            padding: 0 8px;
+            padding: 0 var(--space-sm);
             transition: background-color 0.2s;
 
             @media (hover: hover) {

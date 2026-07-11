@@ -212,7 +212,7 @@ if (fieldVal.value == null && model.value != null) {
     white-space: nowrap;
     :where(.input) {
         display: flex;
-        gap: 8px;
+        gap: var(--space-sm);
         align-items: center;
         justify-content: flex-start;
         min-height: var(--c-radio-height);

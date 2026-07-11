@@ -151,7 +151,7 @@ const hasSlot = (name: string) => {
         position: relative;
         display: flex;
         flex-shrink: 0;
-        gap: 8px;
+        gap: var(--space-sm);
         align-items: flex-start;
         justify-content: space-between;
         overflow: scroll;
@@ -185,10 +185,10 @@ const hasSlot = (name: string) => {
                 justify-content: center;
                 width: var(--c-step-icon-size);
                 height: var(--c-step-icon-size);
-                padding: 4px;
+                padding: var(--space-xs);
                 color: var(--color-bg-secondary);
                 background-color: var(--color-text-secondary);
-                border-radius: 50%;
+                border-radius: var(--radius-circle);
                 transition: background-color 0.2s;
             }
             .text {
@@ -243,9 +243,9 @@ const hasSlot = (name: string) => {
     .step-footer {
         display: flex;
         justify-content: space-between;
-        margin-top: 8px;
+        margin-top: var(--space-sm);
         &:not(.no-separator) {
-            padding-top: 8px;
+            padding-top: var(--space-sm);
             border-top: 1px solid var(--color-border);
         }
     }
@@ -276,9 +276,9 @@ const hasSlot = (name: string) => {
     flex-direction: column;
     width: 100%;
     .step-header {
-        padding: 8px 24px;
+        padding: var(--space-sm) var(--space-lg);
         &:not(.no-separator) {
-            margin-bottom: 8px;
+            margin-bottom: var(--space-sm);
             border-bottom: 1px solid var(--color-border);
         }
         .step-separator {
@@ -302,9 +302,9 @@ const hasSlot = (name: string) => {
     height: 100%;
     .step-header {
         flex-direction: column;
-        padding: 24px 8px;
+        padding: var(--space-lg) var(--space-sm);
         &:not(.no-separator) {
-            margin-left: 8px;
+            margin-left: var(--space-sm);
             border-left: 1px solid var(--color-border);
         }
         .step-separator {
@@ -327,9 +327,9 @@ const hasSlot = (name: string) => {
     flex-direction: column-reverse;
     width: 100%;
     .step-header {
-        padding: 8px 24px;
+        padding: var(--space-sm) var(--space-lg);
         &:not(.no-separator) {
-            margin-top: 8px;
+            margin-top: var(--space-sm);
             border-top: 1px solid var(--color-border);
         }
         .step-separator {
@@ -353,9 +353,9 @@ const hasSlot = (name: string) => {
     height: 100%;
     .step-header {
         flex-direction: column;
-        padding: 24px 8px;
+        padding: var(--space-lg) var(--space-sm);
         &:not(.no-separator) {
-            margin-right: 8px;
+            margin-right: var(--space-sm);
             border-right: 1px solid var(--color-border);
         }
         .step-separator {

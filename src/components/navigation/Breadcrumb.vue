@@ -104,7 +104,7 @@ const onClick = (item: MiBreadcrumbItem) => {
 <style scoped>
 .component-breadcrumb {
     display: flex;
-    gap: 8px;
+    gap: var(--space-sm);
     align-items: center;
     justify-content: center;
     min-width: 100px;

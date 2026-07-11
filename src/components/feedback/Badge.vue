@@ -67,13 +67,13 @@ const formatedContent = computed(() => {
     justify-content: center;
     min-width: var(--c-badge-size);
     height: var(--c-badge-size);
-    padding: 4px;
+    padding: var(--space-xs);
     font-size: 1rem;
     color: var(--c-badge-color);
     word-break: keep-all;
     pointer-events: none;
     background-color: var(--c-badge-background-color);
-    border-radius: 2em;
+    border-radius: var(--radius-pill);
     &:not(.inline) {
         position: absolute;
         top: calc(var(--c-badge-size) * -0.5);
