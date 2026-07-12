@@ -2,25 +2,6 @@
 
 このファイルは、リポジトリ内のコードを操作する際に AI へ提供するガイダンスです。
 
-## プロジェクト概要
-
-Vue 3 / Nuxt 3 以上向けの UI コンポーネントライブラリ。npm パッケージとして公開されており、ESM / UMD の両形式にビルドされる。
-
-## コマンド
-
-```bash
-pnpm build            # フルビルド（型チェック + Vite ビルド）
-pnpm build-only       # Vite ビルドのみ
-pnpm type-check       # vue-tsc による型チェック
-pnpm lint:fix         # ESLint + Stylelint 自動修正
-pnpm sb               # Storybook 開発サーバー（port 6006）
-pnpm sb:test          # Storybook ビジュアルテスト
-pnpm test             # Vitest ウォッチモード（TDD用）
-pnpm test:run         # Vitest 単発実行
-pnpm test:coverage    # カバレッジレポート生成
-pnpm create-component-d  # src/components/index.ts を自動生成
-```
-
 ## アーキテクチャ
 
 ### エントリーポイント
@@ -28,80 +9,9 @@ pnpm create-component-d  # src/components/index.ts を自動生成
 - `src/index.ts` — ライブラリのルート。Vue プラグインとして `install()` を提供し、全コンポーネントを `Mi{ComponentName}` の形でグローバル登録する。コンポーザブル・ディレクティブも個別エクスポートされる。
 - `src/nuxt/module.ts` — Nuxt Module のエントリーポイント。`minazuki-ui/nuxt` として配布される。auto-import・CSS 注入・テーマ設定・SSR フラッシュ防止を自動で設定する。
 
-### ディレクトリ構成
-
-```text
-src/
-├── assets/
-│   ├── css/
-│   │   ├── variables.css   # CSS 変数・テーマ定義
-│   │   ├── style.css       # ベーススタイル
-│   │   ├── reset.css       # リセット CSS
-│   │   └── override.css
-│   └── ts/                 # colors / const / formatter / schema / url など汎用ユーティリティ
-├── components/
-│   ├── index.ts            # 自動生成ファイル（直接編集禁止。pnpm create-component-d で再生成）
-│   ├── nuxt-map.ts         # Nuxt Module の auto-import 用コンポーネントマップ（直接編集禁止）
-│   ├── basic/
-│   ├── controls/
-│   ├── feedback/
-│   ├── frame/
-│   ├── inner-parts/
-│   └── navigation/
-├── composables/            # useCheckableField / useFormData / useNotification / useTheme
-├── directives/             # useOutsideClick など
-├── nuxt/                   # Nuxt Module 実装（minazuki-ui/nuxt エントリーポイント）
-│   ├── module.ts           # defineNuxtModule 本体（auto-import / CSS / テーマ設定）
-│   ├── composable-map.ts   # Nuxt auto-import 対象のコンポーザブル一覧
-│   └── runtime/
-│       ├── env.d.ts        # Nuxt ランタイム型補完
-│       └── plugin.ts       # Nuxt runtime plugin（SSR フラッシュ防止・テーマ初期化）
-├── plugins/                # init-validate など
-├── generate-component-index.js  # components/index.ts 自動生成スクリプト
-├── generate-css-data.ts    # CSS データ生成スクリプト
-├── stories/                # Storybook ストーリー（components/ と同じカテゴリ構成）
-└── test/                   # ユニットテスト（components/ composables/ directives/ と同じカテゴリ構成）
-
-docs/
-├── DESIGN.md               # デザインガイド
-└── MIGRATION.md            # マイグレーションガイド
-
-playground/
-├── README.md               # 概要・使い方
-├── shared/                 # 3 環境共通のページ本文・CSS・validate（単一ソース）
-│   ├── pages/              # ページコンポーネント（HomePage / FormsPage / FeedbackPage / NavigationPage）
-│   ├── styles/
-│   │   └── playground.css  # playground 共通スタイル
-│   └── validate.ts         # vee-validate 初期化（setupValidate）
-├── vue/                    # Vite + Vue 3 動作確認環境
-│   ├── src/
-│   │   ├── App.vue
-│   │   └── main.ts
-│   └── dist/               # ビルド出力（lint 除外対象）
-├── nuxt3/                  # Nuxt 3 動作確認環境（SSR 対応確認用）
-│   ├── app.vue
-│   ├── pages/              # shared/pages/ への薄いラッパー（直接編集禁止）
-│   ├── plugins/
-│   ├── .nuxt/              # 開発ビルドキャッシュ（lint 除外対象）
-│   └── .output/            # SSR ビルド出力（lint 除外対象）
-└── nuxt4/                  # Nuxt 4 動作確認環境（SSR 対応確認用）
-    ├── app/
-    │   ├── app.vue
-    │   ├── pages/          # shared/pages/ への薄いラッパー（直接編集禁止）
-    │   └── plugins/
-    ├── .nuxt/              # 開発ビルドキャッシュ（lint 除外対象）
-    └── .output/            # SSR ビルド出力（lint 除外対象）
-```
-
-`playground/` は npm 配布物に含まれない（`files` フィールドで除外済み）。各環境は `workspace:*` で本ライブラリを参照。`playground/shared` も同様に workspace パッケージとして管理される。
-
 ### デザインガイド
 
 @docs/DESIGN.md を参照してください。
-
-### ビルド出力
-
-Vite + vite-plugin-dts で `dist/` に出力。`index.js`（ESM・ツリーシェイカブル）と `index.umd.cjs`（UMD）の 2 形式 + 型定義ファイル。
 
 ### playground の整備
 
@@ -150,3 +60,5 @@ playground 共通スタイルは `playground/shared/styles/playground.css`、vee
 ## 禁止事項
 
 - `develop` `main`ブランチでの作業は禁止
+- `src/components/index.ts` は自動生成ファイル — 直接編集禁止（`pnpm create-component-d` で再生成）
+- `src/components/nuxt-map.ts` は Nuxt auto-import 用マップ — 直接編集禁止
