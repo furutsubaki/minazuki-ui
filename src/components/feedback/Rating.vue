@@ -129,8 +129,8 @@ watch(model, (v) => {
     font-size: var(--c-rating-font-size);
     color: var(--c-rating-color);
     transition:
-        color 0.2s,
-        background-color 0.2s;
+        color var(--duration-fast),
+        background-color var(--duration-fast);
     .rate {
         position: relative;
         display: flex;
@@ -141,8 +141,8 @@ watch(model, (v) => {
                 color: var(--c-rating-color);
                 fill: transparent;
                 transition:
-                    color 0.2s,
-                    fill 0.2s;
+                    color var(--duration-fast),
+                    fill var(--duration-fast);
             }
             &.is-over {
                 background-color: transparent;

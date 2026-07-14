@@ -114,18 +114,18 @@ const onOutsideClick = computed(() => ({
     border-radius: var(--radius-sm);
     opacity: 0;
     transition:
-        background-color 0.2s,
-        opacity 0.2s,
-        grid-template-rows 0.2s ease,
-        opacity 0s 0.2s;
+        background-color var(--duration-fast),
+        opacity var(--duration-fast),
+        grid-template-rows var(--duration-fast) ease,
+        opacity 0s var(--duration-fast);
     &.is-open {
         grid-template-rows: 1fr;
         opacity: 1;
         transition:
-            color 0.2s,
-            background-color 0.2s,
-            opacity 0.2s,
-            grid-template-rows 0.2s ease;
+            color var(--duration-fast),
+            background-color var(--duration-fast),
+            opacity var(--duration-fast),
+            grid-template-rows var(--duration-fast) ease;
     }
     .list-body {
         overflow: hidden auto;
@@ -134,7 +134,7 @@ const onOutsideClick = computed(() => ({
             align-items: center;
             min-height: var(--c-field-accordion-height);
             padding: 0 var(--space-sm);
-            transition: background-color 0.2s;
+            transition: background-color var(--duration-fast);
 
             @media (hover: hover) {
                 &:hover {

@@ -121,15 +121,15 @@ const onClick = (item: MiBottomNavItem) => {
             width: calc(var(--c-bottom-nav-font-size) * 2);
             height: 100%;
             transition:
-                width 0.2s,
-                height 0.2s;
+                width var(--duration-fast),
+                height var(--duration-fast);
         }
         :deep(.button-label) {
             position: absolute;
             bottom: -1.5em;
             font-size: var(--font-size-small);
             line-height: 1;
-            transition: bottom 0.2s;
+            transition: bottom var(--duration-fast);
         }
         &.is-current {
             color: var(--color-text-primary);

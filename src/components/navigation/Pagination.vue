@@ -242,7 +242,7 @@ const onClick = (page: number | undefined) => {
         justify-content: center;
         width: var(--c-pagination-size);
         height: var(--c-pagination-size);
-        transition: opacity 0.2s;
+        transition: opacity var(--duration-fast);
         .pagination-item-button {
             width: 100%;
             height: 100%;
@@ -258,8 +258,8 @@ const onClick = (page: number | undefined) => {
             visibility: hidden;
             opacity: 0;
             transition:
-                opacity 0.2s,
-                visibility 0s 0.2s;
+                opacity var(--duration-fast),
+                visibility 0s var(--duration-fast);
         }
     }
 }

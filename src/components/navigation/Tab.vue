@@ -165,12 +165,12 @@ defineExpose({ tabAlignProperty, tabButtonRef, currentTabClientRects });
             pointer-events: none;
             background-color: var(--color-brand);
             transition:
-                width 0.2s,
-                height 0.2s,
-                top 0.2s,
-                right 0.2s,
-                bottom 0.2s,
-                left 0.2s;
+                width var(--duration-fast),
+                height var(--duration-fast),
+                top var(--duration-fast),
+                right var(--duration-fast),
+                bottom var(--duration-fast),
+                left var(--duration-fast);
         }
     }
     .tab-slot {

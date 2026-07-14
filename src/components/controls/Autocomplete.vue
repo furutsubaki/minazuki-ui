@@ -360,7 +360,7 @@ defineExpose({ onBlur, debouncedSearchValue, value });
         width: var(--c-autocomplete-font-size);
         .lucide {
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: opacity var(--duration-fast);
         }
     }
 }

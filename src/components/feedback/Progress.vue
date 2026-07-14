@@ -183,7 +183,7 @@ const strokeDashoffset = computed(
             height: 100%;
             background-color: var(--c-progress-background-color);
             border-radius: var(--radius-pill);
-            transition: width 0.2s;
+            transition: width var(--duration-fast);
         }
     }
     .ratio {
@@ -214,7 +214,7 @@ const strokeDashoffset = computed(
         }
         .circle-overlay {
             color: var(--c-progress-background-color);
-            transition: stroke-dashoffset 0.2s;
+            transition: stroke-dashoffset var(--duration-fast);
         }
     }
 }

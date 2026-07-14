@@ -172,8 +172,8 @@ const hasSlot = (name: string) => {
             background: transparent;
             border: 0;
             transition:
-                opacity 0.2s,
-                color 0.2s;
+                opacity var(--duration-fast),
+                color var(--duration-fast);
             &:disabled,
             &.is-readonly {
                 cursor: not-allowed;
@@ -189,14 +189,14 @@ const hasSlot = (name: string) => {
                 color: var(--color-bg-secondary);
                 background-color: var(--color-text-secondary);
                 border-radius: var(--radius-circle);
-                transition: background-color 0.2s;
+                transition: background-color var(--duration-fast);
             }
             .text {
                 width: 100px;
                 text-align: center;
                 word-break: break-all;
                 transform: scale(0.8);
-                transition: transform 0.2s;
+                transition: transform var(--duration-fast);
             }
             &.is-current {
                 /* Buttonコンポーネント自身がこの変数でcolorを確定するため、継承ではなく直接上書きする */
@@ -227,7 +227,7 @@ const hasSlot = (name: string) => {
                 content: '';
                 background-color: var(--color-success);
                 transform: scale(0);
-                transition: transform 0.2s;
+                transition: transform var(--duration-fast);
             }
         }
     }

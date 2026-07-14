@@ -231,7 +231,7 @@ onMounted(() => {
         margin-bottom: auto;
         .lucide {
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: opacity var(--duration-fast);
         }
     }
 }

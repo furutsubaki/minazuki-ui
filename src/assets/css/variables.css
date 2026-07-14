@@ -35,11 +35,20 @@
         --focus-ring-color: var(--color-brand-emphasis);
         --focus-ring-width: 2px;
         --focus-ring-offset: 2px;
+
+        /* Duration */
+        --duration-fast: 0.2s;
     }
 
     @media (600px <= width) {
         :root {
             --font-size-medium: 1.6rem;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        :root {
+            --duration-fast: 0s;
         }
     }
 }

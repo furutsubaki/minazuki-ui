@@ -169,8 +169,8 @@ defineExpose({ frameRef });
         border-color: var(--c-field-frame-border-color);
         border-radius: var(--radius-sm);
         transition:
-            height 0.2s,
-            background-color 0.2s;
+            height var(--duration-fast),
+            background-color var(--duration-fast);
         .frame-start,
         .frame-end {
             position: relative;
@@ -216,7 +216,7 @@ defineExpose({ frameRef });
             border-width: var(--c-field-frame-border-width);
             border-right: 0;
             border-left: 0;
-            transition: border-width 0.2s;
+            transition: border-width var(--duration-fast);
             &::before {
                 position: absolute;
                 top: -2px;
@@ -240,14 +240,14 @@ defineExpose({ frameRef });
                 pointer-events: none;
                 transform: translateY(calc(-50% + (var(--c-field-frame-height) / 2) - 1px));
                 transition:
-                    transform 0.2s,
-                    font-size 0.2s;
+                    transform var(--duration-fast),
+                    font-size var(--duration-fast);
                 .label {
                     height: 1em;
                     line-height: 1em;
                     vertical-align: baseline;
                     color: var(--color-text-secondary);
-                    transition: color 0.2s;
+                    transition: color var(--duration-fast);
                 }
                 .placeholder {
                     height: 1em;
