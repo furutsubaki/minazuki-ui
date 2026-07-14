@@ -28,6 +28,7 @@ const externalRegexps = externalPackages.map(
 
 export default defineConfig({
     build: {
+        minify: false,
         lib: {
             entry: resolve(__dirname, './src/index.ts'),
             name: 'minazuki-ui',
