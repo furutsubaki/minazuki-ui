@@ -5,7 +5,7 @@
  * ==================================================
  */
 
-import { ref, shallowRef, watch } from 'vue';
+import { ref, shallowRef, toRaw, watch } from 'vue';
 import { useHead } from '@unhead/vue';
 import { toKebabCase } from '@/assets/ts/formatter';
 import {
@@ -348,8 +348,8 @@ function assignDefined<T extends object>(target: T, source: Partial<T>): void {
 }
 
 const overrideTheme = (overrides: MiThemeOverride) => {
-    const raw: MiThemeOverride = structuredClone(overrides);
-    const config = structuredClone(themeConfig.value);
+    const raw: MiThemeOverride = structuredClone(toRaw(overrides));
+    const config = structuredClone(toRaw(themeConfig.value));
 
     if (raw.primitives) {
         if (raw.primitives.hues) {
