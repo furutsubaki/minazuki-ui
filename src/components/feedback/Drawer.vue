@@ -203,8 +203,8 @@ defineExpose({ transitionFrom });
     border-color: var(--color-border);
     border-radius: var(--radius-none);
     transition:
-        border-color 0.2s,
-        opacity 0.2s;
+        border-color var(--duration-fast),
+        opacity var(--duration-fast);
     .closeable-box {
         position: absolute;
         top: 0;

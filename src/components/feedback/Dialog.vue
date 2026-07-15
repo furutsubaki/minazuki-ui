@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, useSlots, watch, onMounted, onBeforeUnmount, type Component } from 'vue';
 import TeleportRoot from '@/components/inner-parts/TeleportRoot.vue';
+import { getTransitionDuration } from '@/assets/ts/transition';
 import {
     Info as IconInfo,
     CheckCircle2 as IconCheckCircle2,
@@ -82,6 +83,7 @@ const transitionFromClass = computed(() => {
 });
 
 const dialogEl = ref<HTMLDialogElement | null>(null);
+const dialogPanelEl = ref<HTMLElement | null>(null);
 let closeTimeoutId: number | undefined;
 
 const finishClose = () => {
@@ -127,7 +129,9 @@ const open = () => {
 const startClose = () => {
     if (transitionState.value === 'is-closing') return;
     transitionState.value = 'is-closing';
-    closeTimeoutId = window.setTimeout(finishClose, 250);
+    const duration = getTransitionDuration(dialogPanelEl.value);
+    // 0ms(reduced-motion等)でもopen()からclearTimeoutでキャンセルできるよう、常に非同期でスケジュールする
+    closeTimeoutId = window.setTimeout(finishClose, duration === 0 ? 0 : duration + 50);
 };
 
 onMounted(() => {
@@ -184,7 +188,7 @@ const hasSlot = (name: string) => {
             @click="onBackdropClick"
             @cancel.prevent="onCancel"
         >
-            <div class="dialog-panel" :class="[position]" @click.stop>
+            <div ref="dialogPanelEl" class="dialog-panel" :class="[position]" @click.stop>
                 <component :is="frameComponent" class="dialog-frame">
                     <div
                         class="dialog"
@@ -230,7 +234,7 @@ const hasSlot = (name: string) => {
     &::backdrop {
         background-color: var(--color-shadow-alpha);
         opacity: 1;
-        transition: opacity 0.2s ease-in-out;
+        transition: opacity var(--duration-fast) ease-in-out;
     }
     &.is-opening::backdrop,
     &.is-closing::backdrop {
@@ -252,8 +256,8 @@ const hasSlot = (name: string) => {
     opacity: 1;
     transform: translate(0, 0);
     transition:
-        opacity 0.2s ease-in-out,
-        transform 0.2s ease-in-out;
+        opacity var(--duration-fast) ease-in-out,
+        transform var(--duration-fast) ease-in-out;
 }
 
 /* ▼ transition ▼ */
@@ -306,8 +310,8 @@ const hasSlot = (name: string) => {
     border-color: var(--c-dialog-border-color);
     border-radius: var(--c-dialog-border-radius);
     transition:
-        border-color 0.2s,
-        opacity 0.2s;
+        border-color var(--duration-fast),
+        opacity var(--duration-fast);
     .inner {
         display: flex;
         flex-grow: 1;

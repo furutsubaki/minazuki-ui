@@ -193,7 +193,7 @@ if (fieldVal.value == null && model.value != null) {
     line-height: 1em;
     color: var(--color-text-primary);
     pointer-events: none;
-    transition: 0.2s;
+    transition: var(--duration-fast);
     &.required {
         &::after {
             left: -0.5em;

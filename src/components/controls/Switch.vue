@@ -147,7 +147,7 @@ if (fieldVal.value == null && model.value != null) {
         height: var(--c-switch-font-size);
         background-color: var(--color-border);
         border-radius: var(--radius-pill);
-        transition: background-color 0.2s;
+        transition: background-color var(--duration-fast);
         .switch-icon {
             position: absolute;
             left: 0;
@@ -159,12 +159,12 @@ if (fieldVal.value == null && model.value != null) {
             background-color: var(--color-text-secondary);
             border-radius: var(--radius-circle);
             transform: scale(1.5);
-            transition: background-color 0.2s;
+            transition: background-color var(--duration-fast);
             .switch-icon-true,
             .switch-icon-false {
                 filter: invert(100%) grayscale(100%) contrast(100);
                 transform: scale(0.75);
-                transition: color 0.2s;
+                transition: color var(--duration-fast);
             }
             .switch-icon-true {
                 color: var(--c-switch-switch-icon-true-color);
@@ -220,7 +220,7 @@ if (fieldVal.value == null && model.value != null) {
     line-height: 1em;
     color: var(--color-text-primary);
     pointer-events: none;
-    transition: 0.2s;
+    transition: var(--duration-fast);
     &.required {
         &::after {
             left: -0.5em;
@@ -245,10 +245,10 @@ if (fieldVal.value == null && model.value != null) {
         min-height: var(--c-switch-height);
         line-height: 1.5em;
         transition:
-            color 0.2s,
-            background-color 0.2s,
-            border-color 0.2s,
-            opacity 0.2s;
+            color var(--duration-fast),
+            background-color var(--duration-fast),
+            border-color var(--duration-fast),
+            opacity var(--duration-fast);
     }
 }
 

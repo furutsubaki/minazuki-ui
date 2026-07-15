@@ -186,7 +186,7 @@ const onDelete = () => {
         }
         .select-icon {
             font-size: var(--font-size-small);
-            transition: transform 0.2s;
+            transition: transform var(--duration-fast);
         }
         &.is-focus .select-icon {
             transform: rotateZ(180deg);
@@ -220,7 +220,7 @@ const onDelete = () => {
         width: var(--c-select-font-size);
         .lucide {
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: opacity var(--duration-fast);
         }
     }
 }

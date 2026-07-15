@@ -118,7 +118,7 @@ const onClick = (item: MiBreadcrumbItem) => {
         color: var(--color-link);
         text-decoration: none;
         cursor: pointer;
-        transition: color 0.2s;
+        transition: color var(--duration-fast);
 
         @media (hover: hover) {
             /* PC */

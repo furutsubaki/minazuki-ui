@@ -2,6 +2,7 @@
 import { ref, computed, watch, onMounted, onBeforeUnmount, type Component } from 'vue';
 import TeleportRoot from '@/components/inner-parts/TeleportRoot.vue';
 import Button from '@/components/basic/Button.vue';
+import { getTransitionDuration } from '@/assets/ts/transition';
 import { X as IconX } from 'lucide-vue-next';
 
 const flg = defineModel<boolean>({ default: false });
@@ -68,6 +69,7 @@ const transitionFromClass = computed(() => {
 });
 
 const dialogEl = ref<HTMLDialogElement | null>(null);
+const modalPanelEl = ref<HTMLElement | null>(null);
 let closeTimeoutId: number | undefined;
 
 const finishClose = () => {
@@ -107,7 +109,9 @@ const open = () => {
 const startClose = () => {
     if (transitionState.value === 'is-closing') return;
     transitionState.value = 'is-closing';
-    closeTimeoutId = window.setTimeout(finishClose, 250);
+    const duration = getTransitionDuration(modalPanelEl.value);
+    // 0ms(reduced-motion等)でもopen()からclearTimeoutでキャンセルできるよう、常に非同期でスケジュールする
+    closeTimeoutId = window.setTimeout(finishClose, duration === 0 ? 0 : duration + 50);
 };
 
 const onClose = () => {
@@ -163,7 +167,7 @@ onBeforeUnmount(() => {
             @click="onBackdropClick"
             @cancel.prevent="onCancel"
         >
-            <div class="modal-panel" @click.stop>
+            <div ref="modalPanelEl" class="modal-panel" @click.stop>
                 <component :is="frameComponent" class="modal-frame">
                     <div
                         class="modal"
@@ -203,7 +207,7 @@ onBeforeUnmount(() => {
     &::backdrop {
         background-color: var(--color-shadow-alpha);
         opacity: 1;
-        transition: opacity 0.2s ease-in-out;
+        transition: opacity var(--duration-fast) ease-in-out;
     }
     &.is-opening::backdrop,
     &.is-closing::backdrop {
@@ -220,8 +224,8 @@ onBeforeUnmount(() => {
     opacity: 1;
     transform: translate(0, 0);
     transition:
-        opacity 0.2s ease-in-out,
-        transform 0.2s ease-in-out;
+        opacity var(--duration-fast) ease-in-out,
+        transform var(--duration-fast) ease-in-out;
 }
 
 /* ▼ transition ▼ */
@@ -275,8 +279,8 @@ onBeforeUnmount(() => {
     border-color: var(--color-border);
     border-radius: var(--c-modal-border-radius);
     transition:
-        border-color 0.2s,
-        opacity 0.2s;
+        border-color var(--duration-fast),
+        opacity var(--duration-fast);
     .closeable-box {
         position: absolute;
         top: 0;

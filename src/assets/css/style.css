@@ -17,7 +17,12 @@
         box-sizing: border-box;
         scrollbar-gutter: stable;
         font-size: 62.5%; /* 1rem = 10px */
-        scroll-behavior: smooth;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        :root {
+            scroll-behavior: auto;
+        }
     }
     body {
         min-height: var(--height-vh);
@@ -30,8 +35,8 @@
         word-break: break-all;
         text-size-adjust: 100%;
         transition:
-            color 0.2s,
-            background-color 0.2s;
+            color var(--duration-fast),
+            background-color var(--duration-fast);
         .container {
             min-height: var(--height-vh);
         }
@@ -50,11 +55,11 @@
     img {
         vertical-align: bottom;
         border: 0;
-        transition: opacity 0.2s;
+        transition: opacity var(--duration-fast);
     }
     a {
         color: var(--color-link);
-        transition: color 0.2s;
+        transition: color var(--duration-fast);
 
         @media (hover: hover) {
             /* PC */

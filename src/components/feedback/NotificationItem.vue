@@ -179,10 +179,10 @@ defineExpose({ flg, transitioning, isShowing, onClosed, transitionFrom });
     margin: auto;
     pointer-events: initial;
     transition:
-        top 0.2s,
-        bottom 0.2s,
-        border-color 0.2s,
-        opacity 0.2s;
+        top var(--duration-fast),
+        bottom var(--duration-fast),
+        border-color var(--duration-fast),
+        opacity var(--duration-fast);
     .notification-inner {
         display: flex;
         gap: var(--space-sm);

@@ -28,7 +28,7 @@ withDefaults(
     }>(),
     {
         from: 'top',
-        duration: '0.2s',
+        duration: 'var(--duration-fast)',
         delay: '0s',
         easeFunction: 'ease-in-out'
     }

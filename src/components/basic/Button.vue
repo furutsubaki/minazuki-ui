@@ -122,9 +122,9 @@ defineExpose({ buttonRef });
     border-color: var(--c-button-border-color);
     border-radius: var(--radius-sm);
     transition:
-        color 0.2s,
-        background-color 0.2s,
-        border-color 0.2s;
+        color var(--duration-fast),
+        background-color var(--duration-fast),
+        border-color var(--duration-fast);
 
     @media (hover: hover) {
         &:hover:not(:disabled, .is-readonly) {

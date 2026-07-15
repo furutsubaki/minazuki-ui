@@ -115,6 +115,8 @@ const RADIUS_TOKENS = [
     { name: 'circle', value: '50%', desc: 'Circular display' }
 ];
 
+const DURATION_TOKENS = [{ name: 'fast', value: '0.2s', desc: 'Standard transition duration' }];
+
 for (const token of SPACING_TOKENS) {
     properties.push({
         name: `--space-${token.name}`,
@@ -125,6 +127,13 @@ for (const token of SPACING_TOKENS) {
 for (const token of RADIUS_TOKENS) {
     properties.push({
         name: `--radius-${token.name}`,
+        description: `${token.desc} (${token.value})`
+    });
+}
+
+for (const token of DURATION_TOKENS) {
+    properties.push({
+        name: `--duration-${token.name}`,
         description: `${token.desc} (${token.value})`
     });
 }

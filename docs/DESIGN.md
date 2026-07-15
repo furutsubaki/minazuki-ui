@@ -373,11 +373,13 @@ font-feature-settings: 'palt';
 
 全コンポーネントで統一されたトランジション設定:
 
-- **Duration**: `0.2s`（全コンポーネント共通、ハードコード）
+- **Duration**: `var(--duration-fast)`（`--duration-fast: 0.2s` を全コンポーネント共通で参照）
 - **Easing**: `ease-in-out`（トランジションラッパーコンポーネントのデフォルト）
 - **アニメーション方式**: `@keyframes` は未使用。すべて CSS `transition` ベース
 
-> ⚠️ **既知の課題**: duration が CSS 変数化されておらず、`prefers-reduced-motion` にも未対応。将来的にトークン化と reduced-motion 対応を予定。
+`--duration-fast` は `--space-*` / `--radius-*` と同様のグローバルデザイントークンであり、通常はコンポーネント単位でのローカル上書きを想定しない。`prefers-reduced-motion: reduce` 環境では `--duration-fast: 0s` に切り替わり、全トランジション・`scroll-behavior`（`smooth` → `auto`）が即時化される。
+
+Dialog / Modal のクローズ処理は、この変数を文字列解析するのではなく `getComputedStyle()` で実際に適用された `transition-duration` / `transition-delay` を読み取って同期する（`src/assets/ts/transition.ts`）。そのため消費者側が `--duration-fast` を `calc()` などで上書きした場合でも、JS 側のクローズタイミングは実際の CSS トランジションと一致する。
 
 ### 5.2 グローバルトランジション
 
@@ -385,9 +387,9 @@ font-feature-settings: 'palt';
 
 | 対象 | プロパティ |
 |------|-----------|
-| `body` | `color 0.2s, background-color 0.2s` |
-| `img` | `opacity 0.2s` |
-| `a` | `color 0.2s` |
+| `body` | `color var(--duration-fast), background-color var(--duration-fast)` |
+| `img` | `opacity var(--duration-fast)` |
+| `a` | `color var(--duration-fast)` |
 
 ### 5.3 Hover / Touch 分離パターン
 
@@ -414,7 +416,7 @@ PC とモバイルでインタラクション方式を分離する:
 **OpacityTransition / OpacityTransitionGroup**
 
 - 純粋なフェードイン・フェードアウト
-- props: `duration`（デフォルト 0.2s）、`delay`、`easeFunction`
+- props: `duration`（デフォルト `var(--duration-fast)`）、`delay`、`easeFunction`
 
 **TranslateTransition / TranslateTransitionGroup**
 
@@ -556,7 +558,7 @@ brand カラーの上書き（`overrideTheme`）により任意の status 間で
 - Padding: `0 8px`
 - Border: `1px solid`
 - Border Radius: `4px`（default） / `2em`（rounded） / `0`（no-radius） / `50%`（circle）
-- Transition: `color 0.2s, background-color 0.2s, border-color 0.2s`
+- Transition: `color var(--duration-fast), background-color var(--duration-fast), border-color var(--duration-fast)`
 - Min Width: `100px`
 
 **API**
@@ -782,7 +784,7 @@ brand カラーの上書き（`overrideTheme`）により任意の status 間で
 - variant なし。アクティブタブは `--color-brand` でハイライト
 - `position`: `'top'`（デフォルト） / `'right' | 'bottom' | 'left'` でタブヘッダーの配置方向
 - `tabAlign`: `'start' | 'center' | 'end' | 'between'`
-- **アクティブボーダー**: `.active-border` 要素が `getBoundingClientRect()` に基づいて CSS `v-bind()` で動的に位置・サイズを計算。`width / height / top / right / bottom / left` が `0.2s` でアニメーション
+- **アクティブボーダー**: `.active-border` 要素が `getBoundingClientRect()` に基づいて CSS `v-bind()` で動的に位置・サイズを計算。`width / height / top / right / bottom / left` が `var(--duration-fast)` でアニメーション
 - タブヘッダーは `overflow: scroll` でオーバーフロー対応
 - `transition` prop: `'translate' | 'opacity'` でコンテンツ切替時のアニメーション方式を選択
 
@@ -909,7 +911,7 @@ Letter Spacing: 0.05em
 Spacing: --space-xs / --space-sm / --space-md / --space-lg / --space-xl / --space-2xl
 Border Radius: --radius-none / --radius-sm / --radius-pill / --radius-circle
 CSS Layer: @layer minazuki（消費者CSSが優先される）
-Transition: 0.2s（全コンポーネント統一）
+Transition: --duration-fast（全コンポーネント統一、reduced-motion で 0s）
 Icon Library: lucide-vue-next
 ```
 

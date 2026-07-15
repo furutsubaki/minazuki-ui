@@ -115,10 +115,10 @@ const onClosed = async () => {
     border-color: var(--c-alert-border-color);
     border-radius: var(--c-alert-border-radius);
     transition:
-        color 0.2s,
-        background-color 0.2s,
-        border-color 0.2s,
-        opacity 0.2s;
+        color var(--duration-fast),
+        background-color var(--duration-fast),
+        border-color var(--duration-fast),
+        opacity var(--duration-fast);
     .icon {
         flex-shrink: 0;
         width: calc(var(--font-size-medium) * 1.8);
