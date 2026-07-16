@@ -1,6 +1,6 @@
 const CSS_TIME_PATTERN = /^(-?\d+(?:\.\d+)?|-?\.\d+)(ms|s)$/i;
 
-const parseCssTime = (raw: string): number => {
+export const parseCssTime = (raw: string): number => {
     const match = CSS_TIME_PATTERN.exec(raw.trim());
     if (!match) return 0;
     const value = parseFloat(match[1]);
@@ -8,7 +8,7 @@ const parseCssTime = (raw: string): number => {
     return match[2].toLowerCase() === 'ms' ? value : value * 1000;
 };
 
-const parseCssTimeList = (raw: string): number[] => raw.split(',').map(parseCssTime);
+export const parseCssTimeList = (raw: string): number[] => raw.split(',').map(parseCssTime);
 
 /**
  * 対象要素に実際に適用されているtransition-duration + transition-delayの最大値をミリ秒で返す。
@@ -24,7 +24,7 @@ export const getTransitionDuration = (el: Element | null | undefined): number =>
     const count = Math.max(durations.length, delays.length);
     let max = 0;
     for (let i = 0; i < count; i++) {
-        max = Math.max(max, (durations[i % durations.length] ?? 0) + (delays[i % delays.length] ?? 0));
+        max = Math.max(max, durations[i % durations.length] + delays[i % delays.length]);
     }
     return max;
 };

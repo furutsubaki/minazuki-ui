@@ -226,4 +226,15 @@ describe('Breadcrumb', () => {
         expect(link.attributes('target')).toBe('_blank');
         expect(link.attributes('rel')).toBe('noopener noreferrer');
     });
+
+    it('最終アイテムにアイコンがある場合 span 内にアイコンが表示される', () => {
+        const iconItems = [
+            { label: 'ホーム', to: '/' },
+            { label: '詳細', to: '/detail', icon: ChevronRight }
+        ];
+        const wrapper = mount(Breadcrumb, { props: { items: iconItems } });
+        const lastLink = wrapper.findAll('.link').at(-1)!;
+        expect(lastLink.element.tagName).toBe('SPAN');
+        expect(lastLink.find('svg').exists()).toBe(true);
+    });
 });
