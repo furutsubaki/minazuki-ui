@@ -87,10 +87,7 @@ const dialogPanelEl = ref<HTMLElement | null>(null);
 let closeTimeoutId: number | undefined;
 
 const finishClose = () => {
-    if (closeTimeoutId !== undefined) {
-        window.clearTimeout(closeTimeoutId);
-        closeTimeoutId = undefined;
-    }
+    closeTimeoutId = undefined;
     transitionState.value = '';
     dialogEl.value?.close();
     document.documentElement.style.overflow = '';
@@ -127,7 +124,6 @@ const open = () => {
 };
 
 const startClose = () => {
-    if (transitionState.value === 'is-closing') return;
     transitionState.value = 'is-closing';
     const duration = getTransitionDuration(dialogPanelEl.value);
     // 0ms(reduced-motion等)でもopen()からclearTimeoutでキャンセルできるよう、常に非同期でスケジュールする

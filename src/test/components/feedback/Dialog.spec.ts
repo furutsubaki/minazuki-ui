@@ -270,4 +270,55 @@ describe('Dialog', () => {
         expect(closedEvents).toBeTruthy();
         expect(closedEvents!.length).toBe(1);
     });
+
+    it('閉じアニメーション中に unmount すると closeTimeout がクリアされる', async () => {
+        vi.useFakeTimers();
+        const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout');
+        const wrapper = mount(Dialog, {
+            props: {
+                modelValue: true,
+                'onUpdate:modelValue': (v: boolean) => wrapper.setProps({ modelValue: v })
+            }
+        });
+        await wrapper.setProps({ modelValue: false });
+        wrapper.unmount();
+        expect(clearTimeoutSpy).toHaveBeenCalled();
+        expect(document.documentElement.style.overflow).toBe('');
+        clearTimeoutSpy.mockRestore();
+    });
+
+    it('閉じた状態で unmount しても安全に処理される', async () => {
+        vi.useFakeTimers();
+        const wrapper = mount(Dialog, {
+            props: {
+                modelValue: true,
+                'onUpdate:modelValue': (v: boolean) => wrapper.setProps({ modelValue: v })
+            }
+        });
+        await wrapper.setProps({ modelValue: false });
+        await vi.advanceTimersByTimeAsync(300);
+        await nextTick();
+        expect(wrapper.emitted('closed')).toBeTruthy();
+        wrapper.unmount();
+    });
+
+    it('transition duration が 0 でないとき duration + 50 で閉じる', async () => {
+        vi.useFakeTimers();
+        vi.spyOn(window, 'getComputedStyle').mockReturnValue({
+            transitionDuration: '300ms',
+            transitionDelay: '0ms'
+        } as unknown as CSSStyleDeclaration);
+        const wrapper = mount(Dialog, {
+            props: {
+                modelValue: true,
+                'onUpdate:modelValue': (v: boolean) => wrapper.setProps({ modelValue: v })
+            }
+        });
+        await wrapper.setProps({ modelValue: false });
+        await vi.advanceTimersByTimeAsync(349);
+        expect(wrapper.emitted('closed')).toBeFalsy();
+        await vi.advanceTimersByTimeAsync(1);
+        await nextTick();
+        expect(wrapper.emitted('closed')).toBeTruthy();
+    });
 });
