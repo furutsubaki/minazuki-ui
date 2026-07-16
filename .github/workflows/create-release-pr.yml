@@ -20,11 +20,11 @@ jobs:
         with:
           client-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.PRIVATE_KEY }}
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           fetch-depth: 0
       - name: Set up Ruby 3.1
-        uses: ruby/setup-ruby@97ecb7b512899eb71ab1bf2310a624c6f1589ac6 # v1.308.0
+        uses: ruby/setup-ruby@d45b1a4e94b71acab930e56e79c6aa188764e7f9 # v1.316.0
         with:
           ruby-version: 3.1
           working-directory: .github
@@ -33,8 +33,20 @@ jobs:
         env:
           BUNDLE_GEMFILE: ${{ github.workspace }}/.github/Gemfile
           GIT_PR_RELEASE_TOKEN: ${{ steps.generate_token.outputs.token }}
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
           GIT_PR_RELEASE_BRANCH_PRODUCTION: main
           GIT_PR_RELEASE_BRANCH_STAGING: develop
           GIT_PR_RELEASE_LABELS: release
           GIT_PR_RELEASE_TEMPLATE: '.github/.git-pr-release-template'
-        run: bundle exec git-pr-release --no-fetch || echo "Done."
+        run: |
+          bundle exec git-pr-release --no-fetch || echo "Done."
+
+          release_pr_number="$(gh pr list --repo "$GITHUB_REPOSITORY" --base main --head develop --state open --json number --jq '.[0].number // empty')"
+          if [ -z "$release_pr_number" ]; then
+            exit 0
+          fi
+
+          is_draft="$(gh pr view "$release_pr_number" --repo "$GITHUB_REPOSITORY" --json isDraft --jq '.isDraft')"
+          if [ "$is_draft" != "true" ]; then
+            gh pr ready "$release_pr_number" --repo "$GITHUB_REPOSITORY" --undo
+          fi

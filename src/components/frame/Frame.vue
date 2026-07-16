@@ -49,7 +49,7 @@ withDefaults(
 
 <style scoped>
 .frame {
-    --c-frame-padding: 8px;
+    --c-frame-padding: var(--space-sm);
 
     position: relative;
     border-radius: var(--c-frame-border-radius);
@@ -67,11 +67,11 @@ withDefaults(
     }
     &::before {
         background: rgb(0 0 0 / 2%);
-        box-shadow: 0 0 var(--c-frame-padding) var(--color-theme-shadow);
+        box-shadow: 0 0 var(--c-frame-padding) var(--color-shadow);
     }
     &::after {
         padding: 0;
-        border: solid var(--color-theme-border);
+        border: solid var(--color-border);
         border-width: 1px;
     }
     &.is-pading {
@@ -156,15 +156,15 @@ withDefaults(
 /* ▼ shape ▼ */
 
 .normal {
-    --c-frame-border-radius: 4px;
+    --c-frame-border-radius: var(--radius-sm);
 }
 
 .no-radius {
-    --c-frame-border-radius: 0;
+    --c-frame-border-radius: var(--radius-none);
 }
 
 .circle {
-    --c-frame-border-radius: 50%;
+    --c-frame-border-radius: var(--radius-circle);
 }
 
 /* ▲ shape ▲ */

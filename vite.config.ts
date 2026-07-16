@@ -10,7 +10,6 @@ const externalPackages = [
     'vue',
     'unhead',
     '@unhead/vue',
-    '@acab/reset.css',
     '@vee-validate/rules',
     '@vee-validate/zod',
     '@vuepic/vue-datepicker',
@@ -29,6 +28,7 @@ const externalRegexps = externalPackages.map(
 
 export default defineConfig({
     build: {
+        minify: false,
         lib: {
             entry: resolve(__dirname, './src/index.ts'),
             name: 'minazuki-ui',
@@ -57,7 +57,6 @@ export default defineConfig({
                         'vue': 'Vue',
                         'unhead': 'Unhead',
                         '@unhead/vue': 'UnheadVue',
-                        '@acab/reset.css': 'AcabResetCss',
                         '@vee-validate/rules': 'VeeValidateRules',
                         '@vee-validate/zod': 'VeeValidateZod',
                         '@vuepic/vue-datepicker': 'VueDatePicker',

@@ -20,8 +20,15 @@ export default defineNuxtConfig({
     compatibilityDate: '2024-11-01',
     ssr: true,
     modules: ['@pinia/nuxt', ...(existsSync(minazukiNuxtModule) ? [minazukiNuxtModule] : [])],
+    // モジュールオプション（nuxt.config.ts）経由でのテーマオーバーライド動作確認用
+    // (playground/shared/pages/HomePage.vue の Theme Override セクション参照)
     minazukiUi: {
-        theme: 'light'
+        themeId: 'light',
+        theme: {
+            statuses: {
+                info: { hue: 'pink', chroma: 'pink' }
+            }
+        }
     },
     css: ['playground-shared/styles/playground.css'],
     build: {

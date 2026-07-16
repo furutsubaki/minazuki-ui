@@ -1,12 +1,27 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { type Component, computed, markRaw, ref } from 'vue';
+import {
+    Info as IconInfo,
+    CheckCircle2 as IconCheckCircle2,
+    AlertTriangle as IconAlertTriangle,
+    XOctagon as IconXOctagon
+} from 'lucide-vue-next';
+
+type Variant = 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger';
+
+const STATUS_ICON_MAP: Partial<Record<Variant, Component>> = {
+    info: markRaw(IconInfo),
+    success: markRaw(IconCheckCircle2),
+    warning: markRaw(IconAlertTriangle),
+    danger: markRaw(IconXOctagon)
+};
 
 const props = withDefaults(
     defineProps<{
         /**
          * 表示色
          */
-        variant?: 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger';
+        variant?: Variant;
         /**
          * サイズ
          */
@@ -23,13 +38,28 @@ const props = withDefaults(
          * 無効か
          */
         disabled?: boolean;
+        /**
+         * テキスト前アイコン
+         */
+        prefixIcon?: Component;
+        /**
+         * テキスト後アイコン
+         */
+        suffixIcon?: Component;
+        /**
+         * ボタンラベル
+         */
+        label?: string;
     }>(),
     {
         variant: 'secondary',
         size: 'medium',
         shape: 'normal',
         readonly: false,
-        disabled: false
+        disabled: false,
+        prefixIcon: undefined,
+        suffixIcon: undefined,
+        label: undefined
     }
 );
 const emit = defineEmits<{
@@ -46,6 +76,16 @@ const onClick = () => {
     emit('click');
 };
 
+const resolvedPrefixIcon = computed(() => {
+    if (props.prefixIcon) return markRaw(props.prefixIcon);
+    return STATUS_ICON_MAP[props.variant] ?? null;
+});
+
+const resolvedSuffixIcon = computed(() => {
+    if (props.suffixIcon) return markRaw(props.suffixIcon);
+    return null;
+});
+
 const buttonRef = ref();
 defineExpose({ buttonRef });
 </script>
@@ -59,44 +99,35 @@ defineExpose({ buttonRef });
         :class="[variant, size, shape, { 'is-readonly': readonly }]"
         @click="onClick"
     >
-        <slot />
+        <component v-if="resolvedPrefixIcon" :is="resolvedPrefixIcon" class="button-icon" />
+        <span v-if="label" class="button-label">{{ label }}</span>
+        <component v-if="resolvedSuffixIcon" :is="resolvedSuffixIcon" class="button-icon" />
     </button>
 </template>
 
 <style scoped>
 .component-button {
     display: flex;
-    gap: 8px;
+    gap: var(--space-sm);
     align-items: center;
     justify-content: center;
     min-width: 100px;
     min-height: var(--c-button-height);
-    padding: 0 8px;
+    padding: 0 var(--space-sm);
     font-size: var(--c-button-font-size);
     color: var(--c-button-color);
     word-break: keep-all;
     background-color: var(--c-button-background-color);
     border: 1px solid;
     border-color: var(--c-button-border-color);
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     transition:
-        color 0.2s,
-        background-color 0.2s,
-        border-color 0.2s,
-        opacity 0.2s,
-        filter 0.2s;
-    &.is-readonly {
-        pointer-events: none;
-    }
-    &:disabled {
-        pointer-events: none;
-        opacity: 0.5;
-        filter: grayscale(1);
-    }
+        color var(--duration-fast),
+        background-color var(--duration-fast),
+        border-color var(--duration-fast);
 
-    /* hover */
     @media (hover: hover) {
-        &:hover {
+        &:hover:not(:disabled, .is-readonly) {
             color: var(--c-button-hover-color);
             background-color: var(--c-button-hover-background-color);
             border-color: var(--c-button-hover-border-color);
@@ -104,68 +135,79 @@ defineExpose({ buttonRef });
     }
 
     @media (hover: none) {
-        &:active {
+        &:active:not(:disabled, .is-readonly) {
             color: var(--c-button-hover-color);
             background-color: var(--c-button-hover-background-color);
             border-color: var(--c-button-hover-border-color);
         }
     }
+    &:disabled,
+    &.is-readonly {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+}
+
+.button-icon {
+    flex-shrink: 0;
+    width: 1em;
+    height: 1em;
 }
 
 /* ▼ variable ▼ */
 
 .primary {
-    --c-button-hover-color: var(--color-status-brand);
+    --c-button-hover-color: var(--color-brand);
     --c-button-hover-background-color: transparent;
-    --c-button-hover-border-color: var(--color-status-brand);
-    --c-button-color: var(--color-base-white);
-    --c-button-background-color: var(--color-status-brand-alpha);
-    --c-button-border-color: var(--color-status-brand);
+    --c-button-hover-border-color: var(--color-brand);
+    --c-button-color: var(--mi-neutral-50);
+    --c-button-background-color: var(--color-brand);
+    --c-button-border-color: var(--color-brand-emphasis);
 }
 
 .secondary {
-    --c-button-hover-color: var(--color-base-white);
-    --c-button-hover-background-color: var(--color-status-brand-alpha);
-    --c-button-hover-border-color: var(--color-status-brand);
-    --c-button-color: var(--color-theme-text-primary);
+    --c-button-hover-color: var(--mi-neutral-50);
+    --c-button-hover-background-color: var(--color-brand-alpha);
+    --c-button-hover-border-color: var(--color-brand);
+    --c-button-color: var(--color-text-primary);
     --c-button-background-color: transparent;
-    --c-button-border-color: var(--color-theme-border);
+    --c-button-border-color: var(--color-border);
 }
 
 .info {
-    --c-button-hover-color: var(--color-status-info);
+    --c-button-hover-color: var(--color-info);
     --c-button-hover-background-color: transparent;
-    --c-button-hover-border-color: var(--color-status-info);
-    --c-button-color: var(--color-theme-text-primary);
-    --c-button-background-color: var(--color-status-info-alpha);
-    --c-button-border-color: var(--color-status-info);
+    --c-button-hover-border-color: var(--color-info);
+    --c-button-color: var(--mi-neutral-50);
+    --c-button-background-color: var(--color-info);
+    --c-button-border-color: var(--color-info-emphasis);
 }
 
 .success {
-    --c-button-hover-color: var(--color-status-success);
+    --c-button-hover-color: var(--color-success);
     --c-button-hover-background-color: transparent;
-    --c-button-hover-border-color: var(--color-status-success);
-    --c-button-color: var(--color-base-white);
-    --c-button-background-color: var(--color-status-success-alpha);
-    --c-button-border-color: var(--color-status-success);
+    --c-button-hover-border-color: var(--color-success);
+    --c-button-color: var(--mi-neutral-50);
+    --c-button-background-color: var(--color-success);
+    --c-button-border-color: var(--color-success-emphasis);
 }
 
 .warning {
-    --c-button-hover-color: var(--color-status-warning);
+    --c-button-hover-color: var(--color-warning);
     --c-button-hover-background-color: transparent;
-    --c-button-hover-border-color: var(--color-status-warning);
-    --c-button-color: var(--color-base-black);
-    --c-button-background-color: var(--color-status-warning-alpha);
-    --c-button-border-color: var(--color-status-warning);
+    --c-button-hover-border-color: var(--color-warning);
+    --c-button-color: var(--mi-neutral-800);
+    --c-button-background-color: var(--color-warning);
+    --c-button-border-color: var(--color-warning-emphasis);
 }
 
 .danger {
-    --c-button-hover-color: var(--color-status-danger);
+    --c-button-hover-color: var(--color-danger);
     --c-button-hover-background-color: transparent;
-    --c-button-hover-border-color: var(--color-status-danger);
-    --c-button-color: var(--color-base-white);
-    --c-button-background-color: var(--color-status-danger-alpha);
-    --c-button-border-color: var(--color-status-danger);
+    --c-button-hover-border-color: var(--color-danger);
+    --c-button-color: var(--mi-neutral-50);
+    --c-button-background-color: var(--color-danger);
+    --c-button-border-color: var(--color-danger-emphasis);
 }
 
 /* ▲ variable ▲ */
@@ -192,11 +234,11 @@ defineExpose({ buttonRef });
 /* ▼ shape ▼ */
 
 .rounded {
-    border-radius: 2em;
+    border-radius: var(--radius-pill);
 }
 
 .no-radius {
-    border-radius: 0;
+    border-radius: var(--radius-none);
 }
 
 .circle {
@@ -205,8 +247,8 @@ defineExpose({ buttonRef });
     width: var(--c-button-height);
     min-width: auto;
     word-break: keep-all;
-    border-radius: 50%;
-    > :deep(.lucide) {
+    border-radius: var(--radius-circle);
+    > .button-icon {
         width: 100%;
         height: 100%;
     }
@@ -218,13 +260,16 @@ defineExpose({ buttonRef });
     width: var(--c-button-height);
     min-width: auto;
     word-break: keep-all;
-    > :deep(.lucide) {
+    > .button-icon {
         width: 100%;
         height: 100%;
     }
 }
 
 .skeleton {
+    --c-button-background-color: transparent;
+    --c-button-border-color: transparent;
+
     min-width: initial;
     min-height: initial;
     padding: 0;
@@ -233,7 +278,7 @@ defineExpose({ buttonRef });
     @media (hover: hover) {
         &:hover {
             &.secondary {
-                color: var(--color-theme-link);
+                color: var(--color-link);
             }
 
             color: var(--c-button-color);
@@ -245,7 +290,7 @@ defineExpose({ buttonRef });
     @media (hover: none) {
         &:active {
             &.secondary {
-                color: var(--color-theme-link);
+                color: var(--color-link);
             }
 
             color: var(--c-button-color);
@@ -256,28 +301,19 @@ defineExpose({ buttonRef });
 }
 
 .link {
+    --c-button-color: var(--color-link);
+    --c-button-background-color: transparent;
+    --c-button-border-color: transparent;
+    --c-button-hover-color: var(--color-link-hover);
+    --c-button-hover-background-color: transparent;
+    --c-button-hover-border-color: transparent;
+
     display: inline-block;
     min-width: initial;
     min-height: initial;
     padding: 0;
     user-select: none;
     border: 0;
-
-    @media (hover: hover) {
-        &:hover {
-            color: var(--color-theme-link);
-            background-color: transparent;
-            border-color: transparent;
-        }
-    }
-
-    @media (hover: none) {
-        &:active {
-            color: var(--color-theme-link);
-            background-color: transparent;
-            border-color: transparent;
-        }
-    }
 }
 
 /* ▲ shape ▲ */

@@ -29,38 +29,38 @@ const sendNotification = (variant: 'secondary' | 'success' | 'warning' | 'danger
                 <MiAlert text="Success アラートです。" variant="success" title="成功" />
                 <MiAlert text="Warning アラートです。" variant="warning" title="警告" />
                 <MiAlert text="Danger アラートです。" variant="danger" title="エラー" closeable v-model="showAlert" />
-                <MiButton v-if="!showAlert" size="small" @click="showAlert = true">アラートを再表示</MiButton>
+                <MiButton v-if="!showAlert" size="small" label="アラートを再表示" @click="showAlert = true" />
             </div>
         </section>
 
         <section class="pg-section">
             <h2>Notifications（通知）</h2>
             <div class="pg-row">
-                <MiButton @click="sendNotification('secondary')">通知（Secondary）</MiButton>
-                <MiButton variant="info" @click="sendNotification('info')">通知（Info）</MiButton>
-                <MiButton variant="success" @click="sendNotification('success')">通知（Success）</MiButton>
-                <MiButton variant="warning" @click="sendNotification('warning')">通知（Warning）</MiButton>
-                <MiButton variant="danger" @click="sendNotification('danger')">通知（Danger）</MiButton>
+                <MiButton label="通知（Secondary）" @click="sendNotification('secondary')" />
+                <MiButton variant="info" label="通知（Info）" @click="sendNotification('info')" />
+                <MiButton variant="success" label="通知（Success）" @click="sendNotification('success')" />
+                <MiButton variant="warning" label="通知（Warning）" @click="sendNotification('warning')" />
+                <MiButton variant="danger" label="通知（Danger）" @click="sendNotification('danger')" />
             </div>
         </section>
 
         <section class="pg-section">
             <h2>Dialog</h2>
-            <MiButton @click="showDialog = true">ダイアログを開く</MiButton>
+            <MiButton label="ダイアログを開く" @click="showDialog = true" />
             <MiDialog v-model="showDialog" title="確認ダイアログ" variant="warning">
                 <template #default>
                     <p>この操作を実行してよろしいですか？</p>
                 </template>
                 <template #footer>
-                    <MiButton @click="showDialog = false">キャンセル</MiButton>
-                    <MiButton variant="danger" @click="showDialog = false">実行</MiButton>
+                    <MiButton label="キャンセル" @click="showDialog = false" />
+                    <MiButton variant="danger" label="実行" @click="showDialog = false" />
                 </template>
             </MiDialog>
         </section>
 
         <section class="pg-section">
             <h2>Modal</h2>
-            <MiButton variant="primary" @click="showModal = true">モーダルを開く</MiButton>
+            <MiButton variant="primary" label="モーダルを開く" @click="showModal = true" />
             <MiModal v-model="showModal" title="モーダルタイトル" size="medium">
                 <p>モーダルの本文です。ここにコンテンツが入ります。</p>
                 <p style="margin-top: 8px;">2行目のコンテンツです。</p>
@@ -69,12 +69,12 @@ const sendNotification = (variant: 'secondary' | 'success' | 'warning' | 'danger
 
         <section class="pg-section">
             <h2>Drawer</h2>
-            <MiButton @click="showDrawer = true">ドロワーを開く</MiButton>
+            <MiButton label="ドロワーを開く" @click="showDrawer = true" />
             <MiDrawer v-model="showDrawer" title="ドロワーメニュー" position="left">
                 <div style="display: flex; flex-direction: column; gap: 8px; padding: 16px;">
-                    <MiButton shape="link">メニュー 1</MiButton>
-                    <MiButton shape="link">メニュー 2</MiButton>
-                    <MiButton shape="link">メニュー 3</MiButton>
+                    <MiButton shape="link" label="メニュー 1" />
+                    <MiButton shape="link" label="メニュー 2" />
+                    <MiButton shape="link" label="メニュー 3" />
                 </div>
             </MiDrawer>
         </section>

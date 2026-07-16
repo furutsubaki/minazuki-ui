@@ -18,7 +18,7 @@ describe('BottomNav', () => {
 
     it('items のラベルが表示される', () => {
         const wrapper = mount(BottomNav, { props: { items } });
-        const labels = wrapper.findAll('.label');
+        const labels = wrapper.findAll('.button-label');
         expect(labels[0].text()).toBe('ホーム');
         expect(labels[1].text()).toBe('設定');
     });
@@ -55,7 +55,7 @@ describe('BottomNav', () => {
         try {
             const emptyToItems = [{ label: 'ホーム', icon: IconHome, to: '' }];
             const wrapper = mount(BottomNav, { props: { items: emptyToItems as any } });
-            await wrapper.find('.label').trigger('click');
+            await wrapper.find('.item').trigger('click');
             expect(hrefSetter).not.toHaveBeenCalled();
         } finally {
             Object.defineProperty(window, 'location', {
@@ -74,7 +74,7 @@ describe('BottomNav', () => {
         });
         try {
             const wrapper = mount(BottomNav, { props: { items } });
-            await wrapper.findAll('.label')[1].trigger('click');
+            await wrapper.findAll('.item')[1].trigger('click');
             expect(hrefSetter).toHaveBeenCalledWith('/settings');
         } finally {
             Object.defineProperty(window, 'location', {
@@ -94,7 +94,7 @@ describe('BottomNav', () => {
         try {
             const maliciousItems = [{ label: 'XSS', icon: IconHome, to: 'javascript:alert(1)' }];
             const wrapper = mount(BottomNav, { props: { items: maliciousItems as any } });
-            await wrapper.find('.label').trigger('click');
+            await wrapper.find('.item').trigger('click');
             expect(hrefSetter).not.toHaveBeenCalled();
         } finally {
             Object.defineProperty(window, 'location', {
@@ -118,7 +118,7 @@ describe('BottomNav', () => {
             global: { plugins: [router] }
         });
         await router.isReady();
-        await wrapper.findAll('.label')[0].trigger('click');
+        await wrapper.findAll('.item')[0].trigger('click');
         expect(pushSpy).toHaveBeenCalledWith('/');
         pushSpy.mockRestore();
     });

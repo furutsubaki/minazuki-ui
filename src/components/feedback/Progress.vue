@@ -105,27 +105,27 @@ const strokeDashoffset = computed(
 }
 
 .primary {
-    --c-progress-background-color: var(--color-status-brand);
+    --c-progress-background-color: var(--color-brand);
 }
 
 .secondary {
-    --c-progress-background-color: var(--color-theme-text-secondary);
+    --c-progress-background-color: var(--color-text-secondary);
 }
 
 .info {
-    --c-progress-background-color: var(--color-status-info);
+    --c-progress-background-color: var(--color-info);
 }
 
 .success {
-    --c-progress-background-color: var(--color-status-success);
+    --c-progress-background-color: var(--color-success);
 }
 
 .warning {
-    --c-progress-background-color: var(--color-status-warning);
+    --c-progress-background-color: var(--color-warning);
 }
 
 .danger {
-    --c-progress-background-color: var(--color-status-danger);
+    --c-progress-background-color: var(--color-danger);
 }
 
 /* ▼ size ▼ */
@@ -177,13 +177,13 @@ const strokeDashoffset = computed(
         position: relative;
         width: 100%;
         height: var(--c-progress-border-stroke-width);
-        background-color: var(--color-theme-border);
-        border-radius: 1em;
+        background-color: var(--color-border);
+        border-radius: var(--radius-pill);
         .progress-fill {
             height: 100%;
             background-color: var(--c-progress-background-color);
-            border-radius: 1em;
-            transition: width 0.2s;
+            border-radius: var(--radius-pill);
+            transition: width var(--duration-fast);
         }
     }
     .ratio {
@@ -210,11 +210,11 @@ const strokeDashoffset = computed(
         width: 100%;
         height: 100%;
         .circle-underlay {
-            color: var(--color-theme-border);
+            color: var(--color-border);
         }
         .circle-overlay {
             color: var(--c-progress-background-color);
-            transition: stroke-dashoffset 0.2s;
+            transition: stroke-dashoffset var(--duration-fast);
         }
     }
 }

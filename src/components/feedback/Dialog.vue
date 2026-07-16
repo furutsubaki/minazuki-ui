@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import { ref, computed, useSlots, watch, markRaw, onMounted, type Component } from 'vue';
+import { ref, computed, useSlots, watch, onMounted, onBeforeUnmount, type Component } from 'vue';
 import TeleportRoot from '@/components/inner-parts/TeleportRoot.vue';
-import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
-import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
-import { sleep } from '@/assets/ts';
+import { getTransitionDuration } from '@/assets/ts/transition';
 import {
     Info as IconInfo,
     CheckCircle2 as IconCheckCircle2,
     AlertTriangle as IconAlertTriangle,
     XOctagon as IconXOctagon
 } from 'lucide-vue-next';
-import useOutsideClick from '@/directives/useOutsideClick';
 
 const flg = defineModel<boolean>({ default: false });
 const props = withDefaults(
@@ -52,10 +49,6 @@ const props = withDefaults(
          */
         seamless?: boolean;
         /**
-         * 枠外クリック除外要素
-         */
-        outsideClickIgnore?: (Element | string)[];
-        /**
          * フレーム装飾用コンポーネント
          */
         frameComponent?: Component | string;
@@ -67,11 +60,9 @@ const props = withDefaults(
         position: 'center',
         transitionFrom: 'opacity',
         title: '',
-        scroll: false,
         center: false,
         persistent: false,
         seamless: false,
-        outsideClickIgnore: () => ['button', 'dialog'],
         frameComponent: 'div'
     }
 );
@@ -82,38 +73,66 @@ const emit = defineEmits<{
     closed: [];
 }>();
 
-// transition状態
-const TransitionComponent = markRaw(
-    props.transitionFrom === 'opacity' ? OpacityTransition : TranslateTransition
-);
-const transitioning = ref(false);
-const isShowing = computed(() => {
-    if (flg.value) {
-        return true;
-    } else {
-        return transitioning.value;
-    }
-});
-const resolvedTransitionFrom = computed(() => {
-    if (props.transitionFrom === 'top') {
-        return 'top-rebound';
-    } else if (props.transitionFrom === 'right') {
-        return 'right-rebound';
-    } else if (props.transitionFrom === 'bottom') {
-        return 'bottom-rebound';
-    } else if (props.transitionFrom === 'left') {
-        return 'left-rebound';
-    } else {
-        return undefined;
-    }
+const transitionState = ref<'is-opening' | 'is-closing' | ''>('');
+const transitionFromClass = computed(() => {
+    if (props.transitionFrom === 'top') return 'from-top';
+    if (props.transitionFrom === 'right') return 'from-right';
+    if (props.transitionFrom === 'bottom') return 'from-bottom';
+    if (props.transitionFrom === 'left') return 'from-left';
+    return '';
 });
 
 const dialogEl = ref<HTMLDialogElement | null>(null);
+const dialogPanelEl = ref<HTMLElement | null>(null);
+let closeTimeoutId: number | undefined;
+
+const finishClose = () => {
+    closeTimeoutId = undefined;
+    transitionState.value = '';
+    dialogEl.value?.close();
+    document.documentElement.style.overflow = '';
+    emit('closed');
+};
+
+const open = () => {
+    if (closeTimeoutId !== undefined) {
+        window.clearTimeout(closeTimeoutId);
+        closeTimeoutId = undefined;
+    }
+
+    transitionState.value = 'is-opening';
+
+    if (!dialogEl.value?.open) {
+        if (props.seamless) {
+            dialogEl.value?.show();
+        } else {
+            dialogEl.value?.showModal();
+        }
+    }
+
+    if (!props.seamless) {
+        document.documentElement.style.overflow = 'hidden';
+    }
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            if (transitionState.value === 'is-opening') {
+                transitionState.value = '';
+            }
+        });
+    });
+};
+
+const startClose = () => {
+    transitionState.value = 'is-closing';
+    const duration = getTransitionDuration(dialogPanelEl.value);
+    // 0ms(reduced-motion等)でもopen()からclearTimeoutでキャンセルできるよう、常に非同期でスケジュールする
+    closeTimeoutId = window.setTimeout(finishClose, duration === 0 ? 0 : duration + 50);
+};
 
 onMounted(() => {
     if (flg.value) {
-        dialogEl.value?.show();
-        if (!props.seamless) document.documentElement.style.overflow = 'hidden';
+        open();
     }
 });
 
@@ -121,34 +140,34 @@ watch(
     () => flg.value,
     (newFlg) => {
         if (newFlg) {
-            dialogEl.value?.show();
-            if (!props.seamless) document.documentElement.style.overflow = 'hidden';
+            open();
         } else {
-            dialogEl.value?.close();
-            document.documentElement.style.overflow = '';
+            startClose();
         }
     }
 );
 
-// Accordion枠外制御
-const onClose = async () => {
-    flg.value = false;
-    await onClosed();
-};
-const onClosed = async () => {
-    if (isShowing.value) {
-        await sleep(100);
-        onClosed();
-    } else {
-        emit('closed');
+const onCancel = () => {
+    if (!props.persistent) {
+        flg.value = false;
     }
 };
-const { vOutsideClick } = useOutsideClick();
-const onOutsideClick = computed(() => ({
-    handler: onClose,
-    isActive: flg.value && !props.persistent && !props.seamless,
-    ignore: props.outsideClickIgnore
-}));
+
+const onBackdropClick = (e: MouseEvent) => {
+    if (e.target === dialogEl.value && !props.persistent && !props.seamless) {
+        flg.value = false;
+    }
+};
+
+onBeforeUnmount(() => {
+    if (closeTimeoutId !== undefined) {
+        window.clearTimeout(closeTimeoutId);
+    }
+    if (dialogEl.value?.open) {
+        dialogEl.value.close();
+    }
+    document.documentElement.style.overflow = '';
+});
 
 const slots = useSlots();
 const hasSlot = (name: string) => {
@@ -158,26 +177,16 @@ const hasSlot = (name: string) => {
 
 <template>
     <TeleportRoot>
-    <OpacityTransition
-        @transition-start="transitioning = true"
-        @transition-end="transitioning = false"
-    >
-        <div v-show="flg" class="component-dialog" :class="{ 'is-seamless': seamless }">
-            <component
-                :is="TransitionComponent"
-                :from="resolvedTransitionFrom"
-                @transition-start="transitioning = true"
-                @transition-end="transitioning = false"
-            >
-                <component
-                    :is="frameComponent"
-                    v-show="flg"
-                    class="dialog-frame"
-                    :class="[position]"
-                    v-outside-click="onOutsideClick"
-                    >
-                    <dialog
-                        ref="dialogEl"
+        <dialog
+            ref="dialogEl"
+            class="component-dialog"
+            :class="[transitionState, transitionFromClass, { 'is-seamless': seamless }]"
+            @click="onBackdropClick"
+            @cancel.prevent="onCancel"
+        >
+            <div ref="dialogPanelEl" class="dialog-panel" :class="[position]" @click.stop>
+                <component :is="frameComponent" class="dialog-frame">
+                    <div
                         class="dialog"
                         :class="[variant, size, shape, { 'is-center': center }]"
                     >
@@ -196,11 +205,10 @@ const hasSlot = (name: string) => {
                         <div v-if="hasSlot('footer')" class="footer">
                             <slot name="footer" />
                         </div>
-                    </dialog>
+                    </div>
                 </component>
-            </component>
-        </div>
-    </OpacityTransition>
+            </div>
+        </dialog>
     </TeleportRoot>
 </template>
 
@@ -208,47 +216,98 @@ const hasSlot = (name: string) => {
 .component-dialog {
     position: fixed;
     inset: 0;
-    z-index: 10;
-    pointer-events: none;
-    &:not(.is-seamless) {
-        &::before {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            width: 100vw;
-            pointer-events: initial;
-            content: '';
-            background-color: var(--color-theme-shadow-alpha);
-        }
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    color: inherit;
+    outline: none;
+    background: transparent;
+    border: none;
+    &::backdrop {
+        background-color: var(--color-shadow-alpha);
+        opacity: 1;
+        transition: opacity var(--duration-fast) ease-in-out;
     }
-    .dialog-frame {
-        position: fixed;
-        width: fit-content;
-        height: fit-content;
-        margin: auto;
+    &.is-opening::backdrop,
+    &.is-closing::backdrop {
+        opacity: 0;
+    }
+    &.is-seamless {
+        z-index: 10;
+        pointer-events: none;
     }
 }
+
+.dialog-panel {
+    position: fixed;
+    inset: 0;
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    pointer-events: auto;
+    opacity: 1;
+    transform: translate(0, 0);
+    transition:
+        opacity var(--duration-fast) ease-in-out,
+        transform var(--duration-fast) ease-in-out;
+}
+
+/* ▼ transition ▼ */
+
+.is-opening .dialog-panel,
+.is-closing .dialog-panel {
+    opacity: 0;
+}
+
+.is-opening.from-top .dialog-panel,
+.is-closing.from-top .dialog-panel {
+    opacity: 0;
+    transform: translateY(-100%);
+}
+
+.is-opening.from-right .dialog-panel,
+.is-closing.from-right .dialog-panel {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.is-opening.from-bottom .dialog-panel,
+.is-closing.from-bottom .dialog-panel {
+    opacity: 0;
+    transform: translateY(100%);
+}
+
+.is-opening.from-left .dialog-panel,
+.is-closing.from-left .dialog-panel {
+    opacity: 0;
+    transform: translateX(-100vw);
+}
+
+/* ▲ transition ▲ */
 
 .dialog {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-sm);
     width: var(--c-dialog-width);
     max-width: 80vw;
     min-height: var(--c-dialog-min-height);
     max-height: var(--c-dialog-max-height);
-    padding: 8px 0;
+    padding: var(--space-sm) 0;
     margin: auto;
-    color: var(--color-theme-text-primary);
-    pointer-events: initial;
-    background-color: var(--color-theme-bg-primary);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-primary);
     border: 1px solid;
     border-color: var(--c-dialog-border-color);
     border-radius: var(--c-dialog-border-radius);
     transition:
-        border-color 0.2s,
-        opacity 0.2s;
+        border-color var(--duration-fast),
+        opacity var(--duration-fast);
     .inner {
         display: flex;
         flex-grow: 1;
@@ -259,35 +318,35 @@ const hasSlot = (name: string) => {
         flex-shrink: 0;
         width: calc(var(--font-size-medium) * 1.8);
         height: calc(var(--font-size-medium) * 1.8);
-        margin: 0 8px;
+        margin: 0 var(--space-sm);
         margin-right: 0;
-        color: var(--color-theme-bg-primary);
+        color: var(--color-bg-primary);
         fill: var(--c-dialog-icon-color);
     }
     .box {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: var(--space-sm);
         width: 100%;
         height: 100%;
         .title {
-            padding: 0 8px;
+            padding: 0 var(--space-sm);
             font-size: calc(var(--font-size-medium) * 1.2);
             font-weight: bold;
         }
         .slot {
             flex-grow: 1;
             height: 100%;
-            padding: 0 8px;
+            padding: 0 var(--space-sm);
             overflow-y: auto;
         }
     }
     .footer {
         display: flex;
         flex-shrink: 0;
-        gap: 8px;
+        gap: var(--space-sm);
         justify-content: flex-end;
-        padding: 0 8px;
+        padding: 0 var(--space-sm);
     }
     &.is-center {
         .title,
@@ -301,33 +360,33 @@ const hasSlot = (name: string) => {
 /* ▼ variant ▼ */
 
 .primary {
-    --c-dialog-icon-color: var(--color-status-brand);
-    --c-dialog-border-color: var(--color-status-brand);
+    --c-dialog-icon-color: var(--color-brand);
+    --c-dialog-border-color: var(--color-brand);
 }
 
 .secondary {
     --c-dialog-icon-color: transparent;
-    --c-dialog-border-color: var(--color-theme-border);
+    --c-dialog-border-color: var(--color-border);
 }
 
 .info {
-    --c-dialog-icon-color: var(--color-status-info);
-    --c-dialog-border-color: var(--color-status-info);
+    --c-dialog-icon-color: var(--color-info);
+    --c-dialog-border-color: var(--color-info);
 }
 
 .success {
-    --c-dialog-icon-color: var(--color-status-success);
-    --c-dialog-border-color: var(--color-status-success);
+    --c-dialog-icon-color: var(--color-success);
+    --c-dialog-border-color: var(--color-success);
 }
 
 .warning {
-    --c-dialog-icon-color: var(--color-status-warning);
-    --c-dialog-border-color: var(--color-status-warning);
+    --c-dialog-icon-color: var(--color-warning);
+    --c-dialog-border-color: var(--color-warning);
 }
 
 .danger {
-    --c-dialog-icon-color: var(--color-status-danger);
-    --c-dialog-border-color: var(--color-status-danger);
+    --c-dialog-icon-color: var(--color-danger);
+    --c-dialog-border-color: var(--color-danger);
 }
 
 /* ▲ variant ▲ */
@@ -338,7 +397,7 @@ const hasSlot = (name: string) => {
     max-width: initial;
     max-height: initial;
     border: 0;
-    border-radius: 0;
+    border-radius: var(--radius-none);
 
     --c-dialog-width: 100vw;
     --c-dialog-max-height: 100vh;
@@ -368,11 +427,11 @@ const hasSlot = (name: string) => {
 /* ▼ shape ▼ */
 
 .normal {
-    --c-dialog-border-radius: 4px;
+    --c-dialog-border-radius: var(--radius-sm);
 }
 
 .no-radius {
-    --c-dialog-border-radius: 0;
+    --c-dialog-border-radius: var(--radius-none);
 }
 
 /* ▲ shape ▲ */
@@ -387,29 +446,37 @@ const hasSlot = (name: string) => {
 .top {
     inset: 0;
     bottom: auto;
-    border-top: 0;
-    border-radius: 0 0 var(--c-dialog-border-radius) var(--c-dialog-border-radius);
+    .dialog {
+        border-top: 0;
+        border-radius: 0 0 var(--c-dialog-border-radius) var(--c-dialog-border-radius);
+    }
 }
 
 .right {
     inset: 0;
     left: auto;
-    border-right: 0;
-    border-radius: var(--c-dialog-border-radius) 0 0 var(--c-dialog-border-radius);
+    .dialog {
+        border-right: 0;
+        border-radius: var(--c-dialog-border-radius) 0 0 var(--c-dialog-border-radius);
+    }
 }
 
 .bottom {
     inset: 0;
     top: auto;
-    border-bottom: 0;
-    border-radius: var(--c-dialog-border-radius) var(--c-dialog-border-radius) 0 0;
+    .dialog {
+        border-bottom: 0;
+        border-radius: var(--c-dialog-border-radius) var(--c-dialog-border-radius) 0 0;
+    }
 }
 
 .left {
     inset: 0;
     right: auto;
-    border-left: 0;
-    border-radius: 0 var(--c-dialog-border-radius) var(--c-dialog-border-radius) 0;
+    .dialog {
+        border-left: 0;
+        border-radius: 0 var(--c-dialog-border-radius) var(--c-dialog-border-radius) 0;
+    }
 }
 
 /* ▲ position ▲ */

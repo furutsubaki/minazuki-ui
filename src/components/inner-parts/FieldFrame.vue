@@ -100,7 +100,8 @@ defineExpose({ frameRef });
                 'is-focus': isFocus,
                 'is-required': required,
                 'is-inputed': forceInputed || (value != null && value !== ''),
-                'is-disabled': disabled
+                'is-disabled': disabled,
+                'is-error': errors.length > 0
             }
         ]"
     >
@@ -143,7 +144,7 @@ defineExpose({ frameRef });
 
 <style scoped>
 .component-input-frame {
-    --c-field-frame-start-end-padding: 16px;
+    --c-field-frame-start-end-padding: var(--space-md);
     --c-field-frame-border-width: 1px;
 
     position: relative;
@@ -164,12 +165,12 @@ defineExpose({ frameRef });
         min-height: var(--c-field-frame-height);
         line-height: 1.5em;
         text-align: left;
-        background-color: var(--color-theme-bg-primary);
+        background-color: var(--color-bg-primary);
         border-color: var(--c-field-frame-border-color);
-        border-radius: 4px;
+        border-radius: var(--radius-sm);
         transition:
-            height 0.2s,
-            background-color 0.2s;
+            height var(--duration-fast),
+            background-color var(--duration-fast);
         .frame-start,
         .frame-end {
             position: relative;
@@ -189,20 +190,20 @@ defineExpose({ frameRef });
         }
         .frame-start {
             border-right: 0;
-            border-radius: 4px 0 0 4px;
+            border-radius: var(--radius-sm) 0 0 var(--radius-sm);
             &::before {
                 left: -2px;
                 border-right: 0;
-                border-radius: 4px 0 0 4px;
+                border-radius: var(--radius-sm) 0 0 var(--radius-sm);
             }
         }
         .frame-end {
             border-left: 0;
-            border-radius: 0 4px 4px 0;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
             &::before {
                 right: -2px;
                 border-left: 0;
-                border-radius: 0 4px 4px 0;
+                border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
             }
         }
         .frame-label,
@@ -215,7 +216,7 @@ defineExpose({ frameRef });
             border-width: var(--c-field-frame-border-width);
             border-right: 0;
             border-left: 0;
-            transition: border-width 0.2s;
+            transition: border-width var(--duration-fast);
             &::before {
                 position: absolute;
                 top: -2px;
@@ -239,21 +240,21 @@ defineExpose({ frameRef });
                 pointer-events: none;
                 transform: translateY(calc(-50% + (var(--c-field-frame-height) / 2) - 1px));
                 transition:
-                    transform 0.2s,
-                    font-size 0.2s;
+                    transform var(--duration-fast),
+                    font-size var(--duration-fast);
                 .label {
                     height: 1em;
                     line-height: 1em;
                     vertical-align: baseline;
-                    color: var(--color-theme-text-secondary);
-                    transition: color 0.2s;
+                    color: var(--color-text-secondary);
+                    transition: color var(--duration-fast);
                 }
                 .placeholder {
                     height: 1em;
                     font-size: var(--font-size-small);
                     line-height: 1em;
                     vertical-align: baseline;
-                    color: var(--color-theme-text-secondary);
+                    color: var(--color-text-secondary);
                 }
             }
         }
@@ -276,19 +277,23 @@ defineExpose({ frameRef });
     .frame-body {
         position: relative;
         display: flex;
-        gap: 8px;
+        gap: var(--space-sm);
         align-items: center;
         width: 100%;
         height: 100%;
         padding-right: calc(var(--c-field-frame-start-end-padding) / 2);
         padding-left: calc(var(--c-field-frame-start-end-padding) / 2);
+        :deep(input:focus-visible),
+        :deep(textarea:focus-visible) {
+            outline: none;
+        }
     }
 
     /* required */
     &.is-required > .frame > .frame-box > .frame-label > .label-box > .label {
         &::after {
             left: -0.5em;
-            color: var(--color-status-danger);
+            color: var(--color-danger);
             content: '*';
         }
     }
@@ -322,7 +327,7 @@ defineExpose({ frameRef });
             font-size: var(--font-size-small);
             transform: translateY(-50%);
             .label {
-                color: var(--color-theme-text-primary);
+                color: var(--color-text-primary);
             }
         }
     }
@@ -383,36 +388,42 @@ defineExpose({ frameRef });
 
 .error {
     font-size: var(--font-size-small);
-    color: var(--color-status-danger);
+    color: var(--color-danger);
 }
 
 /* ▼ variant ▼ */
 
 .primary {
-    --c-field-frame-border-color: var(--color-status-brand);
+    --c-field-frame-border-color: var(--color-brand);
 }
 
 .secondary {
-    --c-field-frame-border-color: var(--color-theme-border);
+    --c-field-frame-border-color: var(--color-border);
 }
 
 .info {
-    --c-field-frame-border-color: var(--color-status-info);
+    --c-field-frame-border-color: var(--color-info);
 }
 
 .success {
-    --c-field-frame-border-color: var(--color-status-success);
+    --c-field-frame-border-color: var(--color-success);
 }
 
 .warning {
-    --c-field-frame-border-color: var(--color-status-warning);
+    --c-field-frame-border-color: var(--color-warning);
 }
 
 .danger {
-    --c-field-frame-border-color: var(--color-status-danger);
+    --c-field-frame-border-color: var(--color-danger);
 }
 
 /* ▲ variant ▲ */
+
+/* variant より詳細度を上げてオーバーライドする */
+
+.component-input-frame.is-error {
+    --c-field-frame-border-color: var(--color-danger);
+}
 
 /* ▼ size ▼ */
 
@@ -456,13 +467,13 @@ defineExpose({ frameRef });
 
 .no-radius {
     .frame-box {
-        border-radius: 0;
+        border-radius: var(--radius-none);
         .frame-start,
         .frame-end {
-            border-radius: 0;
+            border-radius: var(--radius-none);
             &::before,
             &::after {
-                border-radius: 0;
+                border-radius: var(--radius-none);
             }
         }
     }

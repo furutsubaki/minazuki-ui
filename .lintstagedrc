@@ -1,3 +1,5 @@
 {
-    ".vue,.js,.cjs,.mjs,.ts,.cts,.mts": "pnpm lint:fix"
+    "*.{js,cjs,mjs,ts,cts,mts}": "eslint --fix",
+    "*.vue": ["eslint --fix", "stylelint --fix"],
+    "*.{css,scss}": "stylelint --fix"
 }

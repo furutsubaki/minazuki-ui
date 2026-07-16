@@ -149,4 +149,41 @@ describe('Step', () => {
         await buttons[0].trigger('click');
         expect(wrapper.emitted('prev')).toBeTruthy();
     });
+
+    it('現在のステップのヘッダーをクリックしても next/prev イベントが発火しない', async () => {
+        const wrapper = mount(Step, {
+            props: {
+                steps,
+                modelValue: 'step2',
+                'onUpdate:modelValue': (v: string | undefined) => wrapper.setProps({ modelValue: v })
+            }
+        });
+        const buttons = wrapper.findAll('.step-button');
+        await buttons[1].trigger('click');
+        expect(wrapper.emitted('next')).toBeUndefined();
+        expect(wrapper.emitted('prev')).toBeUndefined();
+    });
+
+    it('Next ボタンをクリックすると v-model が次の step に更新される', async () => {
+        const wrapper = mount(Step, {
+            props: {
+                steps,
+                modelValue: 'step1',
+                'onUpdate:modelValue': (v: string | undefined) =>
+                    wrapper.setProps({ modelValue: v })
+            },
+            slots: {
+                step1: '<div>入力</div>',
+                step2: '<div>確認</div>',
+                step3: '<div>完了</div>'
+            }
+        });
+
+        const footerButtons = wrapper.findAll('.step-footer button');
+        await footerButtons[1].trigger('click');
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.props('modelValue')).toBe('step2');
+        expect(wrapper.findAll('.step-button')[1].classes()).toContain('is-current');
+    });
 });

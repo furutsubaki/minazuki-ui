@@ -7,37 +7,25 @@ import '../src/assets/css/override.css'
 
 import { defineRule } from 'vee-validate';
 import { all } from '@vee-validate/rules'
-import { init } from 'i18next';
 import { z } from 'zod';
-import { zodI18nMap } from 'zod-i18n-map';
-import translation from 'zod-i18n-map/locales/ja/zod.json';
+import { jaErrorMap } from '../src/plugins/init-validate';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import useTheme from '../src/composables/useTheme';
 import { createHead } from '@unhead/vue';
 
-const customErrorMap: z.ZodErrorMap = (issue, ctx) => {
-    switch (issue.code) {
-        case z.ZodIssueCode.too_small:
-            if (['string'].includes(issue.type) && issue.minimum === 1) {
-                return { message: 'この項目は必須項目です。' };
-            }
-    }
-    return zodI18nMap(issue, ctx);
+const { currentTheme, setTheme } = useTheme();
+
+const applyTheme = (themeId: string) => {
+    currentTheme.value = themeId;
+    setTheme(themeId);
 };
 
 Object.entries(all).forEach(([name, rule]) => {
     defineRule(name, rule);
 });
 
-// zod
-init({
-    lng: 'ja',
-    resources: {
-        ja: { zod: translation }
-    }
-});
-z.setErrorMap(customErrorMap);
+z.setErrorMap(jaErrorMap);
 
 setup((app) => {
     app.component('VueDatePicker', VueDatePicker);
@@ -45,9 +33,8 @@ setup((app) => {
     const head = createHead();
     app.use(head);
     app.use(useTheme);
-    const { currentTheme, setTheme } = useTheme();
     // 初期style設定
-    setTheme(currentTheme.value);
+    applyTheme(currentTheme.value);
 })
 
 const preview: Preview = {
@@ -85,9 +72,9 @@ const preview: Preview = {
 
             // 背景色をcss変数と同期させる
             // Storybook 10: globals.backgrounds.value is the option key ('light' | 'dark')
-            const currentTheme = context.globals.backgrounds?.value || 'light';
-            document.documentElement.dataset.theme = currentTheme;
-            document.body.style.cssText = 'background-color: var(--color-theme-bg-primary) !important;';
+            const selectedTheme = context.globals.backgrounds?.value || 'light';
+            applyTheme(selectedTheme);
+            document.body.style.cssText = 'background-color: var(--color-bg-primary) !important;';
 
             // Storybook 10: pass story function directly (do not call it)
             return {

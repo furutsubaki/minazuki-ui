@@ -109,23 +109,23 @@ const onOutsideClick = computed(() => ({
     font-size: var(--c-field-accordion-font-size);
     line-height: 1.5em;
     cursor: pointer;
-    background-color: var(--color-theme-bg-primary);
+    background-color: var(--color-bg-primary);
     border: 1px solid var(--c-field-accordion-border-color);
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     opacity: 0;
     transition:
-        background-color 0.2s,
-        opacity 0.2s,
-        grid-template-rows 0.2s ease,
-        opacity 0s 0.2s;
+        background-color var(--duration-fast),
+        opacity var(--duration-fast),
+        grid-template-rows var(--duration-fast) ease,
+        opacity 0s var(--duration-fast);
     &.is-open {
         grid-template-rows: 1fr;
         opacity: 1;
         transition:
-            color 0.2s,
-            background-color 0.2s,
-            opacity 0.2s,
-            grid-template-rows 0.2s ease;
+            color var(--duration-fast),
+            background-color var(--duration-fast),
+            opacity var(--duration-fast),
+            grid-template-rows var(--duration-fast) ease;
     }
     .list-body {
         overflow: hidden auto;
@@ -133,22 +133,22 @@ const onOutsideClick = computed(() => ({
             display: flex;
             align-items: center;
             min-height: var(--c-field-accordion-height);
-            padding: 0 8px;
-            transition: background-color 0.2s;
+            padding: 0 var(--space-sm);
+            transition: background-color var(--duration-fast);
 
             @media (hover: hover) {
                 &:hover {
-                    background-color: var(--color-theme-bg-secondary);
+                    background-color: var(--color-bg-secondary);
                 }
             }
 
             @media (hover: none) {
                 &:active {
-                    background-color: var(--color-theme-bg-secondary);
+                    background-color: var(--color-bg-secondary);
                 }
             }
             &.is-selected {
-                background-color: var(--color-theme-bg-secondary);
+                background-color: var(--color-bg-secondary);
             }
             &.is-disabled {
                 pointer-events: none;
@@ -173,33 +173,33 @@ const onOutsideClick = computed(() => ({
 /* ▼ variant ▼ */
 
 .primary {
-    --c-field-accordion-hover-border-color: var(--color-status-brand);
-    --c-field-accordion-border-color: var(--color-status-brand);
+    --c-field-accordion-hover-border-color: var(--color-brand);
+    --c-field-accordion-border-color: var(--color-brand);
 }
 
 .secondary {
-    --c-field-accordion-hover-border-color: var(--color-theme-border);
-    --c-field-accordion-border-color: var(--color-theme-border);
+    --c-field-accordion-hover-border-color: var(--color-border);
+    --c-field-accordion-border-color: var(--color-border);
 }
 
 .info {
-    --c-field-accordion-hover-border-color: var(--color-status-info);
-    --c-field-accordion-border-color: var(--color-status-info);
+    --c-field-accordion-hover-border-color: var(--color-info);
+    --c-field-accordion-border-color: var(--color-info);
 }
 
 .success {
-    --c-field-accordion-hover-border-color: var(--color-status-success);
-    --c-field-accordion-border-color: var(--color-status-success);
+    --c-field-accordion-hover-border-color: var(--color-success);
+    --c-field-accordion-border-color: var(--color-success);
 }
 
 .warning {
-    --c-field-accordion-hover-border-color: var(--color-status-warning);
-    --c-field-accordion-border-color: var(--color-status-warning);
+    --c-field-accordion-hover-border-color: var(--color-warning);
+    --c-field-accordion-border-color: var(--color-warning);
 }
 
 .danger {
-    --c-field-accordion-hover-border-color: var(--color-status-danger);
-    --c-field-accordion-border-color: var(--color-status-danger);
+    --c-field-accordion-hover-border-color: var(--color-danger);
+    --c-field-accordion-border-color: var(--color-danger);
 }
 
 /* ▲ variant ▲ */

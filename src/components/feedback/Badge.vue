@@ -67,13 +67,13 @@ const formatedContent = computed(() => {
     justify-content: center;
     min-width: var(--c-badge-size);
     height: var(--c-badge-size);
-    padding: 4px;
+    padding: var(--space-xs);
     font-size: 1rem;
     color: var(--c-badge-color);
     word-break: keep-all;
     pointer-events: none;
     background-color: var(--c-badge-background-color);
-    border-radius: 2em;
+    border-radius: var(--radius-pill);
     &:not(.inline) {
         position: absolute;
         top: calc(var(--c-badge-size) * -0.5);
@@ -85,33 +85,33 @@ const formatedContent = computed(() => {
 /* ▼ variant ▼ */
 
 .primary {
-    --c-badge-color: var(--color-base-white);
-    --c-badge-background-color: var(--color-status-brand);
+    --c-badge-color: var(--mi-neutral-50);
+    --c-badge-background-color: var(--color-brand);
 }
 
 .secondary {
-    --c-badge-color: var(--color-theme-text-primary);
-    --c-badge-background-color: var(--color-theme-border);
+    --c-badge-color: var(--color-text-primary);
+    --c-badge-background-color: var(--color-border);
 }
 
 .info {
-    --c-badge-color: var(--color-theme-text-primary);
-    --c-badge-background-color: var(--color-status-info);
+    --c-badge-color: var(--color-text-primary);
+    --c-badge-background-color: var(--color-info);
 }
 
 .success {
-    --c-badge-color: var(--color-base-white);
-    --c-badge-background-color: var(--color-status-success);
+    --c-badge-color: var(--mi-neutral-50);
+    --c-badge-background-color: var(--color-success);
 }
 
 .warning {
-    --c-badge-color: var(--color-base-black);
-    --c-badge-background-color: var(--color-status-warning);
+    --c-badge-color: var(--mi-neutral-800);
+    --c-badge-background-color: var(--color-warning);
 }
 
 .danger {
-    --c-badge-color: var(--color-base-white);
-    --c-badge-background-color: var(--color-status-danger);
+    --c-badge-color: var(--mi-neutral-50);
+    --c-badge-background-color: var(--color-danger);
 }
 
 /* ▲ variant ▲ */

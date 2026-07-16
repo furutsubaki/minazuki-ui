@@ -31,6 +31,14 @@ const head = createHead();
 app.use(pinia);
 app.use(head);
 app.use(router);
-app.use(MinazukiUi);
+// 消費者側の app.use install オプション経由でのテーマオーバーライド動作確認用
+// (playground/shared/pages/HomePage.vue の Theme Override セクション参照)
+app.use(MinazukiUi, {
+    theme: {
+        statuses: {
+            warning: { hue: 'lime', chroma: 'lime' }
+        }
+    }
+});
 
 app.mount('#app');

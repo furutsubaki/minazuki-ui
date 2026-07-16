@@ -44,7 +44,7 @@ withDefaults(
 
 <style scoped>
 .picture-frame {
-    --c-picture-frame-padding: 8px;
+    --c-picture-frame-padding: var(--space-sm);
 
     position: relative;
     padding: var(--c-picture-frame-padding);
@@ -58,7 +58,7 @@ withDefaults(
         pointer-events: none;
         content: '';
         background: rgb(0 0 0 / 2%);
-        box-shadow: 0 0 var(--c-picture-frame-padding) var(--color-theme-shadow);
+        box-shadow: 0 0 var(--c-picture-frame-padding) var(--color-shadow);
     }
     &::after {
         position: absolute;
@@ -71,7 +71,7 @@ withDefaults(
         margin: var(--c-picture-frame-padding);
         pointer-events: none;
         content: '';
-        border: solid var(--color-theme-border);
+        border: solid var(--color-border);
         border-width: 1px;
     }
     &.is-pading {
@@ -172,11 +172,11 @@ withDefaults(
 /* ▼ shape ▼ */
 
 .circle {
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     &::before,
     &::after,
     .picture-frame-inner {
-        border-radius: 50%;
+        border-radius: var(--radius-circle);
     }
 }
 

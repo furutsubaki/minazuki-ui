@@ -7,45 +7,48 @@
  * ==================================================
  */
 
-:root {
-    /* グローバル変数 */
-    --height-vh: calc(var(--vh, 1vh) * 100);
-
-    /* 要js */
-    --font-sans:
-        'Roboto',
-        'Noto Sans JP',
-        '游ゴシック Medium',
-        'Yu Gothic Medium',
-        '游ゴシック体',
-        'YuGothic',
-        '游ゴシック',
-        'Yu Gothic',
-        'Hiragino Kaku Gothic Pro',
-        'ヒラギノ角ゴ Pro',
-        meiryo,
-        'メイリオ',
-        sans-serif;
-    --font-serif:
-        'Roboto Slab',
-        'Noto Serif JP',
-        '游明朝体',
-        '游明朝',
-        yumincho,
-        'Yu Mincho',
-        'Hiragino Mincho Pro',
-        'ヒラギノ明朝 Pro',
-        serif;
-    --font-accent: 'Kosugi', sans-serif;
-    --font-size-large: 2rem;
-    --font-size-medium: 1.4rem;
-    --font-size-small: 1.2rem;
-    --scroll-bar-width: calc(100vw - 100%);
-    --omit-scroll-vw: calc(100vw - var(--scroll-bar-width));
-}
-
-@media (600px <= width) {
+@layer minazuki {
     :root {
-        --font-size-medium: 1.6rem;
+        /* グローバル変数 */
+        --height-vh: calc(var(--vh, 1vh) * 100);
+        --font-size-large: 2rem;
+        --font-size-medium: 1.4rem;
+        --font-size-small: 1.2rem;
+        --scroll-bar-width: calc(100vw - 100%);
+        --omit-scroll-vw: calc(100vw - var(--scroll-bar-width));
+
+        /* Spacing */
+        --space-xs: 4px;
+        --space-sm: 8px;
+        --space-md: 16px;
+        --space-lg: 24px;
+        --space-xl: 32px;
+        --space-2xl: 40px;
+
+        /* Radius */
+        --radius-none: 0;
+        --radius-sm: 4px;
+        --radius-pill: 2em;
+        --radius-circle: 50%;
+
+        /* フォーカスリング */
+        --focus-ring-color: var(--color-brand-emphasis);
+        --focus-ring-width: 2px;
+        --focus-ring-offset: 2px;
+
+        /* Duration */
+        --duration-fast: 0.2s;
+    }
+
+    @media (600px <= width) {
+        :root {
+            --font-size-medium: 1.6rem;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        :root {
+            --duration-fast: 0s;
+        }
     }
 }

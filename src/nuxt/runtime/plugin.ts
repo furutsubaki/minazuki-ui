@@ -3,53 +3,47 @@
 import { defineNuxtPlugin, useCookie, useRuntimeConfig } from '#imports';
 import { watch } from 'vue';
 import MinazukiUi, { useTheme, useFormData, useNotification, useOutsideClick } from 'minazuki-ui';
+import type { ThemeId, MiThemeOverride } from 'minazuki-ui';
 
 type MinazukiUiConfig = {
-    theme: string;
+    themeId: ThemeId;
     cookieName: string;
     cookieMaxAge: number;
     install: boolean;
-    themes: Record<string, unknown>;
+    theme: MiThemeOverride;
 };
 
 export default defineNuxtPlugin((nuxtApp: { vueApp: import('vue').App }) => {
     const config = useRuntimeConfig();
     const cfg = config.public.minazukiUi as MinazukiUiConfig;
 
-    const themeCookie = useCookie<string>(cfg.cookieName, {
-        default: () => cfg.theme,
+    const themeCookie = useCookie<ThemeId>(cfg.cookieName, {
+        default: () => cfg.themeId,
         maxAge: cfg.cookieMaxAge,
         sameSite: 'lax'
     });
 
     const { currentTheme, overrideTheme, setTheme } = useTheme();
 
-    // app.use() より前に currentTheme を設定 → SSR フェーズで正しい data-theme を発行（フラッシュ防止）
-    currentTheme.value = themeCookie.value;
+    currentTheme.value = themeCookie.value === 'dark' ? 'dark' : 'light';
 
     if (cfg.install) {
-        // install: true のとき全コンポーネントをグローバル登録（互換性優先）
         nuxtApp.vueApp.use(MinazukiUi, {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            themes: cfg.themes as Record<string, any>,
-            theme: themeCookie.value
+            theme: cfg.theme,
+            themeId: themeCookie.value
         });
     } else {
-        // install: false のときはテーマ初期化のみ（Tree Shaking 優先）
-        if (Object.keys(cfg.themes).length > 0) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            overrideTheme(cfg.themes as Record<string, any>);
+        if (cfg.theme && Object.keys(cfg.theme).length > 0) {
+            overrideTheme(cfg.theme);
         }
         setTheme(currentTheme.value);
 
-        // inject 経路の確保（install: false でも app.inject() 使用者のために）
         nuxtApp.vueApp.provide('useFormData', useFormData);
         nuxtApp.vueApp.provide('useNotification', useNotification);
         nuxtApp.vueApp.provide('useTheme', useTheme);
         nuxtApp.vueApp.provide('useOutsideClick', useOutsideClick);
     }
 
-    // クライアントでのみ watch（テーマ変更をクッキーに同期）
     if (import.meta.client) {
         watch(currentTheme, (v) => {
             themeCookie.value = v;

@@ -192,7 +192,7 @@ onMounted(() => {
         min-width: 100px;
         min-height: v-bind(cssMinLine);
         max-height: v-bind(cssMaxLine);
-        padding: 4px 0;
+        padding: var(--space-xs) 0;
         line-height: 1.5em;
         vertical-align: text-top;
 
@@ -227,11 +227,11 @@ onMounted(() => {
     }
     .clearable-box {
         width: var(--c-textarea-font-size);
-        padding-top: 8px;
+        padding-top: var(--space-sm);
         margin-bottom: auto;
         .lucide {
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: opacity var(--duration-fast);
         }
     }
 }
@@ -258,7 +258,7 @@ onMounted(() => {
 /* ▼ shape ▼ */
 
 .rounded {
-    border-radius: 2em;
+    border-radius: var(--radius-pill);
 }
 
 /* ▲ shape ▲ */

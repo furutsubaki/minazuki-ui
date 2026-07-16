@@ -93,9 +93,7 @@ const onClosed = async () => {
                 <div v-if="title" class="title">{{ title }}</div>
                 <div>{{ text }}</div>
             </div>
-            <Button v-if="closeable" shape="skeleton" class="closeable-box" @click="onClose">
-                <IconX />
-            </Button>
+            <Button v-if="closeable" shape="skeleton" class="closeable-box" :prefix-icon="IconX" aria-label="閉じる" @click="onClose" />
         </div>
     </OpacityTransition>
 </template>
@@ -103,13 +101,13 @@ const onClosed = async () => {
 <style scoped>
 .component-alert {
     display: flex;
-    gap: 8px;
+    gap: var(--space-sm);
     align-items: flex-start;
     justify-content: center;
     width: 100%;
     min-width: 100px;
     min-height: 32px;
-    padding: 8px;
+    padding: var(--space-sm);
     color: var(--c-alert-color);
     word-break: keep-all;
     background-color: var(--c-alert-background-color);
@@ -117,10 +115,10 @@ const onClosed = async () => {
     border-color: var(--c-alert-border-color);
     border-radius: var(--c-alert-border-radius);
     transition:
-        color 0.2s,
-        background-color 0.2s,
-        border-color 0.2s,
-        opacity 0.2s;
+        color var(--duration-fast),
+        background-color var(--duration-fast),
+        border-color var(--duration-fast),
+        opacity var(--duration-fast);
     .icon {
         flex-shrink: 0;
         width: calc(var(--font-size-medium) * 1.8);
@@ -132,7 +130,7 @@ const onClosed = async () => {
         display: flex;
         flex-grow: 1;
         flex-direction: column;
-        gap: 8px;
+        gap: var(--space-sm);
         .title {
             font-size: calc(var(--font-size-medium) * 1.2);
             font-weight: bold;
@@ -144,49 +142,49 @@ const onClosed = async () => {
 }
 
 .primary {
-    --c-alert-color: var(--color-base-white);
-    --c-alert-background-color: var(--color-status-brand);
-    --c-alert-border-color: var(--color-status-brand);
+    --c-alert-color: var(--mi-neutral-50);
+    --c-alert-background-color: var(--color-brand);
+    --c-alert-border-color: var(--color-brand);
 }
 
 .secondary {
-    --c-alert-color: var(--color-theme-text-primary);
+    --c-alert-color: var(--color-text-primary);
     --c-alert-background-color: transparent;
-    --c-alert-border-color: var(--color-theme-border);
+    --c-alert-border-color: var(--color-border);
 }
 
 .info {
-    --c-alert-color: var(--color-theme-text-primary);
-    --c-alert-background-color: var(--color-status-info);
-    --c-alert-border-color: var(--color-status-info);
+    --c-alert-color: var(--color-text-primary);
+    --c-alert-background-color: var(--color-info);
+    --c-alert-border-color: var(--color-info);
 }
 
 .success {
-    --c-alert-color: var(--color-base-white);
-    --c-alert-background-color: var(--color-status-success);
-    --c-alert-border-color: var(--color-status-success);
+    --c-alert-color: var(--mi-neutral-50);
+    --c-alert-background-color: var(--color-success);
+    --c-alert-border-color: var(--color-success);
 }
 
 .warning {
-    --c-alert-color: var(--color-base-black);
-    --c-alert-background-color: var(--color-status-warning);
-    --c-alert-border-color: var(--color-status-warning);
+    --c-alert-color: var(--mi-neutral-800);
+    --c-alert-background-color: var(--color-warning);
+    --c-alert-border-color: var(--color-warning);
 }
 
 .danger {
-    --c-alert-color: var(--color-base-white);
-    --c-alert-background-color: var(--color-status-danger);
-    --c-alert-border-color: var(--color-status-danger);
+    --c-alert-color: var(--mi-neutral-50);
+    --c-alert-background-color: var(--color-danger);
+    --c-alert-border-color: var(--color-danger);
 }
 
 /* ▼ shape ▼ */
 
 .normal {
-    --c-alert-border-radius: 4px;
+    --c-alert-border-radius: var(--radius-sm);
 }
 
 .no-radius {
-    --c-alert-border-radius: 0;
+    --c-alert-border-radius: var(--radius-none);
 }
 
 /* ▲ shape ▲ */

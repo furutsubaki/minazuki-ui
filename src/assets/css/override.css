@@ -1,8 +1,17 @@
 @charset "utf-8";
 
-/* lucideのオーバーライド */
+@layer minazuki {
+    /* lucideのオーバーライド */
+    :where(.lucide) {
+        width: var(--font-size-medium);
+        height: var(--font-size-medium);
+    }
+}
 
-:where(.lucide) {
-    width: var(--font-size-medium);
-    height: var(--font-size-medium);
+/* reset.css がレイヤー外に展開されるため、レイヤー外で上書き */
+
+:where(:focus-visible) {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+    box-shadow: none;
 }

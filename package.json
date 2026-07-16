@@ -1,17 +1,16 @@
 {
   "name": "minazuki-ui",
-  "version": "1.6.2",
+  "version": "2.0.0",
   "private": false,
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "packageManager": "pnpm@11.1.2",
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": ">=11.0.0",
+      "version": "11.9.0",
       "onFail": "error"
     }
   },
@@ -48,12 +47,13 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "pnpm create-component-d && run-p type-check \"build-only {@}\" -- && pnpm build:nuxt",
+    "build": "pnpm create-component-d && run-p type-check \"build-only {@}\" -- && pnpm build:nuxt && pnpm generate-css-data",
     "build:nuxt": "vite build --config vite.nuxt.config.ts",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
     "create-component-d": "node ./src/generate-component-index.js",
+    "generate-css-data": "jiti ./src/generate-css-data.ts",
     "eslint": "eslint .",
     "eslint:fix": "pnpm eslint --fix",
     "lint:es": "pnpm eslint",
@@ -73,38 +73,32 @@
     "play:nuxt3:build": "pnpm build && pnpm --filter playground-nuxt3 build",
     "play:nuxt4": "pnpm build && rm -rf playground/nuxt4/.nuxt playground/nuxt4/node_modules/.cache && pnpm --filter playground-nuxt4 dev",
     "play:nuxt4:build": "pnpm build && pnpm --filter playground-nuxt4 build",
+    "design:md:lint": "pnpm dlx @google/design.md lint docs/DESIGN.md",
+    "design:md:export": "pnpm dlx @google/design.md export --format dtcg docs/DESIGN.md > tokens.json",
     "prepare": "husky"
   },
   "peerDependencies": {
     "@nuxt/kit": ">=3.14.0",
-    "@acab/reset.css": ">=0.11.0",
     "@unhead/vue": ">=1.0.0",
     "@vee-validate/rules": ">=4.9.0",
     "@vee-validate/zod": ">=4.9.0",
     "@vuepic/vue-datepicker": ">=11.0.0",
     "dayjs": ">=1.0.0",
-    "i18next": ">=23.0.0",
     "lucide-vue-next": ">=0.356.0",
     "vee-validate": ">=4.9.0",
     "vue": ">=3.5.0",
     "vue-router": ">=4.0.0",
-    "zod": ">=3.20.0 <4.0.0",
-    "zod-i18n-map": ">=2.0.0"
+    "zod": ">=3.20.0 <4.0.0"
   },
   "peerDependenciesMeta": {
     "@nuxt/kit": {
       "optional": true
     }
   },
-  "pnpm": {
-    "overrides": {
-      "devalue": "^5.8.1",
-      "js-cookie": "^3.0.7"
-    }
-  },
   "devDependencies": {
-    "@nuxt/kit": "^4.4.1",
+    "@acab/reset.css": "^0.11.0",
     "@eslint/js": "^10.0.1",
+    "@nuxt/kit": "^4.4.1",
     "@rushstack/eslint-patch": "^1.10.4",
     "@storybook/addon-docs": "10.3.6",
     "@storybook/vue3": "10.3.6",
@@ -125,6 +119,7 @@
     "eslint-plugin-vue": "^10.9.1",
     "happy-dom": "^20.9.0",
     "husky": "^9.1.7",
+    "jiti": "2.7.0",
     "lint-staged": "^15.2.2",
     "npm-run-all2": "^6.2.2",
     "postcss-nesting": "^13.0.1",
@@ -139,7 +134,7 @@
     "stylelint-config-standard-vue": "^1.0.0",
     "type-fest": "^4.38.0",
     "typescript": "~5.8.3",
-    "vite": "7.3.2",
+    "vite": "7.3.6",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "3",
     "vue-tsc": "^2.0.17"

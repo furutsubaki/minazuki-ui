@@ -147,10 +147,10 @@ defineExpose({ transitionFrom });
                         size="large"
                         shape="skeleton"
                         class="closeable-box"
+                        :prefix-icon="IconX"
+                        aria-label="閉じる"
                         @click="onClose"
-                    >
-                        <IconX class="closeable-icon" />
-                    </Button>
+                    />
                     <div
                         v-if="hasSlot('header')"
                         class="header"
@@ -184,7 +184,7 @@ defineExpose({ transitionFrom });
             z-index: -1;
             pointer-events: initial;
             content: '';
-            background-color: var(--color-theme-shadow-alpha);
+            background-color: var(--color-shadow-alpha);
         }
     }
 }
@@ -193,35 +193,35 @@ defineExpose({ transitionFrom });
     position: fixed;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-sm);
     width: var(--c-drawer-width);
-    padding: 8px;
+    padding: var(--space-sm);
     margin: auto;
     pointer-events: initial;
-    background-color: var(--color-theme-bg-primary);
+    background-color: var(--color-bg-primary);
     border: 1px solid;
-    border-color: var(--color-theme-border);
-    border-radius: 0;
+    border-color: var(--color-border);
+    border-radius: var(--radius-none);
     transition:
-        border-color 0.2s,
-        opacity 0.2s;
+        border-color var(--duration-fast),
+        opacity var(--duration-fast);
     .closeable-box {
         position: absolute;
         top: 0;
         right: 0;
         z-index: 1;
-        padding: 8px;
-        .closeable-icon {
+        padding: var(--space-sm);
+        :deep(.button-icon) {
             width: var(--font-size-large);
             height: var(--font-size-large);
         }
     }
     .header {
         display: flex;
-        gap: 8px;
+        gap: var(--space-sm);
         justify-content: flex-end;
         &.is-closeable {
-            margin-right: 32px;
+            margin-right: var(--space-xl);
         }
     }
     .box {
@@ -233,7 +233,7 @@ defineExpose({ transitionFrom });
     }
     .footer {
         display: flex;
-        gap: 8px;
+        gap: var(--space-sm);
         justify-content: flex-end;
     }
     &.is-center {

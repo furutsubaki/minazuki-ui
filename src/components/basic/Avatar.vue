@@ -26,7 +26,7 @@ const props = withDefaults(
         shape?: 'circle' | 'square' | 'no-radius' | 'skeleton';
     }>(),
     {
-        color: 'var(--color-theme-bg-secondary)',
+        color: 'var(--color-bg-secondary)',
         icon: undefined,
         image: undefined,
         size: 'medium',
@@ -70,7 +70,7 @@ defineExpose({ color });
     > .icon {
         width: 100%;
         height: 100%;
-        margin: 8px;
+        margin: var(--space-sm);
     }
 }
 
@@ -96,15 +96,15 @@ defineExpose({ color });
 /* ▼ shape ▼ */
 
 .circle {
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
 }
 
 .square {
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
 }
 
 .no-radius {
-    border-radius: 0;
+    border-radius: var(--radius-none);
 }
 
 .skeleton {

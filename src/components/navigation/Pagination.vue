@@ -162,9 +162,7 @@ const onClick = (page: number | undefined) => {
                 class="pagination-item prev-first"
                 :class="{ 'is-disabled': currentPage === 1 }"
             >
-                <Button shape="skeleton" class="pagination-item-button" @click="onClick(1)">
-                    ≪
-                </Button>
+                <Button shape="skeleton" class="pagination-item-button" label="≪" aria-label="最初のページへ" @click="onClick(1)" />
             </li>
             <li
                 v-if="!hidePrevNextButton"
@@ -174,10 +172,10 @@ const onClick = (page: number | undefined) => {
                 <Button
                     shape="skeleton"
                     class="pagination-item-button"
+                    label="〈"
+                    aria-label="前のページへ"
                     @click="onClick(paginationPrev)"
-                >
-                    〈
-                </Button>
+                />
             </li>
             <li
                 v-for="(page, i) in pages"
@@ -191,10 +189,10 @@ const onClick = (page: number | undefined) => {
                     shape="skeleton"
                     v-if="page.num !== 0"
                     class="pagination-item-button"
+                    :label="String(page.num)"
+                    :aria-label="`${page.num}ページへ`"
                     @click="onClick(page.num)"
-                >
-                    {{ page.num }}
-                </Button>
+                />
             </li>
             <li
                 v-if="!hidePrevNextButton"
@@ -204,19 +202,17 @@ const onClick = (page: number | undefined) => {
                 <Button
                     shape="skeleton"
                     class="pagination-item-button"
+                    label="〉"
+                    aria-label="次のページへ"
                     @click="onClick(paginationNext)"
-                >
-                    〉
-                </Button>
+                />
             </li>
             <li
                 v-if="!hideFirstLastButton"
                 class="pagination-item next-last"
                 :class="{ 'is-disabled': currentPage === total }"
             >
-                <Button shape="skeleton" class="pagination-item-button" @click="onClick(total)">
-                    ≫
-                </Button>
+                <Button shape="skeleton" class="pagination-item-button" label="≫" aria-label="最後のページへ" @click="onClick(total)" />
             </li>
         </ul>
     </component>
@@ -246,24 +242,24 @@ const onClick = (page: number | undefined) => {
         justify-content: center;
         width: var(--c-pagination-size);
         height: var(--c-pagination-size);
-        transition: opacity 0.2s;
+        transition: opacity var(--duration-fast);
         .pagination-item-button {
             width: 100%;
             height: 100%;
         }
         &.is-current {
-            color: var(--color-theme-text-primary);
             pointer-events: none;
             .pagination-item-button {
-                color: red;
+                /* Buttonコンポーネント自身がこの変数でcolorを確定するため、継承ではなく直接上書きする */
+                --c-button-color: var(--color-brand);
             }
         }
         &.is-disabled {
             visibility: hidden;
             opacity: 0;
             transition:
-                opacity 0.2s,
-                visibility 0s 0.2s;
+                opacity var(--duration-fast),
+                visibility 0s var(--duration-fast);
         }
     }
 }

@@ -13,8 +13,20 @@ updates:
       - '/playground/nuxt4'
     schedule:
       interval: 'weekly'
+    open-pull-requests-limit: 1
     cooldown:
       default-days: 7
     groups:
-      npm-dependencies:
-        group-by: 'dependency-name'
+      vitest-ecosystem:
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
+      storybook-ecosystem:
+        patterns:
+          - 'storybook'
+          - '@storybook/*'
+          - 'eslint-plugin-storybook'
+      npm-minor-patch:
+        update-types:
+          - 'minor'
+          - 'patch'

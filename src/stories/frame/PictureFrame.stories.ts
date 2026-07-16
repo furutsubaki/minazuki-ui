@@ -10,7 +10,7 @@ const meta: Meta<typeof PictureFrame> = {
             return { args };
         },
         template:
-            '<PictureFrame v-bind="args" style="width:250px; height: 250px;"><div style="width:100%; height: 100%;background-color: var(--color-theme-bg-secondary); display: flex;align-items: center; justify-content: center;">Contents</div></PictureFrame>'
+            '<PictureFrame v-bind="args" style="width:250px; height: 250px;"><div style="width:100%; height: 100%;background-color: var(--color-bg-secondary); display: flex;align-items: center; justify-content: center;">Contents</div></PictureFrame>'
     }),
     args: {},
     argTypes: {}
@@ -51,7 +51,7 @@ export const PropsLayout: Story = {
             ])
         }),
         template:
-            '<PictureFrame v-for="param in params" :key="param.layout" v-bind="{...args, ...param}" style="width:250px; height: 250px;"><div style="width:100%; height: 100%;background-color: var(--color-theme-bg-secondary); display: flex;align-items: center; justify-content: center;">{{param.layout}}</div></PictureFrame>'
+            '<PictureFrame v-for="param in params" :key="param.layout" v-bind="{...args, ...param}" style="width:250px; height: 250px;"><div style="width:100%; height: 100%;background-color: var(--color-bg-secondary); display: flex;align-items: center; justify-content: center;">{{param.layout}}</div></PictureFrame>'
     }),
     args: { ...Default.args }
 };
@@ -71,7 +71,7 @@ export const PropsShape: Story = {
             ])
         }),
         template:
-            '<PictureFrame v-for="param in params" :key="param.shape" v-bind="{...args, ...param}" style="width:250px; height: 250px;"><div style="width:100%; height: 100%;background-color: var(--color-theme-bg-secondary); display: flex;align-items: center; justify-content: center;">{{param.shape}}</div></PictureFrame>'
+            '<PictureFrame v-for="param in params" :key="param.shape" v-bind="{...args, ...param}" style="width:250px; height: 250px;"><div style="width:100%; height: 100%;background-color: var(--color-bg-secondary); display: flex;align-items: center; justify-content: center;">{{param.shape}}</div></PictureFrame>'
     }),
     args: { ...Default.args }
 };

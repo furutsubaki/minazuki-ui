@@ -51,6 +51,7 @@ const TransitionComponent = markRaw(
 const transitionFrom = ref('right');
 
 const onChangeTab = (id: string) => {
+    if (id === currentStep.value) return;
     const currentIndex = props.steps.findIndex((step) => step.id === currentStep.value);
     const newIndex = props.steps.findIndex((step) => step.id === id);
     const isPrev = currentIndex > newIndex;
@@ -59,6 +60,7 @@ const onChangeTab = (id: string) => {
     transitionFrom.value = ['top', 'bottom'].includes(props.position)
         ? transitionFromX
         : transitionFromY;
+    currentStep.value = id;
 
     if (isPrev) {
         emit('prev', id);
@@ -89,15 +91,14 @@ const hasSlot = (name: string) => {
     <div class="component-step" :class="[size, position]">
         <div class="step-header" :class="{ 'no-separator': noSeparator }">
             <template v-for="(step, i) in steps" :key="step.id">
-                <Button
-                    :size="size"
-                    shape="skeleton"
-                    :readonly="currentStep === step.id"
+                <button
+                    type="button"
                     :disabled="currentStepIndex < i"
                     class="step-button"
                     :class="{
                         'is-success': currentStepIndex > i,
-                        'is-current': currentStepIndex === i
+                        'is-current': currentStepIndex === i,
+                        'is-readonly': currentStep === step.id
                     }"
                     @click="onChangeTab(step.id)"
                 >
@@ -107,7 +108,7 @@ const hasSlot = (name: string) => {
                         </component>
                     </div>
                     <div class="text">{{ step.label }}</div>
-                </Button>
+                </button>
                 <div
                     class="step-separator"
                     :class="{
@@ -130,16 +131,14 @@ const hasSlot = (name: string) => {
                 class="step-footer"
                 :class="{ 'no-separator': noSeparator }"
             >
-                <Button :size="size" :disabled="currentStepIndex === 0" @click="onPrev"
-                    >Prev</Button
-                >
+                <Button :size="size" :disabled="currentStepIndex === 0" label="Prev" @click="onPrev" />
                 <Button
                     variant="success"
                     :size="size"
                     :disabled="currentStepIndex + 1 === steps.length"
+                    label="Next"
                     @click="onNext"
-                    >Next</Button
-                >
+                />
             </div>
         </div>
     </div>
@@ -152,7 +151,7 @@ const hasSlot = (name: string) => {
         position: relative;
         display: flex;
         flex-shrink: 0;
-        gap: 8px;
+        gap: var(--space-sm);
         align-items: flex-start;
         justify-content: space-between;
         overflow: scroll;
@@ -164,45 +163,61 @@ const hasSlot = (name: string) => {
             display: flex;
             flex-direction: column;
             gap: 0;
+            align-items: center;
             width: var(--c-step-button-height);
             padding: 0;
+            font-size: var(--c-step-font-size, var(--font-size-medium));
+            color: inherit;
+            cursor: pointer;
+            background: transparent;
+            border: 0;
             transition:
-                opacity 0.2s,
-                color 0.2s;
+                opacity var(--duration-fast),
+                color var(--duration-fast);
+            &:disabled,
+            &.is-readonly {
+                cursor: not-allowed;
+                opacity: 0.5;
+            }
             .icon {
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 width: var(--c-step-icon-size);
                 height: var(--c-step-icon-size);
-                padding: 4px;
-                color: var(--color-theme-bg-secondary);
-                background-color: var(--color-theme-text-secondary);
-                border-radius: 50%;
-                transition: background-color 0.2s;
+                padding: var(--space-xs);
+                color: var(--color-bg-secondary);
+                background-color: var(--color-text-secondary);
+                border-radius: var(--radius-circle);
+                transition: background-color var(--duration-fast);
             }
             .text {
                 width: 100px;
                 text-align: center;
                 word-break: break-all;
                 transform: scale(0.8);
-                transition: transform 0.2s;
+                transition: transform var(--duration-fast);
             }
             &.is-current {
+                /* Buttonコンポーネント自身がこの変数でcolorを確定するため、継承ではなく直接上書きする */
+                --c-button-color: var(--color-brand);
+                .icon {
+                    background-color: var(--color-brand);
+                }
                 .text {
                     transform: scale(1);
                 }
             }
             &.is-success {
-                color: var(--color-status-success);
+                color: var(--color-success);
                 .icon {
-                    background-color: var(--color-status-success);
+                    background-color: var(--color-success);
                 }
             }
         }
         .step-separator {
             position: relative;
-            background-color: var(--color-theme-border);
+            background-color: var(--color-border);
             &::before {
                 position: absolute;
                 inset: 0;
@@ -210,9 +225,9 @@ const hasSlot = (name: string) => {
                 height: 100%;
                 margin: auto;
                 content: '';
-                background-color: var(--color-status-success);
+                background-color: var(--color-success);
                 transform: scale(0);
-                transition: transform 0.2s;
+                transition: transform var(--duration-fast);
             }
         }
     }
@@ -228,10 +243,10 @@ const hasSlot = (name: string) => {
     .step-footer {
         display: flex;
         justify-content: space-between;
-        margin-top: 8px;
+        margin-top: var(--space-sm);
         &:not(.no-separator) {
-            padding-top: 8px;
-            border-top: 1px solid var(--color-theme-border);
+            padding-top: var(--space-sm);
+            border-top: 1px solid var(--color-border);
         }
     }
 }
@@ -261,10 +276,10 @@ const hasSlot = (name: string) => {
     flex-direction: column;
     width: 100%;
     .step-header {
-        padding: 8px 24px;
+        padding: var(--space-sm) var(--space-lg);
         &:not(.no-separator) {
-            margin-bottom: 8px;
-            border-bottom: 1px solid var(--color-theme-border);
+            margin-bottom: var(--space-sm);
+            border-bottom: 1px solid var(--color-border);
         }
         .step-separator {
             top: calc(var(--c-step-icon-size) / 2);
@@ -287,10 +302,10 @@ const hasSlot = (name: string) => {
     height: 100%;
     .step-header {
         flex-direction: column;
-        padding: 24px 8px;
+        padding: var(--space-lg) var(--space-sm);
         &:not(.no-separator) {
-            margin-left: 8px;
-            border-left: 1px solid var(--color-theme-border);
+            margin-left: var(--space-sm);
+            border-left: 1px solid var(--color-border);
         }
         .step-separator {
             width: 2px;
@@ -312,10 +327,10 @@ const hasSlot = (name: string) => {
     flex-direction: column-reverse;
     width: 100%;
     .step-header {
-        padding: 8px 24px;
+        padding: var(--space-sm) var(--space-lg);
         &:not(.no-separator) {
-            margin-top: 8px;
-            border-top: 1px solid var(--color-theme-border);
+            margin-top: var(--space-sm);
+            border-top: 1px solid var(--color-border);
         }
         .step-separator {
             top: calc(var(--c-step-icon-size) / 2);
@@ -338,10 +353,10 @@ const hasSlot = (name: string) => {
     height: 100%;
     .step-header {
         flex-direction: column;
-        padding: 24px 8px;
+        padding: var(--space-lg) var(--space-sm);
         &:not(.no-separator) {
-            margin-right: 8px;
-            border-right: 1px solid var(--color-theme-border);
+            margin-right: var(--space-sm);
+            border-right: 1px solid var(--color-border);
         }
         .step-separator {
             width: 2px;
