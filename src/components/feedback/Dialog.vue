@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, useSlots, watch, onMounted, onBeforeUnmount, type Component } from 'vue';
+import { ref, computed, useSlots, watch, nextTick, onMounted, onBeforeUnmount, type Component } from 'vue';
 import TeleportRoot from '@/components/inner-parts/TeleportRoot.vue';
 import { getTransitionDuration } from '@/assets/ts/transition';
 import {
@@ -94,13 +94,14 @@ const finishClose = () => {
     emit('closed');
 };
 
-const open = () => {
+const open = async () => {
     if (closeTimeoutId !== undefined) {
         window.clearTimeout(closeTimeoutId);
         closeTimeoutId = undefined;
     }
 
     transitionState.value = 'is-opening';
+    await nextTick();
 
     if (!dialogEl.value?.open) {
         if (props.seamless) {
@@ -114,12 +115,13 @@ const open = () => {
         document.documentElement.style.overflow = 'hidden';
     }
 
+    // showModal() 後に reflow を強制し、is-opening の初期スタイルをブラウザに確定させる
+    dialogPanelEl.value?.getBoundingClientRect();
+
     requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            if (transitionState.value === 'is-opening') {
-                transitionState.value = '';
-            }
-        });
+        if (transitionState.value === 'is-opening') {
+            transitionState.value = '';
+        }
     });
 };
 
@@ -311,7 +313,7 @@ const hasSlot = (name: string) => {
     .inner {
         display: flex;
         flex-grow: 1;
-        align-items: flex-start;
+        min-height: 0;
         overflow: hidden;
     }
     .icon {
@@ -325,18 +327,20 @@ const hasSlot = (name: string) => {
     }
     .box {
         display: flex;
+        flex-grow: 1;
         flex-direction: column;
         gap: var(--space-sm);
         width: 100%;
-        height: 100%;
+        min-height: 0;
         .title {
+            flex-shrink: 0;
             padding: 0 var(--space-sm);
             font-size: calc(var(--font-size-medium) * 1.2);
             font-weight: bold;
         }
         .slot {
             flex-grow: 1;
-            height: 100%;
+            min-height: 0;
             padding: 0 var(--space-sm);
             overflow-y: auto;
         }

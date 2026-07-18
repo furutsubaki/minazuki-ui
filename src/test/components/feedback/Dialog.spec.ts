@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { nextTick } from 'vue';
-import { mount } from '@vue/test-utils';
+import { flushPromises, mount } from '@vue/test-utils';
 import Dialog from '@/components/feedback/Dialog.vue';
 
 describe('Dialog', () => {
@@ -9,10 +9,11 @@ describe('Dialog', () => {
         document.documentElement.style.overflow = '';
     });
 
-    it('v-model が true のとき dialog が open になる', () => {
-        const wrapper = mount(Dialog, { props: { modelValue: true } });
-        const dialog = wrapper.find('.component-dialog').element as HTMLDialogElement;
-        expect(dialog.open).toBe(true);
+    it('v-model が true のとき dialog が open になる', async () => {
+        mount(Dialog, { props: { modelValue: true }, attachTo: document.body });
+        await flushPromises();
+        const dialog = document.querySelector('.component-dialog') as HTMLDialogElement;
+        expect(dialog?.open).toBe(true);
     });
 
     it('v-model が false のとき dialog が open にならない', () => {
@@ -80,19 +81,21 @@ describe('Dialog', () => {
         expect(wrapper.find('.component-dialog').classes()).toContain('is-seamless');
     });
 
-    it('seamless のとき show() が使われる', () => {
+    it('seamless のとき show() が使われる', async () => {
         const showSpy = vi.spyOn(HTMLDialogElement.prototype, 'show');
         const showModalSpy = vi.spyOn(HTMLDialogElement.prototype, 'showModal');
         mount(Dialog, { props: { modelValue: true, seamless: true } });
+        await nextTick();
         expect(showSpy).toHaveBeenCalled();
         expect(showModalSpy).not.toHaveBeenCalled();
         showSpy.mockRestore();
         showModalSpy.mockRestore();
     });
 
-    it('seamless でないとき showModal() が使われる', () => {
+    it('seamless でないとき showModal() が使われる', async () => {
         const showModalSpy = vi.spyOn(HTMLDialogElement.prototype, 'showModal');
         mount(Dialog, { props: { modelValue: true } });
+        await nextTick();
         expect(showModalSpy).toHaveBeenCalled();
         showModalSpy.mockRestore();
     });
@@ -196,11 +199,13 @@ describe('Dialog', () => {
     it('v-model が false → true に変わると overflow が hidden になる', async () => {
         const wrapper = mount(Dialog, { props: { modelValue: false } });
         await wrapper.setProps({ modelValue: true });
+        await nextTick();
         expect(document.documentElement.style.overflow).toBe('hidden');
     });
 
-    it('seamless のとき overflow が hidden にならない', () => {
+    it('seamless のとき overflow が hidden にならない', async () => {
         mount(Dialog, { props: { modelValue: true, seamless: true } });
+        await nextTick();
         expect(document.documentElement.style.overflow).not.toBe('hidden');
     });
 
@@ -212,6 +217,7 @@ describe('Dialog', () => {
                 'onUpdate:modelValue': (v: boolean) => wrapper.setProps({ modelValue: v })
             }
         });
+        await nextTick();
         expect(document.documentElement.style.overflow).toBe('hidden');
         await wrapper.setProps({ modelValue: false });
         await vi.advanceTimersByTimeAsync(300);
@@ -219,8 +225,9 @@ describe('Dialog', () => {
         expect(document.documentElement.style.overflow).toBe('');
     });
 
-    it('unmount 時に overflow がリセットされる', () => {
+    it('unmount 時に overflow がリセットされる', async () => {
         const wrapper = mount(Dialog, { props: { modelValue: true } });
+        await nextTick();
         expect(document.documentElement.style.overflow).toBe('hidden');
         wrapper.unmount();
         expect(document.documentElement.style.overflow).toBe('');
