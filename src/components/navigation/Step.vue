@@ -234,14 +234,16 @@ const hasSlot = (name: string) => {
     .step-content {
         display: flex;
         flex-direction: column;
+        min-height: 0;
     }
     .step-slot {
         flex-grow: 1;
-        height: 100%;
+        min-height: 0;
         overflow-y: auto;
     }
     .step-footer {
         display: flex;
+        flex-shrink: 0;
         justify-content: space-between;
         margin-top: var(--space-sm);
         &:not(.no-separator) {

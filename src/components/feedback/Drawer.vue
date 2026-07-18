@@ -218,6 +218,7 @@ defineExpose({ transitionFrom });
     }
     .header {
         display: flex;
+        flex-shrink: 0;
         gap: var(--space-sm);
         justify-content: flex-end;
         &.is-closeable {
@@ -227,12 +228,14 @@ defineExpose({ transitionFrom });
     .box {
         position: relative;
         flex-grow: 1;
+        min-height: 0;
         &.is-scroll {
             overflow-y: auto;
         }
     }
     .footer {
         display: flex;
+        flex-shrink: 0;
         gap: var(--space-sm);
         justify-content: flex-end;
     }
