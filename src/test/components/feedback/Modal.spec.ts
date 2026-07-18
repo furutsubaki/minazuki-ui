@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { nextTick } from 'vue';
-import { mount } from '@vue/test-utils';
+import { flushPromises, mount } from '@vue/test-utils';
 import Modal from '@/components/feedback/Modal.vue';
 
 describe('Modal', () => {
@@ -9,10 +9,11 @@ describe('Modal', () => {
         document.documentElement.style.overflow = '';
     });
 
-    it('v-model が true のとき modal が open になる', () => {
-        const wrapper = mount(Modal, { props: { modelValue: true } });
-        const dialog = wrapper.find('.component-modal').element as HTMLDialogElement;
-        expect(dialog.open).toBe(true);
+    it('v-model が true のとき modal が open になる', async () => {
+        mount(Modal, { props: { modelValue: true }, attachTo: document.body });
+        await flushPromises();
+        const dialog = document.querySelector('.component-modal') as HTMLDialogElement;
+        expect(dialog?.open).toBe(true);
     });
 
     it('v-model が false のとき modal が open にならない', () => {
@@ -161,6 +162,7 @@ describe('Modal', () => {
     it('v-model が false → true に変わると overflow が hidden になる', async () => {
         const wrapper = mount(Modal, { props: { modelValue: false } });
         await wrapper.setProps({ modelValue: true });
+        await nextTick();
         expect(document.documentElement.style.overflow).toBe('hidden');
     });
 
@@ -172,6 +174,7 @@ describe('Modal', () => {
                 'onUpdate:modelValue': (v: boolean) => wrapper.setProps({ modelValue: v })
             }
         });
+        await nextTick();
         expect(document.documentElement.style.overflow).toBe('hidden');
         await wrapper.setProps({ modelValue: false });
         await vi.advanceTimersByTimeAsync(300);
@@ -179,8 +182,9 @@ describe('Modal', () => {
         expect(document.documentElement.style.overflow).toBe('');
     });
 
-    it('unmount 時に overflow がリセットされる', () => {
+    it('unmount 時に overflow がリセットされる', async () => {
         const wrapper = mount(Modal, { props: { modelValue: true } });
+        await nextTick();
         expect(document.documentElement.style.overflow).toBe('hidden');
         wrapper.unmount();
         expect(document.documentElement.style.overflow).toBe('');
@@ -197,9 +201,10 @@ describe('Modal', () => {
         expect(wrapper.props('modelValue')).toBe(true);
     });
 
-    it('showModal() が使用される', () => {
+    it('showModal() が使用される', async () => {
         const showModalSpy = vi.spyOn(HTMLDialogElement.prototype, 'showModal');
         mount(Modal, { props: { modelValue: true } });
+        await nextTick();
         expect(showModalSpy).toHaveBeenCalled();
         showModalSpy.mockRestore();
     });

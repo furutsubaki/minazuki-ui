@@ -175,7 +175,7 @@ defineExpose({ tabAlignProperty, tabButtonRef, currentTabClientRects });
     }
     .tab-slot {
         flex-grow: 1;
-        height: 100%;
+        min-height: 0;
         overflow-y: auto;
     }
 }
