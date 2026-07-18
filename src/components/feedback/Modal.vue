@@ -170,6 +170,7 @@ onBeforeUnmount(() => {
                     <div
                         class="modal"
                         :class="[size, shape, { 'is-center': center, 'is-full-size-by-sp': isFullSizeBySp }]"
+                        tabindex="-1"
                     >
                         <Button size="large" shape="skeleton" class="closeable-box" :prefix-icon="IconX" aria-label="閉じる" @click="onClose" />
                         <div class="inner">
@@ -261,6 +262,10 @@ onBeforeUnmount(() => {
 
 .modal {
     position: relative;
+    &:focus {
+        outline: none;
+    }
+
     display: flex;
     flex-direction: column;
     gap: var(--space-sm);

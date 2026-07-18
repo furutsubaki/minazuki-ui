@@ -199,7 +199,7 @@ const hasSlot = (name: string) => {
                             <IconXOctagon v-else-if="variant === 'danger'" class="icon" />
                             <div class="box">
                                 <div v-if="title" class="title">{{ title }}</div>
-                                <div class="slot">
+                                <div class="slot" tabindex="-1">
                                     <slot />
                                 </div>
                             </div>
@@ -343,6 +343,9 @@ const hasSlot = (name: string) => {
             min-height: 0;
             padding: 0 var(--space-sm);
             overflow-y: auto;
+            &:focus {
+                outline: none;
+            }
         }
     }
     .footer {
