@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onBeforeUnmount, type Component } from 'vue';
+import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount, type Component } from 'vue';
 import TeleportRoot from '@/components/inner-parts/TeleportRoot.vue';
 import Button from '@/components/basic/Button.vue';
 import { getTransitionDuration } from '@/assets/ts/transition';
@@ -80,13 +80,14 @@ const finishClose = () => {
     emit('closed');
 };
 
-const open = () => {
+const open = async () => {
     if (closeTimeoutId !== undefined) {
         window.clearTimeout(closeTimeoutId);
         closeTimeoutId = undefined;
     }
 
     transitionState.value = 'is-opening';
+    await nextTick();
 
     if (!dialogEl.value?.open) {
         dialogEl.value?.showModal();
@@ -94,12 +95,13 @@ const open = () => {
 
     document.documentElement.style.overflow = 'hidden';
 
+    // showModal() 後に reflow を強制し、is-opening の初期スタイルをブラウザに確定させる
+    modalPanelEl.value?.getBoundingClientRect();
+
     requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            if (transitionState.value === 'is-opening') {
-                transitionState.value = '';
-            }
-        });
+        if (transitionState.value === 'is-opening') {
+            transitionState.value = '';
+        }
     });
 };
 
