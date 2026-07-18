@@ -303,6 +303,7 @@ onBeforeUnmount(() => {
         width: 100%;
         min-height: 0;
         .title {
+            flex-shrink: 0;
             padding: 0 var(--space-sm);
             font-size: calc(var(--font-size-medium) * 1.2);
             font-weight: bold;
