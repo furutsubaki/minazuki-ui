@@ -292,15 +292,16 @@ onBeforeUnmount(() => {
         display: flex;
         flex-grow: 1;
         gap: var(--space-sm);
-        align-items: flex-start;
+        min-height: 0;
         overflow: hidden;
     }
     .box {
         display: flex;
+        flex-grow: 1;
         flex-direction: column;
         gap: var(--space-sm);
         width: 100%;
-        height: 100%;
+        min-height: 0;
         .title {
             padding: 0 var(--space-sm);
             font-size: calc(var(--font-size-medium) * 1.2);
@@ -308,7 +309,7 @@ onBeforeUnmount(() => {
         }
         .slot {
             flex-grow: 1;
-            height: 100%;
+            min-height: 0;
             padding: 0 var(--space-sm);
             overflow-y: auto;
         }

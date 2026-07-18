@@ -186,6 +186,28 @@ export const PropsPersistent: Story = {
     }
 };
 
+export const ScrollContent: Story = {
+    render: (args: Args) => ({
+        components: { Modal, Button },
+        setup: () => ({
+            args,
+            params: ref([
+                { size: 'small', modelValue: false },
+                { size: 'medium', modelValue: false }
+            ])
+        }),
+        template: `
+<template v-for="param in params" :key="param.size">
+    <Button :label="'Scroll Test (' + param.size + ')'" @click="param.modelValue = true" />
+    <Modal v-bind="{...args, ...param}" v-model="param.modelValue" title="Scroll Test">
+        <ul>
+            <li v-for="i in 30" :key="i">Item {{ i }} - リスト項目</li>
+        </ul>
+    </Modal>
+</template>`
+    })
+};
+
 export const PropsFrameComponent: Story = {
     render: (args: Args) => ({
         components: { Modal, Button },
