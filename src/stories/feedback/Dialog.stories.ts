@@ -286,8 +286,8 @@ export const PropsFrameComponent: Story = {
 
 export const StoryPlayer: Story = {
     render: (args: Args) => ({
-        components: { Dialog, Button, Progress, IconPlay, IconPause, IconX },
-        setup: () => ({ args, progressModel: 75 }),
+        components: { Dialog, Button, Progress },
+        setup: () => ({ args, progressModel: 75, IconPlay, IconPause, IconX }),
         template: `
 <Button label="Open Player" @click="args.modelValue = true" />
 <Dialog v-bind="args">
