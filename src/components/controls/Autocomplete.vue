@@ -273,10 +273,12 @@ defineExpose({ onBlur, debouncedSearchValue, value });
             :value="value"
             :isErrorMessage="isErrorMessage"
             :errors="errors"
+            :input-id="generatedId"
         >
             <slot name="prefix" />
             <div v-if="prefix" class="prefix-suffix">{{ prefix }}</div>
             <input
+                :id="generatedId"
                 v-model.trim="value"
                 class="input"
                 :type="type"

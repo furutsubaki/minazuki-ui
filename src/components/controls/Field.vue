@@ -316,14 +316,16 @@ defineExpose({ onCloseDatePicker, isFocus, datePickerScrollObserver });
             :value="value"
             :isErrorMessage="isErrorMessage"
             :errors="errors"
+            :input-id="generatedId"
         >
             <slot name="prefix" />
             <div v-if="prefix" class="prefix-suffix">{{ prefix }}</div>
-            <button v-if="type === 'date'" class="input" @click="onDateButonClick">
+            <button v-if="type === 'date'" :id="generatedId" class="input" @click="onDateButonClick">
                 <span>{{ value ? dayjs(value).format(format) : '' }}</span>
             </button>
             <input
                 v-else
+                :id="generatedId"
                 v-model.trim="formatValue"
                 class="input"
                 :type="fieldType"
