@@ -154,8 +154,10 @@ onMounted(() => {
             :value="value"
             :isErrorMessage="isErrorMessage"
             :errors="errors"
+            :input-id="generatedId"
         >
             <textarea
+                :id="generatedId"
                 ref="textareaRef"
                 v-model="value"
                 class="textarea"
