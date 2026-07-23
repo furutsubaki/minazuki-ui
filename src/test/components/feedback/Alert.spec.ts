@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
-import { Info } from 'lucide-vue-next';
+import { Info } from '@lucide/vue';
 import Alert from '@/components/feedback/Alert.vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 

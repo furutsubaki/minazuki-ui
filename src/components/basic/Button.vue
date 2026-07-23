@@ -5,7 +5,7 @@ import {
     CheckCircle2 as IconCheckCircle2,
     AlertTriangle as IconAlertTriangle,
     XOctagon as IconXOctagon
-} from 'lucide-vue-next';
+} from '@lucide/vue';
 
 type Variant = 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger';
 

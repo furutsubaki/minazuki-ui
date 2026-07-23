@@ -3,7 +3,7 @@ import { type Component, ref, computed, useSlots, markRaw } from 'vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
 import Button from '@/components/basic/Button.vue';
-import { Check as IconCheck } from 'lucide-vue-next';
+import { Check as IconCheck } from '@lucide/vue';
 
 const currentStep = defineModel<string>();
 const currentStepIndex = computed(() => {

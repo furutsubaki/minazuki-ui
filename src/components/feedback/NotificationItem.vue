@@ -12,7 +12,7 @@ import {
     CheckCircle2 as IconCheckCircle2,
     AlertTriangle as IconAlertTriangle,
     XOctagon as IconXOctagon
-} from 'lucide-vue-next';
+} from '@lucide/vue';
 import useNotification, { type MiRequiredNotification } from '@/composables/useNotification';
 
 const props = defineProps<{

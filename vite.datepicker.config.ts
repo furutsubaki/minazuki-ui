@@ -13,7 +13,7 @@ const externalPackages = [
     '@vuepic/vue-datepicker',
     'dayjs',
     'i18next',
-    'lucide-vue-next',
+    '@lucide/vue',
     'vee-validate',
     'vue-router',
     'zod',

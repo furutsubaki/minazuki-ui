@@ -55,7 +55,7 @@ playground 共通スタイルは `playground/shared/styles/playground.css`、vee
 - GitHub Actions の minor/patch 更新
 - npm の **devDependencies** の minor/patch 更新
 
-`dependencies` / `peerDependencies`（vue, zod, lucide-vue-next 等）は本ライブラリの利用側プロジェクトに直接影響するため、minor 更新であっても自動マージの対象外とし、手動レビューを必須とする。`update-type` だけで判定すると production 系の依存も自動マージされてしまうため、`dependabot/fetch-metadata` の `dependency-type` 出力（`direct:development` かどうか）と `package-ecosystem` 出力を併用して判定すること。
+`dependencies` / `peerDependencies`（vue, zod, @lucide/vue 等）は本ライブラリの利用側プロジェクトに直接影響するため、minor 更新であっても自動マージの対象外とし、手動レビューを必須とする。`update-type` だけで判定すると production 系の依存も自動マージされてしまうため、`dependabot/fetch-metadata` の `dependency-type` 出力（`direct:development` かどうか）と `package-ecosystem` 出力を併用して判定すること。
 
 ## 禁止事項
 

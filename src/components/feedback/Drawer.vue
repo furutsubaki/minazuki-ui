@@ -5,7 +5,7 @@ import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import TranslateTransition from '@/components/inner-parts/TranslateTransition.vue';
 import Button from '@/components/basic/Button.vue';
 import { sleep } from '@/assets/ts';
-import { X as IconX } from 'lucide-vue-next';
+import { X as IconX } from '@lucide/vue';
 import useOutsideClick from '@/directives/useOutsideClick';
 
 const flg = defineModel<boolean>({ default: false });

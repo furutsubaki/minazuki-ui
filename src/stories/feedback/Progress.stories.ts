@@ -1,6 +1,6 @@
 import Progress from '@/components/feedback/Progress.vue';
 import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
-import { Pen as IconPen } from 'lucide-vue-next';
+import { Pen as IconPen } from '@lucide/vue';
 
 const meta: Meta<typeof Progress> = {
     component: Progress,

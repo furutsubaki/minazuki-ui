@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { Star } from 'lucide-vue-next';
+import { Star } from '@lucide/vue';
 import Avatar from '@/components/basic/Avatar.vue';
 
 describe('Avatar', () => {
