@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Home, Search, Bell, User } from 'lucide-vue-next';
+import { Home, Search, Bell, User } from '@lucide/vue';
 
 const currentTab = ref('tab1');
 const currentStep = ref('step1');

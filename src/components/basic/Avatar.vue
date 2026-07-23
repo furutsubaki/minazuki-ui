@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type Component, useSlots, computed, markRaw } from 'vue';
-import { User as IconUser } from 'lucide-vue-next';
+import { User as IconUser } from '@lucide/vue';
 
 const props = withDefaults(
     defineProps<{

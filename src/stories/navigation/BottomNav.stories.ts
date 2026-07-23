@@ -5,7 +5,7 @@ import {
     Home as IconHome,
     Newspaper as IconNewspaper,
     Settings as IconSettings
-} from 'lucide-vue-next';
+} from '@lucide/vue';
 
 const meta: Meta<typeof BottomNav> = {
     component: BottomNav,

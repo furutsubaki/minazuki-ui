@@ -6,7 +6,7 @@ import { resolveStringChecks } from '@/assets/ts/schema';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
 import FieldAccordionList from '@/components/inner-parts/FieldAccordionList.vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
-import { ChevronDown as IconChevronDown, XCircle as IconXCircle } from 'lucide-vue-next';
+import { ChevronDown as IconChevronDown, XCircle as IconXCircle } from '@lucide/vue';
 
 export interface MiSelectItem {
     label: string;
