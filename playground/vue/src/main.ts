@@ -1,6 +1,5 @@
 import '@acab/reset.css';
 import 'minazuki-ui/dist/style.css';
-import '@vuepic/vue-datepicker/dist/main.css';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
@@ -8,6 +7,7 @@ import { createHead } from '@unhead/vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { setupValidate } from 'playground-shared/validate';
 import MinazukiUi from 'minazuki-ui';
+import MinazukiUiDatepicker from 'minazuki-ui/datepicker';
 
 import App from './App.vue';
 import HomePage from 'playground-shared/pages/HomePage.vue';
@@ -40,5 +40,6 @@ app.use(MinazukiUi, {
         }
     }
 });
+app.use(MinazukiUiDatepicker);
 
 app.mount('#app');

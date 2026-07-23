@@ -3,7 +3,6 @@ import MiButton from '@/components/basic/Button.vue';
 import MiAutocomplete from '@/components/controls/Autocomplete.vue';
 import MiCheckbox from '@/components/controls/Checkbox.vue';
 import MiCheckboxGroup from '@/components/controls/CheckboxGroup.vue';
-import MiDatePicker from '@/components/controls/DatePicker.vue';
 import MiField from '@/components/controls/Field.vue';
 import MiRadio from '@/components/controls/Radio.vue';
 import MiRadioGroup from '@/components/controls/RadioGroup.vue';
@@ -41,7 +40,6 @@ export const componentNameMap = {
     MiAutocomplete: { name: 'MiAutocomplete' as const, component: MiAutocomplete },
     MiCheckbox: { name: 'MiCheckbox' as const, component: MiCheckbox },
     MiCheckboxGroup: { name: 'MiCheckboxGroup' as const, component: MiCheckboxGroup },
-    MiDatePicker: { name: 'MiDatePicker' as const, component: MiDatePicker },
     MiField: { name: 'MiField' as const, component: MiField },
     MiRadio: { name: 'MiRadio' as const, component: MiRadio },
     MiRadioGroup: { name: 'MiRadioGroup' as const, component: MiRadioGroup },
@@ -80,7 +78,6 @@ export {
     MiAutocomplete,
     MiCheckbox,
     MiCheckboxGroup,
-    MiDatePicker,
     MiField,
     MiRadio,
     MiRadioGroup,
@@ -120,7 +117,6 @@ declare module 'vue' {
         MiAutocomplete: typeof MiAutocomplete;
         MiCheckbox: typeof MiCheckbox;
         MiCheckboxGroup: typeof MiCheckboxGroup;
-        MiDatePicker: typeof MiDatePicker;
         MiField: typeof MiField;
         MiRadio: typeof MiRadio;
         MiRadioGroup: typeof MiRadioGroup;

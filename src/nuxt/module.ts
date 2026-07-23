@@ -29,6 +29,8 @@ export interface ModuleOptions {
      * - true: Vue3 同等の全コンポーネント一括グローバル登録（互換性優先）
      */
     install?: boolean;
+    /** @vuepic/vue-datepicker の auto-import と CSS 注入（default: false） */
+    datepicker?: boolean;
 }
 
 // TS2742 回避: @nuxt/schema への直接参照を避けるためローカル型でラップ
@@ -51,7 +53,8 @@ const _module = defineNuxtModule<ModuleOptions>({
         themeId: 'light',
         cookieName: 'themeId',
         cookieMaxAge: 60 * 60 * 24 * 365,
-        install: false
+        install: false,
+        datepicker: false
     },
     setup(options, nuxt) {
         const legacyThemeMessage = detectLegacyThemeOptions(options);
@@ -77,10 +80,12 @@ const _module = defineNuxtModule<ModuleOptions>({
             nuxt.options.vite.optimizeDeps.exclude.push('minazuki-ui');
         }
 
-        // vue-datepicker の transpile（Nuxt 3 + CJS 対応）
-        nuxt.options.build.transpile = nuxt.options.build.transpile ?? [];
-        if (!nuxt.options.build.transpile.includes('@vuepic/vue-datepicker')) {
-            nuxt.options.build.transpile.push('@vuepic/vue-datepicker');
+        // vue-datepicker の transpile（datepicker 有効時のみ）
+        if (options.datepicker) {
+            nuxt.options.build.transpile = nuxt.options.build.transpile ?? [];
+            if (!nuxt.options.build.transpile.includes('@vuepic/vue-datepicker')) {
+                nuxt.options.build.transpile.push('@vuepic/vue-datepicker');
+            }
         }
 
         if (options.autoImport) {
@@ -92,12 +97,19 @@ const _module = defineNuxtModule<ModuleOptions>({
                     filePath: component.filePath
                 });
             }
-            // VueDatePicker も auto-import
-            addComponent({
-                name: 'VueDatePicker',
-                export: 'default',
-                filePath: '@vuepic/vue-datepicker'
-            });
+            // datepicker 有効時のみ auto-import
+            if (options.datepicker) {
+                addComponent({
+                    name: 'MiDatePicker',
+                    export: 'MiDatePicker',
+                    filePath: 'minazuki-ui/datepicker'
+                });
+                addComponent({
+                    name: 'VueDatePicker',
+                    export: 'default',
+                    filePath: '@vuepic/vue-datepicker'
+                });
+            }
 
             // composables / directives auto-import
             for (const composable of miComposableList) {

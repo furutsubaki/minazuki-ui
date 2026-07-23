@@ -2,7 +2,7 @@
 // @ts-ignore - #imports は Nuxt ランタイムの仮想モジュール（library build 時は未解決）
 import { defineNuxtPlugin, useCookie, useRuntimeConfig } from '#imports';
 import { watch } from 'vue';
-import MinazukiUi, { useTheme, useFormData, useNotification, useOutsideClick } from 'minazuki-ui';
+import MinazukiUi, { useTheme, useNotification, useOutsideClick } from 'minazuki-ui';
 import type { ThemeId, MiThemeOverride } from 'minazuki-ui';
 
 type MinazukiUiConfig = {
@@ -38,7 +38,6 @@ export default defineNuxtPlugin((nuxtApp: { vueApp: import('vue').App }) => {
         }
         setTheme(currentTheme.value);
 
-        nuxtApp.vueApp.provide('useFormData', useFormData);
         nuxtApp.vueApp.provide('useNotification', useNotification);
         nuxtApp.vueApp.provide('useTheme', useTheme);
         nuxtApp.vueApp.provide('useOutsideClick', useOutsideClick);

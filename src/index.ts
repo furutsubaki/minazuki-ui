@@ -4,7 +4,6 @@ import '@/assets/css/style.css';
 import '@/assets/css/override.css';
 
 import type { App } from 'vue';
-import useFormData from '@/composables/useFormData';
 import useNotification from '@/composables/useNotification';
 import useTheme, {
     type MiThemeOverride,
@@ -12,15 +11,13 @@ import useTheme, {
     detectLegacyThemeOptions
 } from '@/composables/useTheme';
 import useOutsideClick from './directives/useOutsideClick';
-import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css';
 import { componentNameMap } from '@/components';
 
 export * from '@/components';
 export * from '@/composables';
 export * from '@/directives';
 export { default as initValidate } from '@/plugins/init-validate';
-export { useFormData, useNotification, useTheme };
+export { useNotification, useTheme };
 
 export default {
     install(app: App, options?: { theme?: MiThemeOverride; themeId?: ThemeId }) {
@@ -35,15 +32,11 @@ export default {
         }
 
         // composables
-        app.provide('useFormData', useFormData);
         app.provide('useNotification', useNotification);
         app.provide('useTheme', useTheme);
 
         // directives
         app.provide('useOutsideClick', useOutsideClick);
-
-        // component
-        app.component('VueDatePicker', VueDatePicker);
 
         const { currentTheme, overrideTheme, setTheme } = useTheme();
         if (options?.theme) {
