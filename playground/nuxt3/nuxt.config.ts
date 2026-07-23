@@ -24,6 +24,7 @@ export default defineNuxtConfig({
     // (playground/shared/pages/HomePage.vue の Theme Override セクション参照)
     minazukiUi: {
         themeId: 'light',
+        datepicker: true,
         theme: {
             statuses: {
                 info: { hue: 'pink', chroma: 'pink' }

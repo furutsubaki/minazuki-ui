@@ -22,7 +22,8 @@ export default defineNuxtConfig({
     devtools: { enabled: false },
     modules: ['@pinia/nuxt', ...(existsSync(minazukiNuxtModule) ? [minazukiNuxtModule] : [])],
     minazukiUi: {
-        themeId: 'light'
+        themeId: 'light',
+        datepicker: true
     },
     css: ['playground-shared/styles/playground.css'],
     build: {

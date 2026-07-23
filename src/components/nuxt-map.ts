@@ -5,7 +5,6 @@ export const miComponentList = [
     { name: 'MiAutocomplete', export: 'MiAutocomplete', filePath: 'minazuki-ui' },
     { name: 'MiCheckbox', export: 'MiCheckbox', filePath: 'minazuki-ui' },
     { name: 'MiCheckboxGroup', export: 'MiCheckboxGroup', filePath: 'minazuki-ui' },
-    { name: 'MiDatePicker', export: 'MiDatePicker', filePath: 'minazuki-ui' },
     { name: 'MiField', export: 'MiField', filePath: 'minazuki-ui' },
     { name: 'MiRadio', export: 'MiRadio', filePath: 'minazuki-ui' },
     { name: 'MiRadioGroup', export: 'MiRadioGroup', filePath: 'minazuki-ui' },

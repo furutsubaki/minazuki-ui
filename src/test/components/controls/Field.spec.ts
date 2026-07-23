@@ -1,10 +1,9 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeAll } from 'vitest';
 import { nextTick, h, defineComponent } from 'vue';
 import { mount, flushPromises } from '@vue/test-utils';
 import { z } from 'zod';
 import { Form as VeeForm } from 'vee-validate';
 import Field from '@/components/controls/Field.vue';
-import DatePicker from '@/components/controls/DatePicker.vue';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
 import useFormData from '@/composables/useFormData';
 import { uniqueFieldName } from '@/test/utils/uniqueFieldName';
@@ -19,6 +18,10 @@ const settleValidation = async () => {
 };
 
 describe('Field', () => {
+    beforeAll(async () => {
+        await import('@/components/controls/DatePicker.vue');
+    });
+
     it('label が表示される', () => {
         const wrapper = mount(Field, { props: { label: 'メールアドレス' } });
         expect(wrapper.find('.label').text()).toBe('メールアドレス');
@@ -256,14 +259,19 @@ describe('Field', () => {
     });
 
     it('type="date" のとき unmount で IntersectionObserver.unobserve が呼ばれる', async () => {
+        const mockObserve = vi.fn();
         const mockUnobserve = vi.fn();
         vi.stubGlobal('IntersectionObserver', vi.fn(() => ({
-            observe: vi.fn(),
+            observe: mockObserve,
             disconnect: vi.fn(),
             unobserve: mockUnobserve
         })));
         const wrapper = mount(Field, { props: { type: 'date' } });
+        await flushPromises();
+        await wrapper.find('button.input').trigger('click');
+        await flushPromises();
         await nextTick();
+        expect(mockObserve).toHaveBeenCalled();
         wrapper.unmount();
         expect(mockUnobserve).toHaveBeenCalled();
         vi.unstubAllGlobals();
@@ -404,10 +412,14 @@ describe('Field', () => {
 
     it('type="date" のとき DatePicker が update:modelValue を emit すると value が更新される', async () => {
         const wrapper = mount(Field, { props: { type: 'date' } });
-        await nextTick();
+        await flushPromises();
         await wrapper.find('button.input').trigger('click');
+        await flushPromises();
         await nextTick();
-        const datePicker = wrapper.findComponent(DatePicker);
+        await flushPromises();
+        await flushPromises();
+        await nextTick();
+        const datePicker = wrapper.findComponent({ name: 'DatePicker' });
         await datePicker.vm.$emit('update:modelValue', '20240115');
         await nextTick();
         expect(wrapper.find('button.input span').text()).not.toBe('');
