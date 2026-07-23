@@ -16,6 +16,12 @@ export default defineConfig({
         coverage: {
             provider: 'istanbul',
             reporter: ['text', 'html', 'lcov', 'json-summary'],
+            thresholds: {
+                statements: 100,
+                branches: 100,
+                functions: 100,
+                lines: 100
+            },
             include: ['src/**/*.{ts,vue}'],
             exclude: [
                 'src/test/**',
