@@ -196,13 +196,18 @@ describe('Field', () => {
         const wrapper = mount(Field, { props: { type: 'date' } });
         await nextTick();
         await wrapper.find('button.input').trigger('click');
+        await flushPromises();
         // elementCenterX=10000, elementCenterY=10000 → isRight=true, isBottom=true
         const mockEntry = {
             isIntersecting: false,
             boundingClientRect: { top: 9999, bottom: 10001, left: 9999, right: 10001 }
         };
         intersectCallback!([mockEntry as any]);
-        expect(wrapper.find('.component-input').exists()).toBe(true);
+        const datePicker = wrapper.find('.component-datepicker').element as HTMLElement;
+        expect(datePicker.style.left).toBe('');
+        expect(datePicker.style.right).toBe('0px');
+        expect(datePicker.style.top).toBe('');
+        expect(datePicker.style.bottom).toBe('100%');
         vi.unstubAllGlobals();
     });
 
@@ -215,13 +220,18 @@ describe('Field', () => {
         const wrapper = mount(Field, { props: { type: 'date' } });
         await nextTick();
         await wrapper.find('button.input').trigger('click');
+        await flushPromises();
         // elementCenterX=-10000, elementCenterY=-10000 → isLeft=true, isTop=true
         const mockEntry = {
             isIntersecting: false,
             boundingClientRect: { top: -10001, bottom: -9999, left: -10001, right: -9999 }
         };
         intersectCallback!([mockEntry as any]);
-        expect(wrapper.find('.component-input').exists()).toBe(true);
+        const datePicker = wrapper.find('.component-datepicker').element as HTMLElement;
+        expect(datePicker.style.left).toBe('0px');
+        expect(datePicker.style.right).toBe('');
+        expect(datePicker.style.top).toBe('100%');
+        expect(datePicker.style.bottom).toBe('');
         vi.unstubAllGlobals();
     });
 
@@ -233,9 +243,34 @@ describe('Field', () => {
         }));
         const wrapper = mount(Field, { props: { type: 'date' } });
         await nextTick();
+        await wrapper.find('button.input').trigger('click');
+        await flushPromises();
+        const datePicker = wrapper.find('.component-datepicker').element as HTMLElement;
+        datePicker.style.cssText = 'left: 1px; right: 2px; top: 3px; bottom: 4px;';
         const mockEntry = { isIntersecting: true, boundingClientRect: { top: 0, bottom: 0, left: 0, right: 0 } };
         intersectCallback!([mockEntry as any]);
-        expect(wrapper.find('.component-input').exists()).toBe(true);
+        expect(datePicker.style.left).toBe('1px');
+        expect(datePicker.style.right).toBe('2px');
+        expect(datePicker.style.top).toBe('3px');
+        expect(datePicker.style.bottom).toBe('4px');
+        vi.unstubAllGlobals();
+    });
+
+    it('type="date" の DatePicker 要素生成前に IntersectionObserver が通知しても何もしない', () => {
+        let intersectCallback: ((entries: IntersectionObserverEntry[]) => void) | undefined;
+        vi.stubGlobal('IntersectionObserver', vi.fn((callback: (entries: IntersectionObserverEntry[]) => void) => {
+            intersectCallback = callback;
+            return { observe: vi.fn(), disconnect: vi.fn(), unobserve: vi.fn() };
+        }));
+        const wrapper = mount(Field, { props: { type: 'date' } });
+        const mockEntry = {
+            isIntersecting: false,
+            boundingClientRect: { top: 0, bottom: 0, left: 0, right: 0 }
+        };
+
+        expect(() => intersectCallback!([mockEntry as any])).not.toThrow();
+
+        wrapper.unmount();
         vi.unstubAllGlobals();
     });
 
@@ -393,14 +428,20 @@ describe('Field', () => {
         const wrapper = mount(Field, { props: { type: 'date' } });
         await nextTick();
         await wrapper.find('button.input').trigger('click');
+        await flushPromises();
         // centerX=0, centerY=0, window.innerWidth=0, window.innerHeight=0
         // → isLeft=false, isRight=false, isTop=false, isBottom=false
         const mockEntry = {
             isIntersecting: false,
             boundingClientRect: { top: 0, bottom: 0, left: 0, right: 0 }
         };
+        const datePicker = wrapper.find('.component-datepicker').element as HTMLElement;
+        datePicker.style.cssText = 'left: 1px; right: 2px; top: 3px; bottom: 4px;';
         intersectCallback!([mockEntry as any]);
-        expect(wrapper.find('.component-input').exists()).toBe(true);
+        expect(datePicker.style.left).toBe('1px');
+        expect(datePicker.style.right).toBe('2px');
+        expect(datePicker.style.top).toBe('3px');
+        expect(datePicker.style.bottom).toBe('4px');
         vi.unstubAllGlobals();
     });
 
@@ -501,4 +542,3 @@ describe('Field', () => {
     });
 
 });
-
