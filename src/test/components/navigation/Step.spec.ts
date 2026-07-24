@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { Star as IconStar } from 'lucide-vue-next';
+import { Star as IconStar } from '@lucide/vue';
 import Step from '@/components/navigation/Step.vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 

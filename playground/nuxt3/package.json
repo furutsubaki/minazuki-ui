@@ -18,7 +18,7 @@
     "@vee-validate/zod": "^4",
     "@vuepic/vue-datepicker": "^11",
     "dayjs": "^1",
-    "lucide-vue-next": ">=0.356.0",
+    "@lucide/vue": ">=1.0.0 <2.0.0",
     "nuxt": "^3.21.6",
     "pinia": "^3",
     "vee-validate": "^4",

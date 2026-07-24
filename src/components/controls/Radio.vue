@@ -3,7 +3,7 @@ import { type Ref, computed, useId, watch } from 'vue';
 import { ZodNumber, ZodString, ZodNullable, ZodBoolean, ZodLiteral } from 'zod';
 import { resolveStringChecks } from '@/assets/ts/schema';
 import { useCheckableField } from '@/composables/useCheckableField';
-import { CircleCheck as IconCircleCheck, Circle as IconCircle } from 'lucide-vue-next';
+import { CircleCheck as IconCircleCheck, Circle as IconCircle } from '@lucide/vue';
 
 // TODO: ラジオボタンのチェック済みアイコンが適切ではないが、lucideにはまだないため、仮置き
 

@@ -4,6 +4,9 @@ import path from 'path';
 const normalizePath = (p) => p.replace(/\\/g, '/');
 const getBaseName = (filePath) => path.basename(filePath, path.extname(filePath));
 
+// メインエントリから除外するコンポーネント（サブエントリポイントで提供）
+const EXCLUDED_COMPONENTS = ['DatePicker'];
+
 // --- components ---
 const componentFilePaths = fs
     .readdirSync('./src/components', { recursive: true })
@@ -19,6 +22,7 @@ let nuxtListContent = '';
 
 componentFilePaths.forEach((filePath) => {
     const name = getBaseName(filePath);
+    if (EXCLUDED_COMPONENTS.includes(name)) return;
     importContent += `import Mi${name} from '@/components/${filePath}';\n`;
     componentNameMapContent += `    Mi${name}: { name: 'Mi${name}' as const, component: Mi${name} },\n`;
     exportContent += `    Mi${name},\n`;

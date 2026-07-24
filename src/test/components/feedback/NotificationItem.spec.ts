@@ -11,7 +11,7 @@ import {
     CheckCircle2,
     AlertTriangle,
     XOctagon
-} from 'lucide-vue-next';
+} from '@lucide/vue';
 
 const { notifications, notificationHeights } = useNotification();
 

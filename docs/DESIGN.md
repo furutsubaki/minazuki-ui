@@ -436,7 +436,7 @@ PC とモバイルでインタラクション方式を分離する:
 
 ### 6.1 アイコンライブラリ
 
-`lucide-vue-next` を唯一のアイコンプロバイダとして使用する。
+`@lucide/vue` を唯一のアイコンプロバイダとして使用する。
 
 ### 6.2 グローバルサイズ
 
@@ -456,7 +456,7 @@ PC とモバイルでインタラクション方式を分離する:
 
 ```vue
 <script setup>
-import { Star } from 'lucide-vue-next'
+import { Star } from '@lucide/vue'
 </script>
 <template>
   <MiButton label="お気に入り" :prefix-icon="Star" />
@@ -912,7 +912,7 @@ Spacing: --space-xs / --space-sm / --space-md / --space-lg / --space-xl / --spac
 Border Radius: --radius-none / --radius-sm / --radius-pill / --radius-circle
 CSS Layer: @layer minazuki（消費者CSSが優先される）
 Transition: --duration-fast（全コンポーネント統一、reduced-motion で 0s）
-Icon Library: lucide-vue-next
+Icon Library: @lucide/vue
 ```
 
 ### CSS 変数の命名規則

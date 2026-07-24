@@ -3,7 +3,7 @@ import { type Ref, computed, useId, watch } from 'vue';
 import { ZodNumber, ZodString, ZodNullable, ZodBoolean, ZodLiteral } from 'zod';
 import { resolveStringChecks } from '@/assets/ts/schema';
 import { useCheckableField } from '@/composables/useCheckableField';
-import { CheckSquare as IconCheckSquare, Square as IconSquare } from 'lucide-vue-next';
+import { CheckSquare as IconCheckSquare, Square as IconSquare } from '@lucide/vue';
 
 const model = defineModel<string | number | boolean>();
 const props = withDefaults(

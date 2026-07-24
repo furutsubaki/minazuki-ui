@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils';
 import { createRouter, createMemoryHistory } from 'vue-router';
 import BottomNav from '@/components/navigation/BottomNav.vue';
 import PictureFrame from '@/components/frame/PictureFrame.vue';
-import { Home as IconHome, Settings as IconSettings } from 'lucide-vue-next';
+import { Home as IconHome, Settings as IconSettings } from '@lucide/vue';
 
 const items = [
     { label: 'ホーム', icon: IconHome, to: '/', isCurrent: true },

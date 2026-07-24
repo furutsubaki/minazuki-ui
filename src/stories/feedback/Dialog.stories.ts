@@ -4,7 +4,7 @@ import Button from '@/components/basic/Button.vue';
 import Progress from '@/components/feedback/Progress.vue';
 import PictureFrame from '@/components/frame/PictureFrame.vue';
 import type { Args, Meta, StoryObj } from '@storybook/vue3-vite';
-import { Play as IconPlay, Pause as IconPause, X as IconX } from 'lucide-vue-next';
+import { Play as IconPlay, Pause as IconPause, X as IconX } from '@lucide/vue';
 
 const meta: Meta<typeof Dialog> = {
     component: Dialog,

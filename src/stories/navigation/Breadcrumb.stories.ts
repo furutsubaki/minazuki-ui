@@ -5,7 +5,7 @@ import {
     ChevronRight as IconChevronRight,
     Home as IconHome,
     Leaf as IconLeaf
-} from 'lucide-vue-next';
+} from '@lucide/vue';
 
 const meta: Meta<typeof Breadcrumb> = {
     component: Breadcrumb,

@@ -59,6 +59,10 @@ withDefaults(
          * タグ
          */
         bodyTag?: string;
+        /**
+         * 入力要素のID（label[for]による明示的関連付け用）
+         */
+        inputId?: string;
     }>(),
     {
         label: '',
@@ -110,7 +114,12 @@ defineExpose({ frameRef });
                 <div class="frame-start" />
                 <div class="frame-label">
                     <div class="label-box">
-                        <span v-if="label || required" class="label">{{ label }}</span
+                        <component
+                            :is="inputId ? 'label' : 'span'"
+                            v-if="label || required"
+                            class="label"
+                            :for="inputId || undefined"
+                        >{{ label }}</component
                         ><span v-if="placeholder" class="placeholder"
                             >（例：{{ placeholder }}）</span
                         >
@@ -247,6 +256,8 @@ defineExpose({ frameRef });
                     line-height: 1em;
                     vertical-align: baseline;
                     color: var(--color-text-secondary);
+                    pointer-events: auto;
+                    cursor: text;
                     transition: color var(--duration-fast);
                 }
                 .placeholder {
@@ -302,6 +313,10 @@ defineExpose({ frameRef });
     &.is-disabled {
         pointer-events: none;
         opacity: 0.5;
+        .label-box .label {
+            pointer-events: none;
+            cursor: default;
+        }
     }
 
     /* focus */

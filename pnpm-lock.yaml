@@ -211,6 +211,9 @@ importers:
 
   .:
     dependencies:
+      '@lucide/vue':
+        specifier: '>=1.0.0 <2.0.0'
+        version: 1.24.0(vue@3.5.34(typescript@5.8.3))
       '@unhead/vue':
         specifier: '>=1.0.0'
         version: 1.11.20(vue@3.5.34(typescript@5.8.3))
@@ -226,9 +229,6 @@ importers:
       dayjs:
         specifier: '>=1.0.0'
         version: 1.11.20
-      lucide-vue-next:
-        specifier: '>=0.356.0'
-        version: 1.0.0(vue@3.5.34(typescript@5.8.3))
       vee-validate:
         specifier: '>=4.9.0'
         version: 4.15.1(vue@3.5.34(typescript@5.8.3))
@@ -374,6 +374,9 @@ importers:
       '@acab/reset.css':
         specifier: ^0.11
         version: 0.11.0
+      '@lucide/vue':
+        specifier: '>=1.0.0 <2.0.0'
+        version: 1.24.0(vue@3.5.34(typescript@5.8.3))
       '@pinia/nuxt':
         specifier: ^0.10
         version: 0.10.1(magicast@0.5.3)(pinia@3.0.4(typescript@5.8.3)(vue@3.5.34(typescript@5.8.3)))
@@ -389,9 +392,6 @@ importers:
       dayjs:
         specifier: ^1
         version: 1.11.20
-      lucide-vue-next:
-        specifier: '>=0.356.0'
-        version: 1.0.0(vue@3.5.34(typescript@5.8.3))
       minazuki-ui:
         specifier: workspace:*
         version: link:../..
@@ -429,6 +429,9 @@ importers:
       '@acab/reset.css':
         specifier: ^0.11
         version: 0.11.0
+      '@lucide/vue':
+        specifier: '>=1.0.0 <2.0.0'
+        version: 1.24.0(vue@3.5.34(typescript@5.8.3))
       '@pinia/nuxt':
         specifier: ^0.10
         version: 0.10.1(magicast@0.5.3)(pinia@2.3.1(typescript@5.8.3)(vue@3.5.34(typescript@5.8.3)))
@@ -444,9 +447,6 @@ importers:
       dayjs:
         specifier: ^1
         version: 1.11.20
-      lucide-vue-next:
-        specifier: '>=0.356.0'
-        version: 1.0.0(vue@3.5.34(typescript@5.8.3))
       minazuki-ui:
         specifier: workspace:*
         version: link:../..
@@ -496,6 +496,9 @@ importers:
       '@acab/reset.css':
         specifier: ^0.11
         version: 0.11.0
+      '@lucide/vue':
+        specifier: '>=1.0.0 <2.0.0'
+        version: 1.24.0(vue@3.5.34(typescript@5.8.3))
       '@unhead/vue':
         specifier: ^1
         version: 1.11.20(vue@3.5.34(typescript@5.8.3))
@@ -511,9 +514,6 @@ importers:
       dayjs:
         specifier: ^1
         version: 1.11.20
-      lucide-vue-next:
-        specifier: '>=0.356.0'
-        version: 1.0.0(vue@3.5.34(typescript@5.8.3))
       minazuki-ui:
         specifier: workspace:*
         version: link:../..
@@ -1253,6 +1253,11 @@ packages:
 
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
+
+  '@lucide/vue@1.24.0':
+    resolution: {integrity: sha512-5bNPX0G2YEWdUlBYk7pE8SgDg/f1mkIFpJ9vtE44pW/cwRz7Ioc0tOTESoVJAPvxIELSmYekX+XXIJMjsswNIg==}
+    peerDependencies:
+      vue: '>=3.0.1'
 
   '@mapbox/node-pre-gyp@2.0.3':
     resolution: {integrity: sha512-uwPAhccfFJlsfCxMYTwOdVfOz3xqyj8xYL3zJj8f0pb30tLohnnFPhLuqp4/qoEz8sNxe4SESZedcBojRefIzg==}
@@ -4421,12 +4426,6 @@ packages:
     resolution: {integrity: sha512-MhWWlVnuab1RG5/zMRRcVGXZLCXrZTgfwMikgzCegsPnG62yDQo5JnqKkrK4jO5iKqDAZGItAqN5CtKBCBWRUA==}
     engines: {node: '>=16.14'}
 
-  lucide-vue-next@1.0.0:
-    resolution: {integrity: sha512-V6SPvx1IHTj/UY+FrIYWV5faISsPSb8BnWSFDxAtezWKvWc9ZZ40PDrdu1/Qb5vg4lHWr1hs1BAMGVGm6V1Xdg==}
-    deprecated: Package deprecated. Please use @lucide/vue instead.
-    peerDependencies:
-      vue: '>=3.0.1'
-
   lz-string@1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
     hasBin: true
@@ -7071,6 +7070,10 @@ snapshots:
       - supports-color
 
   '@kwsites/promise-deferred@1.1.1': {}
+
+  '@lucide/vue@1.24.0(vue@3.5.34(typescript@5.8.3))':
+    dependencies:
+      vue: 3.5.34(typescript@5.8.3)
 
   '@mapbox/node-pre-gyp@2.0.3':
     dependencies:
@@ -10541,10 +10544,6 @@ snapshots:
       yallist: 3.1.1
 
   lru-cache@8.0.5: {}
-
-  lucide-vue-next@1.0.0(vue@3.5.34(typescript@5.8.3)):
-    dependencies:
-      vue: 3.5.34(typescript@5.8.3)
 
   lz-string@1.5.0: {}
 

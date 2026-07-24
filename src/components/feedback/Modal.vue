@@ -3,7 +3,7 @@ import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount, type Compon
 import TeleportRoot from '@/components/inner-parts/TeleportRoot.vue';
 import Button from '@/components/basic/Button.vue';
 import { getTransitionDuration } from '@/assets/ts/transition';
-import { X as IconX } from 'lucide-vue-next';
+import { X as IconX } from '@lucide/vue';
 
 const flg = defineModel<boolean>({ default: false });
 const props = withDefaults(

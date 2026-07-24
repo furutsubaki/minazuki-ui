@@ -5,7 +5,7 @@ import type { ZodTypeAny } from 'zod';
 import { resolveStringChecks } from '@/assets/ts/schema';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
-import { XCircle as IconXCircle } from 'lucide-vue-next';
+import { XCircle as IconXCircle } from '@lucide/vue';
 
 const model = defineModel<string>();
 const props = withDefaults(
@@ -154,8 +154,10 @@ onMounted(() => {
             :value="value"
             :isErrorMessage="isErrorMessage"
             :errors="errors"
+            :input-id="generatedId"
         >
             <textarea
+                :id="generatedId"
                 ref="textareaRef"
                 v-model="value"
                 class="textarea"

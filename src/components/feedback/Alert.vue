@@ -8,7 +8,7 @@ import {
     CheckCircle2 as IconCheckCircle2,
     AlertTriangle as IconAlertTriangle,
     XOctagon as IconXOctagon
-} from 'lucide-vue-next';
+} from '@lucide/vue';
 import { sleep } from '@/assets/ts';
 
 const flg = defineModel<boolean>({ default: true });

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, useId, watch, ref, onMounted, onBeforeUnmount } from 'vue';
+import { computed, defineAsyncComponent, useId, watch, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useField } from 'vee-validate';
 import type { ZodTypeAny } from 'zod';
 import { resolveStringChecks } from '@/assets/ts/schema';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
-import DatePicker from '@/components/controls/DatePicker.vue';
+import type DatePickerType from '@/components/controls/DatePicker.vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
 import {
     XCircle as IconXCircle,
@@ -13,10 +13,14 @@ import {
     EyeOff as IconEyeOff,
     Search as IconSearch,
     Clock as IconClock
-} from 'lucide-vue-next';
+} from '@lucide/vue';
 import { DATE_FORMAT } from '@/assets/ts/const';
 import dayjs from 'dayjs';
 import useOutsideClick from '@/directives/useOutsideClick';
+
+const DatePicker = defineAsyncComponent(
+    () => import('@/components/controls/DatePicker.vue')
+);
 
 export type MiDateFormat = (typeof DATE_FORMAT)[keyof typeof DATE_FORMAT];
 export type MiFieldType =
@@ -211,14 +215,14 @@ const onHidePassword = () => {
 
 // --- ▼ type: Date時の処理 ▼ ---
 const onDateButonClick = () => {
-    if (datePickerScrollObserver.value) {
-        datePickerScrollObserver.value!.observe(datepickerRef.value!.elementRef!);
+    if (datePickerScrollObserver.value && datepickerRef.value?.elementRef) {
+        datePickerScrollObserver.value.observe(datepickerRef.value.elementRef);
     }
     isFocus.value = true;
 };
 
 // DatePicker枠外制御/表示位置制御
-const datepickerRef = ref<InstanceType<typeof DatePicker> | null>(null);
+const datepickerRef = ref<InstanceType<typeof DatePickerType> | null>(null);
 const datePickerScrollObserver = ref<IntersectionObserver>();
 const onCloseDatePicker = () => {
     if (!isFocus.value || props.type !== 'date') return;
@@ -236,6 +240,8 @@ const onDatePickerUpdate = () => {
 };
 onMounted(() => {
     const intersect = (entries: IntersectionObserverEntry[]) => {
+        const el = datepickerRef.value?.elementRef;
+        if (!el) return;
         entries.forEach((entry) => {
             if (!entry.isIntersecting) {
                 const elementCenterY =
@@ -247,18 +253,18 @@ onMounted(() => {
                 const isLeft = window.innerWidth / 2 > elementCenterX;
                 const isRight = window.innerWidth / 2 < elementCenterX;
                 if (isLeft) {
-                    datepickerRef.value!.elementRef!.style.left = '0px';
-                    datepickerRef.value!.elementRef!.style.right = '';
+                    el.style.left = '0px';
+                    el.style.right = '';
                 } else if (isRight) {
-                    datepickerRef.value!.elementRef!.style.left = '';
-                    datepickerRef.value!.elementRef!.style.right = '0px';
+                    el.style.left = '';
+                    el.style.right = '0px';
                 }
                 if (isTop) {
-                    datepickerRef.value!.elementRef!.style.top = '100%';
-                    datepickerRef.value!.elementRef!.style.bottom = '';
+                    el.style.top = '100%';
+                    el.style.bottom = '';
                 } else if (isBottom) {
-                    datepickerRef.value!.elementRef!.style.top = '';
-                    datepickerRef.value!.elementRef!.style.bottom = '100%';
+                    el.style.top = '';
+                    el.style.bottom = '100%';
                 }
             }
         });
@@ -274,8 +280,8 @@ onMounted(() => {
 });
 onBeforeUnmount(() => {
     if (props.type === 'date') {
-        if (datePickerScrollObserver.value) {
-            datePickerScrollObserver.value.unobserve(datepickerRef.value!.elementRef!);
+        if (datePickerScrollObserver.value && datepickerRef.value?.elementRef) {
+            datePickerScrollObserver.value.unobserve(datepickerRef.value.elementRef);
         }
     }
 });
@@ -316,14 +322,16 @@ defineExpose({ onCloseDatePicker, isFocus, datePickerScrollObserver });
             :value="value"
             :isErrorMessage="isErrorMessage"
             :errors="errors"
+            :input-id="generatedId"
         >
             <slot name="prefix" />
             <div v-if="prefix" class="prefix-suffix">{{ prefix }}</div>
-            <button v-if="type === 'date'" class="input" @click="onDateButonClick">
+            <button v-if="type === 'date'" :id="generatedId" class="input" @click="onDateButonClick">
                 <span>{{ value ? dayjs(value).format(format) : '' }}</span>
             </button>
             <input
                 v-else
+                :id="generatedId"
                 v-model.trim="formatValue"
                 class="input"
                 :type="fieldType"
