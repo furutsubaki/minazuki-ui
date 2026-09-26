@@ -204,7 +204,7 @@ describe('NotificationItem', () => {
 
     it('ResizeObserver コールバックで notificationHeight が更新される', async () => {
         let observerCallback: ((entries: ResizeObserverEntry[]) => void) | undefined;
-        vi.stubGlobal('ResizeObserver', vi.fn((callback: (entries: ResizeObserverEntry[]) => void) => {
+        vi.stubGlobal('ResizeObserver', vi.fn(function (callback: (entries: ResizeObserverEntry[]) => void) {
             observerCallback = callback;
             return { observe: vi.fn(), disconnect: vi.fn(), unobserve: vi.fn() };
         }));
@@ -222,11 +222,13 @@ describe('NotificationItem', () => {
 
     it('アンマウント時に ResizeObserver が disconnect される', async () => {
         const disconnectFn = vi.fn();
-        vi.stubGlobal('ResizeObserver', vi.fn(() => ({
-            observe: vi.fn(),
-            disconnect: disconnectFn,
-            unobserve: vi.fn()
-        })));
+        vi.stubGlobal('ResizeObserver', vi.fn(function () {
+            return {
+                observe: vi.fn(),
+                disconnect: disconnectFn,
+                unobserve: vi.fn()
+            };
+        }));
         const wrapper = mount(NotificationItem, {
             props: { notification: baseNotification }
         });

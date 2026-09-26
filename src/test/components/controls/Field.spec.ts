@@ -189,7 +189,7 @@ describe('Field', () => {
 
     it('type="date" のとき IntersectionObserver コールバックが右下方向に要素を配置する', async () => {
         let intersectCallback: ((entries: IntersectionObserverEntry[]) => void) | undefined;
-        vi.stubGlobal('IntersectionObserver', vi.fn((callback: (entries: IntersectionObserverEntry[]) => void) => {
+        vi.stubGlobal('IntersectionObserver', vi.fn(function (callback: (entries: IntersectionObserverEntry[]) => void) {
             intersectCallback = callback;
             return { observe: vi.fn(), disconnect: vi.fn(), unobserve: vi.fn() };
         }));
@@ -213,7 +213,7 @@ describe('Field', () => {
 
     it('type="date" のとき IntersectionObserver コールバックが左上方向に要素を配置する', async () => {
         let intersectCallback: ((entries: IntersectionObserverEntry[]) => void) | undefined;
-        vi.stubGlobal('IntersectionObserver', vi.fn((callback: (entries: IntersectionObserverEntry[]) => void) => {
+        vi.stubGlobal('IntersectionObserver', vi.fn(function (callback: (entries: IntersectionObserverEntry[]) => void) {
             intersectCallback = callback;
             return { observe: vi.fn(), disconnect: vi.fn(), unobserve: vi.fn() };
         }));
@@ -237,7 +237,7 @@ describe('Field', () => {
 
     it('type="date" のとき IntersectionObserver コールバックが intersecting のとき何もしない', async () => {
         let intersectCallback: ((entries: IntersectionObserverEntry[]) => void) | undefined;
-        vi.stubGlobal('IntersectionObserver', vi.fn((callback: (entries: IntersectionObserverEntry[]) => void) => {
+        vi.stubGlobal('IntersectionObserver', vi.fn(function (callback: (entries: IntersectionObserverEntry[]) => void) {
             intersectCallback = callback;
             return { observe: vi.fn(), disconnect: vi.fn(), unobserve: vi.fn() };
         }));
@@ -258,7 +258,7 @@ describe('Field', () => {
 
     it('type="date" の DatePicker 要素生成前に IntersectionObserver が通知しても何もしない', () => {
         let intersectCallback: ((entries: IntersectionObserverEntry[]) => void) | undefined;
-        vi.stubGlobal('IntersectionObserver', vi.fn((callback: (entries: IntersectionObserverEntry[]) => void) => {
+        vi.stubGlobal('IntersectionObserver', vi.fn(function (callback: (entries: IntersectionObserverEntry[]) => void) {
             intersectCallback = callback;
             return { observe: vi.fn(), disconnect: vi.fn(), unobserve: vi.fn() };
         }));
@@ -276,11 +276,13 @@ describe('Field', () => {
 
     it('type="date" のとき onCloseDatePicker を呼ぶと isFocus が false になり disconnect される', async () => {
         const mockDisconnect = vi.fn();
-        vi.stubGlobal('IntersectionObserver', vi.fn(() => ({
-            observe: vi.fn(),
-            disconnect: mockDisconnect,
-            unobserve: vi.fn()
-        })));
+        vi.stubGlobal('IntersectionObserver', vi.fn(function () {
+            return {
+                observe: vi.fn(),
+                disconnect: mockDisconnect,
+                unobserve: vi.fn()
+            };
+        }));
         const wrapper = mount(Field, { props: { type: 'date' } });
         await nextTick();
         await wrapper.find('button.input').trigger('click');
@@ -296,11 +298,13 @@ describe('Field', () => {
     it('type="date" のとき unmount で IntersectionObserver.unobserve が呼ばれる', async () => {
         const mockObserve = vi.fn();
         const mockUnobserve = vi.fn();
-        vi.stubGlobal('IntersectionObserver', vi.fn(() => ({
-            observe: mockObserve,
-            disconnect: vi.fn(),
-            unobserve: mockUnobserve
-        })));
+        vi.stubGlobal('IntersectionObserver', vi.fn(function () {
+            return {
+                observe: mockObserve,
+                disconnect: vi.fn(),
+                unobserve: mockUnobserve
+            };
+        }));
         const wrapper = mount(Field, { props: { type: 'date' } });
         await flushPromises();
         await wrapper.find('button.input').trigger('click');
@@ -362,11 +366,13 @@ describe('Field', () => {
     });
 
     it('type="date" のとき datePickerScrollObserver が undefined でも onDateButonClick がエラーにならない', async () => {
-        vi.stubGlobal('IntersectionObserver', vi.fn(() => ({
-            observe: vi.fn(),
-            disconnect: vi.fn(),
-            unobserve: vi.fn()
-        })));
+        vi.stubGlobal('IntersectionObserver', vi.fn(function () {
+            return {
+                observe: vi.fn(),
+                disconnect: vi.fn(),
+                unobserve: vi.fn()
+            };
+        }));
         const wrapper = mount(Field, { props: { type: 'date' } });
         await nextTick();
         const vm = wrapper.vm as any;
@@ -377,11 +383,13 @@ describe('Field', () => {
     });
 
     it('type="date" のとき datePickerScrollObserver が undefined のとき onCloseDatePicker は disconnect しない', async () => {
-        vi.stubGlobal('IntersectionObserver', vi.fn(() => ({
-            observe: vi.fn(),
-            disconnect: vi.fn(),
-            unobserve: vi.fn()
-        })));
+        vi.stubGlobal('IntersectionObserver', vi.fn(function () {
+            return {
+                observe: vi.fn(),
+                disconnect: vi.fn(),
+                unobserve: vi.fn()
+            };
+        }));
         const wrapper = mount(Field, { props: { type: 'date' } });
         await nextTick();
         await wrapper.find('button.input').trigger('click');
@@ -403,11 +411,13 @@ describe('Field', () => {
     });
 
     it('type="date" のとき datePickerScrollObserver が undefined でも unmount でエラーが起きない', async () => {
-        vi.stubGlobal('IntersectionObserver', vi.fn(() => ({
-            observe: vi.fn(),
-            disconnect: vi.fn(),
-            unobserve: vi.fn()
-        })));
+        vi.stubGlobal('IntersectionObserver', vi.fn(function () {
+            return {
+                observe: vi.fn(),
+                disconnect: vi.fn(),
+                unobserve: vi.fn()
+            };
+        }));
         const wrapper = mount(Field, { props: { type: 'date' } });
         await nextTick();
         const vm = wrapper.vm as any;
@@ -418,7 +428,7 @@ describe('Field', () => {
 
     it('type="date" のとき IntersectionObserver コールバックが isLeft/isRight/isTop/isBottom いずれでもない場合エラーにならない', async () => {
         let intersectCallback: ((entries: IntersectionObserverEntry[]) => void) | undefined;
-        vi.stubGlobal('IntersectionObserver', vi.fn((callback: (entries: IntersectionObserverEntry[]) => void) => {
+        vi.stubGlobal('IntersectionObserver', vi.fn(function (callback: (entries: IntersectionObserverEntry[]) => void) {
             intersectCallback = callback;
             return { observe: vi.fn(), disconnect: vi.fn(), unobserve: vi.fn() };
         }));
