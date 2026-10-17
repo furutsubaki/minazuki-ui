@@ -139,7 +139,7 @@ describe('Pagination', () => {
 
     it('ResizeObserver コールバックで clientWidth が更新されページ数が変化する', async () => {
         let observerCallback: ((entries: ResizeObserverEntry[]) => void) | undefined;
-        vi.stubGlobal('ResizeObserver', vi.fn((callback: (entries: ResizeObserverEntry[]) => void) => {
+        vi.stubGlobal('ResizeObserver', vi.fn(function (callback: (entries: ResizeObserverEntry[]) => void) {
             observerCallback = callback;
             return { observe: vi.fn(), disconnect: vi.fn(), unobserve: vi.fn() };
         }));
