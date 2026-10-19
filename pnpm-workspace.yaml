@@ -9,3 +9,6 @@ minimumReleaseAge: 10080
 overrides:
   devalue: "^5.8.1"
   js-cookie: "^3.0.7"
+  # stylelint と postcss-html が別インスタンスの postcss を解決すると
+  # isInDocument() のクラス同一性判定が壊れ、インライン style 属性が誤検知される
+  postcss: "8.5.26"
