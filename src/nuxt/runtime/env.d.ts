@@ -13,3 +13,10 @@ declare module '#imports' {
     ): Ref<T>;
     export function useRuntimeConfig(): Record<string, unknown> & { public: Record<string, unknown> };
 }
+
+// Nuxt の ImportMeta 拡張は Nuxt アプリ側でしか読まれない。library build の型チェック用に補う
+declare global {
+    interface ImportMeta {
+        readonly client: boolean;
+    }
+}
