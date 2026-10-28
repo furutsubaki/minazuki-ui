@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type Ref, computed, useId, watch } from 'vue';
 import { ZodNumber, ZodString, ZodNullable, ZodBoolean, ZodLiteral } from 'zod';
-import { resolveStringChecks } from '@/assets/ts/schema';
+import { resolveStringChecks, type MaybeNonOptional } from '@/assets/ts/schema';
 import { useCheckableField } from '@/composables/useCheckableField';
 import { CircleCheck as IconCircleCheck, Circle as IconCircle } from '@lucide/vue';
 
@@ -21,14 +21,15 @@ const props = withDefaults(
         /**
          * zodスキーマ
          */
-        schema?:
+        schema?: MaybeNonOptional<
             | ZodLiteral<string | number | boolean>
             | ZodBoolean
             | ZodNullable<ZodBoolean>
             | ZodString
             | ZodNullable<ZodString>
             | ZodNumber
-            | ZodNullable<ZodNumber>;
+            | ZodNullable<ZodNumber>
+        >;
         /**
          * 見出し
          */

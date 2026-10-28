@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, useId, watch, ref } from 'vue';
 import { useField } from 'vee-validate';
-import type { ZodTypeAny } from 'zod';
+import type { ZodType } from 'zod';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import { resolveStringChecks } from '@/assets/ts/schema';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
@@ -18,7 +18,7 @@ const props = withDefaults(
         /**
          * zodスキーマ
          */
-        schema?: ZodTypeAny;
+        schema?: ZodType;
         /**
          * 表示フォーマット
          */

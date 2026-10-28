@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { z } from 'zod';
-import { resolveStringChecks } from '@/assets/ts/schema';
+import { reactive } from 'vue';
+import { resolveStringChecks, unwrapNonOptional } from '@/assets/ts/schema';
 
 describe('resolveStringChecks', () => {
     it('undefined を渡すと undefined を返す', () => {
@@ -84,5 +85,44 @@ describe('resolveStringChecks', () => {
     it('ZodString を含まないスキーマ（ZodNumber）では undefined を返す', () => {
         const schema = z.number();
         expect(resolveStringChecks(schema)).toBeUndefined();
+    });
+
+    it('checks の無い string は空配列を返す', () => {
+        expect(resolveStringChecks(z.string())).toEqual([]);
+    });
+
+    it('length と format・custom の checks も kind に変換する', () => {
+        const checks = resolveStringChecks(
+            z
+                .string()
+                .length(3)
+                .email()
+                .refine(() => true)
+        );
+        expect(checks).toEqual([{ kind: 'length', value: 3 }, { kind: 'email' }, { kind: 'custom' }]);
+    });
+
+    it('z.preprocess() は出力側の string から checks を返す', () => {
+        const schema = z.preprocess((v) => v, z.string().max(10));
+        expect(resolveStringChecks(schema)).toEqual([{ kind: 'max', value: 10 }]);
+    });
+
+    it('object.required() の nonoptional を解いて checks を返す', () => {
+        const schema = z.object({ a: z.string().min(1) }).required().shape.a;
+        expect(resolveStringChecks(schema)).toEqual([{ kind: 'min', value: 1 }]);
+    });
+
+    it('リアクティブプロキシ越しでも読める', () => {
+        const state = reactive({ schema: z.string().max(5) });
+        expect(resolveStringChecks(state.schema)).toEqual([{ kind: 'max', value: 5 }]);
+    });
+});
+
+describe('unwrapNonOptional', () => {
+    it('nonoptional を外し、それ以外はそのまま返す', () => {
+        const literal = z.literal(true);
+        expect(unwrapNonOptional(literal.nonoptional())).toBe(literal);
+        expect(unwrapNonOptional(literal)).toBe(literal);
+        expect(unwrapNonOptional(undefined)).toBeUndefined();
     });
 });

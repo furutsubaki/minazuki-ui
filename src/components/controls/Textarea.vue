@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, useId, watch, ref, onMounted } from 'vue';
 import { useField } from 'vee-validate';
-import type { ZodTypeAny } from 'zod';
+import type { ZodType } from 'zod';
 import { resolveStringChecks } from '@/assets/ts/schema';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
@@ -17,7 +17,7 @@ const props = withDefaults(
         /**
          * zodスキーマ
          */
-        schema?: ZodTypeAny;
+        schema?: ZodType;
         /**
          * 見出し
          */

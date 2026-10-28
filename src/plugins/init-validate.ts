@@ -1,10 +1,16 @@
 import { z } from 'zod';
 
+type RawIssue = z.core.$ZodRawIssue;
+type TooSmallIssue = z.core.$ZodRawIssue<z.core.$ZodIssueTooSmall>;
+type TooBigIssue = z.core.$ZodRawIssue<z.core.$ZodIssueTooBig>;
+type FormatIssue = z.core.$ZodRawIssue<z.core.$ZodIssueInvalidStringFormat>;
+
 const TYPE_LABELS: Record<string, string> = {
     function: '関数',
     number: '数値',
     string: '文字列',
     nan: 'NaN',
+    int: '整数',
     integer: '整数',
     float: '浮動小数点数',
     boolean: '真偽値',
@@ -31,29 +37,43 @@ const VALIDATION_LABELS: Record<string, string> = {
     datetime: '日時'
 };
 
-let initialized = false;
+const quoteList = (values: readonly unknown[]) => values.map((v) => `'${String(v)}'`).join(', ');
 
-function invalidStringMessage(issue: z.ZodInvalidStringIssue): string {
-    const v = issue.validation;
-    if (typeof v === 'object') {
-        if ('includes' in v) return `"${v.includes}"を含む文字列である必要があります`;
-        if ('startsWith' in v) return `"${v.startsWith}"で始まる文字列である必要があります`;
-        if ('endsWith' in v) return `"${v.endsWith}"で終わる文字列である必要があります`;
-        return '入力形式が間違っています';
+function receivedType(issue: RawIssue): string {
+    // zod 4 は NaN / Infinity / Invalid Date のときだけ received を付ける
+    if (issue.received === 'NaN') return 'nan';
+    if (typeof issue.received === 'string') return issue.received;
+    const input = issue.input;
+    if (Array.isArray(input)) return 'array';
+    if (input instanceof Date) return 'date';
+    if (input instanceof Map) return 'map';
+    if (input instanceof Set) return 'set';
+    return typeof input;
+}
+
+function invalidFormatMessage(issue: FormatIssue): string {
+    switch (issue.format) {
+        case 'includes':
+            return `"${String(issue.includes)}"を含む文字列である必要があります`;
+        case 'starts_with':
+            return `"${String(issue.prefix)}"で始まる文字列である必要があります`;
+        case 'ends_with':
+            return `"${String(issue.suffix)}"で終わる文字列である必要があります`;
     }
-    const label = VALIDATION_LABELS[v];
+    const label = VALIDATION_LABELS[issue.format];
     if (label) return `${label}の形式で入力してください`;
     return '入力形式が間違っています';
 }
 
-function tooSmallMessage(issue: z.ZodTooSmallIssue): string {
+function tooSmallMessage(issue: TooSmallIssue): string {
     const v = String(issue.minimum);
-    switch (issue.type) {
+    switch (issue.origin) {
         case 'string':
             if (issue.exact) return `${v}文字の文字列である必要があります`;
             if (issue.inclusive) return `${v}文字以上の文字列である必要があります`;
             return `${v}文字より長い文字列である必要があります`;
         case 'number':
+        case 'int':
         case 'bigint':
             if (issue.exact) return `${v}の数値である必要があります`;
             if (issue.inclusive) return `${v}以上の数値である必要があります`;
@@ -73,14 +93,15 @@ function tooSmallMessage(issue: z.ZodTooSmallIssue): string {
     }
 }
 
-function tooBigMessage(issue: z.ZodTooBigIssue): string {
+function tooBigMessage(issue: TooBigIssue): string {
     const v = String(issue.maximum);
-    switch (issue.type) {
+    switch (issue.origin) {
         case 'string':
             if (issue.exact) return `${v}文字の文字列である必要があります`;
             if (issue.inclusive) return `${v}文字以下の文字列である必要があります`;
             return `${v}文字より短い文字列である必要があります`;
         case 'number':
+        case 'int':
         case 'bigint':
             if (issue.exact) return `${v}の数値である必要があります`;
             if (issue.inclusive) return `${v}以下の数値である必要があります`;
@@ -100,73 +121,59 @@ function tooBigMessage(issue: z.ZodTooBigIssue): string {
     }
 }
 
-export const jaErrorMap: z.ZodErrorMap = (issue, ctx) => {
+export const jaErrorMap: z.core.$ZodErrorMap = (issue) => {
     switch (issue.code) {
-        case z.ZodIssueCode.invalid_type:
-            if ([null, undefined, ''].includes(ctx.data)) {
-                return { message: 'この項目は必須項目です' };
+        case 'invalid_type':
+            if ([null, undefined, ''].includes(issue.input as never)) return 'この項目は必須項目です';
+            if (issue.received === 'Infinity') return '有限数である必要があります';
+            if (issue.expected === 'date' && issue.input instanceof Date) return '間違った日時データです';
+            return `${TYPE_LABELS[issue.expected] ?? issue.expected}での入力を期待していますが、${TYPE_LABELS[receivedType(issue)] ?? receivedType(issue)}が入力されました`;
+
+        case 'invalid_value':
+            if ((issue.inst?._zod.def as { type?: string } | undefined)?.type === 'literal') {
+                if (issue.values.some(Boolean) && !issue.input) return 'チェックしてください';
+                return `無効なリテラル値です。${issue.values.map(String).join(', ')}を入力してください`;
             }
-            return {
-                message: `${TYPE_LABELS[issue.expected] ?? issue.expected}での入力を期待していますが、${TYPE_LABELS[issue.received] ?? issue.received}が入力されました`
-            };
+            return `'${String(issue.input)}'は無効な値です。${quoteList(issue.values)}で入力してください`;
 
-        case z.ZodIssueCode.invalid_literal:
-            if (issue.expected && !issue.received) {
-                return { message: 'チェックしてください' };
+        case 'unrecognized_keys':
+            return `オブジェクトのキー${quoteList(issue.keys)}が識別できません`;
+
+        case 'invalid_union':
+            if (issue.discriminator && Array.isArray(issue.options)) {
+                return `無効な識別子です。${quoteList(issue.options)}で入力してください`;
             }
-            return { message: `無効なリテラル値です。${String(issue.expected)}を入力してください` };
+            return '入力形式が間違っています';
 
-        case z.ZodIssueCode.unrecognized_keys:
-            return { message: `オブジェクトのキー${issue.keys.map(k => `'${k}'`).join(', ')}が識別できません` };
+        case 'invalid_key':
+        case 'invalid_element': {
+            // 内側の issue は customError を通らず英語のまま確定しているため、ここで訳し直す
+            const inner = issue.issues[0];
+            const message = inner && jaErrorMap({ ...inner, input: issue.input } as RawIssue);
+            return typeof message === 'string' ? message : '入力形式が間違っています';
+        }
 
-        case z.ZodIssueCode.invalid_union:
-            return { message: '入力形式が間違っています' };
+        case 'invalid_format':
+            return invalidFormatMessage(issue);
 
-        case z.ZodIssueCode.invalid_union_discriminator:
-            return { message: `無効な識別子です。${issue.options.map(o => `'${String(o)}'`).join(', ')}で入力してください` };
+        case 'too_small':
+            if (issue.minimum === 1) return 'この項目は必須項目です';
+            return tooSmallMessage(issue);
 
-        case z.ZodIssueCode.invalid_enum_value:
-            return { message: `'${issue.received}'は無効な値です。${issue.options.map(o => `'${String(o)}'`).join(', ')}で入力してください` };
+        case 'too_big':
+            return tooBigMessage(issue);
 
-        case z.ZodIssueCode.invalid_arguments:
-            return { message: '引数が間違っています' };
+        case 'custom':
+            return '入力形式が間違っています';
 
-        case z.ZodIssueCode.invalid_return_type:
-            return { message: '返値の型が間違っています' };
-
-        case z.ZodIssueCode.invalid_date:
-            return { message: '間違った日時データです' };
-
-        case z.ZodIssueCode.invalid_string:
-            return { message: invalidStringMessage(issue) };
-
-        case z.ZodIssueCode.too_small:
-            if (issue.minimum === 1) {
-                return { message: 'この項目は必須項目です' };
-            }
-            return { message: tooSmallMessage(issue) };
-
-        case z.ZodIssueCode.too_big:
-            return { message: tooBigMessage(issue) };
-
-        case z.ZodIssueCode.custom:
-            return { message: '入力形式が間違っています' };
-
-        case z.ZodIssueCode.invalid_intersection_types:
-            return { message: '交差型のマージができませんでした' };
-
-        case z.ZodIssueCode.not_multiple_of:
-            return { message: `${issue.multipleOf}の倍数である必要があります` };
-
-        case z.ZodIssueCode.not_finite:
-            return { message: '有限数である必要があります' };
+        case 'not_multiple_of':
+            return `${issue.divisor}の倍数である必要があります`;
     }
 
-    return { message: ctx.defaultError };
+    return undefined;
 };
 
 export default () => {
-    if (initialized) return;
-    initialized = true;
-    z.setErrorMap(jaErrorMap);
+    // zod の設定はプロセス全体で共有されるため、他から上書きされても呼び直せば戻せるよう毎回適用する
+    z.config({ customError: jaErrorMap });
 };

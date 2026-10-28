@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { type Ref, computed, useId, watch } from 'vue';
 import { ZodNullable, ZodBoolean, ZodLiteral } from 'zod';
+import { unwrapNonOptional, type MaybeNonOptional } from '@/assets/ts/schema';
 import { useCheckableField } from '@/composables/useCheckableField';
 
 const model = defineModel<boolean>();
@@ -17,7 +18,7 @@ const props = withDefaults(
         /**
          * zodスキーマ
          */
-        schema?: ZodLiteral<boolean> | ZodBoolean | ZodNullable<ZodBoolean>;
+        schema?: MaybeNonOptional<ZodLiteral<boolean> | ZodBoolean | ZodNullable<ZodBoolean>>;
         /**
          * 見出し
          */
@@ -62,7 +63,7 @@ const { value: fieldVal, checked, errors, meta, onFieldChange } =
     useCheckableField<boolean>(fieldName, 'checkbox', props.value, false);
 
 const isRequired = computed(() =>
-    props.schema ? props.schema?._def.typeName === 'ZodLiteral' : props.required
+    props.schema ? unwrapNonOptional(props.schema)?.def.type === 'literal' : props.required
 );
 
 const onChange = (event: Event) => {
