@@ -11,7 +11,6 @@ const externalPackages = [
     'unhead',
     '@unhead/vue',
     '@vee-validate/rules',
-    '@vee-validate/zod',
     '@vuepic/vue-datepicker',
     'dayjs',
     'i18next',
@@ -19,7 +18,6 @@ const externalPackages = [
     'vee-validate',
     'vue-router',
     'zod',
-    'zod-i18n-map',
 ];
 
 const externalRegexps = externalPackages.map(
@@ -58,7 +56,6 @@ export default defineConfig({
                         'unhead': 'Unhead',
                         '@unhead/vue': 'UnheadVue',
                         '@vee-validate/rules': 'VeeValidateRules',
-                        '@vee-validate/zod': 'VeeValidateZod',
                         '@vuepic/vue-datepicker': 'VueDatePicker',
                         'dayjs': 'dayjs',
                         'i18next': 'i18next',
@@ -66,7 +63,6 @@ export default defineConfig({
                         'vee-validate': 'VeeValidate',
                         'vue-router': 'VueRouter',
                         'zod': 'Zod',
-                        'zod-i18n-map': 'ZodI18nMap',
                     },
                 },
             ],

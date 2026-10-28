@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, useId, watch, ref, onUnmounted } from 'vue';
 import { useField } from 'vee-validate';
-import type { ZodTypeAny } from 'zod';
+import type { ZodType } from 'zod';
 import { resolveStringChecks } from '@/assets/ts/schema';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
 import FieldAccordionList from '@/components/inner-parts/FieldAccordionList.vue';
@@ -41,7 +41,7 @@ const props = withDefaults(
         /**
          * zodスキーマ
          */
-        schema?: ZodTypeAny;
+        schema?: ZodType;
         /**
          * 見出し
          */

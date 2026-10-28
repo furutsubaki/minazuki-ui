@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, defineAsyncComponent, useId, watch, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useField } from 'vee-validate';
-import type { ZodTypeAny } from 'zod';
+import type { ZodType } from 'zod';
 import { resolveStringChecks } from '@/assets/ts/schema';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
 import type DatePickerType from '@/components/controls/DatePicker.vue';
@@ -43,7 +43,7 @@ const props = withDefaults(
         /**
          * zodスキーマ
          */
-        schema?: ZodTypeAny;
+        schema?: ZodType;
         /**
          * 表示フォーマット(type: dateのみ)
          */

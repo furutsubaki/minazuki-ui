@@ -7,12 +7,11 @@ import '../src/assets/css/override.css'
 
 import { defineRule } from 'vee-validate';
 import { all } from '@vee-validate/rules'
-import { z } from 'zod';
-import { jaErrorMap } from '../src/plugins/init-validate';
+import initValidate from '../src/plugins/init-validate';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import useTheme from '../src/composables/useTheme';
-import { createHead } from '@unhead/vue';
+import { createHead } from '@unhead/vue/client';
 
 const { currentTheme, setTheme } = useTheme();
 
@@ -25,7 +24,7 @@ Object.entries(all).forEach(([name, rule]) => {
     defineRule(name, rule);
 });
 
-z.setErrorMap(jaErrorMap);
+initValidate();
 
 setup((app) => {
     app.component('VueDatePicker', VueDatePicker);

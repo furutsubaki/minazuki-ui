@@ -853,7 +853,7 @@ brand カラーの上書き（`overrideTheme`）により任意の status 間で
 |---------------|------|
 | `useTheme` | テーマ管理（`setTheme`, `overrideTheme`, `currentTheme`, `themeConfig`） |
 | `useNotification` | 通知の追加・削除（`addNotification`, `removeNotification`） |
-| `useFormData` | vee-validate + Zod のフォームバリデーション統合（`handleSubmit`, `canSubmit`, `resetForm` 等） |
+| `useFormData` | vee-validate 4 + Zod 4 のフォームバリデーション統合（`handleSubmit`, `canSubmit`, `resetForm` 等） |
 | `useCheckableField` | Checkbox / Radio / Switch 用の vee-validate 連携（内部利用が主） |
 
 ### 10.2 ディレクティブ

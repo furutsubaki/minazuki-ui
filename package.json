@@ -1,6 +1,6 @@
 {
   "name": "minazuki-ui",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "private": false,
   "license": "MIT",
   "type": "module",
@@ -10,7 +10,7 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "11.9.0",
+      "version": "11.28.6",
       "onFail": "error"
     }
   },
@@ -47,7 +47,7 @@
     "./package.json": "./package.json"
   },
   "engines": {
-    "node": ">=20.5.*"
+    "node": ">=22.13"
   },
   "scripts": {
     "dev": "vite",
@@ -84,15 +84,14 @@
   "peerDependencies": {
     "@nuxt/kit": ">=3.14.0",
     "@unhead/vue": ">=1.0.0",
-    "@vee-validate/rules": ">=4.9.0",
-    "@vee-validate/zod": ">=4.9.0",
+    "@vee-validate/rules": ">=4.15.1 <5",
     "@vuepic/vue-datepicker": ">=11.0.0",
     "dayjs": ">=1.0.0",
     "@lucide/vue": ">=1.0.0 <2.0.0",
-    "vee-validate": ">=4.9.0",
+    "vee-validate": ">=4.15.1 <5",
     "vue": ">=3.5.0",
     "vue-router": ">=4.0.0",
-    "zod": ">=3.20.0 <4.0.0"
+    "zod": "^4.6.6"
   },
   "peerDependenciesMeta": {
     "@nuxt/kit": {
@@ -103,9 +102,6 @@
     },
     "@vee-validate/rules": {
       "optional": true
-    },
-    "@vee-validate/zod": {
-      "optional": true
     }
   },
   "devDependencies": {
@@ -113,24 +109,25 @@
     "@eslint/js": "^10.0.1",
     "@nuxt/kit": "^4.4.1",
     "@rushstack/eslint-patch": "^1.10.4",
-    "@storybook/addon-docs": "10.5.0",
-    "@storybook/vue3": "10.5.0",
-    "@storybook/vue3-vite": "10.5.0",
+    "@storybook/addon-docs": "10.6.3",
+    "@storybook/vue3": "10.6.3",
+    "@storybook/vue3-vite": "10.6.3",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@stylistic/stylelint-config": "^2.0.0",
     "@stylistic/stylelint-plugin": "^3.1.2",
     "@tsconfig/node18": "^18.2.4",
     "@types/node": "^22.19.19",
-    "@vitejs/plugin-vue": "6.0.6",
-    "@vitest/coverage-istanbul": "3",
-    "@vitest/coverage-v8": "3",
+    "@unhead/vue": "^2.1.13",
+    "@vitejs/plugin-vue": "6.0.10",
+    "@vitest/coverage-istanbul": "4.1.12",
+    "@vitest/coverage-v8": "4.1.12",
     "@vue/eslint-config-typescript": "^14.7.0",
     "@vue/test-utils": "^2.4.10",
     "@vue/tsconfig": "^0.5.0",
     "eslint": "10.3.0",
-    "eslint-plugin-storybook": "10.5.0",
+    "eslint-plugin-storybook": "10.6.3",
     "eslint-plugin-vue": "^10.9.1",
-    "happy-dom": "^20.9.0",
+    "happy-dom": "^21.0.4",
     "husky": "^9.1.7",
     "jiti": "2.7.0",
     "lint-staged": "^15.2.2",
@@ -138,7 +135,7 @@
     "postcss-nesting": "^13.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "storybook": "10.5.0",
+    "storybook": "10.6.3",
     "stylelint": "^16.19.1",
     "stylelint-config-recess-order": "^6.0.0",
     "stylelint-config-recommended-vue": "^1.6.0",
@@ -147,9 +144,10 @@
     "stylelint-config-standard-vue": "^1.0.0",
     "type-fest": "^4.38.0",
     "typescript": "~5.8.3",
-    "vite": "7.3.6",
+    "vite": "7.3.7",
     "vite-plugin-dts": "^4.5.4",
-    "vitest": "3",
-    "vue-tsc": "^2.0.17"
+    "vitest": "4.1.12",
+    "vue-tsc": "^2.0.17",
+    "zod": "^4.6.6"
   }
 }

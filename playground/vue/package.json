@@ -13,9 +13,8 @@
   "dependencies": {
     "playground-shared": "workspace:*",
     "@acab/reset.css": "^0.11",
-    "@unhead/vue": "^1",
+    "@unhead/vue": "^2.1.13",
     "@vee-validate/rules": "^4",
-    "@vee-validate/zod": "^4",
     "@vuepic/vue-datepicker": "^11",
     "dayjs": "^1",
     "@lucide/vue": ">=1.0.0 <2.0.0",
@@ -24,7 +23,7 @@
     "vee-validate": "^4",
     "vue": "^3.5.34",
     "vue-router": "^4",
-    "zod": "^3"
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@types/node": "^22",

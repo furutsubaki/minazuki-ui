@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type Ref, computed, useId, watch } from 'vue';
 import { ZodNumber, ZodString, ZodNullable, ZodBoolean, ZodLiteral } from 'zod';
-import { resolveStringChecks } from '@/assets/ts/schema';
+import { resolveStringChecks, unwrapNonOptional, type MaybeNonOptional } from '@/assets/ts/schema';
 import { useCheckableField } from '@/composables/useCheckableField';
 import { CheckSquare as IconCheckSquare, Square as IconSquare } from '@lucide/vue';
 
@@ -19,14 +19,15 @@ const props = withDefaults(
         /**
          * zodスキーマ
          */
-        schema?:
+        schema?: MaybeNonOptional<
             | ZodLiteral<string | number | boolean>
             | ZodBoolean
             | ZodNullable<ZodBoolean>
             | ZodString
             | ZodNullable<ZodString>
             | ZodNumber
-            | ZodNullable<ZodNumber>;
+            | ZodNullable<ZodNumber>
+        >;
         /**
          * 見出し
          */
@@ -73,7 +74,7 @@ const { value: fieldVal, checked, errors, meta, onFieldChange } =
 
 const schemaChunks = computed(() => resolveStringChecks(props.schema));
 const isRequired = computed(() => {
-    if (props.schema?._def.typeName === 'ZodLiteral') {
+    if (unwrapNonOptional(props.schema)?.def.type === 'literal') {
         return true;
     }
     return (
