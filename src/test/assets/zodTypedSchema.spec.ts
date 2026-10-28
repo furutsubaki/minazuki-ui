@@ -104,6 +104,107 @@ describe('toTypedSchema', () => {
             expect(toTypedSchema(schema).cast?.(1 as never)).toBe(1);
         });
 
+        it('入れ子の既定値を持つスキーマ本体を書き換えない', () => {
+            const created = new Date('2024-01-01');
+            const schema = z.object({
+                profile: z.object({ contact: z.object({ email: z.string() }), tags: z.array(z.string()), at: z.date() })
+                    .default({ contact: { email: '' }, tags: ['a'], at: created })
+            });
+            const typed = toTypedSchema(schema);
+            typed.cast?.({ profile: { contact: { email: 'alice@example.com' }, tags: ['b'] } } as never);
+            expect(schema.parse({})).toEqual({ profile: { contact: { email: '' }, tags: ['a'], at: created } });
+            expect(typed.cast?.({} as never)).toEqual({ profile: { contact: { email: '' }, tags: ['a'], at: created } });
+        });
+
+        it('Date やクラスのインスタンスの既定値には入り込まず、スキーマ本体を書き換えない', () => {
+            class Settings {
+                lang = 'ja';
+            }
+            const created = new Date('2024-01-01');
+            const settings = new Settings();
+            const schema = z.object({ at: z.date().default(created), settings: z.custom<Settings>().default(settings) });
+            const typed = toTypedSchema(schema);
+            const result = typed.cast?.({ at: { tenant: 'A' }, settings: { lang: 'en', tenant: 'A' } } as never);
+            expect(result).toEqual({ at: { tenant: 'A' }, settings: { lang: 'en', tenant: 'A' } });
+            expect(created).toEqual(new Date('2024-01-01'));
+            expect(Object.keys(created)).toEqual([]);
+            expect({ ...settings }).toEqual({ lang: 'ja' });
+            expect(schema.parse({})).toEqual({ at: new Date('2024-01-01'), settings });
+        });
+
+        it('入力の無い枝のプレーンな既定値は複製して返し、結果を書き換えてもスキーマ本体へ伝わらない', () => {
+            const schema = z.object({
+                profile: z.object({ contact: z.object({ email: z.string() }), tags: z.array(z.string()) })
+                    .default({ contact: { email: '' }, tags: ['a'] })
+            });
+            const typed = toTypedSchema(schema);
+            const first = typed.cast?.({} as never) as unknown as z.output<typeof schema>;
+            first.profile.contact.email = 'alice@example.com';
+            first.profile.tags.push('b');
+            const expected = { profile: { contact: { email: '' }, tags: ['a'] } };
+            expect(schema.parse({})).toEqual(expected);
+            expect(typed.cast?.({} as never)).toEqual(expected);
+        });
+
+        it('Date・Map・private フィールドを持つクラスの既定値は zod と同じく複製せずに渡し、使える状態を保つ', () => {
+            class Counter {
+                #count = 1;
+                get count() {
+                    return this.#count;
+                }
+            }
+            const created = new Date('2024-01-01');
+            const counter = new Counter();
+            const schema = z.object({
+                at: z.date().default(created),
+                map: z.custom<Map<string, number>>().default(new Map([['a', 1]])),
+                counter: z.custom<Counter>().default(counter)
+            });
+            const result = toTypedSchema(schema).cast?.({} as never) as unknown as z.output<typeof schema>;
+            expect(result.at).toBe(created);
+            expect(result.map.size).toBe(1);
+            expect(result.counter.count).toBe(1);
+        });
+
+        it('循環した既定値・入力でも停止し、循環の形を保つ', () => {
+            const cyclic: Record<string, unknown> = { name: 'a' };
+            cyclic.self = cyclic;
+            const list: unknown[] = [];
+            list.push(list);
+            const schema = z.object({ tree: z.custom<Record<string, unknown>>().default(cyclic), list: z.custom<unknown[]>().default(list) });
+            const typed = toTypedSchema(schema);
+            const omitted = typed.cast?.({} as never) as unknown as { tree: Record<string, unknown>; list: unknown[] };
+            // zod の defaultValue は1段目だけ複製するため、複製の self は元の既定値を指す。そこから先を1つの循環として複製する
+            const inner = omitted.tree.self as Record<string, unknown>;
+            expect(inner).not.toBe(cyclic);
+            expect(inner.self).toBe(inner);
+            const innerList = omitted.list[0] as unknown[];
+            expect(innerList).not.toBe(list);
+            expect(innerList[0] === innerList).toBe(true);
+            const input: Record<string, unknown> = { name: 'b' };
+            input.self = input;
+            const supplied = typed.cast?.({ tree: input } as never) as unknown as { tree: Record<string, unknown> };
+            expect(supplied.tree.name).toBe('b');
+            expect(supplied.tree.self).toBe(supplied.tree);
+        });
+
+        it('constructor・prototype・__proto__ という名前のフィールドも保ち、プロトタイプを汚染しない', () => {
+            const schema = z.object({
+                meta: z.record(z.string(), z.unknown()).default(JSON.parse('{"a":1,"__proto__":{"fromDefault":"yes"}}')),
+                nested: z.object({ constructor: z.string(), prototype: z.string() })
+            });
+            const input = JSON.parse('{"constructor":"c","prototype":"p","__proto__":{"polluted":"yes"},"nested":{"constructor":"nc","prototype":"np"}}');
+            const result = toTypedSchema(schema).cast?.(input) as unknown as Record<string, Record<string, unknown>>;
+            expect(Object.keys(result.meta)).toEqual(['a', '__proto__']);
+            expect(Object.getPrototypeOf(result.meta)).toBe(Object.prototype);
+            expect(result.nested).toEqual({ constructor: 'nc', prototype: 'np' });
+            expect(Object.prototype.hasOwnProperty.call(result, '__proto__')).toBe(true);
+            expect(result.constructor).toBe('c');
+            expect(result.prototype).toBe('p');
+            expect(({} as Record<string, unknown>).polluted).toBeUndefined();
+            expect(({} as Record<string, unknown>).fromDefault).toBeUndefined();
+        });
+
         it('__proto__ を持つ入力でも Object.prototype を汚染しない', () => {
             const schema = z.object({ a: z.string() });
             toTypedSchema(schema).cast?.(JSON.parse('{"a":1,"__proto__":{"polluted":"yes"}}'));
@@ -131,6 +232,9 @@ describe('toTypedSchema', () => {
             ['missing', { required: false, exists: false }],
             ['[x.y]', { required: false, exists: false }],
             ['missing.child', { required: false, exists: false }],
+            ['toString', { required: false, exists: false }],
+            ['[constructor]', { required: false, exists: false }],
+            ['profile.hasOwnProperty', { required: false, exists: false }],
             ['name.child', { required: false, exists: false }]
         ])('path=%s', (path, expected) => {
             expect(describeOf(path)).toEqual(expected);
