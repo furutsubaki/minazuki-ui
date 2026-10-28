@@ -162,4 +162,42 @@ describe('useFormData', () => {
         form.resetForm();
         expect(form.values).toEqual({ name: '', lang: 'ja' });
     });
+
+    describe('型引数を省略したときのフォーム値の型', () => {
+        const nullable = z.object({ parentComment: z.number().nullable(), name: z.string() }).required();
+
+        it('初期値が null のフィールドへスキーマの型の値を入れられる', async () => {
+            const form = mountForm(() => useFormData(nullable, { parentComment: null, name: '' }));
+            await form.setFieldValue('parentComment', 1);
+            const value: number | null = form.values.parentComment;
+            expect(value).toBe(1);
+            await form.setFieldValue('parentComment', null);
+            expect(form.values.parentComment).toBeNull();
+            // @ts-expect-error スキーマの型に無い値は入れられない
+            form.setFieldValue('parentComment', 'x');
+        });
+
+        it('初期値がスキーマの型を満たさないフィールドは初期値の型も受け付ける', async () => {
+            const agreement = z.object({ test: z.literal(true) }).required();
+            const form = mountForm(() => useFormData(agreement, { test: false }));
+            await form.setFieldValue('test', true);
+            expect(form.values.test).toBe(true);
+            await form.setFieldValue('test', false);
+            expect(form.values.test).toBe(false);
+        });
+
+        it('初期値に無いフィールドはスキーマの型になる', async () => {
+            const form = mountForm(() => useFormData(schema, { name: '' }));
+            await form.setFieldValue('email', 'a@example.com');
+            const email: string = form.values.email;
+            expect(email).toBe('a@example.com');
+        });
+
+        it('スキーマの型を明示しても同じ型になる', async () => {
+            const form = mountForm(() => useFormData<typeof nullable>(nullable, { parentComment: null, name: '' }));
+            await form.setFieldValue('parentComment', 1);
+            const value: number | null = form.values.parentComment;
+            expect(value).toBe(1);
+        });
+    });
 });
