@@ -2,11 +2,13 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import { z } from 'zod';
 import initValidate, { jaErrorMap } from '@/plugins/init-validate';
 
-function msg(schema: z.ZodTypeAny, input: unknown): string {
+function msg(schema: z.ZodType, input: unknown): string {
     const result = schema.safeParse(input);
     if (result.success) throw new Error('Expected validation to fail');
-    return result.error.errors[0].message;
+    return result.error.issues[0].message;
 }
+
+const call = (issue: Record<string, unknown>) => jaErrorMap(issue as unknown as z.core.$ZodRawIssue);
 
 describe('init-validate', () => {
     beforeAll(() => {
@@ -18,21 +20,50 @@ describe('init-validate', () => {
         expect(msg(z.string().min(1), '')).toBe('この項目は必須項目です');
     });
 
+    it('別の customError で上書きされても再度呼べば日本語に戻る', () => {
+        z.config({ customError: () => 'overwritten' });
+        expect(msg(z.string().min(1), '')).toBe('overwritten');
+        initValidate();
+        expect(msg(z.string().min(1), '')).toBe('この項目は必須項目です');
+    });
+
     describe('invalid_type', () => {
         it.each([
             [z.string(), null, 'この項目は必須項目です'],
             [z.string(), undefined, 'この項目は必須項目です'],
             [z.number(), '', 'この項目は必須項目です'],
-            [z.string(), 123, '文字列での入力を期待していますが、数値が入力されました']
+            [z.string(), 123, '文字列での入力を期待していますが、数値が入力されました'],
+            [z.number(), NaN, '数値での入力を期待していますが、NaNが入力されました'],
+            [z.number(), Infinity, '有限数である必要があります'],
+            [z.number().int(), 1.5, '整数での入力を期待していますが、数値が入力されました'],
+            [z.string(), [], '文字列での入力を期待していますが、配列が入力されました'],
+            [z.string(), new Map(), '文字列での入力を期待していますが、マップが入力されました'],
+            [z.string(), new Set(), '文字列での入力を期待していますが、セットが入力されました'],
+            [z.string(), new Date('2024-01-01'), '文字列での入力を期待していますが、日時が入力されました'],
+            [z.number(), {}, '数値での入力を期待していますが、オブジェクトが入力されました']
         ])('schema=%o, input=%o → %s', (schema, input, expected) => {
             expect(msg(schema, input)).toBe(expected);
         });
+
+        it('不正な日時', () => {
+            expect(msg(z.date(), new Date('invalid'))).toBe('間違った日時データです');
+        });
+
+        it('未知の型ラベルはそのまま出力される', () => {
+            expect(call({ code: 'invalid_type', expected: 'custom_type', input: 42 })).toBe(
+                'custom_typeでの入力を期待していますが、数値が入力されました'
+            );
+            expect(call({ code: 'invalid_type', expected: 'string', received: 'custom_received', input: 42 })).toBe(
+                '文字列での入力を期待していますが、custom_receivedが入力されました'
+            );
+        });
     });
 
-    describe('invalid_literal', () => {
+    describe('invalid_value', () => {
         it.each([
             [z.literal(true), false, 'チェックしてください'],
-            [z.literal(true), 1, '無効なリテラル値です。trueを入力してください']
+            [z.literal(true), 1, '無効なリテラル値です。trueを入力してください'],
+            [z.enum(['x', 'y']), 'z', "'z'は無効な値です。'x', 'y'で入力してください"]
         ])('schema=%o, input=%o → %s', (schema, input, expected) => {
             expect(msg(schema, input)).toBe(expected);
         });
@@ -50,9 +81,7 @@ describe('init-validate', () => {
             const schema = z.union([z.string(), z.number()]);
             expect(msg(schema, true)).toBe('入力形式が間違っています');
         });
-    });
 
-    describe('invalid_union_discriminator', () => {
         it('discriminated union 不一致', () => {
             const schema = z.discriminatedUnion('type', [
                 z.object({ type: z.literal('a'), v: z.string() }),
@@ -62,21 +91,34 @@ describe('init-validate', () => {
         });
     });
 
-    describe('invalid_enum_value', () => {
-        it('enum 不一致', () => {
-            const schema = z.enum(['x', 'y']);
-            expect(msg(schema, 'z')).toBe("'z'は無効な値です。'x', 'y'で入力してください");
+    describe('invalid_key / invalid_element', () => {
+        it('record のキー不正は内側の issue を日本語化する', () => {
+            const schema = z.record(z.string().min(2), z.number());
+            expect(msg(schema, { a: 1 })).toBe('2文字以上の文字列である必要があります');
+        });
+
+        it('map のキー・値の不正', () => {
+            expect(msg(z.map(z.string().min(2), z.number()), new Map([['a', 1]]))).toBe(
+                '2文字以上の文字列である必要があります'
+            );
+            expect(msg(z.map(z.string(), z.number()), new Map([['k', 'v']]))).toBe(
+                '数値での入力を期待していますが、文字列が入力されました'
+            );
+        });
+
+        it('set の要素不正', () => {
+            expect(msg(z.set(z.number()), new Set(['x']))).toBe('数値での入力を期待していますが、文字列が入力されました');
+        });
+
+        it('内側の issue が無い場合はフォールバック', () => {
+            expect(call({ code: 'invalid_key', origin: 'record', issues: [], input: 'a' })).toBe('入力形式が間違っています');
+            expect(call({ code: 'invalid_element', origin: 'map', key: 'a', issues: [{ code: 'unknown_code' }], input: 1 })).toBe(
+                '入力形式が間違っています'
+            );
         });
     });
 
-    describe('invalid_date', () => {
-        it('不正な日時', () => {
-            const schema = z.date();
-            expect(msg(schema, new Date('invalid'))).toBe('間違った日時データです');
-        });
-    });
-
-    describe('invalid_string', () => {
+    describe('invalid_format', () => {
         it.each([
             [z.string().email(), 'bad', 'メールアドレスの形式で入力してください'],
             [z.string().url(), 'bad', 'URLの形式で入力してください'],
@@ -107,66 +149,28 @@ describe('init-validate', () => {
             expect(msg(schema, input)).toBe(expected);
         });
 
-        it('number exact', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.too_small, minimum: 5, inclusive: true, exact: true, type: 'number', path: [], message: '' },
-                { data: 3, defaultError: '' }
-            );
-            expect(result.message).toBe('5の数値である必要があります');
-        });
-
-        it('array not_inclusive', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.too_small, minimum: 2, inclusive: false, type: 'array', path: [], message: '' },
-                { data: [1], defaultError: '' }
-            );
-            expect(result.message).toBe('2個より多くの要素が必要です');
-        });
-
         it('date inclusive', () => {
-            const minDate = new Date('2024-01-01T00:00:00Z');
-            const schema = z.date().min(minDate);
+            const schema = z.date().min(new Date('2024-01-01T00:00:00Z'));
             expect(msg(schema, new Date('2023-01-01'))).toMatch(/以降の日時である必要があります$/);
         });
 
-        it('date exact', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.too_small, minimum: new Date('2024-01-01').getTime(), inclusive: true, exact: true, type: 'date', path: [], message: '' },
-                { data: null, defaultError: '' }
-            );
-            expect(result.message).toMatch(/の日時である必要があります$/);
+        it.each([
+            [{ minimum: 5, inclusive: true, exact: true, origin: 'number' }, '5の数値である必要があります'],
+            [{ minimum: 5, inclusive: true, exact: true, origin: 'int' }, '5の数値である必要があります'],
+            [{ minimum: 2, inclusive: false, origin: 'array' }, '2個より多くの要素が必要です'],
+            [{ minimum: 3, inclusive: false, origin: 'string' }, '3文字より長い文字列である必要があります'],
+            [{ minimum: 5, inclusive: true, exact: true, origin: 'bigint' }, '5の数値である必要があります'],
+            [{ minimum: 5, inclusive: false, origin: 'bigint' }, '5より大きな数値である必要があります']
+        ])('%o → %s', (issue, expected) => {
+            expect(call({ code: 'too_small', input: null, ...issue })).toBe(expected);
         });
 
-        it('date not_inclusive', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.too_small, minimum: new Date('2024-01-01').getTime(), inclusive: false, type: 'date', path: [], message: '' },
-                { data: null, defaultError: '' }
-            );
-            expect(result.message).toMatch(/よりも後の日時である必要があります$/);
-        });
-
-        it('string not_inclusive', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.too_small, minimum: 3, inclusive: false, type: 'string', path: [], message: '' },
-                { data: 'ab', defaultError: '' }
-            );
-            expect(result.message).toBe('3文字より長い文字列である必要があります');
-        });
-
-        it('bigint exact', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.too_small, minimum: 5, inclusive: true, exact: true, type: 'bigint', path: [], message: '' },
-                { data: 3n, defaultError: '' }
-            );
-            expect(result.message).toBe('5の数値である必要があります');
-        });
-
-        it('bigint not_inclusive', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.too_small, minimum: 5, inclusive: false, type: 'bigint', path: [], message: '' },
-                { data: 3n, defaultError: '' }
-            );
-            expect(result.message).toBe('5より大きな数値である必要があります');
+        it.each([
+            [true, /の日時である必要があります$/],
+            [false, /よりも後の日時である必要があります$/]
+        ])('date exact=%s', (exact, expected) => {
+            const issue = { code: 'too_small', minimum: new Date('2024-01-01').getTime(), inclusive: !exact ? false : true, exact, origin: 'date', input: null };
+            expect(call(issue)).toMatch(expected);
         });
     });
 
@@ -184,66 +188,28 @@ describe('init-validate', () => {
             expect(msg(schema, input)).toBe(expected);
         });
 
-        it('string not_inclusive', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.too_big, maximum: 3, inclusive: false, type: 'string', path: [], message: '' },
-                { data: 'abcd', defaultError: '' }
-            );
-            expect(result.message).toBe('3文字より短い文字列である必要があります');
-        });
-
-        it('number exact', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.too_big, maximum: 5, inclusive: true, exact: true, type: 'number', path: [], message: '' },
-                { data: 10, defaultError: '' }
-            );
-            expect(result.message).toBe('5の数値である必要があります');
-        });
-
-        it('array not_inclusive', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.too_big, maximum: 2, inclusive: false, type: 'array', path: [], message: '' },
-                { data: [1, 2, 3], defaultError: '' }
-            );
-            expect(result.message).toBe('2個より少ない要素である必要があります');
-        });
-
         it('date inclusive', () => {
-            const maxDate = new Date('2024-01-01T00:00:00Z');
-            const schema = z.date().max(maxDate);
+            const schema = z.date().max(new Date('2024-01-01T00:00:00Z'));
             expect(msg(schema, new Date('2025-01-01'))).toMatch(/以前の日時である必要があります$/);
         });
 
-        it('date exact', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.too_big, maximum: new Date('2024-01-01').getTime(), inclusive: true, exact: true, type: 'date', path: [], message: '' },
-                { data: null, defaultError: '' }
-            );
-            expect(result.message).toMatch(/の日時である必要があります$/);
+        it.each([
+            [{ maximum: 3, inclusive: false, origin: 'string' }, '3文字より短い文字列である必要があります'],
+            [{ maximum: 5, inclusive: true, exact: true, origin: 'number' }, '5の数値である必要があります'],
+            [{ maximum: 5, inclusive: true, origin: 'int' }, '5以下の数値である必要があります'],
+            [{ maximum: 2, inclusive: false, origin: 'array' }, '2個より少ない要素である必要があります'],
+            [{ maximum: 5, inclusive: true, exact: true, origin: 'bigint' }, '5の数値である必要があります'],
+            [{ maximum: 5, inclusive: false, origin: 'bigint' }, '5より小さな数値である必要があります']
+        ])('%o → %s', (issue, expected) => {
+            expect(call({ code: 'too_big', input: null, ...issue })).toBe(expected);
         });
 
-        it('date not_inclusive', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.too_big, maximum: new Date('2024-01-01').getTime(), inclusive: false, type: 'date', path: [], message: '' },
-                { data: null, defaultError: '' }
-            );
-            expect(result.message).toMatch(/よりも前の日時である必要があります$/);
-        });
-
-        it('bigint exact', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.too_big, maximum: 5, inclusive: true, exact: true, type: 'bigint', path: [], message: '' },
-                { data: 10n, defaultError: '' }
-            );
-            expect(result.message).toBe('5の数値である必要があります');
-        });
-
-        it('bigint not_inclusive', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.too_big, maximum: 5, inclusive: false, type: 'bigint', path: [], message: '' },
-                { data: 10n, defaultError: '' }
-            );
-            expect(result.message).toBe('5より小さな数値である必要があります');
+        it.each([
+            [true, /の日時である必要があります$/],
+            [false, /よりも前の日時である必要があります$/]
+        ])('date exact=%s', (exact, expected) => {
+            const issue = { code: 'too_big', maximum: new Date('2024-01-01').getTime(), inclusive: !exact ? false : true, exact, origin: 'date', input: null };
+            expect(call(issue)).toMatch(expected);
         });
     });
 
@@ -261,60 +227,30 @@ describe('init-validate', () => {
         });
     });
 
-    describe('not_finite', () => {
-        it('有限数チェック', () => {
-            const schema = z.number().finite();
-            expect(msg(schema, Infinity)).toBe('有限数である必要があります');
-        });
-    });
+    describe('網羅性', () => {
+        // zod 4 の issue コードを全件並べ、どれも英語の既定文言へ落ちないことを表明する
+        const ALL_CODES: Record<z.core.$ZodIssueCode, Record<string, unknown>> = {
+            invalid_type: { expected: 'string', input: 1 },
+            too_big: { maximum: 1, origin: 'string', input: 'ab' },
+            too_small: { minimum: 2, origin: 'string', input: 'a' },
+            invalid_format: { format: 'email', input: 'a' },
+            not_multiple_of: { divisor: 2, input: 3 },
+            unrecognized_keys: { keys: ['a'], input: {} },
+            invalid_union: { errors: [], input: 1 },
+            invalid_key: { origin: 'record', issues: [], input: 'a' },
+            invalid_element: { origin: 'map', key: 'a', issues: [], input: 1 },
+            invalid_value: { values: ['a'], input: 'b' },
+            custom: { input: 1 }
+        };
 
-    describe('jaErrorMap 直接呼び出し', () => {
-        it('invalid_arguments', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.invalid_arguments, argumentsError: new z.ZodError([]), path: [], message: '' },
-                { data: null, defaultError: '' }
-            );
-            expect(result.message).toBe('引数が間違っています');
-        });
-
-        it('invalid_return_type', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.invalid_return_type, returnTypeError: new z.ZodError([]), path: [], message: '' },
-                { data: null, defaultError: '' }
-            );
-            expect(result.message).toBe('返値の型が間違っています');
+        it.each(Object.entries(ALL_CODES))('%s は日本語の文言を返す', (code, rest) => {
+            const result = call({ code, ...rest });
+            expect(typeof result).toBe('string');
+            expect(result).toMatch(/[ぁ-んァ-ヶ一-龠]/);
         });
 
-        it('invalid_intersection_types', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.invalid_intersection_types, path: [], message: '' },
-                { data: null, defaultError: '' }
-            );
-            expect(result.message).toBe('交差型のマージができませんでした');
-        });
-
-        it('invalid_type で未知の型ラベルはそのまま出力される', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.invalid_type, expected: 'custom_type' as z.ZodParsedType, received: 'custom_received' as z.ZodParsedType, path: [], message: '' },
-                { data: 42, defaultError: '' }
-            );
-            expect(result.message).toBe('custom_typeでの入力を期待していますが、custom_receivedが入力されました');
-        });
-
-        it('invalid_string で未知のオブジェクト validation はフォールバック', () => {
-            const result = jaErrorMap(
-                { code: z.ZodIssueCode.invalid_string, validation: { unknown: true } as never, path: [], message: '' },
-                { data: 'test', defaultError: '' }
-            );
-            expect(result.message).toBe('入力形式が間違っています');
-        });
-
-        it('未知のコードは defaultError を返す', () => {
-            const result = jaErrorMap(
-                { code: 'unknown_code', path: [], message: '' } as unknown as z.ZodIssueOptionalMessage,
-                { data: null, defaultError: 'fallback' }
-            );
-            expect(result.message).toBe('fallback');
+        it('未知のコードは undefined を返して zod の既定へ委ねる', () => {
+            expect(call({ code: 'unknown_code', input: null })).toBeUndefined();
         });
     });
 });

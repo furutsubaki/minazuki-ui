@@ -2,6 +2,7 @@
 import { computed, useId, watch } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodNumber, ZodString, ZodArray, ZodBoolean } from 'zod';
+import { unwrapNonOptional, type MaybeNonOptional } from '@/assets/ts/schema';
 import Checkbox from '@/components/controls/Checkbox.vue';
 
 export interface MiCheckboxItem {
@@ -25,7 +26,7 @@ const props = withDefaults(
         /**
          * zodスキーマ
          */
-        schema?: ZodArray<ZodBoolean> | ZodArray<ZodString> | ZodArray<ZodNumber>;
+        schema?: MaybeNonOptional<ZodArray<ZodBoolean> | ZodArray<ZodString> | ZodArray<ZodNumber>>;
         /**
          * 見出し
          */
@@ -69,7 +70,10 @@ const { value, errors } = useField<(string | number | boolean)[]>(fieldName);
 
 const isRequired = computed(() =>
     props.schema
-        ? (props.schema as ZodArray<ZodString>)?._def.minLength?.value === 1
+        ? unwrapNonOptional(props.schema)?.def.checks?.some((check) => {
+              const def = check._zod.def as { check: string; minimum?: number };
+              return def.check === 'min_length' && def.minimum === 1;
+          }) === true
         : props.required
 );
 

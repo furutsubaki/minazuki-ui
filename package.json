@@ -84,15 +84,14 @@
   "peerDependencies": {
     "@nuxt/kit": ">=3.14.0",
     "@unhead/vue": ">=1.0.0",
-    "@vee-validate/rules": ">=4.9.0",
-    "@vee-validate/zod": ">=4.9.0",
+    "@vee-validate/rules": ">=4.15.1 <5",
     "@vuepic/vue-datepicker": ">=11.0.0",
     "dayjs": ">=1.0.0",
     "@lucide/vue": ">=1.0.0 <2.0.0",
-    "vee-validate": ">=4.9.0",
+    "vee-validate": ">=4.15.1 <5",
     "vue": ">=3.5.0",
     "vue-router": ">=4.0.0",
-    "zod": ">=3.20.0 <4.0.0"
+    "zod": "^4.6.6"
   },
   "peerDependenciesMeta": {
     "@nuxt/kit": {
@@ -102,9 +101,6 @@
       "optional": true
     },
     "@vee-validate/rules": {
-      "optional": true
-    },
-    "@vee-validate/zod": {
       "optional": true
     }
   },
@@ -150,6 +146,7 @@
     "vite": "7.3.6",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "4",
-    "vue-tsc": "^2.0.17"
+    "vue-tsc": "^2.0.17",
+    "zod": "^4.6.6"
   }
 }

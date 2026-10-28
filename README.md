@@ -7,6 +7,8 @@ vue/nuxt用のUIコンポーネントライブラリ
 
 v1 からのアップグレードでテーマ設定オプションが変更されています。詳細は [docs/MIGRATION.md](./docs/MIGRATION.md) を参照してください。
 
+v3 からのアップグレードで zod 4 必須になり、`@vee-validate/zod` が不要になりました。詳細は [docs/MIGRATION.md](./docs/MIGRATION.md#v3--v4zod-4-への移行) を参照してください。
+
 ## リソース
 
 reset cssとして[@acab/reset.css](https://github.com/mayank99/reset.css)を導入しています。
@@ -15,7 +17,8 @@ reset cssとして[@acab/reset.css](https://github.com/mayank99/reset.css)を導
 また、各種色やサイズはCSS変数にて管理されています。
 詳細は[こちら](https://github.com/furutsubaki/minazuki-ui/blob/develop/src/assets/css/variables.css)を参照してください。
 
-バリデーションに関しては[zod](https://zod.dev/)のスキーマを用いて[vee-validate(v4)](https://vee-validate.logaretm.com/v4/)にて行っています。
+バリデーションに関しては[zod(v4)](https://zod.dev/)のスキーマを用いて[vee-validate(v4)](https://vee-validate.logaretm.com/v4/)にて行っています。
+zod と vee-validate の接続は `useFormData` が内部で行うため、`@vee-validate/zod` は不要です。
 
 ## スタイルの基本方針
 
@@ -24,7 +27,7 @@ reset cssとして[@acab/reset.css](https://github.com/mayank99/reset.css)を導
 ## use
 
 ```shell
-pnpm i -D minazuki-ui zod
+pnpm i -D minazuki-ui zod@^4.6.6
 ```
 
 ### Nuxt（推奨: Nuxt Module）
@@ -99,6 +102,10 @@ setFieldValue('test', '親から任意の項目に対して、値をセット')
 <MiButton :disabled="!canSubmit">投稿</MiButton>
 ```
 
+- zod スキーマを vee-validate へ渡す経路は `useFormData` だけです。`useForm` を直接使う場合に `@vee-validate/zod` の `toTypedSchema` で繋ぐ方法は zod 4 では使えません
+- `handleSubmit` のコールバックには、`.transform()` などを通したスキーマの出力値が渡ります
+- キー名に `[` や `]` を含む場合と、ネストしたオブジェクトのキー名に `.` を含む場合は、vee-validate 4 の path 記法で表せないため、値の読み書きとエラーの表示先が正しく決まりません。トップレベルのキー名に `.` を含む場合は、`name="[a.b]"` の形で扱えます
+
 ### v-modelを使用
 
 zod schemaによる細かいバリデーション制御を行わず、親コンポーネント側で独自に行うケースか、
@@ -114,52 +121,19 @@ const model = ref<string>('初期値');
 
 ## バリデーションの日本語化
 
-必要に応じて各プロジェクトで実施してください
-
-```shell
-pnpm i -D zod-i18n-map i18next vee-validate
-```
+`initValidate()` を呼ぶと、zod のエラーメッセージが日本語になります（`z.config({ customError })` を設定します）。
 
 `plugins/zod-validate.ts`
 
 ```ts
-import { init } from 'i18next';
-import { z } from 'zod';
-import { zodI18nMap } from 'zod-i18n-map';
-import translation from 'zod-i18n-map/locales/ja/zod.json';
-
-const customErrorMap: z.ZodErrorMap = (issue, ctx) => {
-    switch (issue.code) {
-        case z.ZodIssueCode.invalid_literal:
-            if (issue.expected && !issue.received) {
-                return { message: 'チェックしてください。' };
-            }
-            break;
-        case z.ZodIssueCode.too_small:
-            if (issue.minimum === 1) {
-                return { message: 'この項目は必須項目です。' };
-            }
-            break;
-        case z.ZodIssueCode.invalid_type:
-            if ([null, undefined, ''].includes(ctx.data)) {
-                return { message: 'この項目は必須項目です。' };
-            }
-            break;
-    }
-    return zodI18nMap(issue, ctx);
-};
+import { initValidate } from 'minazuki-ui';
 
 export default defineNuxtPlugin(() => {
-    // zod
-    init({
-        lng: 'ja',
-        resources: {
-            ja: { zod: translation }
-        }
-    });
-    z.setErrorMap(customErrorMap);
+    initValidate();
 });
 ```
+
+zod の設定はアプリ全体で共有されます。後から別のライブラリ等がエラーマップを上書きした場合は、もう一度 `initValidate()` を呼べば日本語へ戻ります。
 
 ## テーマ設定
 

@@ -9,7 +9,6 @@ const externalPackages = [
     'unhead',
     '@unhead/vue',
     '@vee-validate/rules',
-    '@vee-validate/zod',
     '@vuepic/vue-datepicker',
     'dayjs',
     'i18next',
@@ -17,7 +16,6 @@ const externalPackages = [
     'vee-validate',
     'vue-router',
     'zod',
-    'zod-i18n-map',
 ];
 
 const externalRegexps = externalPackages.map(

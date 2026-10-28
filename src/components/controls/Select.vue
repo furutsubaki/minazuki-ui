@@ -2,7 +2,7 @@
 import { computed, useId, watch, ref } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodNumber, ZodString, ZodBoolean } from 'zod';
-import { resolveStringChecks } from '@/assets/ts/schema';
+import { resolveStringChecks, type MaybeNonOptional } from '@/assets/ts/schema';
 import FieldFrame from '@/components/inner-parts/FieldFrame.vue';
 import FieldAccordionList from '@/components/inner-parts/FieldAccordionList.vue';
 import OpacityTransition from '@/components/inner-parts/OpacityTransition.vue';
@@ -28,7 +28,7 @@ const props = withDefaults(
         /**
          * zodスキーマ
          */
-        schema?: ZodBoolean | ZodString | ZodNumber;
+        schema?: MaybeNonOptional<ZodBoolean | ZodString | ZodNumber>;
         /**
          * 見出し
          */

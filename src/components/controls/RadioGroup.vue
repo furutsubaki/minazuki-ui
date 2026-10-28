@@ -2,7 +2,7 @@
 import { computed, useId, watch } from 'vue';
 import { useField } from 'vee-validate';
 import { ZodNumber, ZodString, ZodBoolean } from 'zod';
-import { resolveStringChecks } from '@/assets/ts/schema';
+import { resolveStringChecks, type MaybeNonOptional } from '@/assets/ts/schema';
 import Radio from '@/components/controls/Radio.vue';
 
 export interface MiRadioGroupItem {
@@ -26,7 +26,7 @@ const props = withDefaults(
         /**
          * zodスキーマ
          */
-        schema?: ZodBoolean | ZodString | ZodNumber;
+        schema?: MaybeNonOptional<ZodBoolean | ZodString | ZodNumber>;
         /**
          * 見出し
          */
