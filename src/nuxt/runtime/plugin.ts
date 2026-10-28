@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore - #imports は Nuxt ランタイムの仮想モジュール（library build 時は未解決）
 import { defineNuxtPlugin, useCookie, useRuntimeConfig } from '#imports';
+import type {} from './env.d';
 import { watch } from 'vue';
 import MinazukiUi, { useTheme, useNotification, useOutsideClick } from 'minazuki-ui';
 import type { ThemeId, MiThemeOverride } from 'minazuki-ui';

@@ -12,7 +12,7 @@ import { jaErrorMap } from '../src/plugins/init-validate';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import useTheme from '../src/composables/useTheme';
-import { createHead } from '@unhead/vue';
+import { createHead } from '@unhead/vue/client';
 
 const { currentTheme, setTheme } = useTheme();
 

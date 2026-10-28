@@ -10,3 +10,5 @@ jobs:
       - uses: actions/dependency-review-action@da24556b548a50705dd671f47852072ea4c105d9 # v4.7.1
         with:
           fail-on-severity: moderate
+          # Nuxt 3系に修正版が無い。Nuxt 3互換確認用の playground/nuxt3 だけが該当し、配布もデプロイもしないため許容する
+          allow-ghsas: GHSA-vjh5-4x84-xrqp, GHSA-xfq5-w38q-pc2x
