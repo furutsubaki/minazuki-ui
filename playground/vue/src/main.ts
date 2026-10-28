@@ -3,7 +3,7 @@ import 'minazuki-ui/dist/style.css';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import { createHead } from '@unhead/vue';
+import { createHead } from '@unhead/vue/client';
 import { createRouter, createWebHistory } from 'vue-router';
 import { setupValidate } from 'playground-shared/validate';
 import MinazukiUi from 'minazuki-ui';
