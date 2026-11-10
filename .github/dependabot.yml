@@ -5,17 +5,19 @@ updates:
     schedule:
       interval: 'weekly'
 
+  # ignoreはエントリ内の全ディレクトリへ効くため、nuxtの扱いが違うディレクトリごとにエントリを分ける
   - package-ecosystem: 'npm'
-    directories:
-      - '/'
-      - '/playground/vue'
-      - '/playground/nuxt3'
-      - '/playground/nuxt4'
+    directory: '/'
     schedule:
       interval: 'weekly'
     open-pull-requests-limit: 1
     cooldown:
       default-days: 7
+    # ルートからの更新はworkspace配下のplayground/nuxt3のnuxtまで4へ上げてしまう。
+    # lockfileを更新できるのはルートだけなので全除外はせず、nuxt4側の修正が届くようメジャーだけ止める
+    ignore:
+      - dependency-name: 'nuxt'
+        update-types: ['version-update:semver-major']
     groups:
       vitest-ecosystem:
         patterns:
@@ -26,6 +28,38 @@ updates:
           - 'storybook'
           - '@storybook/*'
           - 'eslint-plugin-storybook'
+      npm-minor-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
+
+  - package-ecosystem: 'npm'
+    directories:
+      - '/playground/vue'
+      - '/playground/nuxt4'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 1
+    cooldown:
+      default-days: 7
+    groups:
+      npm-minor-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
+
+  - package-ecosystem: 'npm'
+    directory: '/playground/nuxt3'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 1
+    cooldown:
+      default-days: 7
+    # Nuxt 3での動作確認環境なのでメジャーは上げない
+    ignore:
+      - dependency-name: 'nuxt'
+        update-types: ['version-update:semver-major']
+    groups:
       npm-minor-patch:
         update-types:
           - 'minor'
